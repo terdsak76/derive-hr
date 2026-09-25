@@ -133,6 +133,7 @@ export default function App() {
   const [leaves, setLeaves] = useState([]);
   const [onsite, setOnsite] = useState([]);
   const [workdayChanges, setWorkdayChanges] = useState([]);
+  const [summaryRows, setSummaryRows] = useState([]);
 
   // UI states
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -214,11 +215,16 @@ export default function App() {
 
     loadEmployees();
 
-    const localAtt = localStorage.getItem('hr_sqlite_attendance');
     const localLeaves = localStorage.getItem('hr_sqlite_leaves');
     const localOnsite = localStorage.getItem('hr_sqlite_onsite');
 
-    setAttendance(localAtt ? JSON.parse(localAtt) : INITIAL_ATTENDANCE);
+    fetch('/api/attendance')
+      .then(response => response.ok ? response.json() : [])
+      .then(setAttendance)
+      .catch(error => {
+        console.error('Failed to load attendance from database:', error);
+        setAttendance([]);
+      });
     setLeaves(localLeaves ? JSON.parse(localLeaves) : INITIAL_LEAVES);
     setOnsite(localOnsite ? JSON.parse(localOnsite) : INITIAL_ONSITE);
 
@@ -230,6 +236,46 @@ export default function App() {
         setWorkdayChanges([]);
       });
   }, [currentUser?.id]);
+
+  useEffect(() => {
+    if (!currentUser) {
+      setSummaryRows([]);
+      return;
+    }
+
+    const loadSummary = async () => {
+      try {
+        const response = await fetch(`/api/employee-summary?month=${summaryMonth}&year=${summaryYear}`);
+        if (!response.ok) throw new Error('Unable to load employee summary');
+        setSummaryRows(await response.json());
+      } catch (error) {
+        console.error('Failed to load employee summary:', error);
+        setSummaryRows([]);
+      }
+    };
+
+    loadSummary();
+  }, [currentUser?.id, summaryMonth, summaryYear]);
+
+  useEffect(() => {
+    if (!currentUser) {
+      setSummaryRows([]);
+      return;
+    }
+
+    const loadSummary = async () => {
+      try {
+        const response = await fetch(`/api/employee-summary?month=${summaryMonth}&year=${summaryYear}`);
+        if (!response.ok) throw new Error('Unable to load employee summary');
+        setSummaryRows(await response.json());
+      } catch (error) {
+        console.error('Failed to load employee summary:', error);
+        setSummaryRows([]);
+      }
+    };
+
+    loadSummary();
+  }, [currentUser?.id, summaryMonth, summaryYear]);
 
   // Save locally-created activity records. Employee options always come from the database.
   useEffect(() => {
@@ -338,8 +384,28 @@ export default function App() {
   };
 
   // Clock In / Out
-  const handleClockSubmit = (e) => {
+  const handleClockSubmit = async (e) => {
     e.preventDefault();
+
+    const response = await fetch('/api/attendance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: clockForm.type }),
+    });
+    const savedAttendance = await response.json();
+    if (!response.ok) {
+      alert(savedAttendance.error || 'Unable to save attendance');
+      return;
+    }
+
+    setAttendance(current => [
+      savedAttendance,
+      ...current.filter(item => item.id !== savedAttendance.id),
+    ]);
+    setShowClockModal(false);
+    setClockForm({ employee_id: currentUser.id, type: 'in', note: '' });
+    return;
+
     const todayStr = new Date().toISOString().split('T')[0];
     const timeStr = new Date().toTimeString().slice(0, 5);
 
@@ -462,26 +528,6 @@ export default function App() {
       absentToday: absentCount
     };
   }, [employees, attendance, leaves, onsite]);
-
-  const summaryRows = useMemo(() => {
-    const inSelectedMonth = (dateValue) => {
-      if (!dateValue) return false;
-      const date = new Date(dateValue);
-      return date.getMonth() + 1 === Number(summaryMonth) && date.getFullYear() === Number(summaryYear);
-    };
-
-    return employees.map(employee => {
-      const employeeLeaves = leaves.filter(item => item.employee_id === employee.id && inSelectedMonth(item.start_date));
-      const leaveDays = employeeLeaves.reduce((total, item) => total + Number(item.days || 0), 0);
-      const lateCount = attendance.filter(item => item.employee_id === employee.id && item.status === 'Late' && inSelectedMonth(item.date)).length;
-      const workdayChangeCount = workdayChanges.filter(item => item.employee_id === employee.id && inSelectedMonth(item.from_date)).length;
-      const travelExpenses = onsite
-        .filter(item => item.employee_id === employee.id && inSelectedMonth(item.date))
-        .reduce((total, item) => total + Number(item.expense || 0), 0);
-
-      return { ...employee, leaveDays, lateCount, workdayChangeCount, travelExpenses };
-    });
-  }, [employees, leaves, attendance, onsite, workdayChanges, summaryMonth, summaryYear]);
 
   // Helper Employee Finder
   const getEmp = (empId) => employees.find(e => e.id === empId) || { name: empId, department: 'N/A' };

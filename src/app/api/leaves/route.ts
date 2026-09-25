@@ -2,21 +2,52 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
 
-export async function GET() {
-  const leaves = await prisma.leave.findMany({
-    include: { employee: true },
-    orderBy: { createdAt: 'desc' },
-  });
-  return NextResponse.json(leaves);
-}
-
-export async function POST(req: Request) {
-  const token = req.headers.get('cookie')
+function getSession(request: Request) {
+  const token = request.headers.get('cookie')
     ?.split(';')
     .map(value => value.trim())
     .find(value => value.startsWith(`${getSessionCookieName()}=`))
     ?.split('=')[1];
-  const session = token ? verifySessionToken(token) : null;
+  return token ? verifySessionToken(token) : null;
+}
+
+function serializeLeave(item: {
+  id: string;
+  employeeId: string;
+  type: string;
+  startDate: Date;
+  endDate: Date;
+  reason: string;
+  status: string;
+  createdAt: Date;
+}) {
+  const days = Math.max(1, Math.ceil((item.endDate.getTime() - item.startDate.getTime()) / 86_400_000) + 1);
+  return {
+    id: item.id,
+    employee_id: item.employeeId,
+    type: item.type,
+    start_date: item.startDate.toISOString().split('T')[0],
+    end_date: item.endDate.toISOString().split('T')[0],
+    days,
+    reason: item.reason,
+    status: item.status === 'APPROVED' ? 'Approved' : item.status === 'REJECTED' ? 'Rejected' : 'Pending',
+    created_at: item.createdAt.toISOString().split('T')[0],
+  };
+}
+
+export async function GET(request: Request) {
+  const session = getSession(request);
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const leaves = await prisma.leave.findMany({
+    where: session.role.toUpperCase() === 'ADMIN' ? undefined : { employeeId: session.employeeId },
+    orderBy: { createdAt: 'desc' },
+  });
+  return NextResponse.json(leaves.map(serializeLeave));
+}
+
+export async function POST(req: Request) {
+  const session = getSession(req);
 
   if (!session) {
     return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนยื่นใบลา' }, { status: 401 });
@@ -35,5 +66,5 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(newLeave, { status: 201 });
+  return NextResponse.json(serializeLeave(newLeave), { status: 201 });
 }

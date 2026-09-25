@@ -7,26 +7,120 @@
 
   body {
     font-family: var(--font-prompt);
-    background-color: #0f172a;
-    color: #f8fafc;
+    background-color: #f4f7fb;
+    color: #172033;
   }
+
+  ::selection {
+    background: #dbeafe;
+    color: #1e3a8a;
+  }
+}
+
+/* Application shell */
+.app-shell {
+  background: #f4f7fb;
+}
+
+.app-sidebar {
+  background: #10213f;
+  border-right: 1px solid #1d3359;
+  box-shadow: 8px 0 24px rgba(15, 35, 70, 0.08);
+}
+
+.app-sidebar nav button {
+  color: #aebdd3;
+  border: 1px solid transparent;
+}
+
+.app-sidebar nav button:hover:not(.bg-indigo-600):not(.bg-emerald-600) {
+  background: #1b335c;
+  color: #f8fafc;
+}
+
+.app-sidebar nav button.bg-indigo-600,
+.app-sidebar nav button.bg-emerald-600 {
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+.app-sidebar .border-slate-800 {
+  border-color: #1d3359;
+}
+
+.app-sidebar .bg-slate-800 {
+  background: #172d52;
+}
+
+.app-header {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.2), 0 8px 24px rgba(30, 64, 115, 0.04);
+  backdrop-filter: blur(12px);
+}
+
+.app-header h2 {
+  letter-spacing: -0.015em;
+}
+
+.app-content {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-content .bg-white {
+  box-shadow: 0 8px 24px rgba(30, 64, 115, 0.06);
+  border-color: #e4eaf2;
+}
+
+.app-content table thead {
+  letter-spacing: 0.01em;
+}
+
+.app-content table tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.app-content input,
+.app-content select,
+.app-content textarea {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.app-content input:focus,
+.app-content select:focus,
+.app-content textarea:focus {
+  border-color: #819ce8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 }
 
 /* Custom scrollbar styling for tables and panels */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #edf2f7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #c1ccda;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #94a3b8;
+}
+@media (max-width: 767px) {
+  .app-sidebar {
+    box-shadow: none;
+  }
+
+  .app-content {
+    padding: 1rem;
+  }
+
+  .app-header {
+    padding: 1rem;
+  }
 }

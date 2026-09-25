@@ -205,27 +205,113 @@
 
   body {
     font-family: var(--font-prompt);
-    color: #f8fafc;
-    background-color: #0f172a;
+    color: #172033;
+    background-color: #f4f7fb;
+  }
+
+  ::selection {
+    color: #1e3a8a;
+    background: #dbeafe;
   }
 }
 
+.app-shell {
+  background: #f4f7fb;
+}
+
+.app-sidebar {
+  background: #10213f;
+  border-right: 1px solid #1d3359;
+  box-shadow: 8px 0 24px #0f234614;
+}
+
+.app-sidebar nav button {
+  color: #aebdd3;
+  border: 1px solid #0000;
+}
+
+.app-sidebar nav button:hover:not(.bg-indigo-600):not(.bg-emerald-600) {
+  color: #f8fafc;
+  background: #1b335c;
+}
+
+.app-sidebar nav button.bg-indigo-600, .app-sidebar nav button.bg-emerald-600 {
+  box-shadow: 0 8px 16px #2563eb38;
+}
+
+.app-sidebar .border-slate-800 {
+  border-color: #1d3359;
+}
+
+.app-sidebar .bg-slate-800 {
+  background: #172d52;
+}
+
+.app-header {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: #ffffffeb;
+  box-shadow: 0 1px #94a3b833, 0 8px 24px #1e40730a;
+}
+
+.app-header h2 {
+  letter-spacing: -.015em;
+}
+
+.app-content {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.app-content .bg-white {
+  border-color: #e4eaf2;
+  box-shadow: 0 8px 24px #1e40730f;
+}
+
+.app-content table thead {
+  letter-spacing: .01em;
+}
+
+.app-content table tbody tr {
+  transition: background-color .16s;
+}
+
+.app-content input, .app-content select, .app-content textarea {
+  transition: border-color .16s, box-shadow .16s, background-color .16s;
+}
+
+.app-content input:focus, .app-content select:focus, .app-content textarea:focus {
+  border-color: #819ce8;
+  box-shadow: 0 0 0 3px #6366f11f;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #edf2f7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #c1ccda;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #94a3b8;
+}
+
+@media (max-width: 767px) {
+  .app-sidebar {
+    box-shadow: none;
+  }
+
+  .app-content, .app-header {
+    padding: 1rem;
+  }
 }
 
 /*# sourceMappingURL=%5Broot-of-the-server%5D__1dbn71o._.css.map*/

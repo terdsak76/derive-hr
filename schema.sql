@@ -3,7 +3,10 @@ CREATE TABLE "Employee" (
     "name" TEXT NOT NULL,
     "department" TEXT NOT NULL,
     "position" TEXT NOT NULL,
-    "email" TEXT NOT NULL
+    "email" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "passwordHash" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'USER'
 );
 
 CREATE UNIQUE INDEX "Employee_email_key" ON "Employee"("email");

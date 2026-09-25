@@ -29,13 +29,111 @@ const INITIAL_LEAVES = [
 const INITIAL_ONSITE = [
 ];
 
+const INITIAL_WORKDAY_CHANGES = [
+];
+
+const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
+const getDateAfter = (days: number): string => getDateInputValue(new Date(Date.now() + days * 86400000));
+
+function LoginPage({ onLogin }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'เข้าสู่ระบบไม่สำเร็จ');
+      onLogin(result.user);
+    } catch (loginError) {
+      setError(loginError.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+      <section className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-xl p-8">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-3 rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
+            <Building2 className="w-7 h-7" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-slate-900">HR Connect Pro</h1>
+            <p className="text-sm text-slate-500">เข้าสู่ระบบบริหารบุคคล</p>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-slate-900">ยินดีต้อนรับ</h2>
+          <p className="text-sm text-slate-500 mt-1">กรุณาเข้าสู่ระบบด้วยอีเมลบริษัท</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">อีเมล</label>
+            <input
+              type="email"
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+              placeholder="name@company.com"
+              autoComplete="email"
+              required
+              className="w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">รหัสผ่าน</label>
+            <input
+              type="password"
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+              placeholder="กรอกรหัสผ่าน"
+              autoComplete="current-password"
+              required
+              className="w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          {error && <p className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition shadow-lg shadow-indigo-600/20"
+          >
+            <LogIn className="w-4 h-4" />
+            {isSubmitting ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}
+
 export default function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [summaryMonth, setSummaryMonth] = useState(new Date().getMonth() + 1);
+  const [summaryYear, setSummaryYear] = useState(new Date().getFullYear());
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [leaves, setLeaves] = useState([]);
   const [onsite, setOnsite] = useState([]);
-  
+  const [workdayChanges, setWorkdayChanges] = useState([]);
+
   // UI states
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showOnsiteModal, setShowOnsiteModal] = useState(false);
@@ -44,6 +142,13 @@ export default function App() {
   const [sqlQuery, setSqlQuery] = useState('SELECT * FROM employees LIMIT 10;');
   const [sqlResult, setSqlResult] = useState(null);
   const [sqlError, setSqlError] = useState(null);
+
+  const [workdayForm, setWorkdayForm] = useState({
+    from_date: getDateInputValue(new Date()),
+    to_date: getDateAfter(2),
+    job_detail: '',
+    project: '',
+  });
 
   // Form states
   const [leaveForm, setLeaveForm] = useState({
@@ -70,35 +175,79 @@ export default function App() {
     note: ''
   });
 
-  // Load data from LocalStorage or Fallback
   useEffect(() => {
-    const localEmps = localStorage.getItem('hr_sqlite_employees');
+    fetch('/api/auth/me')
+      .then(response => response.ok ? response.json() : { user: null })
+      .then(result => setCurrentUser(result.user))
+      .catch(() => setCurrentUser(null))
+      .finally(() => setIsAuthLoading(false));
+  }, []);
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    setCurrentUser(null);
+  };
+
+  // Load employee options from the employees database table.
+  useEffect(() => {
+    if (!currentUser) return;
+
+    setLeaveForm(current => ({ ...current, employee_id: currentUser.id }));
+    setOnsiteForm(current => ({ ...current, employee_id: currentUser.id }));
+    setClockForm(current => ({ ...current, employee_id: currentUser.id }));
+
+    const loadEmployees = async () => {
+      try {
+        const response = await fetch('/api/employees');
+        if (!response.ok) {
+          throw new Error('Unable to load employees');
+        }
+
+        const databaseEmployees = await response.json();
+        setEmployees(databaseEmployees);
+
+      } catch (error) {
+        console.error('Failed to load employees from database:', error);
+        setEmployees([]);
+      }
+    };
+
+    loadEmployees();
+
     const localAtt = localStorage.getItem('hr_sqlite_attendance');
     const localLeaves = localStorage.getItem('hr_sqlite_leaves');
     const localOnsite = localStorage.getItem('hr_sqlite_onsite');
 
-    setEmployees(localEmps ? JSON.parse(localEmps) : INITIAL_EMPLOYEES);
     setAttendance(localAtt ? JSON.parse(localAtt) : INITIAL_ATTENDANCE);
     setLeaves(localLeaves ? JSON.parse(localLeaves) : INITIAL_LEAVES);
     setOnsite(localOnsite ? JSON.parse(localOnsite) : INITIAL_ONSITE);
-  }, []);
 
-  // Save to LocalStorage on change
+    fetch('/api/workday-changes')
+      .then(response => response.ok ? response.json() : [])
+      .then(setWorkdayChanges)
+      .catch(error => {
+        console.error('Failed to load workday change requests:', error);
+        setWorkdayChanges([]);
+      });
+  }, [currentUser?.id]);
+
+  // Save locally-created activity records. Employee options always come from the database.
   useEffect(() => {
-    if (employees.length) localStorage.setItem('hr_sqlite_employees', JSON.stringify(employees));
     if (attendance.length) localStorage.setItem('hr_sqlite_attendance', JSON.stringify(attendance));
     if (leaves.length) localStorage.setItem('hr_sqlite_leaves', JSON.stringify(leaves));
     if (onsite.length) localStorage.setItem('hr_sqlite_onsite', JSON.stringify(onsite));
-  }, [employees, attendance, leaves, onsite]);
+  }, [attendance, leaves, onsite]);
 
-  // Reset database simulation
+  // Reset locally cached activity records without replacing database employees.
   const handleResetData = () => {
-    setEmployees(INITIAL_EMPLOYEES);
     setAttendance(INITIAL_ATTENDANCE);
     setLeaves(INITIAL_LEAVES);
     setOnsite(INITIAL_ONSITE);
-    localStorage.clear();
-    alert('รีเซ็ตข้อมูล SQLite เป็นค่าเริ่มต้นเรียบร้อยแล้ว!');
+    setWorkdayChanges(INITIAL_WORKDAY_CHANGES);
+    localStorage.removeItem('hr_sqlite_attendance');
+    localStorage.removeItem('hr_sqlite_leaves');
+    localStorage.removeItem('hr_sqlite_onsite');
+    alert('รีเซ็ตข้อมูลกิจกรรมเรียบร้อยแล้ว ข้อมูลพนักงานยังคงมาจากฐานข้อมูล');
   };
 
   // Create Leave Request
@@ -112,6 +261,7 @@ export default function App() {
     const newLeave = {
       id: Date.now(),
       ...leaveForm,
+      employee_id: currentUser.id,
       days,
       status: 'Pending',
       created_at: new Date().toISOString().split('T')[0]
@@ -120,12 +270,43 @@ export default function App() {
     setLeaves([newLeave, ...leaves]);
     setShowLeaveModal(false);
     setLeaveForm({
-      employee_id: 'EMP001',
+      employee_id: currentUser.id,
       type: 'Sick Leave (ลาป่วย)',
       start_date: new Date().toISOString().split('T')[0],
       end_date: new Date().toISOString().split('T')[0],
       reason: ''
     });
+  };
+
+  const handleCreateWorkdayChange = async (event) => {
+    event.preventDefault();
+    const response = await fetch('/api/workday-changes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(workdayForm),
+    });
+    const request = await response.json();
+    if (!response.ok) {
+      alert(request.error || 'ไม่สามารถสร้างคำขอได้');
+      return;
+    }
+
+    setWorkdayChanges([request, ...workdayChanges]);
+    setWorkdayForm({ from_date: getDateInputValue(new Date()), to_date: getDateAfter(2), job_detail: '', project: '' });
+  };
+
+  const handleUpdateWorkdayStatus = async (id, status) => {
+    const response = await fetch('/api/workday-changes', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    });
+    const updated = await response.json();
+    if (!response.ok) {
+      alert(updated.error || 'ไม่สามารถอัปเดตคำขอได้');
+      return;
+    }
+    setWorkdayChanges(workdayChanges.map(item => item.id === id ? updated : item));
   };
 
   // Approval Handler
@@ -282,20 +463,50 @@ export default function App() {
     };
   }, [employees, attendance, leaves, onsite]);
 
+  const summaryRows = useMemo(() => {
+    const inSelectedMonth = (dateValue) => {
+      if (!dateValue) return false;
+      const date = new Date(dateValue);
+      return date.getMonth() + 1 === Number(summaryMonth) && date.getFullYear() === Number(summaryYear);
+    };
+
+    return employees.map(employee => {
+      const employeeLeaves = leaves.filter(item => item.employee_id === employee.id && inSelectedMonth(item.start_date));
+      const leaveDays = employeeLeaves.reduce((total, item) => total + Number(item.days || 0), 0);
+      const lateCount = attendance.filter(item => item.employee_id === employee.id && item.status === 'Late' && inSelectedMonth(item.date)).length;
+      const workdayChangeCount = workdayChanges.filter(item => item.employee_id === employee.id && inSelectedMonth(item.from_date)).length;
+      const travelExpenses = onsite
+        .filter(item => item.employee_id === employee.id && inSelectedMonth(item.date))
+        .reduce((total, item) => total + Number(item.expense || 0), 0);
+
+      return { ...employee, leaveDays, lateCount, workdayChangeCount, travelExpenses };
+    });
+  }, [employees, leaves, attendance, onsite, workdayChanges, summaryMonth, summaryYear]);
+
   // Helper Employee Finder
   const getEmp = (empId) => employees.find(e => e.id === empId) || { name: empId, department: 'N/A' };
 
+  if (isAuthLoading) {
+    return <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-500">กำลังตรวจสอบการเข้าสู่ระบบ...</div>;
+  }
+
+  if (!currentUser) {
+    return <LoginPage onLogin={setCurrentUser} />;
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col md:flex-row">
+    <div className="app-shell min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col md:flex-row">
       {}
-      <aside className="w-full md:w-64 bg-slate-900 text-slate-200 flex flex-col shrink-0">
+      <aside className="app-sidebar w-full md:w-64 bg-slate-900 text-slate-200 flex flex-col shrink-0">
         <div className="p-5 border-b border-slate-800 flex items-center gap-3">
           <div className="p-2 bg-indigo-600 rounded-lg text-white">
             <Building2 className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="font-bold text-lg text-white leading-tight">HR Connect Pro</h1>
-            <p className="text-xs text-slate-400">ระบบบริหารบุคคล SQLite</p>
+            <h1 className="font-bold text-lg leading-tight" style={{ color: "#ffffff" }}>
+                DeRIVE HR System
+            </h1>
+            <p className="text-xs text-slate-400" style={{ color: "#ffffff" }}>ระบบบริหารบุคคล</p>
           </div>
         </div>
 
@@ -332,6 +543,22 @@ export default function App() {
             <span>การเดินทาง Onsite</span>
           </button>
 
+          <button
+            onClick={() => setActiveTab('workday')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'workday' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+          >
+            <Calendar className="w-5 h-5" />
+            <span>ขอเปลี่ยนวันทำงาน</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('summary')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'summary' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+          >
+            <FileText className="w-5 h-5" />
+            <span>สรุปสถิติพนักงาน</span>
+          </button>
+
           <div className="pt-4 border-t border-slate-800 my-2"></div>
 
           <button 
@@ -359,22 +586,35 @@ export default function App() {
       </aside>
 
       {}
-      <main className="flex-1 flex flex-col overflow-y-auto">
+      <main className="app-main flex-1 flex flex-col overflow-y-auto">
         {/* Header Bar */}
-        <header className="bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 z-10">
+        <header className="app-header bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 z-10">
           <div>
             <h2 className="text-xl font-bold text-slate-800">
               {activeTab === 'dashboard' && 'ภาพรวมระบบ HR (HR Overview)'}
               {activeTab === 'attendance' && 'ระบบบันทึกเวลาการเข้า-ออกงาน (Attendance Tracker)'}
               {activeTab === 'leaves' && 'ระบบจัดการวันลาและขาดงาน (Leave Management)'}
               {activeTab === 'onsite' && 'ระบบบันทึกการปฏิบัติงาน Onsite (Onsite Travel Log)'}
+              {activeTab === 'workday' && 'คำขอเปลี่ยนวันทำงาน (Working Day Change)'}
+              {activeTab === 'summary' && 'สรุปสถิติการลา สาย และแลกวันทำงาน'}
               {activeTab === 'sqlite' && 'SQLite Database Architecture & SQL Console'}
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ เชื่อมโยงฐานข้อมูล SQLite</p>
+            <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <button 
+            <div className="hidden lg:block text-right mr-1">
+              <p className="text-sm font-semibold text-slate-700">{currentUser.name}</p>
+              <p className="text-[11px] text-slate-500">{currentUser.role === 'ADMIN' ? 'ผู้ดูแลระบบ' : 'พนักงาน'}</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+              title="ออกจากระบบ"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+            <button
               onClick={() => setShowClockModal(true)}
               className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
             >
@@ -390,7 +630,7 @@ export default function App() {
         </header>
 
         {/* Dynamic Main Body */}
-        <div className="p-6 space-y-6 flex-1">
+        <div className="app-content p-6 space-y-6 flex-1">
 
           {}
           {activeTab === 'dashboard' && (
@@ -401,7 +641,7 @@ export default function App() {
                   <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">พนักงานทั้งหมด</span>
                   <div className="flex items-baseline justify-between mt-2">
                     <span className="text-3xl font-bold text-slate-800">{stats.totalEmployees}</span>
-                    <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-full font-medium">คน</span>
+                    <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-full font-medium"> คน</span>
                   </div>
                 </div>
 
@@ -409,7 +649,7 @@ export default function App() {
                   <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">เข้างานวันนี้</span>
                   <div className="flex items-baseline justify-between mt-2">
                     <span className="text-3xl font-bold text-emerald-700">{stats.presentToday}</span>
-                    <span className="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full font-medium">มาทำงาน</span>
+                    <span className="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full font-medium"> มาทำงาน</span>
                   </div>
                 </div>
 
@@ -417,7 +657,7 @@ export default function App() {
                   <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">ลาหยุดวันนี้</span>
                   <div className="flex items-baseline justify-between mt-2">
                     <span className="text-3xl font-bold text-amber-700">{stats.onLeaveToday}</span>
-                    <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded-full font-medium">ลา</span>
+                    <span className="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded-full font-medium"> ลา</span>
                   </div>
                 </div>
 
@@ -425,7 +665,7 @@ export default function App() {
                   <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">ไป Onsite วันนี้</span>
                   <div className="flex items-baseline justify-between mt-2">
                     <span className="text-3xl font-bold text-blue-700">{stats.onsiteToday}</span>
-                    <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium">นอกสถานที่</span>
+                    <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium"> นอกสถานที่</span>
                   </div>
                 </div>
 
@@ -433,7 +673,7 @@ export default function App() {
                   <span className="text-xs font-semibold text-rose-600 uppercase tracking-wider">ขาดงานวันนี้</span>
                   <div className="flex items-baseline justify-between mt-2">
                     <span className="text-3xl font-bold text-rose-700">{stats.absentToday}</span>
-                    <span className="text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded-full font-medium">ขาด</span>
+                    <span className="text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded-full font-medium"> ขาด</span>
                   </div>
                 </div>
               </div>
@@ -462,14 +702,16 @@ export default function App() {
                               <p className="text-xs text-slate-600 mt-1">{item.type} • {item.start_date} ถึง {item.end_date} ({item.days} วัน)</p>
                               <p className="text-xs text-slate-400 italic mt-0.5">"{item.reason}"</p>
                             </div>
-                            <div className="flex gap-1.5 shrink-0">
-                              <button onClick={() => handleUpdateLeaveStatus(item.id, 'Approved')} className="p-1.5 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded transition" title="อนุมัติ">
-                                <Check className="w-4 h-4" />
-                              </button>
-                              <button onClick={() => handleUpdateLeaveStatus(item.id, 'Rejected')} className="p-1.5 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded transition" title="ไม่อนุมัติ">
-                                <X className="w-4 h-4" />
-                              </button>
-                            </div>
+                            {currentUser.role === 'ADMIN' && (
+                              <div className="flex gap-1.5 shrink-0">
+                                <button onClick={() => handleUpdateLeaveStatus(item.id, 'Approved')} className="p-1.5 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded transition" title="อนุมัติ">
+                                  <Check className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => handleUpdateLeaveStatus(item.id, 'Rejected')} className="p-1.5 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded transition" title="ไม่อนุมัติ">
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            )}
                           </div>
                         );
                       })
@@ -644,7 +886,7 @@ export default function App() {
                               {item.status === 'Rejected' && <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-medium">ปฏิเสธ</span>}
                             </td>
                             <td className="p-3.5 text-right">
-                              {item.status === 'Pending' && (
+                              {currentUser.role === 'ADMIN' && item.status === 'Pending' && (
                                 <div className="flex justify-end gap-1">
                                   <button onClick={() => handleUpdateLeaveStatus(item.id, 'Approved')} className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded transition">อนุมัติ</button>
                                   <button onClick={() => handleUpdateLeaveStatus(item.id, 'Rejected')} className="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white text-xs rounded transition">ปฏิเสธ</button>
@@ -730,6 +972,107 @@ export default function App() {
           )}
 
           {}
+          {activeTab === 'workday' && (
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              <div className="xl:col-span-1 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                <div className="mb-5">
+                  <h3 className="font-bold text-slate-800">สร้างคำขอเปลี่ยนวันทำงาน</h3>
+                  <p className="text-xs text-slate-500 mt-1">คำขอจะมีสถานะรออนุมัติจนกว่า Admin จะตรวจสอบ</p>
+                </div>
+                <form onSubmit={handleCreateWorkdayChange} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่ทำงานเดิม</label>
+                      <input type="date" required value={workdayForm.from_date} onChange={event => setWorkdayForm({ ...workdayForm, from_date: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่ทำงานชดเชย</label>
+                      <input type="date" required value={workdayForm.to_date} onChange={event => setWorkdayForm({ ...workdayForm, to_date: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">โครงการ / Project</label>
+                    <input required value={workdayForm.project} onChange={event => setWorkdayForm({ ...workdayForm, project: event.target.value })} placeholder="เช่น DeRIVE HR" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">รายละเอียดงาน</label>
+                    <textarea required rows={4} value={workdayForm.job_detail} onChange={event => setWorkdayForm({ ...workdayForm, job_detail: event.target.value })} placeholder="อธิบายงานที่ต้องดำเนินการในวันดังกล่าว..." className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                  <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition">ส่งคำขออนุมัติ</button>
+                </form>
+              </div>
+
+              <div className="xl:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-5 border-b border-slate-200">
+                  <h3 className="font-bold text-slate-800">รายการคำขอเปลี่ยนวันทำงาน</h3>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm text-slate-600">
+                    <thead className="bg-slate-100 text-slate-700 font-semibold">
+                      <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5">เปลี่ยนวัน</th><th className="p-3.5">Project / รายละเอียดงาน</th><th className="p-3.5">สถานะ</th><th className="p-3.5 text-right">จัดการ</th></tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {workdayChanges.length === 0 ? <tr><td colSpan={5} className="p-8 text-center text-slate-400">ยังไม่มีคำขอเปลี่ยนวันทำงาน</td></tr> : workdayChanges.map(item => {
+                        const employee = getEmp(item.employee_id);
+                        return <tr key={item.id} className="hover:bg-slate-50">
+                          <td className="p-3.5 font-medium text-slate-800">{employee.name}<p className="text-xs font-normal text-slate-400">{item.created_at}</p></td>
+                          <td className="p-3.5 font-medium">{item.from_date} <span className="text-indigo-500">→</span> {item.to_date}</td>
+                          <td className="p-3.5"><p className="font-medium text-slate-800">{item.project}</p><p className="text-xs text-slate-500 max-w-xs">{item.job_detail}</p></td>
+                          <td className="p-3.5">{item.status === 'APPROVED' ? <span className="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">อนุมัติแล้ว</span> : item.status === 'REJECTED' ? <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full">ไม่อนุมัติ</span> : <span className="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full">รอ Admin อนุมัติ</span>}</td>
+                          <td className="p-3.5 text-right">{currentUser.role === 'ADMIN' && item.status === 'WAITING_FOR_APPROVAL' && <div className="flex justify-end gap-1"><button onClick={() => handleUpdateWorkdayStatus(item.id, 'APPROVED')} className="px-2 py-1 bg-emerald-600 text-white text-xs rounded">อนุมัติ</button><button onClick={() => handleUpdateWorkdayStatus(item.id, 'REJECTED')} className="px-2 py-1 bg-rose-600 text-white text-xs rounded">ปฏิเสธ</button></div>}</td>
+                        </tr>;
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'summary' && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                  <h3 className="font-bold text-slate-800">สรุปข้อมูลรายเดือนของพนักงาน</h3>
+                  <p className="text-xs text-slate-500 mt-1">ตรวจสอบจำนวนวันลา จำนวนครั้งมาสาย และคำขอแลกวันทำงาน</p>
+                </div>
+                <div className="flex gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">เดือน</label>
+                    <select value={summaryMonth} onChange={event => setSummaryMonth(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                      {['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'].map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ปี</label>
+                    <select value={summaryYear} onChange={event => setSummaryYear(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                      {[summaryYear - 2, summaryYear - 1, summaryYear, summaryYear + 1, summaryYear + 2].map(year => <option key={year} value={year}>{year}</option>)}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm text-slate-600">
+                  <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                    <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5">แผนก</th><th className="p-3.5 text-center">วันลา</th><th className="p-3.5 text-center">มาสาย (ครั้ง)</th><th className="p-3.5 text-center">แลกวันทำงาน (คำขอ)</th><th className="p-3.5 text-right">ค่าเดินทาง (บาท)</th></tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {summaryRows.length === 0 ? <tr><td colSpan={6} className="p-8 text-center text-slate-400">ไม่พบข้อมูลพนักงาน</td></tr> : summaryRows.map(employee => (
+                      <tr key={employee.id} className="hover:bg-slate-50">
+                        <td className="p-3.5 font-medium text-slate-800">{employee.name}<span className="block text-xs font-normal text-slate-400">{employee.email}</span></td>
+                        <td className="p-3.5 text-slate-500">{employee.department}</td>
+                        <td className="p-3.5 text-center"><span className="inline-flex min-w-8 justify-center px-2 py-1 rounded-full bg-amber-50 text-amber-700 font-semibold">{employee.leaveDays}</span></td>
+                        <td className="p-3.5 text-center"><span className="inline-flex min-w-8 justify-center px-2 py-1 rounded-full bg-rose-50 text-rose-700 font-semibold">{employee.lateCount}</span></td>
+                        <td className="p-3.5 text-center"><span className="inline-flex min-w-8 justify-center px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">{employee.workdayChangeCount}</span></td>
+                        <td className="p-3.5 text-right font-semibold text-emerald-700">฿{employee.travelExpenses.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'sqlite' && (
             <div className="space-y-6">
               {/* Architecture & SQL Console */}
@@ -860,16 +1203,11 @@ export default function App() {
 
             <form onSubmit={handleCreateLeave} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">เลือกพนักงาน</label>
-                <select 
-                  value={leaveForm.employee_id}
-                  onChange={e => setLeaveForm({ ...leaveForm, employee_id: e.target.value })}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  {employees.map(emp => (
-                    <option key={emp.id} value={emp.id}>{emp.name} ({emp.department})</option>
-                  ))}
-                </select>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">ผู้ยื่นใบลา</label>
+                <div className="w-full p-2.5 bg-slate-100 border border-slate-200 rounded-lg text-sm text-slate-700">
+                  {currentUser.name}
+                  <span className="block text-xs text-slate-400 mt-0.5">{currentUser.email}</span>
+                </div>
               </div>
 
               <div>

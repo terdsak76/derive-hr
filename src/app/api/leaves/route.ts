@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
 
 export async function GET() {
   const leaves = await prisma.leave.findMany({
@@ -10,12 +11,23 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const token = req.headers.get('cookie')
+    ?.split(';')
+    .map(value => value.trim())
+    .find(value => value.startsWith(`${getSessionCookieName()}=`))
+    ?.split('=')[1];
+  const session = token ? verifySessionToken(token) : null;
+
+  if (!session) {
+    return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนยื่นใบลา' }, { status: 401 });
+  }
+
   const body = await req.json();
-  const { employeeId, type, startDate, endDate, reason } = body;
+  const { type, startDate, endDate, reason } = body;
 
   const newLeave = await prisma.leave.create({
     data: {
-      employeeId,
+      employeeId: session.employeeId,
       type,
       startDate: new Date(startDate),
       endDate: new Date(endDate),

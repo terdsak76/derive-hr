@@ -1,8 +1,4 @@
 {
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
-  "/api/employees/route": "app/api/employees/route.js",
-  "/api/workday-changes/route": "app/api/workday-changes/route.js",
   "/page": "app/page.js"
 }

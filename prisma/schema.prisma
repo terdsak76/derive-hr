@@ -29,6 +29,8 @@ model Attendance {
   date       DateTime  @default(now())
   checkIn    DateTime?
   checkOut   DateTime?
+  project    String?
+  jobDetail  String?
   status     String // "PRESENT", "LATE", "ABSENT"
 }
 

@@ -85,6 +85,34 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+const BANGKOK_TIME_ZONE = 'Asia/Bangkok';
+function formatBangkokDate(date) {
+    return new Intl.DateTimeFormat('en-CA', {
+        timeZone: BANGKOK_TIME_ZONE,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(date);
+}
+function formatBangkokTime(date) {
+    if (!date) return '-';
+    return new Intl.DateTimeFormat('en-GB', {
+        timeZone: BANGKOK_TIME_ZONE,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    }).format(date);
+}
+function getBangkokDayBounds(date) {
+    const dateText = formatBangkokDate(date);
+    const start = new Date(`${dateText}T00:00:00+07:00`);
+    const end = new Date(`${dateText}T00:00:00+07:00`);
+    end.setUTCDate(end.getUTCDate() + 1);
+    return {
+        start,
+        end
+    };
+}
 function getSession(request) {
     const token = request.headers.get('cookie')?.split(';').map((value)=>value.trim()).find((value)=>value.startsWith(`${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getSessionCookieName"])()}=`))?.split('=')[1];
     return token ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["verifySessionToken"])(token) : null;
@@ -93,10 +121,12 @@ function serializeAttendance(item) {
     return {
         id: item.id,
         employee_id: item.employeeId,
-        date: item.date.toISOString().split('T')[0],
-        clock_in: item.checkIn?.toISOString().slice(11, 16) || '-',
-        clock_out: item.checkOut?.toISOString().slice(11, 16) || '-',
+        date: formatBangkokDate(item.date),
+        clock_in: formatBangkokTime(item.checkIn),
+        clock_out: formatBangkokTime(item.checkOut),
         status: item.status === 'LATE' ? 'Late' : item.status === 'PRESENT' ? 'Present' : item.status,
+        project: item.project || '',
+        job_detail: item.jobDetail || '',
         note: ''
     };
 }
@@ -127,9 +157,7 @@ async function POST(request) {
     const body = await request.json();
     const type = body.type === 'out' ? 'out' : 'in';
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const tomorrowStart = new Date(todayStart);
-    tomorrowStart.setDate(tomorrowStart.getDate() + 1);
+    const { start: todayStart, end: tomorrowStart } = getBangkokDayBounds(now);
     const existing = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].attendance.findFirst({
         where: {
             employeeId: session.employeeId,
@@ -143,23 +171,49 @@ async function POST(request) {
         }
     });
     try {
-        const isLate = now.getHours() > 9 || now.getHours() === 9 && now.getMinutes() > 0;
+        if (type === 'out' && (!existing || !existing.checkIn)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'กรุณาลงเวลาเข้างานก่อนออกงาน'
+            }, {
+                status: 400
+            });
+        }
+        if (type === 'in' && existing?.checkIn) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'วันนี้ลงเวลาเข้างานแล้ว'
+            }, {
+                status: 409
+            });
+        }
+        if (type === 'out' && existing?.checkOut) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'วันนี้ลงเวลาออกงานแล้ว'
+            }, {
+                status: 409
+            });
+        }
+        const bangkokTime = new Intl.DateTimeFormat('en-GB', {
+            timeZone: BANGKOK_TIME_ZONE,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(now);
+        const isLate = bangkokTime > '09:00';
         const saved = existing ? await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].attendance.update({
             where: {
                 id: existing.id
             },
-            data: type === 'in' ? {
-                checkIn: now,
-                status: isLate ? 'LATE' : 'PRESENT'
-            } : {
+            data: {
                 checkOut: now
             }
         }) : await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].attendance.create({
             data: {
                 employeeId: session.employeeId,
                 date: now,
-                checkIn: type === 'in' ? now : null,
-                status: type === 'in' && isLate ? 'LATE' : 'PRESENT'
+                checkIn: now,
+                status: isLate ? 'LATE' : 'PRESENT',
+                project: String(body.project || '').trim() || null,
+                jobDetail: String(body.job_detail || '').trim() || null
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(serializeAttendance(saved));
@@ -182,6 +236,8 @@ __turbopack_context__.s([
     ()=>createSessionToken,
     "getSessionCookieName",
     ()=>getSessionCookieName,
+    "hashPassword",
+    ()=>hashPassword,
     "verifyPassword",
     ()=>verifyPassword,
     "verifySessionToken",
@@ -220,6 +276,10 @@ function verifySessionToken(token) {
     } catch  {
         return null;
     }
+}
+function hashPassword(password) {
+    const salt = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$crypto__$5b$external$5d$__$28$node$3a$crypto$2c$__cjs$29$__["randomBytes"])(16).toString('hex');
+    return `${salt}:${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$crypto__$5b$external$5d$__$28$node$3a$crypto$2c$__cjs$29$__["scryptSync"])(password, salt, 64).toString('hex')}`;
 }
 function verifyPassword(password, storedHash) {
     const [salt, expectedHash] = storedHash.split(':');

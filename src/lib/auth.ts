@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual, scryptSync } from 'node:crypto';
+import { createHmac, randomBytes, timingSafeEqual, scryptSync } from 'node:crypto';
 
 const SESSION_COOKIE = 'hr_session';
 const SESSION_DURATION_SECONDS = 60 * 60 * 8;
@@ -59,6 +59,11 @@ export function verifySessionToken(token: string): SessionPayload | null {
   } catch {
     return null;
   }
+}
+
+export function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString('hex');
+  return `${salt}:${scryptSync(password, salt, 64).toString('hex')}`;
 }
 
 export function verifyPassword(password: string, storedHash: string): boolean {

@@ -133,6 +133,8 @@ __turbopack_context__.s([
     ()=>createSessionToken,
     "getSessionCookieName",
     ()=>getSessionCookieName,
+    "hashPassword",
+    ()=>hashPassword,
     "verifyPassword",
     ()=>verifyPassword,
     "verifySessionToken",
@@ -171,6 +173,10 @@ function verifySessionToken(token) {
     } catch  {
         return null;
     }
+}
+function hashPassword(password) {
+    const salt = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$crypto__$5b$external$5d$__$28$node$3a$crypto$2c$__cjs$29$__["randomBytes"])(16).toString('hex');
+    return `${salt}:${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$crypto__$5b$external$5d$__$28$node$3a$crypto$2c$__cjs$29$__["scryptSync"])(password, salt, 64).toString('hex')}`;
 }
 function verifyPassword(password, storedHash) {
     const [salt, expectedHash] = storedHash.split(':');

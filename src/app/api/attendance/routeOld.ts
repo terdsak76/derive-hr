@@ -83,24 +83,13 @@ export async function POST(request: Request): Promise<NextResponse> {
   const type = body.type === 'out' ? 'out' : 'in';
   const now = new Date();
   const { start: todayStart, end: tomorrowStart } = getBangkokDayBounds(now);
+  tomorrowStart.setDate(tomorrowStart.getDate() + 1);
   const existing = await prisma.attendance.findFirst({
     where: { employeeId: session.employeeId, date: { gte: todayStart, lt: tomorrowStart } },
     orderBy: { date: 'desc' },
   });
 
   try {
-    if (type === 'out' && (!existing || !existing.checkIn)) {
-      return NextResponse.json({ error: 'กรุณาลงเวลาเข้างานก่อนออกงาน' }, { status: 400 });
-    }
-
-    if (type === 'in' && existing?.checkIn) {
-      return NextResponse.json({ error: 'วันนี้ลงเวลาเข้างานแล้ว' }, { status: 409 });
-    }
-
-    if (type === 'out' && existing?.checkOut) {
-      return NextResponse.json({ error: 'วันนี้ลงเวลาออกงานแล้ว' }, { status: 409 });
-    }
-
     const bangkokTime = new Intl.DateTimeFormat('en-GB', {
       timeZone: BANGKOK_TIME_ZONE,
       hour: '2-digit',
@@ -111,14 +100,21 @@ export async function POST(request: Request): Promise<NextResponse> {
     const saved = existing
       ? await prisma.attendance.update({
           where: { id: existing.id },
-          data: { checkOut: now },
+          data: type === 'in'
+            ? {
+                checkIn: now,
+                status: isLate ? 'LATE' : 'PRESENT',
+                project: String(body.project || '').trim() || null,
+                jobDetail: String(body.job_detail || '').trim() || null,
+              }
+            : { checkOut: now },
         })
       : await prisma.attendance.create({
           data: {
             employeeId: session.employeeId,
             date: now,
-            checkIn: now,
-            status: isLate ? 'LATE' : 'PRESENT',
+            checkIn: type === 'in' ? now : null,
+            status: type === 'in' && isLate ? 'LATE' : 'PRESENT',
             project: String(body.project || '').trim() || null,
             jobDetail: String(body.job_detail || '').trim() || null,
           },

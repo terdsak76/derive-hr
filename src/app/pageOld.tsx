@@ -139,7 +139,7 @@ export default function App() {
   // UI states
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showOnsiteModal, setShowOnsiteModal] = useState(false);
-  const [showClockModal, setShowClockModal] = useState(false);
+  const [isClockSaving, setIsClockSaving] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [sqlQuery, setSqlQuery] = useState('SELECT * FROM employees LIMIT 10;');
   const [sqlResult, setSqlResult] = useState(null);
@@ -236,31 +236,55 @@ export default function App() {
     }
   };
 
-  // Handle Clock In/Out Submit
-  const handleClockSubmit = async (e) => {
-    e.preventDefault();
+  const todayDate = getDateInputValue(new Date());
+  const myTodayAttendance = currentUser
+    ? attendance.find(item => item.employee_id === currentUser.id && item.date === todayDate)
+    : null;
+  const nextClockType = myTodayAttendance?.clock_in && myTodayAttendance.clock_in !== '-' &&
+    (!myTodayAttendance.clock_out || myTodayAttendance.clock_out === '-')
+      ? 'out'
+      : 'in';
+  const hasCompletedToday = Boolean(
+    myTodayAttendance?.clock_in && myTodayAttendance.clock_in !== '-' &&
+    myTodayAttendance?.clock_out && myTodayAttendance.clock_out !== '-'
+  );
 
-    const response = await fetch('/api/attendance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: clockForm.type,
-        project: clockForm.project,
-        job_detail: clockForm.job_detail,
-      }),
-    });
-    const savedAttendance = await response.json();
-    if (!response.ok) {
-      alert(savedAttendance.error || 'Unable to save attendance');
-      return;
+  // Clock toggle: API decides whether the requested transition is valid.
+  const handleClockToggle = async () => {
+    if (isClockSaving || hasCompletedToday) return;
+
+    setIsClockSaving(true);
+    try {
+      const response = await fetch('/api/attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: nextClockType,
+          project: clockForm.project,
+          job_detail: clockForm.job_detail,
+        }),
+      });
+
+      const savedAttendance = await response.json();
+      if (!response.ok) {
+        alert(savedAttendance.error || 'Unable to save attendance');
+        return;
+      }
+
+      setAttendance(current => [
+        savedAttendance,
+        ...current.filter(item => item.id !== savedAttendance.id),
+      ]);
+
+      if (nextClockType === 'out') {
+        setClockForm(current => ({ ...current, project: '', job_detail: '' }));
+      }
+    } catch (error) {
+      console.error('Failed to save attendance:', error);
+      alert('ไม่สามารถบันทึกเวลาได้');
+    } finally {
+      setIsClockSaving(false);
     }
-
-    setAttendance(current => [
-      savedAttendance,
-      ...current.filter(item => item.id !== savedAttendance.id),
-    ]);
-    setShowClockModal(false);
-    setClockForm({ employee_id: currentUser.id, type: 'in', note: '', project: '', job_detail: '' });
   };
 
   // Load employee options from the employees database table.
@@ -310,25 +334,6 @@ export default function App() {
         setWorkdayChanges([]);
       });
   }, [currentUser?.id]);
-
-  useEffect(() => {
-  if (!currentUser) {
-      setSummaryRows([]);
-      return;
-  }
-    const loadSummary = async () => {
-      try {
-        const response = await fetch(`/api/employee-summary?month=${summaryMonth}&year=${summaryYear}`);
-        if (!response.ok) throw new Error('Unable to load employee summary');
-        setSummaryRows(await response.json());
-      } catch (error) {
-        console.error('Failed to load employee summary:', error);
-        setSummaryRows([]);
-      }
-    };
-
-    loadSummary();
-  }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -670,10 +675,10 @@ export default function App() {
               <LogOut className="w-4 h-4" />
             </button>
             <button
-              onClick={() => setShowClockModal(true)}
+              onClick={() => setActiveTab('attendance')}
               className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
             >
-              <Clock className="w-4 h-4 text-emerald-400" /> ลงเวลา เข้า/ออก
+              <Clock className="w-4 h-4 text-emerald-400" /> ลงเวลาทำงาน
             </button>
             <button
               onClick={() => setShowLeaveModal(true)}
@@ -843,12 +848,71 @@ export default function App() {
                     className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
-                <button
-                  onClick={() => setShowClockModal(true)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition"
-                >
-                  <Clock className="w-4 h-4" /> บันทึกเวลา เข้า-ออก
-                </button>
+                <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+                  {nextClockType === 'in' && !hasCompletedToday && (
+                    <>
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-500 mb-1">Project</label>
+                        <input
+                          value={clockForm.project}
+                          onChange={event => setClockForm(current => ({ ...current, project: event.target.value }))}
+                          placeholder="Project name"
+                          className="w-40 px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-500 mb-1">Job Detail</label>
+                        <input
+                          value={clockForm.job_detail}
+                          onChange={event => setClockForm(current => ({ ...current, job_detail: event.target.value }))}
+                          placeholder="Job detail"
+                          className="w-44 px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  <div className="flex items-center gap-3">
+                    <div className="text-right min-w-[92px]">
+                      <p className="text-[11px] text-slate-500">สถานะวันนี้</p>
+                      <p className={`text-sm font-semibold ${
+                        hasCompletedToday
+                          ? 'text-slate-600'
+                          : nextClockType === 'out'
+                            ? 'text-emerald-600'
+                            : 'text-slate-700'
+                      }`}>
+                        {hasCompletedToday ? 'ลงเวลาครบแล้ว' : nextClockType === 'out' ? 'กำลังทำงาน' : 'ยังไม่เข้างาน'}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleClockToggle}
+                      disabled={isClockSaving || hasCompletedToday}
+                      className={`relative inline-flex h-11 w-48 items-center rounded-full transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 ${
+                        hasCompletedToday
+                          ? 'bg-slate-300'
+                          : nextClockType === 'in'
+                            ? 'bg-emerald-600'
+                            : 'bg-rose-600'
+                      }`}
+                      title={hasCompletedToday ? 'วันนี้ลงเวลาเข้าและออกแล้ว' : nextClockType === 'in' ? 'กดเพื่อเข้างาน' : 'กดเพื่อออกงาน'}
+                    >
+                      <span
+                        className={`absolute top-1 h-9 w-[92px] rounded-full bg-white shadow transition-all duration-300 ${
+                          nextClockType === 'in' ? 'left-1' : 'left-[92px]'
+                        }`}
+                      />
+                      <span className={`relative z-10 flex-1 text-center text-sm font-semibold ${nextClockType === 'in' ? 'text-emerald-700' : 'text-white'}`}>
+                        {isClockSaving && nextClockType === 'in' ? 'บันทึก...' : 'เข้า'}
+                      </span>
+                      <span className={`relative z-10 flex-1 text-center text-sm font-semibold ${nextClockType === 'out' ? 'text-rose-700' : 'text-white'}`}>
+                        {isClockSaving && nextClockType === 'out' ? 'บันทึก...' : 'ออก'}
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -1436,84 +1500,7 @@ export default function App() {
         </div>
       )}
 
-      {/* 3. Clock In / Out Modal */}
-      {showClockModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-200">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-              <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-                <Clock className="w-5 h-5 text-indigo-600" /> ลงเวลาปฏิบัติงาน
-              </h3>
-              <button onClick={() => setShowClockModal(false)} className="text-slate-400 hover:text-slate-600">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
 
-            <form onSubmit={handleClockSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">เลือกพนักงาน</label>
-                <select
-                  value={clockForm.employee_id}
-                  onChange={e => setClockForm({ ...clockForm, employee_id: e.target.value })}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                >
-                  {employees.map(emp => (
-                    <option key={emp.id} value={emp.id}>{emp.name} ({emp.department})</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">รายการลงเวลา</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setClockForm({ ...clockForm, type: 'in' })}
-                    className={`py-2 text-sm font-semibold rounded-lg flex items-center justify-center gap-2 border transition ${clockForm.type === 'in' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-50 text-slate-600 border-slate-300'}`}
-                  >
-                    <LogIn className="w-4 h-4" /> เข้างาน (Clock In)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setClockForm({ ...clockForm, type: 'out' })}
-                    className={`py-2 text-sm font-semibold rounded-lg flex items-center justify-center gap-2 border transition ${clockForm.type === 'out' ? 'bg-rose-600 text-white border-rose-600' : 'bg-slate-50 text-slate-600 border-slate-300'}`}
-                  >
-                    <LogOut className="w-4 h-4" /> เลิกงาน (Clock Out)
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Project</label>
-                  <input required value={clockForm.project || ''} onChange={event => setClockForm({ ...clockForm, project: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" placeholder="Project name" />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Job Detail</label>
-                  <input required value={clockForm.job_detail || ''} onChange={event => setClockForm({ ...clockForm, job_detail: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" placeholder="Job detail" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">หมายเหตุเพิ่มเติม (ถ้ามี)</label>
-                <input
-                  type="text"
-                  placeholder="เช่น ทำงานล่วงเวลา / ไปพบลูกค้า"
-                  value={clockForm.note}
-                  onChange={event =>
-                    setClockForm({ ...clockForm, note: event.target.value })
-}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
-                <button type="button" onClick={() => setShowClockModal(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
-                <button type="submit" className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow">ยืนยันลงเวลา</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
     </div>
   );

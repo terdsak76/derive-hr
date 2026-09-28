@@ -139,6 +139,10 @@ export default function App() {
   // UI states
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showOnsiteModal, setShowOnsiteModal] = useState(false);
+  const [showTravelConfigModal, setShowTravelConfigModal] = useState(false);
+  const [isOnsiteSaving, setIsOnsiteSaving] = useState(false);
+  const [isTravelConfigLoading, setIsTravelConfigLoading] = useState(false);
+  const [isTravelConfigSaving, setIsTravelConfigSaving] = useState(false);
   const [isClockSaving, setIsClockSaving] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [sqlQuery, setSqlQuery] = useState('SELECT * FROM employees LIMIT 10;');
@@ -167,8 +171,19 @@ export default function App() {
     destination: '',
     date: new Date().toISOString().split('T')[0],
     purpose: '',
-    expense: '',
-    vehicle: 'Private Car'
+    vehicle: 'CAR',
+    outbound_distance: '',
+    return_distance: '',
+    toll_fee: '',
+    taxi_fare: '',
+  });
+
+  const [travelConfig, setTravelConfig] = useState({
+    month: new Date().toISOString().slice(0, 7),
+    fuel_price: '35.00',
+    car_km_per_liter: '12.00',
+    motorcycle_km_per_liter: '35.00',
+    depreciation_per_km: '2.00',
   });
 
   const [clockForm, setClockForm] = useState({
@@ -314,7 +329,6 @@ export default function App() {
     loadEmployees();
 
     const localLeaves = localStorage.getItem('hr_sqlite_leaves');
-    const localOnsite = localStorage.getItem('hr_sqlite_onsite');
 
     fetch('/api/attendance')
       .then(response => response.ok ? response.json() : [])
@@ -324,7 +338,14 @@ export default function App() {
         setAttendance([]);
       });
     setLeaves(localLeaves ? JSON.parse(localLeaves) : INITIAL_LEAVES);
-    setOnsite(localOnsite ? JSON.parse(localOnsite) : INITIAL_ONSITE);
+
+    fetch('/api/onsite')
+      .then(response => response.ok ? response.json() : [])
+      .then(setOnsite)
+      .catch(error => {
+        console.error('Failed to load onsite records from database:', error);
+        setOnsite([]);
+      });
 
     fetch('/api/workday-changes')
       .then(response => response.ok ? response.json() : [])
@@ -359,8 +380,7 @@ export default function App() {
   useEffect(() => {
     if (attendance.length) localStorage.setItem('hr_sqlite_attendance', JSON.stringify(attendance));
     if (leaves.length) localStorage.setItem('hr_sqlite_leaves', JSON.stringify(leaves));
-    if (onsite.length) localStorage.setItem('hr_sqlite_onsite', JSON.stringify(onsite));
-  }, [attendance, leaves, onsite]);
+  }, [attendance, leaves]);
 
   // Reset locally cached activity records without replacing database employees.
   const handleResetData = () => {
@@ -438,27 +458,154 @@ export default function App() {
     setLeaves(leaves.map(item => item.id === id ? { ...item, status: newStatus } : item));
   };
 
-  // Create Onsite Travel
-  const handleCreateOnsite = (e) => {
-    e.preventDefault();
-    const newOnsite = {
-      id: Date.now(),
-      ...onsiteForm,
-      expense: parseFloat(onsiteForm.expense) || 0,
-      status: 'In Progress'
-    };
+  const loadTravelConfig = async (month) => {
+    const targetMonth = month || new Date().toISOString().slice(0, 7);
+    setIsTravelConfigLoading(true);
+    try {
+      const response = await fetch(`/api/travel-config?month=${encodeURIComponent(targetMonth)}`);
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to load travel config');
 
-    setOnsite([newOnsite, ...onsite]);
-    setShowOnsiteModal(false);
-    setOnsiteForm({
-      employee_id: 'EMP001',
-      client_name: '',
-      destination: '',
-      date: new Date().toISOString().split('T')[0],
-      purpose: '',
-      expense: '',
-      vehicle: 'Private Car'
-    });
+      const config = {
+        month: result.month || targetMonth,
+        fuel_price: String(result.fuel_price ?? ''),
+        car_km_per_liter: String(result.car_km_per_liter ?? ''),
+        motorcycle_km_per_liter: String(result.motorcycle_km_per_liter ?? ''),
+        depreciation_per_km: String(result.depreciation_per_km ?? ''),
+      };
+      setTravelConfig(config);
+      return config;
+    } catch (error) {
+      console.error('Failed to load travel config:', error);
+      const emptyConfig = {
+        month: targetMonth,
+        fuel_price: '',
+        car_km_per_liter: '',
+        motorcycle_km_per_liter: '',
+        depreciation_per_km: '',
+      };
+      setTravelConfig(emptyConfig);
+      return emptyConfig;
+    } finally {
+      setIsTravelConfigLoading(false);
+    }
+  };
+
+  const openTravelConfig = async (dateText = onsiteForm.date) => {
+    const month = (dateText || new Date().toISOString().split('T')[0]).slice(0, 7);
+    await loadTravelConfig(month);
+    setShowTravelConfigModal(true);
+  };
+
+  useEffect(() => {
+    if (!currentUser || !onsiteForm.date) return;
+    loadTravelConfig(onsiteForm.date.slice(0, 7));
+  }, [currentUser?.id, onsiteForm.date]);
+
+  const calculateTravelExpense = (form, config) => {
+    const outbound = Number(form.outbound_distance) || 0;
+    const returnDistance = Number(form.return_distance) || 0;
+    const totalDistance = outbound + returnDistance;
+    const tollFee = Number(form.toll_fee) || 0;
+
+    if (form.vehicle === 'TAXI') {
+      return Math.round(((Number(form.taxi_fare) || 0) + tollFee) * 100) / 100;
+    }
+
+    const kmPerLiter = form.vehicle === 'MOTORCYCLE'
+      ? Number(config.motorcycle_km_per_liter) || 0
+      : Number(config.car_km_per_liter) || 0;
+    const fuelPrice = Number(config.fuel_price) || 0;
+    const depreciation = Number(config.depreciation_per_km) || 0;
+    const fuelCost = kmPerLiter > 0 ? (totalDistance / kmPerLiter) * fuelPrice : 0;
+
+    return Math.round((fuelCost + (totalDistance * depreciation) + tollFee) * 100) / 100;
+  };
+
+  const handleSaveTravelConfig = async (event) => {
+    event.preventDefault();
+    if (isTravelConfigSaving) return;
+
+    setIsTravelConfigSaving(true);
+    try {
+      const response = await fetch('/api/travel-config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(travelConfig),
+      });
+      const saved = await response.json();
+      if (!response.ok) throw new Error(saved.error || 'Unable to save travel config');
+
+      setTravelConfig({
+        month: saved.month,
+        fuel_price: String(saved.fuel_price),
+        car_km_per_liter: String(saved.car_km_per_liter),
+        motorcycle_km_per_liter: String(saved.motorcycle_km_per_liter),
+        depreciation_per_km: String(saved.depreciation_per_km),
+      });
+      setShowTravelConfigModal(false);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'ไม่สามารถบันทึก Travel Config ได้');
+    } finally {
+      setIsTravelConfigSaving(false);
+    }
+  };
+
+  // Create Onsite Travel and calculate reimbursement at save time.
+  const handleCreateOnsite = async (e) => {
+    e.preventDefault();
+    if (isOnsiteSaving) return;
+
+    const month = onsiteForm.date.slice(0, 7);
+    const config = travelConfig.month === month
+      ? travelConfig
+      : await loadTravelConfig(month);
+    const expense = calculateTravelExpense(onsiteForm, config);
+
+    if (onsiteForm.vehicle !== 'TAXI') {
+      const efficiency = onsiteForm.vehicle === 'MOTORCYCLE'
+        ? Number(config.motorcycle_km_per_liter)
+        : Number(config.car_km_per_liter);
+      if (!Number(config.fuel_price) || !efficiency || Number(config.depreciation_per_km) < 0) {
+        alert('ยังไม่มี Travel Config สำหรับเดือนนี้ กรุณาให้ Admin ตั้งค่าก่อนบันทึก');
+        setTravelConfig(config);
+        setShowTravelConfigModal(true);
+        return;
+      }
+    }
+
+    setIsOnsiteSaving(true);
+    try {
+      const response = await fetch('/api/onsite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...onsiteForm,
+          expense,
+        }),
+      });
+      const saved = await response.json();
+      if (!response.ok) throw new Error(saved.error || 'Unable to save onsite record');
+
+      setOnsite(current => [saved, ...current.filter(item => item.id !== saved.id)]);
+      setShowOnsiteModal(false);
+      setOnsiteForm({
+        employee_id: currentUser.id,
+        client_name: '',
+        destination: '',
+        date: new Date().toISOString().split('T')[0],
+        purpose: '',
+        vehicle: 'CAR',
+        outbound_distance: '',
+        return_distance: '',
+        toll_fee: '',
+        taxi_fare: '',
+      });
+    } catch (error) {
+      alert('เกิดข้อผิดพลาด: ' + error.message);
+    } finally {
+      setIsOnsiteSaving(false);
+    }
   };
 
   const handleExecuteSQL = () => {
@@ -1051,12 +1198,22 @@ export default function App() {
                     className="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
-                <button
-                  onClick={() => setShowOnsiteModal(true)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition"
-                >
-                  <Plus className="w-4 h-4" /> บันทึกการไป Onsite
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      openTravelConfig(onsiteForm.date);
+                    }}
+                    className="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-sm font-medium px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition"
+                  >
+                    <DollarSign className="w-4 h-4" /> ตั้งค่าค่าเดินทาง
+                  </button>
+                  <button
+                    onClick={() => setShowOnsiteModal(true)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition"
+                  >
+                    <Plus className="w-4 h-4" /> บันทึกการเดินทาง
+                  </button>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -1068,7 +1225,9 @@ export default function App() {
                       <th className="p-3.5">ชื่อลูกค้า/บริษัท</th>
                       <th className="p-3.5">สถานที่ปลายทาง</th>
                       <th className="p-3.5">พาหนะ</th>
-                      <th className="p-3.5">ค่าใช้จ่ายเดินทาง</th>
+                      <th className="p-3.5 text-right">ระยะทางรวม</th>
+                      <th className="p-3.5 text-right">ค่าทางด่วน</th>
+                      <th className="p-3.5 text-right">ค่าเดินทาง</th>
                       <th className="p-3.5">สถานะงาน</th>
                     </tr>
                   </thead>
@@ -1087,9 +1246,13 @@ export default function App() {
                             <td className="p-3.5 font-medium text-slate-800">{item.client_name}</td>
                             <td className="p-3.5 text-xs text-slate-600">{item.destination}</td>
                             <td className="p-3.5 text-xs text-slate-600">
-                              <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-700 font-medium">{item.vehicle}</span>
+                              <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-700 font-medium">
+                                {item.vehicle === 'CAR' ? 'รถยนต์' : item.vehicle === 'MOTORCYCLE' ? 'รถมอเตอร์ไซค์' : 'รถแท็กซี่'}
+                              </span>
                             </td>
-                            <td className="p-3.5 font-mono font-semibold text-emerald-600">฿{item.expense.toLocaleString()}</td>
+                            <td className="p-3.5 text-right font-mono text-xs">{((Number(item.outbound_distance) || 0) + (Number(item.return_distance) || 0)).toLocaleString()} กม.</td>
+                            <td className="p-3.5 text-right font-mono text-xs">฿{(Number(item.toll_fee) || 0).toLocaleString()}</td>
+                            <td className="p-3.5 text-right font-mono font-semibold text-emerald-600">฿{(Number(item.expense) || 0).toLocaleString()}</td>
                             <td className="p-3.5">
                               {item.status === 'Completed' ? (
                                 <span className="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-medium">เสร็จสิ้น</span>
@@ -1405,101 +1568,150 @@ export default function App() {
       {/* 2. Onsite Travel Modal */}
       {showOnsiteModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl border border-slate-200 max-h-[92vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
               <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-indigo-600" /> บันทึกการปฏิบัติงาน Onsite
+                <MapPin className="w-5 h-5 text-indigo-600" /> บันทึกการเดินทาง Onsite
               </h3>
-              <button onClick={() => setShowOnsiteModal(false)} className="text-slate-400 hover:text-slate-600">
-                <X className="w-5 h-5" />
-              </button>
+              <button onClick={() => setShowOnsiteModal(false)} className="text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>
             </div>
 
-            <form onSubmit={handleCreateOnsite} className="space-y-3.5">
+            <form onSubmit={handleCreateOnsite} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">พนักงานผู้เดินทาง</label>
+                  <div className="w-full p-2.5 bg-slate-100 border border-slate-200 rounded-lg text-sm">{currentUser.name}</div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่เดินทาง</label>
+                  <input type="date" required value={onsiteForm.date} onChange={e => setOnsiteForm({ ...onsiteForm, date: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">ชื่อลูกค้า / บริษัท</label>
+                  <input type="text" required value={onsiteForm.client_name} onChange={e => setOnsiteForm({ ...onsiteForm, client_name: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">สถานที่ / ปลายทาง</label>
+                  <input type="text" required value={onsiteForm.destination} onChange={e => setOnsiteForm({ ...onsiteForm, destination: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+              </div>
+
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">พนักงานผู้เดินทาง</label>
-                <select
-                  value={onsiteForm.employee_id}
-                  onChange={e => setOnsiteForm({ ...onsiteForm, employee_id: e.target.value })}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  {employees.map(emp => (
-                    <option key={emp.id} value={emp.id}>{emp.name} ({emp.department})</option>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">พาหนะ</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    ['CAR', 'รถยนต์'],
+                    ['TAXI', 'รถแท็กซี่'],
+                    ['MOTORCYCLE', 'รถมอเตอร์ไซค์'],
+                  ].map(([value, label]) => (
+                    <button key={value} type="button" onClick={() => setOnsiteForm({ ...onsiteForm, vehicle: value })} className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition ${onsiteForm.vehicle === value ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'}`}>{label}</button>
                   ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">ชื่อลูกค้า / บริษัท</label>
-                <input
-                  type="text"
-                  placeholder="เช่น บริษัท ABC จำกัด"
-                  value={onsiteForm.client_name}
-                  onChange={e => setOnsiteForm({ ...onsiteForm, client_name: e.target.value })}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">สถานที่ / ปลายทาง</label>
-                <input
-                  type="text"
-                  placeholder="เช่น อาคาร A ถ.สุขุมวิท"
-                  value={onsiteForm.destination}
-                  onChange={e => setOnsiteForm({ ...onsiteForm, destination: e.target.value })}
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">ยานพาหนะ</label>
-                  <select
-                    value={onsiteForm.vehicle}
-                    onChange={e => setOnsiteForm({ ...onsiteForm, vehicle: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                  >
-                    <option value="Private Car">รถส่วนตัว</option>
-                    <option value="Company Car">รถบริษัท</option>
-                    <option value="Taxi">แท็กซี่ / Grab</option>
-                    <option value="BTS/MRT">รถไฟฟ้า</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">ค่าใช้จ่ายเดินทาง (บาท)</label>
-                  <input
-                    type="number"
-                    placeholder="0.00"
-                    value={onsiteForm.expense}
-                    onChange={e => setOnsiteForm({ ...onsiteForm, expense: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                  />
                 </div>
               </div>
+
+              {onsiteForm.vehicle !== 'TAXI' ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ระยะทางขาไป (กม.)</label>
+                    <input type="number" min="0" step="0.1" required value={onsiteForm.outbound_distance} onChange={e => setOnsiteForm({ ...onsiteForm, outbound_distance: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ระยะทางขากลับ (กม.)</label>
+                    <input type="number" min="0" step="0.1" required value={onsiteForm.return_distance} onChange={e => setOnsiteForm({ ...onsiteForm, return_distance: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ค่าทางด่วน (บาท)</label>
+                    <input type="number" min="0" step="0.01" value={onsiteForm.toll_fee} onChange={e => setOnsiteForm({ ...onsiteForm, toll_fee: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ค่าแท็กซี่ (บาท)</label>
+                    <input type="number" min="0" step="0.01" required value={onsiteForm.taxi_fare} onChange={e => setOnsiteForm({ ...onsiteForm, taxi_fare: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ค่าทางด่วน (บาท)</label>
+                    <input type="number" min="0" step="0.01" value={onsiteForm.toll_fee} onChange={e => setOnsiteForm({ ...onsiteForm, toll_fee: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1">วัตถุประสงค์ / รายละเอียดงาน</label>
-                <textarea
-                  rows={2}
-                  value={onsiteForm.purpose}
-                  onChange={e => setOnsiteForm({ ...onsiteForm, purpose: e.target.value })}
-                  placeholder="ระบุจุดประสงค์การลงพื้นที่..."
-                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
-                  required
-                />
+                <textarea rows={2} required value={onsiteForm.purpose} onChange={e => setOnsiteForm({ ...onsiteForm, purpose: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
               </div>
 
-              <div className="pt-2 flex justify-end gap-2">
-                <button type="button" onClick={() => setShowOnsiteModal(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
-                <button type="submit" className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow">บันทึกข้อมูล Onsite</button>
+              <div className="rounded-xl bg-indigo-50 border border-indigo-100 p-4 flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs text-indigo-600 font-semibold">ค่าเดินทางโดยประมาณ</p>
+                  <p className="text-[11px] text-slate-500 mt-1">ระบบจะคำนวณใหม่อีกครั้งเมื่อกดบันทึก</p>
+                </div>
+                <div className="text-2xl font-bold text-indigo-700">฿{calculateTravelExpense(onsiteForm, travelConfig).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              </div>
+
+              <div className="pt-2 flex justify-between gap-2">
+                <button type="button" onClick={() => openTravelConfig(onsiteForm.date)} className="px-4 py-2 text-sm border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-lg">ตั้งค่าคำนวณ</button>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setShowOnsiteModal(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
+                  <button type="submit" disabled={isOnsiteSaving} className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white rounded-lg font-medium shadow">{isOnsiteSaving ? 'กำลังบันทึก...' : 'บันทึกและคำนวณ'}</button>
+                </div>
               </div>
             </form>
           </div>
         </div>
       )}
 
+      {/* Travel reimbursement configuration */}
+      {showTravelConfigModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <div>
+                <h3 className="font-bold text-slate-800 text-lg">ตั้งค่าค่าเดินทาง</h3>
+                <p className="text-xs text-slate-500 mt-1">กำหนดแยกตามเดือน และใช้กับรถยนต์/มอเตอร์ไซค์</p>
+              </div>
+              <button onClick={() => setShowTravelConfigModal(false)} className="text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>
+            </div>
+
+            <form onSubmit={handleSaveTravelConfig} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">เดือน</label>
+                <input type="month" required value={travelConfig.month} onChange={e => loadTravelConfig(e.target.value)} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">ราคาน้ำมัน (บาท/ลิตร)</label>
+                  <input type="number" min="0" step="0.01" required value={travelConfig.fuel_price} onChange={e => setTravelConfig({ ...travelConfig, fuel_price: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">ค่าเสื่อม (บาท/กม.)</label>
+                  <input type="number" min="0" step="0.01" required value={travelConfig.depreciation_per_km} onChange={e => setTravelConfig({ ...travelConfig, depreciation_per_km: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">รถยนต์ (กม./ลิตร)</label>
+                  <input type="number" min="0.1" step="0.1" required value={travelConfig.car_km_per_liter} onChange={e => setTravelConfig({ ...travelConfig, car_km_per_liter: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">มอเตอร์ไซค์ (กม./ลิตร)</label>
+                  <input type="number" min="0.1" step="0.1" required value={travelConfig.motorcycle_km_per_liter} onChange={e => setTravelConfig({ ...travelConfig, motorcycle_km_per_liter: e.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                </div>
+              </div>
+              <div className="bg-slate-50 rounded-lg border border-slate-200 p-3 text-xs text-slate-600 leading-5">
+                รถยนต์/มอเตอร์ไซค์ = ค่าน้ำมัน + ค่าเสื่อมตามระยะทาง + ค่าทางด่วน<br />
+                รถแท็กซี่ = ค่าแท็กซี่จริง + ค่าทางด่วน
+              </div>
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={() => setShowTravelConfigModal(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
+                <button type="submit" disabled={isTravelConfigSaving || isTravelConfigLoading || currentUser.role !== 'ADMIN'} className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white rounded-lg font-medium">{isTravelConfigSaving ? 'กำลังบันทึก...' : currentUser.role === 'ADMIN' ? 'บันทึก Config' : 'Admin เท่านั้น'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
 
     </div>

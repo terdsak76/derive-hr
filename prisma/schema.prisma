@@ -73,3 +73,14 @@ model Onsite {
   status     String   @default("APPROVED")
   createdAt  DateTime @default(now())
 }
+
+model TravelConfig {
+  id                   String   @id @default(cuid())
+  month                String   @unique
+  fuelPrice            Float
+  carKmPerLiter        Float
+  motorcycleKmPerLiter Float
+  depreciationPerKm    Float
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

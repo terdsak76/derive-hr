@@ -110,8 +110,10 @@ async function GET(request) {
             status: 400
         });
     }
-    const monthStart = new Date(Date.UTC(year, month - 1, 1));
-    const monthEnd = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
+    // Summary months are calendar months in Thailand, not UTC calendar months.
+    const monthStart = new Date(Date.UTC(year, month - 1, 1, -7));
+    const nextMonthStart = new Date(Date.UTC(year, month, 1, -7));
+    const monthEnd = new Date(nextMonthStart.getTime() - 1);
     const employeeWhere = session.role.toUpperCase() === 'ADMIN' ? undefined : {
         id: session.employeeId
     };
@@ -119,7 +121,7 @@ async function GET(request) {
         employeeId: session.employeeId
     };
     try {
-        const [employees, attendances, leaves, workdayChanges, onsites] = await Promise.all([
+        const [employees, attendances, leaves, workdayChanges, onsites, overtimes] = await Promise.all([
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].employee.findMany({
                 where: employeeWhere,
                 orderBy: {
@@ -187,6 +189,21 @@ async function GET(request) {
                     employeeId: true,
                     allowance: true
                 }
+            }),
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].overtime.findMany({
+                where: {
+                    ...activityWhere,
+                    startAt: {
+                        gte: monthStart,
+                        lte: monthEnd
+                    },
+                    status: 'APPROVED'
+                },
+                select: {
+                    employeeId: true,
+                    workedMinutes: true,
+                    otAmountCents: true
+                }
             })
         ]);
         const rows = employees.map((employee)=>({
@@ -194,7 +211,9 @@ async function GET(request) {
                 leaveDays: leaves.filter((item)=>item.employeeId === employee.id).reduce((total, item)=>total + daysInRange(item.startDate, item.endDate, monthStart, monthEnd), 0),
                 lateCount: attendances.filter((item)=>item.employeeId === employee.id && item.status.toUpperCase() === 'LATE').length,
                 workdayChangeCount: workdayChanges.filter((item)=>item.employeeId === employee.id).length,
-                travelExpenses: onsites.filter((item)=>item.employeeId === employee.id).reduce((total, item)=>total + (item.allowance || 0), 0)
+                travelExpenses: onsites.filter((item)=>item.employeeId === employee.id).reduce((total, item)=>total + (item.allowance || 0), 0),
+                overtimeHours: overtimes.filter((item)=>item.employeeId === employee.id).reduce((total, item)=>total + item.workedMinutes, 0) / 60,
+                overtimePay: overtimes.filter((item)=>item.employeeId === employee.id).reduce((total, item)=>total + item.otAmountCents, 0) / 100
             }));
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(rows);
     } catch (error) {
@@ -286,9 +305,14 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 [__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$prisma$2f$adapter$2d$libsql$2f$dist$2f$index$2d$node$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__;
 ;
 ;
+const tursoUrl = process.env.TURSO_DATABASE_URL;
+const tursoAuthToken = process.env.TURSO_AUTH_TOKEN;
+if (!tursoUrl || !tursoAuthToken) {
+    throw new Error('TURSO_DATABASE_URL and TURSO_AUTH_TOKEN must be configured');
+}
 const adapter = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$prisma$2f$adapter$2d$libsql$2f$dist$2f$index$2d$node$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["PrismaLibSql"]({
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN
+    url: tursoUrl,
+    authToken: tursoAuthToken
 });
 const globalForPrisma = globalThis;
 const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({

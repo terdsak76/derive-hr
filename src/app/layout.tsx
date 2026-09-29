@@ -12,7 +12,7 @@ const promptFont = Prompt({
 
 export const metadata: Metadata = {
   title: 'DeRIVE HR - ระบบบริหารจัดการทรัพยากรบุคคล',
-  description: 'ระบบบันทึก ขาด ลา การเดินทาง Onsite พร้อมการจัดการข้อมูล SQLite',
+  description: 'ระบบบันทึก ขาด ลา การเดินทาง Onsite พร้อมการจัดการข้อมูลบน Turso',
 };
 
 export default function RootLayout({

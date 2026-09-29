@@ -3,7 +3,10 @@
   "/api/auth/me/route": "app/api/auth/me/route.js",
   "/api/employee-summary/route": "app/api/employee-summary/route.js",
   "/api/employees/route": "app/api/employees/route.js",
+  "/api/invoice-schedules/route": "app/api/invoice-schedules/route.js",
+  "/api/leaves/route": "app/api/leaves/route.js",
   "/api/onsite/route": "app/api/onsite/route.js",
+  "/api/overtime/route": "app/api/overtime/route.js",
   "/api/travel-config/route": "app/api/travel-config/route.js",
   "/api/workday-changes/route": "app/api/workday-changes/route.js",
   "/page": "app/page.js"

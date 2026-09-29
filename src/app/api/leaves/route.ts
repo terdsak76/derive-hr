@@ -68,3 +68,40 @@ export async function POST(req: Request) {
 
   return NextResponse.json(serializeLeave(newLeave), { status: 201 });
 }
+
+export async function PATCH(req: Request) {
+  const session = getSession(req);
+
+  if (!session) {
+    return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนอนุมัติใบลา' }, { status: 401 });
+  }
+
+  if (session.role.toUpperCase() !== 'ADMIN') {
+    return NextResponse.json({ error: 'เฉพาะผู้ดูแลระบบเท่านั้นที่อนุมัติใบลาได้' }, { status: 403 });
+  }
+
+  const body = await req.json();
+  const id = String(body.id || '');
+  const status = body.status === 'Approved'
+    ? 'APPROVED'
+    : body.status === 'Rejected'
+      ? 'REJECTED'
+      : body.status === 'Pending'
+        ? 'PENDING'
+        : null;
+
+  if (!id || !status) {
+    return NextResponse.json({ error: 'Invalid leave status update' }, { status: 400 });
+  }
+
+  try {
+    const updated = await prisma.leave.update({
+      where: { id },
+      data: { status },
+    });
+    return NextResponse.json(serializeLeave(updated));
+  } catch (error) {
+    console.error('Failed to update leave status:', error);
+    return NextResponse.json({ error: 'ไม่พบคำขอลาที่ต้องการอัปเดต' }, { status: 404 });
+  }
+}

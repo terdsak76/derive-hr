@@ -31,8 +31,10 @@ export async function GET(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid month or year' }, { status: 400 });
   }
 
-  const monthStart = new Date(Date.UTC(year, month - 1, 1));
-  const monthEnd = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
+  // Summary months are calendar months in Thailand, not UTC calendar months.
+  const monthStart = new Date(Date.UTC(year, month - 1, 1, -7));
+  const nextMonthStart = new Date(Date.UTC(year, month, 1, -7));
+  const monthEnd = new Date(nextMonthStart.getTime() - 1);
   const employeeWhere = session.role.toUpperCase() === 'ADMIN'
     ? undefined
     : { id: session.employeeId };
@@ -41,7 +43,7 @@ export async function GET(request: Request): Promise<NextResponse> {
     : { employeeId: session.employeeId };
 
   try {
-    const [employees, attendances, leaves, workdayChanges, onsites] = await Promise.all([
+    const [employees, attendances, leaves, workdayChanges, onsites, overtimes] = await Promise.all([
       prisma.employee.findMany({
         where: employeeWhere,
         orderBy: { name: 'asc' },
@@ -77,6 +79,14 @@ export async function GET(request: Request): Promise<NextResponse> {
         },
         select: { employeeId: true, allowance: true },
       }),
+      prisma.overtime.findMany({
+        where: {
+          ...activityWhere,
+          startAt: { gte: monthStart, lte: monthEnd },
+          status: 'APPROVED',
+        },
+        select: { employeeId: true, workedMinutes: true, otAmountCents: true },
+      }),
     ]);
 
     const rows = employees.map(employee => ({
@@ -91,6 +101,12 @@ export async function GET(request: Request): Promise<NextResponse> {
       travelExpenses: onsites
         .filter(item => item.employeeId === employee.id)
         .reduce((total, item) => total + (item.allowance || 0), 0),
+      overtimeHours: overtimes
+        .filter(item => item.employeeId === employee.id)
+        .reduce((total, item) => total + item.workedMinutes, 0) / 60,
+      overtimePay: overtimes
+        .filter(item => item.employeeId === employee.id)
+        .reduce((total, item) => total + item.otAmountCents, 0) / 100,
     }));
 
     return NextResponse.json(rows);

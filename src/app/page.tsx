@@ -1,39 +1,95 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Users, Calendar, MapPin, Clock, FileText, Database, Plus, Search, Filter, 
-  CheckCircle2, XCircle, AlertCircle, ArrowUpRight, Check, X, Download, RefreshCw, 
-  Terminal, Play, ChevronRight, Car, DollarSign, Building2, UserCheck, Shield,
-  Globe, LogIn, LogOut, FileSpreadsheet
+  Users, Calendar, MapPin, Clock, FileText, Plus, Search, Filter,
+  CheckCircle2, XCircle, AlertCircle, ArrowUpRight, Check, X, RefreshCw,
+  ChevronRight, Car, DollarSign, Building2, UserCheck, Shield,
+  Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer
 } from 'lucide-react';
-
-// ==========================================
-// INITIAL MOCK DATA (Simulating SQLite DB)
-// ==========================================
-const INITIAL_EMPLOYEES = [
-  { id: 'EMP001', name: 'เบญจมาศ แก้วภิรมย์ (White)', department: 'Functional', position: 'Senior Functional', status: 'Active' },
-  { id: 'EMP002', name: 'ณัฐดนัย ศรีทิพากร (Ball)', department: 'Engineering', position: 'Senior Developer', status: 'Active' },
-  { id: 'EMP003', name: 'กัลยรัตน์ ฉัตรทันใจ (Piano)', department: 'PM&HR', position: 'Manager', status: 'Active' },
-  { id: 'EMP004', name: 'กนกพล อินทร์หอม (View)', department: 'Engineering', position: 'Software Developer', status: 'Active' },
-  { id: 'EMP005', name: 'กัญจน์พณิช ชัยชนะ (Gun)', department: 'Engineering', position: 'Software DeveloperDevOps Engineer', status: 'Active' },
-  { id: 'EMP006', name: 'พรทิพา พันธะวงศ์ (Khae)', department: 'Support', position: 'Customer Support', status: 'Active' },
-  { id: 'EMP007', name: 'ธีรภัทร เกิดไพบูลย์ (Got)', department: 'Engineering', position: 'DevOps Engineer', status: 'Active' }
-];
-
-const INITIAL_ATTENDANCE = [
-];
-
-const INITIAL_LEAVES = [
-];
-
-const INITIAL_ONSITE = [
-];
-
-const INITIAL_WORKDAY_CHANGES = [
-];
+import { parseBangkokDateTime } from '@/lib/overtime';
 
 const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
+const getBangkokDateInputValue = (date: Date = new Date()): string => {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Bangkok',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {} as Record<string, string>);
+  return `${parts.year}-${parts.month}-${parts.day}`;
+};
 const getDateAfter = (days: number): string => getDateInputValue(new Date(Date.now() + days * 86400000));
+const formatBaht = (value: number): string => new Intl.NumberFormat('th-TH', {
+  style: 'currency',
+  currency: 'THB',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+}).format(Number(value) || 0);
+const formatInvoiceAmount = (value: number): string => new Intl.NumberFormat('th-TH', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+}).format(Number(value) || 0);
+const thaiNumberDigits = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+const thaiNumberPositions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
+
+function thaiNumberUnderMillion(value: number): string {
+  if (value === 0) return '';
+  const digits = String(value);
+  let result = '';
+
+  for (let index = 0; index < digits.length; index += 1) {
+    const digit = Number(digits[index]);
+    if (digit === 0) continue;
+
+    const position = digits.length - index - 1;
+    if (position === 1 && digit === 1) {
+      result += '';
+    } else if (position === 1 && digit === 2) {
+      result += 'ยี่';
+    } else if (position === 0 && digit === 1 && value > 1) {
+      result += 'เอ็ด';
+    } else {
+      result += thaiNumberDigits[digit];
+    }
+    result += thaiNumberPositions[position];
+  }
+
+  return result;
+}
+
+function thaiNumberToWords(value: number): string {
+  if (value === 0) return thaiNumberDigits[0];
+  const millionPart = Math.floor(value / 1_000_000);
+  const remainder = value % 1_000_000;
+  const millionText = millionPart > 0 ? `${thaiNumberToWords(millionPart)}ล้าน` : '';
+  return `${millionText}${thaiNumberUnderMillion(remainder)}`;
+}
+
+function bahtToThaiWords(value: number): string {
+  const amountInSatang = Math.round((Number(value) || 0) * 100);
+  const baht = Math.floor(amountInSatang / 100);
+  const satang = amountInSatang % 100;
+  const bahtText = `${thaiNumberToWords(baht)}บาท`;
+  return satang === 0 ? `${bahtText}ถ้วน` : `${bahtText}${thaiNumberToWords(satang)}สตางค์`;
+}
+const escapeHtml = (value: unknown): string => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
+const overtimeStatusLabels = {
+  PENDING_APPROVAL: 'รออนุมัติ',
+  APPROVED: 'อนุมัติแล้ว',
+  REJECTED: 'ไม่อนุมัติ',
+};
+const isAdminRole = (role: unknown): boolean => ['ADMIN', 'ROLE_ADMIN'].includes(String(role || '').trim().toUpperCase());
+
+function parseOvertimeRange(startText: string, endText: string) {
+  const startAt = parseBangkokDateTime(startText);
+  const endAt = parseBangkokDateTime(endText);
+  return startAt && endAt ? { startAt, endAt } : null;
+}
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -134,7 +190,21 @@ export default function App() {
   const [onsite, setOnsite] = useState([]);
   const [workdayChanges, setWorkdayChanges] = useState([]);
   const [summaryRows, setSummaryRows] = useState([]);
+  const [invoiceMonth, setInvoiceMonth] = useState(new Date().getMonth() + 1);
+  const [invoiceYear, setInvoiceYear] = useState(new Date().getFullYear());
+  const [invoiceSchedules, setInvoiceSchedules] = useState([]);
+  const [isInvoiceLoading, setIsInvoiceLoading] = useState(false);
+  const [invoiceError, setInvoiceError] = useState('');
+  const [receiptPrintRequest, setReceiptPrintRequest] = useState(null);
+  const [receiptDate, setReceiptDate] = useState(getBangkokDateInputValue());
   const [accountEmployees, setAccountEmployees] = useState([]);
+  const [overtimeRecords, setOvertimeRecords] = useState([]);
+  const [overtimeQuote, setOvertimeQuote] = useState(null);
+  const [overtimeQuoteLoading, setOvertimeQuoteLoading] = useState(false);
+  const [isOvertimeLoading, setIsOvertimeLoading] = useState(false);
+  const [overtimeError, setOvertimeError] = useState('');
+  const [isOvertimeSaving, setIsOvertimeSaving] = useState(false);
+  const [overtimeStatusSavingId, setOvertimeStatusSavingId] = useState(null);
 
   // UI states
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -145,9 +215,6 @@ export default function App() {
   const [isTravelConfigSaving, setIsTravelConfigSaving] = useState(false);
   const [isClockSaving, setIsClockSaving] = useState(false);
   const [filterText, setFilterText] = useState('');
-  const [sqlQuery, setSqlQuery] = useState('SELECT * FROM employees LIMIT 10;');
-  const [sqlResult, setSqlResult] = useState(null);
-  const [sqlError, setSqlError] = useState(null);
 
   const [workdayForm, setWorkdayForm] = useState({
     from_date: getDateInputValue(new Date()),
@@ -198,6 +265,12 @@ export default function App() {
     id: '',
     email: '',
     password: ''
+  });
+
+  const [overtimeForm, setOvertimeForm] = useState({
+    employee_id: '',
+    start_at: '',
+    end_at: '',
   });
 
   useEffect(() => {
@@ -319,6 +392,12 @@ export default function App() {
 
         const databaseEmployees = await response.json();
         setEmployees(databaseEmployees);
+        setOvertimeForm(current => ({
+          ...current,
+          employee_id: currentUser.role?.toUpperCase() === 'ADMIN'
+            ? current.employee_id || databaseEmployees[0]?.id || ''
+            : currentUser.id,
+        }));
 
       } catch (error) {
         console.error('Failed to load employees from database:', error);
@@ -328,8 +407,6 @@ export default function App() {
 
     loadEmployees();
 
-    const localLeaves = localStorage.getItem('hr_sqlite_leaves');
-
     fetch('/api/attendance')
       .then(response => response.ok ? response.json() : [])
       .then(setAttendance)
@@ -337,7 +414,13 @@ export default function App() {
         console.error('Failed to load attendance from database:', error);
         setAttendance([]);
       });
-    setLeaves(localLeaves ? JSON.parse(localLeaves) : INITIAL_LEAVES);
+    fetch('/api/leaves')
+      .then(response => response.ok ? response.json() : [])
+      .then(setLeaves)
+      .catch(error => {
+        console.error('Failed to load leave requests from database:', error);
+        setLeaves([]);
+      });
 
     fetch('/api/onsite')
       .then(response => response.ok ? response.json() : [])
@@ -376,50 +459,472 @@ export default function App() {
     loadSummary();
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
-  // Save locally-created activity records. Employee options always come from the database.
   useEffect(() => {
-    if (attendance.length) localStorage.setItem('hr_sqlite_attendance', JSON.stringify(attendance));
-    if (leaves.length) localStorage.setItem('hr_sqlite_leaves', JSON.stringify(leaves));
-  }, [attendance, leaves]);
+    if (currentUser && activeTab === 'invoices' && !isAdminRole(currentUser.role)) {
+      setActiveTab('dashboard');
+    }
+  }, [currentUser?.id, currentUser?.role, activeTab]);
 
-  // Reset locally cached activity records without replacing database employees.
-  const handleResetData = () => {
-    setAttendance(INITIAL_ATTENDANCE);
-    setLeaves(INITIAL_LEAVES);
-    setOnsite(INITIAL_ONSITE);
-    setWorkdayChanges(INITIAL_WORKDAY_CHANGES);
-    localStorage.removeItem('hr_sqlite_attendance');
-    localStorage.removeItem('hr_sqlite_leaves');
-    localStorage.removeItem('hr_sqlite_onsite');
-    alert('รีเซ็ตข้อมูลกิจกรรมเรียบร้อยแล้ว ข้อมูลพนักงานยังคงมาจากฐานข้อมูล');
-  };
+  useEffect(() => {
+    if (!currentUser || !isAdminRole(currentUser.role)) {
+      setInvoiceSchedules([]);
+      return;
+    }
 
-  // Create Leave Request
-  const handleCreateLeave = (e) => {
-    e.preventDefault();
-    const startDate = new Date(leaveForm.start_date);
-    const endDate = new Date(leaveForm.end_date);
-    const timeDiff = endDate.getTime() - startDate.getTime();
-    const days = Math.max(1, Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1);
-
-    const newLeave = {
-      id: Date.now(),
-      ...leaveForm,
-      employee_id: currentUser.id,
-      days,
-      status: 'Pending',
-      created_at: new Date().toISOString().split('T')[0]
+    const loadInvoiceSchedules = async () => {
+      setIsInvoiceLoading(true);
+      setInvoiceError('');
+      try {
+        const selectedMonth = `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+        const response = await fetch(`/api/invoice-schedules?month=${selectedMonth}`);
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Unable to load invoice schedules');
+        setInvoiceSchedules(result);
+      } catch (error) {
+        console.error('Failed to load invoice schedules:', error);
+        setInvoiceError(error instanceof Error ? error.message : 'Unable to load invoice schedules');
+        setInvoiceSchedules([]);
+      } finally {
+        setIsInvoiceLoading(false);
+      }
     };
 
-    setLeaves([newLeave, ...leaves]);
-    setShowLeaveModal(false);
-    setLeaveForm({
-      employee_id: currentUser.id,
-      type: 'Sick Leave (ลาป่วย)',
-      start_date: new Date().toISOString().split('T')[0],
-      end_date: new Date().toISOString().split('T')[0],
-      reason: ''
-    });
+    loadInvoiceSchedules();
+  }, [currentUser?.id, currentUser?.role, invoiceMonth, invoiceYear]);
+
+  const printInvoice = (invoice, invoiceIndex) => {
+    const printWindow = window.open('', '_blank', 'width=1000,height=800');
+    if (!printWindow) {
+      setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+      return;
+    }
+
+    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const issueDate = `${invoice.issue_day} ${thaiMonths[invoiceMonth - 1]} ${invoiceYear + 543}`;
+    const periodLabel = invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
+    const invoiceNumber = `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
+    const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
+    const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
+    const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
+    const netAmountSatang = Math.round(totalAmountSatang * 97 / 100);
+    const serviceAmount = serviceAmountSatang / 100;
+    const vatAmount = vatAmountSatang / 100;
+    const totalAmount = totalAmountSatang / 100;
+    const netAmount = netAmountSatang / 100;
+    const amount = formatInvoiceAmount(serviceAmount);
+    const vat = formatInvoiceAmount(vatAmount);
+    const grandTotal = formatInvoiceAmount(totalAmount);
+    const netAmountText = formatInvoiceAmount(netAmount);
+
+    printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(invoiceNumber)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 12mm 10mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 12px; }
+            .invoice { width: 100%; max-width: 190mm; margin: 0 auto; }
+            .top { display: flex; justify-content: space-between; align-items: flex-start; min-height: 30mm; }
+            .brand { width: 55%; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 8px; font-size: 27px; line-height: 34px; padding: 0 8px 0 12px; }
+            .brand-subtitle { color: #6b7280; font-size: 9px; letter-spacing: 3px; margin: 2px 0 14px 2px; }
+            .issuer-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+            .issuer-detail { line-height: 1.65; }
+            .title { width: 42%; text-align: right; font-size: 25px; font-weight: 700; padding-top: 0; }
+            .copy { display: block; font-size: 13px; font-weight: 400; margin-top: 2px; }
+            .rule { border-top: 2px solid #111; margin: 10px 0 12px; }
+            .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-height: 34mm; border-bottom: 1px solid #111; padding-bottom: 12px; }
+            .party { line-height: 1.8; }
+            .party-label { display: inline-block; min-width: 72px; }
+            .party-value { font-weight: 600; }
+            .meta { line-height: 2; text-align: left; }
+            .meta-row { display: flex; justify-content: space-between; gap: 12px; }
+            .meta-label { font-weight: 600; white-space: nowrap; }
+            .meta-value { min-width: 120px; text-align: left; }
+            table { width: 100%; border-collapse: collapse; margin-top: 14px; table-layout: fixed; }
+            th, td { border: 1px solid #111; padding: 8px 7px; vertical-align: top; min-width: 0; }
+            th { background: #173b64; color: #fff; text-align: center; font-size: 12px; }
+            th small { display: block; font-size: 11px; margin-top: 7px; font-weight: 400; }
+            td { min-height: 55mm; }
+            .item { width: 8%; text-align: center; }
+            .description { width: 43%; overflow-wrap: anywhere; }
+            .price { width: 18%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .quantity { width: 12%; text-align: center; }
+            .total { width: 19%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .description strong { display: block; margin-bottom: 8px; }
+            .description p { margin: 4px 0; line-height: 1.7; }
+            .summary { display: flex; justify-content: flex-end; margin-top: 0; }
+            .summary table { width: 52%; margin-top: 0; table-layout: fixed; }
+            .summary td { min-height: 0; padding: 7px; }
+            .summary .label { width: 62%; font-weight: 600; background: #f3f4f6; }
+            .summary .total { width: 38%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
+            .summary .grand-total td { font-size: 14px; font-weight: 700; }
+            .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
+            .withholding-note { margin-top: 8px; font-size: 12px; line-height: 1.7; }
+            .footer { display: flex; justify-content: space-between; margin-top: 25mm; text-align: center; }
+            .signature { width: 38%; padding-top: 12mm; border-top: 1px solid #6b7280; }
+            .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="invoice">
+            <section class="top">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดิไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถนนจรัญสนิทวงศ์ แขวงบางอ้อ เขตบางพลัด กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
+              </div>
+              <div class="title">ใบแจ้งหนี้<span class="copy">(สำเนา)</span></div>
+            </section>
+            <div class="rule"></div>
+            <section class="parties">
+              <div class="party">
+                <div><span class="party-label">Attention:</span></div>
+                <div><span class="party-label">Company:</span><span class="party-value">${escapeHtml(invoice.name)}</span></div>
+                <div><span class="party-label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="party-label"></span>เลขประจำตัวผู้เสียภาษี: ${escapeHtml(invoice.tax_id)} (สำนักงานใหญ่)</div>
+              </div>
+              <div class="meta">
+                <div class="meta-row"><span class="meta-label">เลขที่ No. :</span><span class="meta-value">${escapeHtml(invoiceNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span class="meta-value">${escapeHtml(issueDate)}</span></div>
+              </div>
+            </section>
+            <table>
+              <thead>
+                <tr><th class="item">ลำดับที่<small>ITEM</small></th><th class="description">รายการ<small>DESCRIPTION</small></th><th class="price">ราคา/หน่วย<small>Price/Unit</small></th><th class="quantity">จำนวน (ปี)<small>Quantity</small></th><th class="total">จำนวนเงิน<small>Amount</small></th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="item">1</td>
+                  <td class="description"><strong>${escapeHtml(invoice.description)}</strong><p>รอบการออกเอกสาร: ${escapeHtml(periodLabel)}</p><p>รายละเอียดบริการ: ${escapeHtml(invoice.service)}</p></td>
+                  <td class="price">${amount}</td>
+                  <td class="quantity">1</td>
+                  <td class="total">${amount}</td>
+                </tr>
+              </tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเป็นเงิน</td><td class="total">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="total">${vat}</td></tr>
+                <tr class="grand-total"><td class="label">จำนวนเงินทั้งสิ้น</td><td class="total">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">(${escapeHtml(bahtToThaiWords(totalAmount))})</div>
+            <div class="withholding-note"><strong>หมายเหตุ:</strong> ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%<br />คงเหลือยอดเงิน <strong>${netAmountText} บาท</strong></div>
+            <section class="footer"><div class="signature">ผู้จัดทำ / Prepared by</div><div class="signature">ผู้รับวางบิล / Received by</div></section>
+            <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
+          </main>
+          <script>window.onload = function () { window.focus(); window.print(); };</script>
+        </body>
+      </html>`);
+    printWindow.document.close();
+  };
+
+  const printReceipt = (invoice, invoiceIndex, selectedReceiptDate) => {
+    const printWindow = window.open('', '_blank', 'width=1000,height=800');
+    if (!printWindow) {
+      setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+      return;
+    }
+
+    const receiptNumber = `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`;
+    const invoiceNumber = `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
+    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const [receiptYear, receiptMonth, receiptDay] = selectedReceiptDate.split('-').map(Number);
+    const printingDate = `${receiptDay} ${thaiMonths[receiptMonth - 1]} ${receiptYear + 543}`;
+    const periodLabel = invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
+    const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
+    const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
+    const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
+    const netAmountSatang = Math.round(totalAmountSatang * 97 / 100);
+    const serviceAmount = serviceAmountSatang / 100;
+    const vatAmount = vatAmountSatang / 100;
+    const totalAmount = totalAmountSatang / 100;
+    const netAmount = netAmountSatang / 100;
+    const amount = formatInvoiceAmount(serviceAmount);
+    const vat = formatInvoiceAmount(vatAmount);
+    const grandTotal = formatInvoiceAmount(totalAmount);
+    const netAmountText = formatInvoiceAmount(netAmount);
+
+    printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(receiptNumber)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 12mm 10mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 12px; }
+            .receipt { width: 100%; max-width: 190mm; margin: 0 auto; }
+            .top { display: flex; justify-content: space-between; align-items: flex-start; min-height: 30mm; }
+            .brand { width: 55%; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 8px; font-size: 27px; line-height: 34px; padding: 0 8px 0 12px; }
+            .brand-subtitle { color: #6b7280; font-size: 9px; letter-spacing: 3px; margin: 2px 0 14px 2px; }
+            .issuer-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+            .issuer-detail { line-height: 1.65; }
+            .title { width: 42%; text-align: right; font-size: 22px; font-weight: 700; line-height: 1.35; }
+            .title small { display: block; font-size: 12px; font-weight: 400; }
+            .copy { display: block; font-size: 12px; font-weight: 400; margin-top: 5px; }
+            .rule { border-top: 2px solid #111; margin: 10px 0 12px; }
+            .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-height: 34mm; border-bottom: 1px solid #111; padding-bottom: 12px; }
+            .party { line-height: 1.8; }
+            .party-label { display: inline-block; min-width: 72px; }
+            .party-value { font-weight: 600; }
+            .meta { line-height: 2; text-align: left; }
+            .meta-row { display: flex; justify-content: space-between; gap: 12px; }
+            .meta-label { font-weight: 600; white-space: nowrap; }
+            .meta-value { min-width: 120px; text-align: left; }
+            table { width: 100%; border-collapse: collapse; margin-top: 14px; table-layout: fixed; }
+            th, td { border: 1px solid #111; padding: 8px 7px; vertical-align: top; min-width: 0; }
+            th { background: #173b64; color: #fff; text-align: center; font-size: 12px; }
+            th small { display: block; font-size: 11px; margin-top: 7px; font-weight: 400; }
+            td { min-height: 48mm; }
+            .item { width: 8%; text-align: center; }
+            .description { width: 43%; overflow-wrap: anywhere; }
+            .price { width: 18%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .quantity { width: 12%; text-align: center; }
+            .total { width: 19%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .description strong { display: block; margin-bottom: 8px; }
+            .description p { margin: 4px 0; line-height: 1.7; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 52%; margin-top: 0; table-layout: fixed; }
+            .summary td { min-height: 0; padding: 7px; }
+            .summary .label { width: 62%; font-weight: 600; background: #f3f4f6; }
+            .summary .total { width: 38%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
+            .summary .grand-total td { font-size: 14px; font-weight: 700; }
+            .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
+            .payment { margin-top: 13px; line-height: 1.8; }
+            .payment-title { font-weight: 700; }
+            .note { margin-top: 8px; line-height: 1.7; }
+            .signatures { display: flex; justify-content: space-between; gap: 35mm; margin-top: 20mm; text-align: center; }
+            .signature { flex: 1; padding-top: 12mm; border-top: 1px solid #6b7280; }
+            .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="receipt">
+            <section class="top">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
+              </div>
+              <div class="title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>( Receipt / Tax Invoice)</small><span class="copy">(ต้นฉบับ)</span></div>
+            </section>
+            <div class="rule"></div>
+            <section class="parties">
+              <div class="party">
+                <div><span class="party-label">Attention:</span></div>
+                <div><span class="party-label">Company:</span><span class="party-value">${escapeHtml(invoice.name)}</span></div>
+                <div><span class="party-label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="party-label"></span>เลขประจำตัวผู้เสียภาษี: ${escapeHtml(invoice.tax_id)} (สำนักงานใหญ่)</div>
+              </div>
+              <div class="meta">
+                <div class="meta-row"><span class="meta-label">เล่มที่</span><span class="meta-value">001</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span class="meta-value">${escapeHtml(receiptNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span class="meta-value">${escapeHtml(invoiceNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span class="meta-value">${escapeHtml(printingDate)}</span></div>
+              </div>
+            </section>
+            <table>
+              <thead><tr><th class="item">ลำดับที่<small>ITEM</small></th><th class="description">รายการ<small>DESCRIPTION</small></th><th class="price">ราคา/หน่วย<small>Price/Unit</small></th><th class="quantity">จำนวน<small>Quantity</small></th><th class="total">จำนวนเงิน<small>Amount</small></th></tr></thead>
+              <tbody><tr><td class="item">1</td><td class="description"><strong>${escapeHtml(invoice.description)}</strong><p>รอบการออกเอกสาร: ${escapeHtml(periodLabel)}</p><p>รายละเอียดบริการ: ${escapeHtml(invoice.service)}</p></td><td class="price">${amount}</td><td class="quantity">1</td><td class="total">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเงิน</td><td class="total">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="total">${vat}</td></tr>
+                <tr class="grand-total"><td class="label">รวมทั้งสิ้น</td><td class="total">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">(${escapeHtml(bahtToThaiWords(totalAmount))})</div>
+            <section class="payment">
+              <div class="payment-title">ชำระเงินโดย</div>
+              <div>(   ) เงินสด ( Cash)</div>
+              <div>(   ) เช็ค (Cheque) ธนาคาร/Bank __________________ เลขที่/No. __________________ ลงวันที่/Date ______________</div>
+              <div>(   ) โอนเข้าบัญชี ธนาคาร/Bank __________________ สาขา/Branch __________________ วันที่/Date ______________</div>
+            </section>
+            <div class="note"><strong>หมายเหตุ:</strong> ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%<br />คงเหลือเงิน <strong>${netAmountText} บาท</strong></div>
+            <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
+            <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
+          </main>
+          <script>window.onload = function () { window.focus(); window.print(); };</script>
+        </body>
+      </html>`);
+    printWindow.document.close();
+  };
+
+  const loadOvertimeRecords = async () => {
+    if (!currentUser) return;
+    setIsOvertimeLoading(true);
+    try {
+      const response = await fetch('/api/overtime');
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to load overtime records');
+      setOvertimeRecords(result);
+    } catch (error) {
+      console.error('Failed to load overtime records:', error);
+      setOvertimeError(error instanceof Error ? error.message : 'Unable to load overtime records');
+      setOvertimeRecords([]);
+    } finally {
+      setIsOvertimeLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!currentUser) {
+      setOvertimeRecords([]);
+      return;
+    }
+    loadOvertimeRecords();
+  }, [currentUser?.id, currentUser?.role]);
+
+  // The quote is always returned by the backend. Any input change invalidates
+  // the previous quote until the latest request succeeds.
+  useEffect(() => {
+    setOvertimeQuote(null);
+    setOvertimeError('');
+    const range = parseOvertimeRange(overtimeForm.start_at, overtimeForm.end_at);
+    if (
+      !currentUser ||
+      !overtimeForm.employee_id ||
+      !overtimeForm.start_at ||
+      !overtimeForm.end_at ||
+      !range ||
+      range.endAt.getTime() <= range.startAt.getTime()
+    ) {
+      setOvertimeQuoteLoading(false);
+      return;
+    }
+
+    let active = true;
+    setOvertimeQuoteLoading(true);
+    const timer = window.setTimeout(async () => {
+      try {
+        const response = await fetch('/api/overtime/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(overtimeForm),
+        });
+        const result = await response.json();
+        if (!active) return;
+        if (!response.ok) throw new Error(result.error || 'Unable to calculate overtime');
+        setOvertimeQuote(result);
+      } catch (error) {
+        if (active) setOvertimeError(error instanceof Error ? error.message : 'Unable to calculate overtime');
+      } finally {
+        if (active) setOvertimeQuoteLoading(false);
+      }
+    }, 300);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [currentUser?.role, overtimeForm.employee_id, overtimeForm.start_at, overtimeForm.end_at]);
+
+  const updateOvertimeForm = (changes) => {
+    setOvertimeForm(current => ({ ...current, ...changes }));
+    setOvertimeQuote(null);
+    setOvertimeError('');
+  };
+
+  const handleCreateOvertime = async (event) => {
+    event.preventDefault();
+    if (isOvertimeSaving) return;
+    if (!overtimeForm.employee_id || !overtimeForm.start_at || !overtimeForm.end_at) {
+      setOvertimeError('กรุณากรอกพนักงาน วันเวลาเริ่มต้น และวันเวลาสิ้นสุด');
+      return;
+    }
+    const range = parseOvertimeRange(overtimeForm.start_at, overtimeForm.end_at);
+    if (!range) {
+      setOvertimeError('กรุณาระบุวันเวลา OT เป็นเวลาไทยในรูปแบบที่ถูกต้อง');
+      return;
+    }
+    if (range.endAt.getTime() <= range.startAt.getTime()) {
+      setOvertimeError('วันเวลาสิ้นสุดต้องอยู่หลังวันเวลาเริ่มต้น');
+      return;
+    }
+
+    setIsOvertimeSaving(true);
+    setOvertimeError('');
+    try {
+      const response = await fetch('/api/overtime', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // Financial values are intentionally not sent; the server recalculates them.
+        body: JSON.stringify(overtimeForm),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to save overtime record');
+
+      await loadOvertimeRecords();
+      setOvertimeForm(current => ({ ...current, start_at: '', end_at: '' }));
+      setOvertimeQuote(null);
+      alert('บันทึก OT แล้ว และส่งคำขอรออนุมัติเรียบร้อย');
+    } catch (error) {
+      setOvertimeError(error instanceof Error ? error.message : 'Unable to save overtime record');
+    } finally {
+      setIsOvertimeSaving(false);
+    }
+  };
+
+  const handleUpdateOvertimeStatus = async (id, status) => {
+    if (overtimeStatusSavingId) return;
+    setOvertimeStatusSavingId(id);
+    setOvertimeError('');
+    try {
+      const response = await fetch('/api/overtime', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      });
+      const updated = await response.json();
+      if (!response.ok) throw new Error(updated.error || 'Unable to update overtime status');
+      setOvertimeRecords(current => current.map(item => item.id === id ? updated : item));
+    } catch (error) {
+      setOvertimeError(error instanceof Error ? error.message : 'Unable to update overtime status');
+    } finally {
+      setOvertimeStatusSavingId(null);
+    }
+  };
+
+  // Create Leave Request in Turso through the API.
+  const handleCreateLeave = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/leaves', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: leaveForm.type,
+          startDate: leaveForm.start_date,
+          endDate: leaveForm.end_date,
+          reason: leaveForm.reason,
+        }),
+      });
+      const saved = await response.json();
+      if (!response.ok) throw new Error(saved.error || 'ไม่สามารถบันทึกคำขอลาได้');
+
+      setLeaves(current => [saved, ...current]);
+      setShowLeaveModal(false);
+      setLeaveForm({
+        employee_id: currentUser.id,
+        type: 'Sick Leave (ลาป่วย)',
+        start_date: new Date().toISOString().split('T')[0],
+        end_date: new Date().toISOString().split('T')[0],
+        reason: '',
+      });
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'ไม่สามารถบันทึกคำขอลาได้');
+    }
   };
 
   const handleCreateWorkdayChange = async (event) => {
@@ -454,8 +959,19 @@ export default function App() {
   };
 
   // Approval Handler
-  const handleUpdateLeaveStatus = (id, newStatus) => {
-    setLeaves(leaves.map(item => item.id === id ? { ...item, status: newStatus } : item));
+  const handleUpdateLeaveStatus = async (id, newStatus) => {
+    try {
+      const response = await fetch('/api/leaves', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+      const updated = await response.json();
+      if (!response.ok) throw new Error(updated.error || 'ไม่สามารถอัปเดตสถานะใบลาได้');
+      setLeaves(current => current.map(item => item.id === id ? updated : item));
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'ไม่สามารถอัปเดตสถานะใบลาได้');
+    }
   };
 
   const loadTravelConfig = async (month) => {
@@ -608,65 +1124,6 @@ export default function App() {
     }
   };
 
-  const handleExecuteSQL = () => {
-    setSqlError(null);
-    setSqlResult(null);
-
-    const cleanQuery = sqlQuery.trim().toLowerCase();
-
-    try {
-      if (cleanQuery.startsWith('select * from employees')) {
-        setSqlResult({ columns: ['id', 'name', 'department', 'position', 'status'], rows: employees });
-      } else if (cleanQuery.startsWith('select * from attendance')) {
-        setSqlResult({ columns: ['id', 'employee_id', 'date', 'clock_in', 'clock_out', 'status', 'note'], rows: attendance });
-      } else if (cleanQuery.startsWith('select * from leave_requests')) {
-        setSqlResult({ columns: ['id', 'employee_id', 'type', 'start_date', 'end_date', 'days', 'reason', 'status'], rows: leaves });
-      } else if (cleanQuery.startsWith('select * from onsite_travels')) {
-        setSqlResult({ columns: ['id', 'employee_id', 'client_name', 'destination', 'date', 'purpose', 'expense', 'vehicle', 'status'], rows: onsite });
-      } else {
-        setSqlError('รองรับการคิวรีตัวอย่าง: SELECT * FROM [employees | attendance | leave_requests | onsite_travels]');
-      }
-    } catch (err) {
-      setSqlError('ข้อผิดพลาดทางไวยากรณ์ SQL: ' + err.message);
-    }
-  };
-
-  // Export DB as SQL dump script
-  const handleExportSQL = () => {
-    let sqlScript = `-- SQLite Database Export - HR Management System\n`;
-    sqlScript += `-- Exported on: ${new Date().toLocaleString('th-TH')}\n\n`;
-
-    // Table Employees
-    sqlScript += `CREATE TABLE IF NOT EXISTS employees (\n  id TEXT PRIMARY KEY,\n  name TEXT,\n  department TEXT,\n  position TEXT,\n  status TEXT\n);\n`;
-    employees.forEach(e => {
-      sqlScript += `INSERT INTO employees VALUES ('${e.id}', '${e.name}', '${e.department}', '${e.position}', '${e.status}');\n`;
-    });
-
-    // Table Attendance
-    sqlScript += `\nCREATE TABLE IF NOT EXISTS attendance (\n  id INTEGER PRIMARY KEY,\n  employee_id TEXT,\n  date TEXT,\n  clock_in TEXT,\n  clock_out TEXT,\n  status TEXT,\n  note TEXT\n);\n`;
-    attendance.forEach(a => {
-      sqlScript += `INSERT INTO attendance VALUES (${a.id}, '${a.employee_id}', '${a.date}', '${a.clock_in}', '${a.clock_out}', '${a.status}', '${a.note}');\n`;
-    });
-
-    // Table Leave Requests
-    sqlScript += `\nCREATE TABLE IF NOT EXISTS leave_requests (\n  id INTEGER PRIMARY KEY,\n  employee_id TEXT,\n  type TEXT,\n  start_date TEXT,\n  end_date TEXT,\n  days INTEGER,\n  reason TEXT,\n  status TEXT\n);\n`;
-    leaves.forEach(l => {
-      sqlScript += `INSERT INTO leave_requests VALUES (${l.id}, '${l.employee_id}', '${l.type}', '${l.start_date}', '${l.end_date}', ${l.days}, '${l.reason}', '${l.status}');\n`;
-    });
-
-    // Table Onsite
-    sqlScript += `\nCREATE TABLE IF NOT EXISTS onsite_travels (\n  id INTEGER PRIMARY KEY,\n  employee_id TEXT,\n  client_name TEXT,\n  destination TEXT,\n  date TEXT,\n  purpose TEXT,\n  expense REAL,\n  vehicle TEXT,\n  status TEXT\n);\n`;
-    onsite.forEach(o => {
-      sqlScript += `INSERT INTO onsite_travels VALUES (${o.id}, '${o.employee_id}', '${o.client_name}', '${o.destination}', '${o.date}', '${o.purpose}', ${o.expense}, '${o.vehicle}', '${o.status}');\n`;
-    });
-
-    const blob = new Blob([sqlScript], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `hr_database_sqlite_dump_${new Date().toISOString().split('T')[0]}.sql`;
-    a.click();
-  };
 
   const stats = useMemo(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -755,6 +1212,24 @@ export default function App() {
             <span>สรุปสถิติพนักงาน</span>
                   </button>
 
+          <button
+            onClick={() => setActiveTab('overtime')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'overtime' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+          >
+            <Timer className="w-5 h-5" />
+            <span>บันทึก OT</span>
+          </button>
+
+          {isAdminRole(currentUser.role) && (
+            <button
+              onClick={() => setActiveTab('invoices')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+            >
+              <FileSpreadsheet className="w-5 h-5" />
+              <span>ตาราง Invoice ลูกค้า</span>
+            </button>
+          )}
+
           <div className="pt-4 border-t border-slate-800 my-2"></div>
 
           <button
@@ -768,28 +1243,15 @@ export default function App() {
             <span>แก้ไขบัญชี</span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('sqlite')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'sqlite' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-          >
-            <Database className="w-5 h-5" />
-            <span>SQLite DB Studio</span>
-          </button>
         </nav>
 
         {/* Footer actions */}
         <div className="p-4 border-t border-slate-800 space-y-2 text-xs text-slate-400">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-400" /> DB Engine:</span>
-            <span className="bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-mono">SQLite 3.x</span>
-              </div>
-          <button
-            onClick={handleResetData}
-            className="w-full flex items-center justify-center gap-2 py-2 bg-slate-800 hover:bg-rose-900/50 text-slate-300 hover:text-rose-300 rounded border border-slate-700 transition"
-          >
-            <RefreshCw className="w-3.5 h-3.5" /> รีเซ็ตข้อมูลเริ่มต้น
-          </button>
-                    </div>
+            <span className="bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-mono">Turso / libSQL</span>
+          </div>
+        </div>
       </aside>
       {}
       <main className="app-main flex-1 flex flex-col overflow-y-auto">
@@ -803,8 +1265,9 @@ export default function App() {
               {activeTab === 'onsite' && 'ระบบบันทึกการปฏิบัติงาน Onsite (Onsite Travel Log)'}
               {activeTab === 'workday' && 'คำขอเปลี่ยนวันทำงาน (Working Day Change)'}
               {activeTab === 'summary' && 'สรุปสถิติการลา สาย และแลกวันทำงาน'}
+              {activeTab === 'overtime' && 'บันทึกและคำนวณค่าล่วงเวลา (Overtime)'}
+              {activeTab === 'invoices' && 'ตาราง Invoice ลูกค้าตามรอบวางบิล'}
               {activeTab === 'account' && 'จัดการบัญชีผู้ใช้ (Account Settings)'}
-              {activeTab === 'sqlite' && 'SQLite Database Architecture & SQL Console'}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน</p>
               </div>
@@ -1332,7 +1795,7 @@ export default function App() {
               <div className="p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                   <h3 className="font-bold text-slate-800">สรุปข้อมูลรายเดือนของพนักงาน</h3>
-                  <p className="text-xs text-slate-500 mt-1">ตรวจสอบจำนวนวันลา จำนวนครั้งมาสาย และคำขอแลกวันทำงาน</p>
+                  <p className="text-xs text-slate-500 mt-1">ตรวจสอบวันลา มาสาย แลกวันทำงาน และ OT ที่อนุมัติแล้ว</p>
                 </div>
                 <div className="flex gap-3">
                   <div>
@@ -1352,10 +1815,10 @@ export default function App() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm text-slate-600">
                   <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
-                    <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5">แผนก</th><th className="p-3.5 text-center">วันลา</th><th className="p-3.5 text-center">มาสาย (ครั้ง)</th><th className="p-3.5 text-center">แลกวันทำงาน (คำขอ)</th><th className="p-3.5 text-right">ค่าเดินทาง (บาท)</th></tr>
+                    <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5">แผนก</th><th className="p-3.5 text-center">วันลา</th><th className="p-3.5 text-center">มาสาย (ครั้ง)</th><th className="p-3.5 text-center">แลกวันทำงาน (คำขอ)</th><th className="p-3.5 text-right">ค่าเดินทาง (บาท)</th><th className="p-3.5 text-right">OT (ชั่วโมง)</th><th className="p-3.5 text-right">ค่าล่วงเวลา (บาท)</th></tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
-                    {summaryRows.length === 0 ? <tr><td colSpan={6} className="p-8 text-center text-slate-400">ไม่พบข้อมูลพนักงาน</td></tr> : summaryRows.map(employee => (
+                    {summaryRows.length === 0 ? <tr><td colSpan={8} className="p-8 text-center text-slate-400">ไม่พบข้อมูลพนักงาน</td></tr> : summaryRows.map(employee => (
                       <tr key={employee.id} className="hover:bg-slate-50">
                         <td className="p-3.5 font-medium text-slate-800">{employee.name}<span className="block text-xs font-normal text-slate-400">{employee.email}</span></td>
                         <td className="p-3.5 text-slate-500">{employee.department}</td>
@@ -1363,6 +1826,8 @@ export default function App() {
                         <td className="p-3.5 text-center"><span className="inline-flex min-w-8 justify-center px-2 py-1 rounded-full bg-rose-50 text-rose-700 font-semibold">{employee.lateCount}</span></td>
                         <td className="p-3.5 text-center"><span className="inline-flex min-w-8 justify-center px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">{employee.workdayChangeCount}</span></td>
                         <td className="p-3.5 text-right font-semibold text-emerald-700">฿{employee.travelExpenses.toLocaleString()}</td>
+                        <td className="p-3.5 text-right font-semibold text-indigo-700">{Number(employee.overtimeHours || 0).toFixed(2)}</td>
+                        <td className="p-3.5 text-right font-semibold text-violet-700">{formatBaht(employee.overtimePay || 0)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1371,113 +1836,208 @@ export default function App() {
             </div>
           )}
 
-          {activeTab === 'sqlite' && (
+          {activeTab === 'invoices' && isAdminRole(currentUser.role) && (
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                  <h3 className="font-bold text-slate-800">Invoice Schedule</h3>
+                  <p className="text-xs text-slate-500 mt-1">รายการ Invoice ของลูกค้าที่มีกำหนดออกในเดือนที่เลือก</p>
+                </div>
+                <div className="flex gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">เดือน</label>
+                    <select value={invoiceMonth} onChange={event => setInvoiceMonth(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                      {['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'].map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">ปี</label>
+                    <select value={invoiceYear} onChange={event => setInvoiceYear(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                      {[invoiceYear - 2, invoiceYear - 1, invoiceYear, invoiceYear + 1, invoiceYear + 2].map(year => <option key={year} value={year}>{year}</option>)}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {invoiceError && <p className="m-5 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{invoiceError}</p>}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm text-slate-600">
+                  <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="p-3.5">Client</th>
+                      <th className="p-3.5">Product</th>
+                      <th className="p-3.5">Service</th>
+                      <th className="p-3.5 min-w-64">Description</th>
+                      <th className="p-3.5">Period</th>
+                      <th className="p-3.5">Date of issue</th>
+                      <th className="p-3.5 text-right">Amount</th>
+                      <th className="p-3.5 min-w-64">Customer</th>
+                      <th className="p-3.5">Tax ID</th>
+                      <th className="p-3.5 min-w-72">Address</th>
+                      <th className="p-3.5 text-center">พิมพ์เอกสาร</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {isInvoiceLoading ? (
+                      <tr><td colSpan={11} className="p-8 text-center text-slate-400">กำลังโหลดตาราง Invoice...</td></tr>
+                    ) : invoiceSchedules.length === 0 ? (
+                      <tr><td colSpan={11} className="p-8 text-center text-slate-400">ไม่พบ Invoice ในเดือนที่เลือก</td></tr>
+                    ) : invoiceSchedules.map((invoice, invoiceIndex) => (
+                      <tr key={invoice.id} className="hover:bg-slate-50 align-top">
+                        <td className="p-3.5 font-semibold text-slate-800">{invoice.client}</td>
+                        <td className="p-3.5 font-medium text-indigo-700">{invoice.product}</td>
+                        <td className="p-3.5">{invoice.service}</td>
+                        <td className="p-3.5 min-w-64">{invoice.description}</td>
+                        <td className="p-3.5 whitespace-nowrap">{invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน'}</td>
+                        <td className="p-3.5 whitespace-nowrap">{invoice.issue_date}</td>
+                        <td className="p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap">{formatBaht(invoice.amount)}</td>
+                        <td className="p-3.5 min-w-64 font-medium text-slate-800">{invoice.name}</td>
+                        <td className="p-3.5 whitespace-nowrap">{invoice.tax_id}</td>
+                        <td className="p-3.5 min-w-72">{invoice.address}</td>
+                        <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => printInvoice(invoice, invoiceIndex)} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => { setReceiptDate(getBangkokDateInputValue()); setReceiptPrintRequest({ invoice, invoiceIndex }); }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'overtime' && currentUser.role?.toUpperCase() === 'ADMIN' && (
             <div className="space-y-6">
-              {/* Architecture & SQL Console */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Tables Schema visualizer */}
-                <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                  <div className="flex items-center justify-between border-b pb-3 border-slate-200">
-                    <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                      <Database className="w-5 h-5 text-indigo-600" /> SQLite Tables Schema
-                    </h3>
-                    <button
-                      onClick={handleExportSQL}
-                      className="text-xs bg-slate-800 hover:bg-slate-900 text-white px-2.5 py-1.5 rounded flex items-center gap-1 transition"
-                    >
-                      <Download className="w-3.5 h-3.5" /> Export SQL Dump
-                    </button>
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <section className="xl:col-span-1 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                  <div className="mb-5">
+                    <h3 className="font-bold text-slate-800">บันทึกเวลาทำ OT</h3>
+                    <p className="text-xs text-slate-500 mt-1">ระบบคำนวณตามเงินเดือนปัจจุบันของพนักงาน และเก็บค่าอัตราไว้เป็นประวัติ</p>
                   </div>
-
-                  <div className="space-y-3 text-xs font-mono">
-                    <div className="p-3 bg-slate-50 border rounded-lg">
-                      <p className="font-bold text-slate-800 mb-1">📋 employees</p>
-                      <p className="text-slate-500">id (PK), name, department, position, status</p>
-                    </div>
-                    <div className="p-3 bg-slate-50 border rounded-lg">
-                      <p className="font-bold text-slate-800 mb-1">⏰ attendance</p>
-                      <p className="text-slate-500">id (PK), employee_id (FK), date, clock_in, clock_out, status, note</p>
-                    </div>
-                    <div className="p-3 bg-slate-50 border rounded-lg">
-                      <p className="font-bold text-slate-800 mb-1">📅 leave_requests</p>
-                      <p className="text-slate-500">id (PK), employee_id (FK), type, start_date, end_date, days, reason, status</p>
-                    </div>
-                    <div className="p-3 bg-slate-50 border rounded-lg">
-                      <p className="font-bold text-slate-800 mb-1">🚗 onsite_travels</p>
-                      <p className="text-slate-500">id (PK), employee_id (FK), client_name, destination, date, expense, vehicle, status</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* SQL Execution Console */}
-                <div className="lg:col-span-2 bg-slate-900 text-slate-200 p-5 rounded-xl shadow-md flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                      <span className="text-xs font-semibold text-emerald-400 font-mono flex items-center gap-1.5">
-                        <Terminal className="w-4 h-4" /> SQLite Interactive Query Console
-                      </span>
-                      <span className="text-[11px] text-slate-400">Simulated SQLite Runtime</span>
-                    </div>
-
-                    <textarea
-                      rows={3}
-                      value={sqlQuery}
-                      onChange={(e) => setSqlQuery(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-emerald-300 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                      placeholder="SELECT * FROM employees;"
-                    />
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-2">
-                        <button onClick={() => setSqlQuery('SELECT * FROM employees LIMIT 10;')} className="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded font-mono">employees</button>
-                        <button onClick={() => setSqlQuery('SELECT * FROM attendance;')} className="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded font-mono">attendance</button>
-                        <button onClick={() => setSqlQuery('SELECT * FROM leave_requests;')} className="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded font-mono">leave_requests</button>
-                        <button onClick={() => setSqlQuery('SELECT * FROM onsite_travels;')} className="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded font-mono">onsite_travels</button>
-                      </div>
-
-                      <button
-                        onClick={handleExecuteSQL}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow transition"
-                      >
-                        <Play className="w-3.5 h-3.5" /> Run Query
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* SQL Result Table / Error Output */}
-                  <div className="mt-4 pt-3 border-t border-slate-800 min-h-[140px] max-h-[220px] overflow-auto">
-                    {sqlError && (
-                      <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs font-mono rounded">
-                        {sqlError}
-                      </div>
-                    )}
-
-                    {sqlResult && (
-                      <table className="w-full text-left text-xs font-mono text-slate-300">
-                        <thead className="bg-slate-800 text-slate-400 sticky top-0">
-                          <tr>
-                            {sqlResult.columns.map((col, idx) => (
-                              <th key={idx} className="p-2 border-b border-slate-700">{col}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-800">
-                          {sqlResult.rows.map((row, rowIdx) => (
-                            <tr key={rowIdx} className="hover:bg-slate-800/50">
-                              {sqlResult.columns.map((col, colIdx) => (
-                                <td key={colIdx} className="p-2 whitespace-nowrap">{String(row[col] ?? '')}</td>
-                              ))}
-                            </tr>
+                  <form onSubmit={handleCreateOvertime} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">พนักงาน</label>
+                      {currentUser.role?.toUpperCase() === 'ADMIN' ? (
+                        <select
+                          required
+                          value={overtimeForm.employee_id}
+                          onChange={event => updateOvertimeForm({ employee_id: event.target.value })}
+                          className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                        >
+                          <option value="">เลือกพนักงาน</option>
+                          {employees.map(employee => (
+                            <option key={employee.id} value={employee.id}>{employee.name}</option>
                           ))}
-                        </tbody>
-                      </table>
-                    )}
+                        </select>
+                      ) : (
+                        <div className="w-full p-2.5 bg-slate-100 border border-slate-200 rounded-lg text-sm text-slate-700">
+                          {currentUser.name}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">เริ่ม OT (เวลาไทย)</label>
+                      <input
+                        type="datetime-local"
+                        required
+                        step="60"
+                        value={overtimeForm.start_at}
+                        onChange={event => updateOvertimeForm({ start_at: event.target.value })}
+                        className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">สิ้นสุด OT (เวลาไทย)</label>
+                      <input
+                        type="datetime-local"
+                        required
+                        step="60"
+                        value={overtimeForm.end_at}
+                        onChange={event => updateOvertimeForm({ end_at: event.target.value })}
+                        className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                      />
+                    </div>
 
-                    {!sqlResult && !sqlError && (
-                      <p className="text-xs text-slate-500 italic text-center py-8">คลิก Run Query เพื่อรันคำสั่ง SQL กับฐานข้อมูล</p>
-                    )}
+                    <div className="rounded-lg border border-indigo-100 bg-indigo-50/60 p-4 space-y-2">
+                      <div className="flex justify-between gap-3 text-sm"><span className="text-slate-600">เงินเดือน</span><strong>{overtimeQuote ? formatBaht(overtimeQuote.monthly_salary) : '-'}</strong></div>
+                      <div className="flex justify-between gap-3 text-sm"><span className="text-slate-600">อัตรา OT / ชั่วโมง</span><strong>{overtimeQuote ? formatBaht(overtimeQuote.hourly_rate) : '-'}</strong></div>
+                      <div className="flex justify-between gap-3 text-sm"><span className="text-slate-600">จำนวนชั่วโมง</span><strong>{overtimeQuote ? Number(overtimeQuote.ot_hours).toFixed(2) : '-'}</strong></div>
+                      <div className="flex justify-between gap-3 text-sm border-t border-indigo-100 pt-2"><span className="font-semibold text-slate-700">ยอด OT</span><strong className="text-indigo-700">{overtimeQuote ? formatBaht(overtimeQuote.ot_amount) : '-'}</strong></div>
+                      {overtimeQuoteLoading && <p className="text-xs text-indigo-600 pt-1">กำลังคำนวณจากข้อมูลล่าสุด...</p>}
+                    </div>
+
+                    {overtimeError && <p className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{overtimeError}</p>}
+                    <button
+                      type="submit"
+                      disabled={isOvertimeSaving || overtimeQuoteLoading}
+                      className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-medium py-2.5 rounded-lg transition"
+                    >
+                      {isOvertimeSaving ? 'กำลังบันทึก...' : 'บันทึก OT'}
+                    </button>
+                  </form>
+                </section>
+
+                <section className="xl:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                  <div className="p-5 border-b border-slate-200 bg-slate-50 flex items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-bold text-slate-800">รายการ OT</h3>
+                      <p className="text-xs text-slate-500 mt-1">เรียงตามเวลาเริ่ม OT ล่าสุด</p>
+                    </div>
+                    <button onClick={loadOvertimeRecords} className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-white rounded-lg" title="โหลดข้อมูลใหม่"><RefreshCw className="w-4 h-4" /></button>
                   </div>
-                </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm text-slate-600">
+                      <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                        <tr>
+                          <th className="p-3.5">พนักงาน</th>
+                          <th className="p-3.5">ช่วงเวลา</th>
+                          <th className="p-3.5 text-right">ชั่วโมง</th>
+                          <th className="p-3.5 text-right">อัตรา/ชม.</th>
+                          <th className="p-3.5 text-right">ยอด OT</th>
+                          <th className="p-3.5">สถานะ</th>
+                          <th className="p-3.5">การอนุมัติ</th>
+                          <th className="p-3.5">บันทึกเมื่อ</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200">
+                        {isOvertimeLoading ? (
+                          <tr><td colSpan={8} className="p-8 text-center text-slate-400">กำลังโหลดรายการ OT...</td></tr>
+                        ) : overtimeRecords.length === 0 ? (
+                          <tr><td colSpan={8} className="p-8 text-center text-slate-400">ยังไม่มีรายการ OT</td></tr>
+                        ) : overtimeRecords.map(item => (
+                          <tr key={item.id} className="hover:bg-slate-50">
+                            <td className="p-3.5 font-medium text-slate-800">{item.employee_name}</td>
+                            <td className="p-3.5 text-xs whitespace-nowrap"><div>{item.start_at_display}</div><div className="text-slate-400">ถึง {item.end_at_display}</div></td>
+                            <td className="p-3.5 text-right font-mono">{Number(item.ot_hours).toFixed(2)}</td>
+                            <td className="p-3.5 text-right whitespace-nowrap">{formatBaht(item.hourly_rate)}</td>
+                            <td className="p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap">{formatBaht(item.ot_amount)}</td>
+                            <td className="p-3.5 whitespace-nowrap">
+                              <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${item.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' : item.status === 'REJECTED' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'}`}>
+                                {overtimeStatusLabels[item.status] || item.status}
+                              </span>
+                            </td>
+                            <td className="p-3.5 whitespace-nowrap">
+                              {currentUser.role?.toUpperCase() === 'ADMIN' && item.status === 'PENDING_APPROVAL' ? (
+                                <div className="flex gap-1.5">
+                                  <button
+                                    onClick={() => handleUpdateOvertimeStatus(item.id, 'APPROVED')}
+                                    disabled={Boolean(overtimeStatusSavingId)}
+                                    className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs rounded transition"
+                                  >อนุมัติ</button>
+                                  <button
+                                    onClick={() => handleUpdateOvertimeStatus(item.id, 'REJECTED')}
+                                    disabled={Boolean(overtimeStatusSavingId)}
+                                    className="px-2 py-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white text-xs rounded transition"
+                                  >ปฏิเสธ</button>
+                                </div>
+                              ) : (
+                                <span className="text-xs text-slate-400">{item.approved_by_name || '-'}</span>
+                              )}
+                            </td>
+                            <td className="p-3.5 text-xs whitespace-nowrap">{item.created_at_display}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
               </div>
             </div>
           )}
@@ -1707,6 +2267,35 @@ export default function App() {
               <div className="flex justify-end gap-2">
                 <button type="button" onClick={() => setShowTravelConfigModal(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
                 <button type="submit" disabled={isTravelConfigSaving || isTravelConfigLoading || currentUser.role !== 'ADMIN'} className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white rounded-lg font-medium">{isTravelConfigSaving ? 'กำลังบันทึก...' : currentUser.role === 'ADMIN' ? 'บันทึก Config' : 'Admin เท่านั้น'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {receiptPrintRequest && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
+              <div>
+                <h3 className="font-bold text-slate-800 text-lg">พิมพ์ใบเสร็จรับเงิน</h3>
+                <p className="text-xs text-slate-500 mt-1">อ้างอิง Invoice: {`INV-${invoiceYear}-${String(receiptPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
+              </div>
+              <button type="button" onClick={() => setReceiptPrintRequest(null)} className="text-slate-400 hover:text-slate-600" title="ปิด"><X className="w-5 h-5" /></button>
+            </div>
+            <form onSubmit={event => {
+              event.preventDefault();
+              printReceipt(receiptPrintRequest.invoice, receiptPrintRequest.invoiceIndex, receiptDate);
+              setReceiptPrintRequest(null);
+            }} className="space-y-5">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">วันที่ใบเสร็จ</label>
+                <input type="date" required value={receiptDate} onChange={event => setReceiptDate(event.target.value)} className="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <p className="text-xs text-slate-500 mt-2">วันที่นี้จะแสดงในใบเสร็จรับเงิน และไม่เปลี่ยนวันที่ของ Invoice</p>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button type="button" onClick={() => setReceiptPrintRequest(null)} className="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
+                <button type="submit" className="inline-flex items-center gap-2 px-4 py-2.5 text-sm bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium"><Printer className="w-4 h-4" />พิมพ์ใบเสร็จ</button>
               </div>
             </form>
           </div>

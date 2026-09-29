@@ -226,8 +226,8 @@
 }
 
 .app-sidebar nav button {
-  color: #aebdd3;
   border: 1px solid #0000;
+  color: #dbeafe !important;
 }
 
 .app-sidebar nav button:hover:not(.bg-indigo-600):not(.bg-emerald-600) {
@@ -237,6 +237,8 @@
 
 .app-sidebar nav button.bg-indigo-600, .app-sidebar nav button.bg-emerald-600 {
   box-shadow: 0 8px 16px #2563eb38;
+  color: #1e1b4b !important;
+  background: #c7d2fe !important;
 }
 
 .app-sidebar .border-slate-800 {

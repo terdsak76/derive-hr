@@ -3,29 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && prisma migrate deploy && next build --webpack",
+    "dev": "prisma generate && next dev",
+    "build": "prisma generate && next build --webpack",
+    "db:seed": "tsx prisma/seed.ts",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@libsql/client": "^0.18.0",
-    "@prisma/adapter-better-sqlite3": "^7.10.0",
     "@prisma/adapter-libsql": "^7.10.0",
     "@prisma/client": "^7.0.0",
-    "better-sqlite3": "^13.0.3",
     "lucide-react": "^0.400.0",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "autoprefixer": "^10.0.0",
+    "dotenv": "^16.6.1",
     "postcss": "^8.0.0",
     "prisma": "^7.0.0",
     "tailwindcss": "^4.0.0",

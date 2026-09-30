@@ -701,10 +701,10 @@ export default function App() {
             .center { text-align: center; }
             .right { text-align: right; }
             .summary { display: flex; justify-content: flex-end; }
-            .summary table { width: 49%; }
+            .summary table { width: 38%; }
             .summary td { height: 7mm; padding: 4px 6px; }
-            .summary .label { width: 62%; background: #f3f4f6; font-weight: 600; }
-            .summary .money { width: 38%; text-align: right; white-space: nowrap; }
+            .summary .label { width: 57.8947%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 42.1053%; text-align: right; white-space: nowrap; }
             .summary .grand td { font-weight: 700; font-size: 13px; }
             .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
             .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
@@ -743,6 +743,7 @@ export default function App() {
               </div>
             </section>
             <table class="items">
+              <colgroup><col style="width: 25%" /><col style="width: 37%" /><col style="width: 11%" /><col style="width: 11%" /><col style="width: 16%" /></colgroup>
               <thead>
                 <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
                 <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
@@ -835,10 +836,10 @@ export default function App() {
             .center { text-align: center; }
             .right { text-align: right; }
             .summary { display: flex; justify-content: flex-end; }
-            .summary table { width: 49%; }
+            .summary table { width: 38%; }
             .summary td { height: 7mm; padding: 4px 6px; }
-            .summary .label { width: 62%; background: #f3f4f6; font-weight: 600; }
-            .summary .money { width: 38%; text-align: right; white-space: nowrap; }
+            .summary .label { width: 57.8947%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 42.1053%; text-align: right; white-space: nowrap; }
             .summary .grand td { font-weight: 700; font-size: 13px; }
             .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
             .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
@@ -879,6 +880,7 @@ export default function App() {
               </div>
             </section>
             <table class="items">
+              <colgroup><col style="width: 25%" /><col style="width: 37%" /><col style="width: 11%" /><col style="width: 11%" /><col style="width: 16%" /></colgroup>
               <thead>
                 <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
                 <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
@@ -974,10 +976,10 @@ export default function App() {
             .description strong { display: block; margin-bottom: 8px; }
             .description p { margin: 4px 0; line-height: 1.7; }
             .summary { display: flex; justify-content: flex-end; margin-top: 0; }
-            .summary table { width: 52%; margin-top: 0; table-layout: fixed; }
+            .summary table { width: 49%; margin-top: 0; table-layout: fixed; }
             .summary td { min-height: 0; padding: 7px; }
-            .summary .label { width: 62%; font-weight: 600; background: #f3f4f6; }
-            .summary .total { width: 38%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
+            .summary .label { width: 61.2245%; font-weight: 600; background: #f3f4f6; }
+            .summary .total { width: 38.7755%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
             .summary .grand-total td { font-size: 14px; font-weight: 700; }
             .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
             .withholding-note { margin-top: 8px; font-size: 12px; line-height: 1.7; }
@@ -1109,10 +1111,10 @@ export default function App() {
             .description strong { display: block; margin-bottom: 8px; }
             .description p { margin: 4px 0; line-height: 1.7; }
             .summary { display: flex; justify-content: flex-end; }
-            .summary table { width: 52%; margin-top: 0; table-layout: fixed; }
+            .summary table { width: 49%; margin-top: 0; table-layout: fixed; }
             .summary td { min-height: 0; padding: 7px; }
-            .summary .label { width: 62%; font-weight: 600; background: #f3f4f6; }
-            .summary .total { width: 38%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
+            .summary .label { width: 61.2245%; font-weight: 600; background: #f3f4f6; }
+            .summary .total { width: 38.7755%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
             .summary .grand-total td { font-size: 14px; font-weight: 700; }
             .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
             .payment { margin-top: 13px; line-height: 1.8; }

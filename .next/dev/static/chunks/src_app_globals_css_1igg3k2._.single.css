@@ -21,19 +21,19 @@
 }
 
 .app-sidebar {
-  background: #10213f;
-  border-right: 1px solid #1d3359;
+  background: #fff;
+  border-right: 1px solid #e2e8f0;
   box-shadow: 8px 0 24px #0f234614;
 }
 
 .app-sidebar nav button {
   border: 1px solid #0000;
-  color: #dbeafe !important;
+  color: #334155 !important;
 }
 
 .app-sidebar nav button:hover:not(.bg-indigo-600):not(.bg-emerald-600) {
-  color: #f8fafc;
-  background: #1b335c;
+  color: #0f172a;
+  background: #f1f5f9;
 }
 
 .app-sidebar nav button.bg-indigo-600, .app-sidebar nav button.bg-emerald-600 {
@@ -43,11 +43,12 @@
 }
 
 .app-sidebar .border-slate-800 {
-  border-color: #1d3359;
+  border-color: #e2e8f0;
 }
 
 .app-sidebar .bg-slate-800 {
-  background: #172d52;
+  color: #334155;
+  background: #f1f5f9;
 }
 
 .app-header {

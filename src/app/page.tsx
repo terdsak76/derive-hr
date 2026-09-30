@@ -19,6 +19,11 @@ const getBangkokDateInputValue = (date: Date = new Date()): string => {
   return `${parts.year}-${parts.month}-${parts.day}`;
 };
 const getDateAfter = (days: number): string => getDateInputValue(new Date(Date.now() + days * 86400000));
+const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+const formatThaiDate = (value: string): string => {
+  const [year, month, day] = String(value || '').split('-').map(Number);
+  return year && month && day ? `${day} ${thaiMonths[month - 1]} ${year + 543}` : value;
+};
 const formatBaht = (value: number): string => new Intl.NumberFormat('th-TH', {
   style: 'currency',
   currency: 'THB',
@@ -195,6 +200,25 @@ export default function App() {
   const [invoiceSchedules, setInvoiceSchedules] = useState([]);
   const [isInvoiceLoading, setIsInvoiceLoading] = useState(false);
   const [invoiceError, setInvoiceError] = useState('');
+  const [projects, setProjects] = useState([]);
+  const [projectInvoices, setProjectInvoices] = useState([]);
+  const [isProjectInvoiceLoading, setIsProjectInvoiceLoading] = useState(false);
+  const [isProjectSaving, setIsProjectSaving] = useState(false);
+  const [projectInvoiceError, setProjectInvoiceError] = useState('');
+  const [projectForm, setProjectForm] = useState({
+    name: '',
+    budget: '',
+    client_name: '',
+    address: '',
+    tax_id: '',
+  });
+  const [projectInvoiceForm, setProjectInvoiceForm] = useState({
+    project_id: '',
+    installment: '',
+    invoice_date: getBangkokDateInputValue(),
+    billing_description: '',
+    amount: '',
+  });
   const [receiptPrintRequest, setReceiptPrintRequest] = useState(null);
   const [receiptDate, setReceiptDate] = useState(getBangkokDateInputValue());
   const [accountEmployees, setAccountEmployees] = useState([]);
@@ -460,7 +484,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && activeTab === 'invoices' && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -492,17 +516,411 @@ export default function App() {
     loadInvoiceSchedules();
   }, [currentUser?.id, currentUser?.role, invoiceMonth, invoiceYear]);
 
-  const printInvoice = (invoice, invoiceIndex) => {
+  const loadProjectInvoices = async () => {
+    if (!currentUser || !isAdminRole(currentUser.role)) return;
+    setIsProjectInvoiceLoading(true);
+    setProjectInvoiceError('');
+    try {
+      const selectedMonth = `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+      const response = await fetch(`/api/project-invoices?month=${selectedMonth}`);
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to load project invoices');
+      setProjectInvoices(result);
+    } catch (error) {
+      console.error('Failed to load project invoices:', error);
+      setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to load project invoices');
+      setProjectInvoices([]);
+    } finally {
+      setIsProjectInvoiceLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!currentUser || !isAdminRole(currentUser.role)) {
+      setProjects([]);
+      setProjectInvoices([]);
+      return;
+    }
+
+    fetch('/api/projects')
+      .then(response => response.ok ? response.json() : [])
+      .then(result => {
+        setProjects(result);
+        setProjectInvoiceForm(current => ({ ...current, project_id: current.project_id || result[0]?.id || '' }));
+      })
+      .catch(error => {
+        console.error('Failed to load projects:', error);
+        setProjects([]);
+      });
+  }, [currentUser?.id, currentUser?.role]);
+
+  useEffect(() => {
+    loadProjectInvoices();
+  }, [currentUser?.id, currentUser?.role, invoiceMonth, invoiceYear]);
+
+  const handleCreateProject = async (event) => {
+    event.preventDefault();
+    setIsProjectSaving(true);
+    setProjectInvoiceError('');
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectForm),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to save project');
+      setProjects(current => [...current, result].sort((left, right) => left.name.localeCompare(right.name, 'th')));
+      setProjectInvoiceForm(current => ({ ...current, project_id: current.project_id || result.id }));
+      setProjectForm({ name: '', budget: '', client_name: '', address: '', tax_id: '' });
+    } catch (error) {
+      setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to save project');
+    } finally {
+      setIsProjectSaving(false);
+    }
+  };
+
+  const handleCreateProjectInvoice = async (event) => {
+    event.preventDefault();
+    setIsProjectSaving(true);
+    setProjectInvoiceError('');
+    try {
+      const response = await fetch('/api/project-invoices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectInvoiceForm),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to save project invoice');
+      await loadProjectInvoices();
+      setInvoiceMonth(Number(result.invoice_date.slice(5, 7)));
+      setInvoiceYear(Number(result.invoice_date.slice(0, 4)));
+      setProjectInvoiceForm(current => ({
+        ...current,
+        installment: '',
+        invoice_date: getBangkokDateInputValue(),
+        billing_description: '',
+        amount: '',
+      }));
+    } catch (error) {
+      setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to save project invoice');
+    } finally {
+      setIsProjectSaving(false);
+    }
+  };
+
+  const toPrintableProjectInvoice = (invoice) => ({
+    ...invoice,
+    issue_day: Number(invoice.invoice_date.slice(8, 10)),
+    period: 'project',
+    description: invoice.billing_description,
+    service: `งวดงาน ${invoice.installment}`,
+    name: invoice.client_name,
+    tax_id: invoice.tax_id,
+    invoice_number: invoice.invoice_number,
+    receipt_number: invoice.invoice_number.replace('INV', 'REC'),
+  });
+
+  const getProjectInvoiceAmounts = (invoice) => {
+    const subtotalSatang = Math.round((Number(invoice.amount) || 0) * 100);
+    const vatSatang = Math.round(subtotalSatang * 7 / 100);
+    const totalSatang = subtotalSatang + vatSatang;
+    const withholdingSatang = Math.round(subtotalSatang * 3 / 100);
+    return {
+      subtotal: subtotalSatang / 100,
+      vat: vatSatang / 100,
+      total: totalSatang / 100,
+      net: (totalSatang - withholdingSatang) / 100,
+    };
+  };
+
+  const getProjectInstallmentParts = (installment) => {
+    const value = String(installment || '');
+    const number = value.match(/(?:งวด(?:งาน)?\s*(?:ที่)?\s*)?(\d+(?:\.\d+)?)/i)?.[1] || value || '-';
+    const percentage = value.match(/(\d+(?:\.\d+)?)\s*%/)?.[1];
+    return { number, percentage: percentage ? `${percentage}%` : '-', percentageValue: percentage ? Number(percentage) : 0 };
+  };
+
+  const printProjectInvoice = (invoice) => {
+    const printWindow = window.open('', '_blank', 'width=1000,height=800');
+    if (!printWindow) {
+      setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+      return;
+    }
+
+    const amounts = getProjectInvoiceAmounts(invoice);
+    const installment = getProjectInstallmentParts(invoice.installment);
+    const derivedProjectBudget = installment.percentageValue > 0 ? amounts.subtotal / (installment.percentageValue / 100) : null;
+    const projectBudget = Number(invoice.project_budget) > 0 ? Number(invoice.project_budget) : derivedProjectBudget;
+    const amount = formatInvoiceAmount(amounts.subtotal);
+    const vat = formatInvoiceAmount(amounts.vat);
+    const grandTotal = formatInvoiceAmount(amounts.total);
+    const netAmount = formatInvoiceAmount(amounts.net);
+    const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
+
+    printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(invoice.invoice_number)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 11px; }
+            .document { width: 100%; max-width: 192mm; margin: 0 auto; }
+            .header { display: grid; grid-template-columns: 48% 52%; min-height: 32mm; align-items: start; }
+            .brand { padding-top: 1mm; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 7px; font-size: 24px; line-height: 31px; padding: 0 7px 0 10px; }
+            .brand-subtitle { color: #6b7280; font-size: 8px; letter-spacing: 2.5px; margin: 1px 0 8px 2px; }
+            .issuer-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+            .issuer-detail { line-height: 1.45; font-size: 10px; }
+            .document-title { text-align: center; font-size: 24px; font-weight: 700; padding-top: 3mm; }
+            .document-title small { display: block; font-size: 12px; font-weight: 400; margin-top: 2px; }
+            .rule { border-top: 2px solid #111; margin: 4px 0 7px; }
+            .customer { display: grid; grid-template-columns: 58% 42%; min-height: 28mm; border-bottom: 1px solid #111; padding: 0 2px 7px; }
+            .customer-left { line-height: 1.65; padding-right: 8px; }
+            .customer-left .label { display: inline-block; min-width: 63px; }
+            .customer-left .value { font-weight: 600; }
+            .customer-right { line-height: 1.75; padding-left: 8px; }
+            .meta-row { display: flex; gap: 7px; }
+            .meta-label { min-width: 83px; font-weight: 600; white-space: nowrap; }
+            table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+            .items { margin-top: 10px; }
+            th, td { border: 1px solid #111; padding: 5px 6px; vertical-align: middle; overflow-wrap: anywhere; }
+            th { background: #d9e2f3; text-align: center; font-weight: 700; }
+            .items thead tr:first-child th { height: 9mm; }
+            .items thead tr:last-child th { height: 8mm; }
+            .project-col { width: 25%; }
+            .detail-col { width: 37%; }
+            .installment-col { width: 11%; text-align: center; }
+            .percent-col { width: 11%; text-align: center; }
+            .amount-col { width: 16%; text-align: right; white-space: nowrap; }
+            .items tbody td { height: 31mm; vertical-align: top; }
+            .project-name { font-weight: 700; line-height: 1.55; }
+            .muted { display: block; color: #4b5563; font-size: 10px; margin-top: 4px; }
+            .center { text-align: center; }
+            .right { text-align: right; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 49%; }
+            .summary td { height: 7mm; padding: 4px 6px; }
+            .summary .label { width: 62%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 38%; text-align: right; white-space: nowrap; }
+            .summary .grand td { font-weight: 700; font-size: 13px; }
+            .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
+            .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
+            .balance { display: flex; justify-content: flex-end; gap: 8px; padding: 5px 2px 4px; font-size: 11px; }
+            .balance strong { min-width: 30mm; text-align: right; }
+            .payment { border-top: 1px solid #111; padding-top: 5px; line-height: 1.55; min-height: 28mm; }
+            .payment-title { font-weight: 700; margin-bottom: 2px; }
+            .signatures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm; margin-top: 13mm; text-align: center; }
+            .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
+            .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="document">
+            <section class="header">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่ (061-5202649)</div>
+              </div>
+              <div class="document-title">ใบแจ้งหนี้<small>(ต้นฉบับ)</small></div>
+            </section>
+            <div class="rule"></div>
+            <section class="customer">
+              <div class="customer-left">
+                <div><span class="label">Attention:</span></div>
+                <div><span class="label">Company:</span><span class="value">${escapeHtml(invoice.client_name)}</span></div>
+                <div><span class="label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="label"></span>เลขประจำตัวผู้เสียภาษี : ${escapeHtml(invoice.tax_id)}</div>
+              </div>
+              <div class="customer-right">
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoice.invoice_number)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(formatThaiDate(invoice.invoice_date))}</span></div>
+              </div>
+            </section>
+            <table class="items">
+              <thead>
+                <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
+                <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
+              </thead>
+              <tbody><tr><td><span class="project-name">${escapeHtml(invoice.project_name)}</span><span class="muted">งบประมาณโครงการ: ${projectBudget === null ? '-' : formatInvoiceAmount(projectBudget)}</span></td><td>${escapeHtml(invoice.billing_description)}</td><td class="center">${escapeHtml(installment.number)}</td><td class="center">${escapeHtml(installment.percentage)}</td><td class="right">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเป็นเงิน</td><td class="money">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="money">${vat}</td></tr>
+                <tr class="grand"><td class="label">รวมทั้งสิ้น</td><td class="money">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">${escapeHtml(amountWords)}</div>
+            <div class="withholding-note"><strong>หมายเหตุ: ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%</strong></div>
+            <div class="balance"><span>คงเหลือยอดเงิน</span><strong>${netAmount}</strong><span>บาท</span></div>
+            <section class="payment">
+              <div class="payment-title">วิธีการชำระเงิน</div>
+              <div>1. ฝากเข้าบัญชีธนาคาร : ชื่อบัญชี บจก.ดีไรฟ์ อินโนเวชั่น เลขที่ 016-8-53748-4 ธนาคารกสิกรไทย สาขาวรจักร</div>
+              <div>2. เช็คสั่งจ่าย “บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด” โดยขีดคร่อมเช็ค และขีดฆ่า “หรือผู้ถือ”</div>
+              <div>3. Payment Terms: Payment is due within 14 days from the invoice date</div>
+            </section>
+            <section class="signatures"><div class="signature">ผู้รับใบแจ้งหนี้ :</div><div class="signature">ผู้จัดทำ :</div><div class="signature">ผู้อนุมัติ :</div></section>
+            <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
+          </main>
+          <script>window.onload = function () { window.focus(); window.print(); };</script>
+        </body>
+      </html>`);
+    printWindow.document.close();
+  };
+
+  const printProjectReceipt = (invoice, selectedReceiptDate) => {
+    const printWindow = window.open('', '_blank', 'width=1000,height=800');
+    if (!printWindow) {
+      setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+      return;
+    }
+
+    const amounts = getProjectInvoiceAmounts(invoice);
+    const installment = getProjectInstallmentParts(invoice.installment);
+    const derivedProjectBudget = installment.percentageValue > 0 ? amounts.subtotal / (installment.percentageValue / 100) : null;
+    const projectBudget = Number(invoice.project_budget) > 0 ? Number(invoice.project_budget) : derivedProjectBudget;
+    const amount = formatInvoiceAmount(amounts.subtotal);
+    const vat = formatInvoiceAmount(amounts.vat);
+    const grandTotal = formatInvoiceAmount(amounts.total);
+    const netAmount = formatInvoiceAmount(amounts.net);
+    const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
+    const receiptDateLabel = formatThaiDate(selectedReceiptDate);
+
+    printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(invoice.receipt_number)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 11px; }
+            .document { width: 100%; max-width: 192mm; margin: 0 auto; }
+            .header { display: grid; grid-template-columns: 48% 52%; min-height: 32mm; align-items: start; }
+            .brand { padding-top: 1mm; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 7px; font-size: 24px; line-height: 31px; padding: 0 7px 0 10px; }
+            .brand-subtitle { color: #6b7280; font-size: 8px; letter-spacing: 2.5px; margin: 1px 0 8px 2px; }
+            .issuer-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+            .issuer-detail { line-height: 1.45; font-size: 10px; }
+            .document-title { text-align: center; font-size: 20px; font-weight: 700; padding-top: 2mm; line-height: 1.35; }
+            .document-title small { display: block; font-size: 11px; font-weight: 400; margin-top: 2px; }
+            .rule { border-top: 2px solid #111; margin: 4px 0 7px; }
+            .customer { display: grid; grid-template-columns: 58% 42%; min-height: 28mm; border-bottom: 1px solid #111; padding: 0 2px 7px; }
+            .customer-left { line-height: 1.65; padding-right: 8px; }
+            .customer-left .label { display: inline-block; min-width: 63px; }
+            .customer-left .value { font-weight: 600; }
+            .customer-right { line-height: 1.75; padding-left: 8px; }
+            .meta-row { display: flex; gap: 7px; }
+            .meta-label { min-width: 83px; font-weight: 600; white-space: nowrap; }
+            table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+            .items { margin-top: 10px; }
+            th, td { border: 1px solid #111; padding: 5px 6px; vertical-align: middle; overflow-wrap: anywhere; }
+            th { background: #d9e2f3; text-align: center; font-weight: 700; }
+            .items thead tr:first-child th { height: 9mm; }
+            .items thead tr:last-child th { height: 8mm; }
+            .project-col { width: 25%; }
+            .detail-col { width: 37%; }
+            .installment-col { width: 11%; text-align: center; }
+            .percent-col { width: 11%; text-align: center; }
+            .amount-col { width: 16%; text-align: right; white-space: nowrap; }
+            .items tbody td { height: 27mm; vertical-align: top; }
+            .project-name { font-weight: 700; line-height: 1.55; }
+            .muted { display: block; color: #4b5563; font-size: 10px; margin-top: 4px; }
+            .center { text-align: center; }
+            .right { text-align: right; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 49%; }
+            .summary td { height: 7mm; padding: 4px 6px; }
+            .summary .label { width: 62%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 38%; text-align: right; white-space: nowrap; }
+            .summary .grand td { font-weight: 700; font-size: 13px; }
+            .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
+            .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
+            .balance { display: flex; justify-content: flex-end; gap: 8px; padding: 5px 2px 4px; font-size: 11px; }
+            .balance strong { min-width: 30mm; text-align: right; }
+            .payment { border-top: 1px solid #111; padding-top: 5px; line-height: 1.55; min-height: 36mm; }
+            .payment-title { font-weight: 700; margin-bottom: 2px; }
+            .signatures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 35mm; margin-top: 9mm; text-align: center; }
+            .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
+            .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="document">
+            <section class="header">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
+              </div>
+              <div class="document-title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>(Receipt / Tax Invoice)</small><small>(ต้นฉบับ)</small></div>
+            </section>
+            <div class="rule"></div>
+            <section class="customer">
+              <div class="customer-left">
+                <div><span class="label">Attention:</span></div>
+                <div><span class="label">Company:</span><span class="value">${escapeHtml(invoice.client_name)}</span></div>
+                <div><span class="label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="label"></span>เลขประจำตัวผู้เสียภาษี : ${escapeHtml(invoice.tax_id)}</div>
+              </div>
+              <div class="customer-right">
+                <div class="meta-row"><span class="meta-label">เล่มที่</span><span>001</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoice.receipt_number)}</span></div>
+                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span>${escapeHtml(invoice.invoice_number)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(receiptDateLabel)}</span></div>
+              </div>
+            </section>
+            <table class="items">
+              <thead>
+                <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
+                <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
+              </thead>
+              <tbody><tr><td><span class="project-name">${escapeHtml(invoice.project_name)}</span><span class="muted">งบประมาณโครงการ: ${projectBudget === null ? '-' : formatInvoiceAmount(projectBudget)}</span></td><td>${escapeHtml(invoice.billing_description)}</td><td class="center">${escapeHtml(installment.number)}</td><td class="center">${escapeHtml(installment.percentage)}</td><td class="right">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเป็นเงิน</td><td class="money">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="money">${vat}</td></tr>
+                <tr class="grand"><td class="label">รวมทั้งสิ้น</td><td class="money">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">${escapeHtml(amountWords)}</div>
+            <div class="withholding-note"><strong>หมายเหตุ: ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%</strong></div>
+            <div class="balance"><span>คงเหลือยอดเงิน</span><strong>${netAmount}</strong><span>บาท</span></div>
+            <section class="payment">
+              <div class="payment-title">ชำระเงินโดย</div>
+              <div>(   ) เงินสด ( Cash)</div>
+              <div>(   ) เช็ค (Cheque) ธนาคาร/Bank __________________ เลขที่/No. __________________ ลงวันที่/Date ______________</div>
+              <div>(   ) โอนเข้าบัญชี เลขที่ 016-8-53748-4 ธนาคาร/Bank กสิกรไทย สาขา/Branch วรจักร วันที่/Date ______________</div>
+              <div class="muted">ในกรณีชำระด้วยเช็ค โปรดสั่งจ่ายและขีดคร่อมในนาม “บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด” เท่านั้น</div>
+            </section>
+            <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
+            <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
+          </main>
+          <script>window.onload = function () { window.focus(); window.print(); };</script>
+        </body>
+      </html>`);
+    printWindow.document.close();
+  };
+
+  const printInvoice = (invoice, invoiceIndex, options: { issueDate?: string; invoiceNumber?: string } = {}) => {
     const printWindow = window.open('', '_blank', 'width=1000,height=800');
     if (!printWindow) {
       setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
       return;
     }
 
-    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-    const issueDate = `${invoice.issue_day} ${thaiMonths[invoiceMonth - 1]} ${invoiceYear + 543}`;
-    const periodLabel = invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
-    const invoiceNumber = `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
+    const issueDate = options.issueDate || `${invoice.issue_day} ${thaiMonths[invoiceMonth - 1]} ${invoiceYear + 543}`;
+    const periodLabel = invoice.period === 'project' ? 'ตามงวดงาน' : invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
+    const invoiceNumber = options.invoiceNumber || invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
     const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
     const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
     const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
@@ -625,19 +1043,18 @@ export default function App() {
     printWindow.document.close();
   };
 
-  const printReceipt = (invoice, invoiceIndex, selectedReceiptDate) => {
+  const printReceipt = (invoice, invoiceIndex, selectedReceiptDate, options: { receiptNumber?: string; invoiceNumber?: string } = {}) => {
     const printWindow = window.open('', '_blank', 'width=1000,height=800');
     if (!printWindow) {
       setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
       return;
     }
 
-    const receiptNumber = `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`;
-    const invoiceNumber = `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
-    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const receiptNumber = options.receiptNumber || invoice.receipt_number || `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`;
+    const invoiceNumber = options.invoiceNumber || invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
     const [receiptYear, receiptMonth, receiptDay] = selectedReceiptDate.split('-').map(Number);
     const printingDate = `${receiptDay} ${thaiMonths[receiptMonth - 1]} ${receiptYear + 543}`;
-    const periodLabel = invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
+    const periodLabel = invoice.period === 'project' ? 'ตามงวดงาน' : invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
     const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
     const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
     const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
@@ -1160,10 +1577,10 @@ export default function App() {
             <Building2 className="w-6 h-6" />
                 </div>
                     <div>
-            <h1 className="font-bold text-lg leading-tight" style={{ color: "#ffffff" }}>
+            <h1 className="font-bold text-lg leading-tight" style={{ color: "#0f172a" }}>
                 DeRIVE HR System
             </h1>
-            <p className="text-xs text-slate-400" style={{ color: "#ffffff" }}>ระบบบริหารบุคคล</p>
+            <p className="text-xs text-slate-400" style={{ color: "#64748b" }}>ระบบบริหารบุคคล</p>
                     </div>
                     </div>
 
@@ -1230,6 +1647,16 @@ export default function App() {
             </button>
           )}
 
+          {isAdminRole(currentUser.role) && (
+            <button
+              onClick={() => setActiveTab('project-invoices')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'project-invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+            >
+              <FileText className="w-5 h-5" />
+              <span>Invoice / Receipt โครงการ</span>
+            </button>
+          )}
+
           <div className="pt-4 border-t border-slate-800 my-2"></div>
 
           <button
@@ -1267,6 +1694,7 @@ export default function App() {
               {activeTab === 'summary' && 'สรุปสถิติการลา สาย และแลกวันทำงาน'}
               {activeTab === 'overtime' && 'บันทึกและคำนวณค่าล่วงเวลา (Overtime)'}
               {activeTab === 'invoices' && 'ตาราง Invoice ลูกค้าตามรอบวางบิล'}
+              {activeTab === 'project-invoices' && 'Invoice / Receipt สำหรับโครงการ'}
               {activeTab === 'account' && 'จัดการบัญชีผู้ใช้ (Account Settings)'}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน</p>
@@ -1903,6 +2331,138 @@ export default function App() {
             </div>
           )}
 
+          {activeTab === 'project-invoices' && isAdminRole(currentUser.role) && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <section className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                  <div className="mb-5">
+                    <h3 className="font-bold text-slate-800">เพิ่มข้อมูลโครงการ</h3>
+                    <p className="text-xs text-slate-500 mt-1">เก็บข้อมูลลูกค้าไว้เลือกใช้กับ Invoice / Receipt</p>
+                  </div>
+                  <form onSubmit={handleCreateProject} className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">ชื่อโครงการ</label>
+                      <input required value={projectForm.name} onChange={event => setProjectForm({ ...projectForm, name: event.target.value })} placeholder="เช่น โครงการพัฒนาระบบ HR" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">งบประมาณโครงการ (บาท)</label>
+                      <input type="number" min="0" step="0.01" required value={projectForm.budget} onChange={event => setProjectForm({ ...projectForm, budget: event.target.value })} placeholder="0.00" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">ชื่อลูกค้า</label>
+                      <input required value={projectForm.client_name} onChange={event => setProjectForm({ ...projectForm, client_name: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">ที่อยู่</label>
+                      <textarea required rows={3} value={projectForm.address} onChange={event => setProjectForm({ ...projectForm, address: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">เลขประจำตัวผู้เสียภาษี</label>
+                      <input required value={projectForm.tax_id} onChange={event => setProjectForm({ ...projectForm, tax_id: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <button type="submit" disabled={isProjectSaving} className="w-full bg-slate-800 hover:bg-slate-900 disabled:opacity-60 text-white font-medium py-2.5 rounded-lg transition">{isProjectSaving ? 'กำลังบันทึก...' : 'บันทึกโครงการ'}</button>
+                  </form>
+                </section>
+
+                <section className="xl:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                  <div className="mb-5">
+                    <h3 className="font-bold text-slate-800">สร้าง Invoice โครงการ</h3>
+                    <p className="text-xs text-slate-500 mt-1">เลือกโครงการ แล้วระบุงวดงาน วันที่ รายละเอียด และจำนวนเงิน</p>
+                  </div>
+                  <form onSubmit={handleCreateProjectInvoice} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">โครงการ</label>
+                        <select required value={projectInvoiceForm.project_id} onChange={event => setProjectInvoiceForm({ ...projectInvoiceForm, project_id: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm">
+                          <option value="">เลือกโครงการ</option>
+                          {projects.map(project => <option key={project.id} value={project.id}>{project.name} — {project.client_name} — ฿{formatInvoiceAmount(project.budget)}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">งวดงาน</label>
+                        <input required value={projectInvoiceForm.installment} onChange={event => setProjectInvoiceForm({ ...projectInvoiceForm, installment: event.target.value })} placeholder="เช่น งวดที่ 1 / 30%" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่</label>
+                        <input type="date" required value={projectInvoiceForm.invoice_date} onChange={event => setProjectInvoiceForm({ ...projectInvoiceForm, invoice_date: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">จำนวนเงินก่อน VAT (บาท)</label>
+                        <input type="number" min="0" step="0.01" required value={projectInvoiceForm.amount} onChange={event => setProjectInvoiceForm({ ...projectInvoiceForm, amount: event.target.value })} placeholder="0.00" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">คำอธิบายรายการเรียกเก็บเงิน</label>
+                      <textarea required rows={3} value={projectInvoiceForm.billing_description} onChange={event => setProjectInvoiceForm({ ...projectInvoiceForm, billing_description: event.target.value })} placeholder="รายละเอียดงานหรือรายการที่เรียกเก็บเงิน" className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                    </div>
+                    <button type="submit" disabled={isProjectSaving || projects.length === 0} className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-medium px-5 py-2.5 rounded-lg transition">{isProjectSaving ? 'กำลังบันทึก...' : 'บันทึก Invoice โครงการ'}</button>
+                    {projects.length === 0 && <p className="text-xs text-amber-600 mt-2">กรุณาเพิ่มข้อมูลโครงการก่อนสร้าง Invoice</p>}
+                  </form>
+                </section>
+              </div>
+
+              {projectInvoiceError && <p className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{projectInvoiceError}</p>}
+
+              <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div>
+                    <h3 className="font-bold text-slate-800">รายการ Invoice / Receipt โครงการ</h3>
+                    <p className="text-xs text-slate-500 mt-1">แสดงรายการตามเดือนและปีของวันที่ Invoice</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">เดือน</label>
+                      <select value={invoiceMonth} onChange={event => setInvoiceMonth(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                        {thaiMonths.map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">ปี</label>
+                      <select value={invoiceYear} onChange={event => setInvoiceYear(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
+                        {[invoiceYear - 2, invoiceYear - 1, invoiceYear, invoiceYear + 1, invoiceYear + 2].map(year => <option key={year} value={year}>{year}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm text-slate-600">
+                    <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                      <tr>
+                        <th className="p-3.5">วันที่</th>
+                        <th className="p-3.5">โครงการ / ลูกค้า</th>
+                        <th className="p-3.5">งวดงาน</th>
+                        <th className="p-3.5 min-w-72">คำอธิบายรายการเรียกเก็บเงิน</th>
+                        <th className="p-3.5 text-right">จำนวนเงิน</th>
+                        <th className="p-3.5">เลขที่ Invoice</th>
+                        <th className="p-3.5 text-center">พิมพ์เอกสาร</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {isProjectInvoiceLoading ? (
+                        <tr><td colSpan={7} className="p-8 text-center text-slate-400">กำลังโหลดรายการ Invoice โครงการ...</td></tr>
+                      ) : projectInvoices.length === 0 ? (
+                        <tr><td colSpan={7} className="p-8 text-center text-slate-400">ไม่พบรายการในเดือนที่เลือก</td></tr>
+                      ) : projectInvoices.map((invoice, invoiceIndex) => {
+                        const printableInvoice = toPrintableProjectInvoice(invoice);
+                        return (
+                          <tr key={invoice.id} className="hover:bg-slate-50 align-top">
+                            <td className="p-3.5 whitespace-nowrap font-mono text-xs">{invoice.invoice_date}</td>
+                            <td className="p-3.5 min-w-64"><div className="font-semibold text-slate-800">{invoice.project_name}</div><div className="text-xs text-slate-500 mt-1">{invoice.client_name}</div></td>
+                            <td className="p-3.5 whitespace-nowrap">{invoice.installment}</td>
+                            <td className="p-3.5 min-w-72">{invoice.billing_description}</td>
+                            <td className="p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap">{formatBaht(invoice.amount)}</td>
+                            <td className="p-3.5 whitespace-nowrap font-mono text-xs">{invoice.invoice_number}</td>
+                            <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => printProjectInvoice(printableInvoice)} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => { setReceiptDate(getBangkokDateInputValue()); setReceiptPrintRequest({ invoice: printableInvoice, invoiceIndex, project: true }); }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          )}
+
           {activeTab === 'overtime' && currentUser.role?.toUpperCase() === 'ADMIN' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -2279,13 +2839,20 @@ export default function App() {
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
               <div>
                 <h3 className="font-bold text-slate-800 text-lg">พิมพ์ใบเสร็จรับเงิน</h3>
-                <p className="text-xs text-slate-500 mt-1">อ้างอิง Invoice: {`INV-${invoiceYear}-${String(receiptPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
+                <p className="text-xs text-slate-500 mt-1">อ้างอิง Invoice: {receiptPrintRequest.invoice.invoice_number || `INV-${invoiceYear}-${String(receiptPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
               </div>
               <button type="button" onClick={() => setReceiptPrintRequest(null)} className="text-slate-400 hover:text-slate-600" title="ปิด"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={event => {
               event.preventDefault();
-              printReceipt(receiptPrintRequest.invoice, receiptPrintRequest.invoiceIndex, receiptDate);
+              if (receiptPrintRequest.project) {
+                printProjectReceipt(receiptPrintRequest.invoice, receiptDate);
+              } else {
+                printReceipt(receiptPrintRequest.invoice, receiptPrintRequest.invoiceIndex, receiptDate, {
+                  invoiceNumber: receiptPrintRequest.invoice.invoice_number,
+                  receiptNumber: receiptPrintRequest.invoice.receipt_number,
+                });
+              }
               setReceiptPrintRequest(null);
             }} className="space-y-5">
               <div>

@@ -129,3 +129,33 @@ model InvoiceSchedule {
 
   @@index([period, issueMonth, issueDay])
 }
+
+model Project {
+  id          String          @id @default(cuid())
+  name        String
+  budget      Float           @default(0)
+  clientName  String
+  address     String
+  taxId       String
+  invoices    ProjectInvoice[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([name])
+}
+
+model ProjectInvoice {
+  id                  String   @id @default(cuid())
+  projectId           String
+  project             Project  @relation(fields: [projectId], references: [id])
+  installment         String
+  invoiceDate         DateTime
+  billingDescription  String
+  amount              Float
+  invoiceNumber       String   @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([invoiceDate])
+  @@index([projectId, invoiceDate])
+}

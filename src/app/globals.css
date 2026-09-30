@@ -23,19 +23,19 @@
 }
 
 .app-sidebar {
-  background: #10213f;
-  border-right: 1px solid #1d3359;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
   box-shadow: 8px 0 24px rgba(15, 35, 70, 0.08);
 }
 
 .app-sidebar nav button {
-  color: #dbeafe !important;
+  color: #334155 !important;
   border: 1px solid transparent;
 }
 
 .app-sidebar nav button:hover:not(.bg-indigo-600):not(.bg-emerald-600) {
-  background: #1b335c;
-  color: #f8fafc;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .app-sidebar nav button.bg-indigo-600,
@@ -46,11 +46,12 @@
 }
 
 .app-sidebar .border-slate-800 {
-  border-color: #1d3359;
+  border-color: #e2e8f0;
 }
 
 .app-sidebar .bg-slate-800 {
-  background: #172d52;
+  background: #f1f5f9;
+  color: #334155;
 }
 
 .app-header {

@@ -65,13 +65,15 @@ var mod = __turbopack_context__.x("node:stream", () => require("node:stream"));
 
 module.exports = mod;
 }),
-"[project]/src/app/api/invoice-schedules/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"[project]/src/app/api/issued-documents/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 __turbopack_context__.s([
     "GET",
-    ()=>GET
+    ()=>GET,
+    "POST",
+    ()=>POST
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/prisma.ts [app-route] (ecmascript)");
@@ -83,6 +85,14 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
+const DOCUMENT_TYPES = new Set([
+    'INVOICE',
+    'RECEIPT'
+]);
+const SOURCE_TYPES = new Set([
+    'RECURRING',
+    'PROJECT'
+]);
 function getSession(request) {
     const token = request.headers.get('cookie')?.split(';').map((value)=>value.trim()).find((value)=>value.startsWith(`${(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getSessionCookieName"])()}=`))?.split('=')[1];
     return token ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$auth$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["verifySessionToken"])(token) : null;
@@ -106,85 +116,218 @@ async function requireAdmin(request) {
     });
     return user && isAdminRole(user.role) ? user : null;
 }
-function isScheduledInMonth(period, issueMonth, selectedMonth) {
-    if (period === 'month') return true;
-    if (!issueMonth) return false;
-    if (period === 'year') return issueMonth === selectedMonth;
-    if (period === 'quarter') return (selectedMonth - issueMonth + 12) % 3 === 0;
+function parseRequest(value) {
+    const text = String(value || '').trim().toUpperCase();
+    return text && (DOCUMENT_TYPES.has(text) || SOURCE_TYPES.has(text)) ? text : null;
+}
+function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+function getSequence(number, prefix, year) {
+    const match = new RegExp(`^${escapeRegExp(prefix)}-${year}[-/](\\d+)$`, 'i').exec(number);
+    return match ? Number(match[1]) : null;
+}
+function getDefaultNumber(prefix, year, sequence) {
+    const separator = prefix === 'REC' ? '/' : '-';
+    return `${prefix}-${year}${separator}${String(sequence).padStart(3, '0')}`;
+}
+async function isNumberUsed(documentNumber, documentType, sourceType, sourceId) {
+    const issued = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].issuedDocument.findUnique({
+        where: {
+            documentNumber
+        }
+    });
+    if (issued) return true;
+    const projectInvoice = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].projectInvoice.findFirst({
+        where: {
+            invoiceNumber: documentNumber,
+            ...sourceType === 'PROJECT' && sourceId ? {
+                id: {
+                    not: sourceId
+                }
+            } : {}
+        },
+        select: {
+            id: true
+        }
+    });
+    if (projectInvoice) return true;
     return false;
+}
+async function getNextNumber(documentType, sourceType, prefix, year) {
+    const issuedDocuments = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].issuedDocument.findMany({
+        where: {
+            documentType,
+            sourceType
+        },
+        select: {
+            documentNumber: true
+        }
+    });
+    const projectInvoices = documentType === 'INVOICE' && sourceType === 'PROJECT' ? await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].projectInvoice.findMany({
+        select: {
+            invoiceNumber: true
+        }
+    }) : [];
+    const usedNumbers = [
+        ...issuedDocuments.map((item)=>item.documentNumber),
+        ...projectInvoices.map((item)=>item.invoiceNumber)
+    ];
+    const highestSequence = usedNumbers.reduce((highest, number)=>{
+        const sequence = getSequence(number, prefix, year);
+        return sequence === null ? highest : Math.max(highest, sequence);
+    }, 0);
+    let sequence = highestSequence + 1;
+    let candidate = getDefaultNumber(prefix, year, sequence);
+    while(await isNumberUsed(candidate, documentType, sourceType)){
+        sequence += 1;
+        candidate = getDefaultNumber(prefix, year, sequence);
+    }
+    return candidate;
 }
 async function GET(request) {
     try {
-        if (!await requireAdmin(request)) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: 'Forbidden'
-            }, {
-                status: 403
-            });
-        }
-        const url = new URL(request.url);
-        const selectedMonth = url.searchParams.get('month') || '';
-        const match = /^(\d{4})-(\d{2})$/.exec(selectedMonth);
-        if (!match) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            error: 'Invalid month. Use YYYY-MM.'
+        if (!await requireAdmin(request)) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Forbidden'
         }, {
-            status: 400
+            status: 403
         });
-        const year = Number(match[1]);
-        const month = Number(match[2]);
-        if (month < 1 || month > 12) {
+        const url = new URL(request.url);
+        const documentType = parseRequest(url.searchParams.get('document_type'));
+        const sourceType = parseRequest(url.searchParams.get('source_type'));
+        const referenceKey = String(url.searchParams.get('reference_key') || '').trim();
+        const sourceId = String(url.searchParams.get('source_id') || '').trim();
+        const prefix = String(url.searchParams.get('prefix') || '').trim().toUpperCase();
+        const year = Number(url.searchParams.get('year'));
+        const fallbackNumber = String(url.searchParams.get('fallback_number') || '').trim().toUpperCase();
+        if (!documentType || !DOCUMENT_TYPES.has(documentType) || !sourceType || !SOURCE_TYPES.has(sourceType) || !referenceKey || !prefix || !Number.isInteger(year)) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: 'Invalid month. Use YYYY-MM.'
+                error: 'Invalid document-number request'
             }, {
                 status: 400
             });
         }
-        const schedules = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].invoiceSchedule.findMany({
+        const existing = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].issuedDocument.findUnique({
             where: {
-                OR: [
-                    {
-                        period: 'month'
-                    },
-                    {
-                        period: 'year',
-                        issueMonth: month
-                    },
-                    {
-                        period: 'quarter'
-                    }
-                ]
-            },
-            orderBy: [
-                {
-                    client: 'asc'
-                },
-                {
-                    product: 'asc'
-                },
-                {
-                    issueDay: 'asc'
+                documentType_sourceType_referenceKey: {
+                    documentType,
+                    sourceType,
+                    referenceKey
                 }
-            ]
+            },
+            select: {
+                documentNumber: true
+            }
         });
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(schedules.filter((schedule)=>isScheduledInMonth(schedule.period, schedule.issueMonth, month)).map((schedule)=>({
-                id: schedule.id,
-                client: schedule.client,
-                product: schedule.product,
-                service: schedule.service,
-                description: schedule.description,
-                period: schedule.period,
-                issue_day: schedule.issueDay,
-                issue_month: schedule.issueMonth,
-                issue_date: schedule.period === 'year' ? `${String(schedule.issueDay).padStart(2, '0')}/${String(schedule.issueMonth).padStart(2, '0')}` : `${String(schedule.issueDay).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`,
-                amount: schedule.amount,
-                address: schedule.address,
-                name: schedule.name,
-                tax_id: schedule.taxId
-            })));
-    } catch (error) {
-        console.error('Failed to load invoice schedules:', error);
+        if (existing) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            document_number: existing.documentNumber,
+            issued: true
+        });
+        if (fallbackNumber && !await isNumberUsed(fallbackNumber, documentType, sourceType, sourceId)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                document_number: fallbackNumber,
+                issued: false
+            });
+        }
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            error: 'Unable to load invoice schedules'
+            document_number: await getNextNumber(documentType, sourceType, prefix, year),
+            issued: false
+        });
+    } catch (error) {
+        console.error('Failed to load document number:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Unable to load document number'
+        }, {
+            status: 500
+        });
+    }
+}
+async function POST(request) {
+    try {
+        if (!await requireAdmin(request)) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Forbidden'
+        }, {
+            status: 403
+        });
+        const body = await request.json();
+        const documentType = parseRequest(body.document_type);
+        const sourceType = parseRequest(body.source_type);
+        const referenceKey = String(body.reference_key || '').trim();
+        const documentNumber = String(body.document_number || '').trim().toUpperCase();
+        const sourceId = String(body.source_id || '').trim();
+        if (!documentType || !DOCUMENT_TYPES.has(documentType) || !sourceType || !SOURCE_TYPES.has(sourceType) || !referenceKey || !documentNumber || documentNumber.length > 100) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'กรุณาระบุเลขที่เอกสารให้ถูกต้อง'
+            }, {
+                status: 400
+            });
+        }
+        const existing = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].issuedDocument.findUnique({
+            where: {
+                documentType_sourceType_referenceKey: {
+                    documentType,
+                    sourceType,
+                    referenceKey
+                }
+            }
+        });
+        if (existing) {
+            if (existing.documentNumber !== documentNumber) {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    error: `เอกสารนี้ออกเลขที่ ${existing.documentNumber} ไปแล้ว ไม่สามารถเปลี่ยนเลขที่ได้`
+                }, {
+                    status: 409
+                });
+            }
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                document_number: existing.documentNumber,
+                issued: true
+            });
+        }
+        if (await isNumberUsed(documentNumber, documentType, sourceType, sourceId)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: `เลขที่เอกสาร ${documentNumber} ถูกใช้แล้ว กรุณาเลือกเลขใหม่`
+            }, {
+                status: 409
+            });
+        }
+        const issued = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (transaction)=>{
+            if (documentType === 'INVOICE' && sourceType === 'PROJECT' && sourceId) {
+                await transaction.projectInvoice.update({
+                    where: {
+                        id: sourceId
+                    },
+                    data: {
+                        invoiceNumber: documentNumber
+                    }
+                });
+            }
+            return transaction.issuedDocument.create({
+                data: {
+                    documentType,
+                    sourceType,
+                    referenceKey,
+                    documentNumber
+                }
+            });
+        });
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            document_number: issued.documentNumber,
+            issued: true
+        }, {
+            status: 201
+        });
+    } catch (error) {
+        if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'เลขที่เอกสารถูกใช้แล้ว กรุณาเลือกเลขใหม่'
+            }, {
+                status: 409
+            });
+        }
+        console.error('Failed to issue document number:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Unable to issue document number'
         }, {
             status: 500
         });
@@ -291,4 +434,4 @@ __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 ];
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__15mc_bv._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__1sy-oc4._.js.map

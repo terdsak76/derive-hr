@@ -17,11 +17,10 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    adapter,
-  });
+const cachedPrisma = globalForPrisma.prisma;
+export const prisma = cachedPrisma && 'issuedDocument' in cachedPrisma
+  ? cachedPrisma
+  : new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;

@@ -219,7 +219,11 @@ export default function App() {
     billing_description: '',
     amount: '',
   });
-  const [receiptPrintRequest, setReceiptPrintRequest] = useState(null);
+  const [documentPrintRequest, setDocumentPrintRequest] = useState(null);
+  const [documentNumber, setDocumentNumber] = useState('');
+  const [isDocumentNumberLoading, setIsDocumentNumberLoading] = useState(false);
+  const [documentNumberError, setDocumentNumberError] = useState('');
+  const [isDocumentNumberIssued, setIsDocumentNumberIssued] = useState(false);
   const [receiptDate, setReceiptDate] = useState(getBangkokDateInputValue());
   const [accountEmployees, setAccountEmployees] = useState([]);
   const [overtimeRecords, setOvertimeRecords] = useState([]);
@@ -621,6 +625,48 @@ export default function App() {
     receipt_number: invoice.invoice_number.replace('INV', 'REC'),
   });
 
+  const openDocumentPrint = async ({ invoice, invoiceIndex, project, documentType }) => {
+    const sourceType = project ? 'PROJECT' : 'RECURRING';
+    const year = project ? Number(String(invoice.invoice_date).slice(0, 4)) : invoiceYear;
+    const month = project ? String(invoice.invoice_date).slice(0, 7) : `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+    const referenceKey = project ? `project:${invoice.id}` : `recurring:${invoice.id}:${month}`;
+    const prefix = project
+      ? (documentType === 'INVOICE' ? 'P-INV' : 'P-REC')
+      : (documentType === 'INVOICE' ? 'INV' : 'REC');
+    const fallbackNumber = project
+      ? (documentType === 'INVOICE' ? invoice.invoice_number : invoice.receipt_number)
+      : (documentType === 'INVOICE'
+        ? (invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`)
+        : (invoice.receipt_number || `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`));
+
+    setDocumentPrintRequest({ invoice, invoiceIndex, project, documentType, sourceType, referenceKey, year });
+    setDocumentNumber('');
+    setDocumentNumberError('');
+    setIsDocumentNumberIssued(false);
+    if (documentType === 'RECEIPT') setReceiptDate(getBangkokDateInputValue());
+    setIsDocumentNumberLoading(true);
+    try {
+      const params = new URLSearchParams({
+        document_type: documentType,
+        source_type: sourceType,
+        reference_key: referenceKey,
+        source_id: invoice.id,
+        prefix,
+        year: String(year),
+      });
+      if (fallbackNumber) params.set('fallback_number', fallbackNumber);
+      const response = await fetch(`/api/issued-documents?${params.toString()}`);
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to load document number');
+      setDocumentNumber(result.document_number);
+      setIsDocumentNumberIssued(Boolean(result.issued));
+    } catch (error) {
+      setDocumentNumberError(error instanceof Error ? error.message : 'ไม่สามารถโหลดเลขที่เอกสารได้');
+    } finally {
+      setIsDocumentNumberLoading(false);
+    }
+  };
+
   const getProjectInvoiceAmounts = (invoice) => {
     const subtotalSatang = Math.round((Number(invoice.amount) || 0) * 100);
     const vatSatang = Math.round(subtotalSatang * 7 / 100);
@@ -641,7 +687,7 @@ export default function App() {
     return { number, percentage: percentage ? `${percentage}%` : '-', percentageValue: percentage ? Number(percentage) : 0 };
   };
 
-  const printProjectInvoice = (invoice) => {
+  const printProjectInvoice = (invoice, options: { invoiceNumber?: string } = {}) => {
     const printWindow = window.open('', '_blank', 'width=1000,height=800');
     if (!printWindow) {
       setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
@@ -657,12 +703,13 @@ export default function App() {
     const grandTotal = formatInvoiceAmount(amounts.total);
     const netAmount = formatInvoiceAmount(amounts.net);
     const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
+    const invoiceNumber = options.invoiceNumber || invoice.invoice_number;
 
     printWindow.document.write(`<!doctype html>
       <html lang="th">
         <head>
           <meta charset="utf-8" />
-          <title>${escapeHtml(invoice.invoice_number)}</title>
+          <title>${escapeHtml(invoiceNumber)}</title>
           <style>
             @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
             * { box-sizing: border-box; }
@@ -715,6 +762,7 @@ export default function App() {
             .signatures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm; margin-top: 13mm; text-align: center; }
             .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
             .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            .document + .document { break-before: page; page-break-before: always; }
             @media print { .print-note { display: none; } }
           </style>
         </head>
@@ -727,7 +775,7 @@ export default function App() {
                 <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
                 <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่ (061-5202649)</div>
               </div>
-              <div class="document-title">ใบแจ้งหนี้<small>(ต้นฉบับ)</small></div>
+              <div class="document-title">ใบแจ้งหนี้<small class="copy-label">(ต้นฉบับ)</small></div>
             </section>
             <div class="rule"></div>
             <section class="customer">
@@ -738,7 +786,7 @@ export default function App() {
                 <div><span class="label"></span>เลขประจำตัวผู้เสียภาษี : ${escapeHtml(invoice.tax_id)}</div>
               </div>
               <div class="customer-right">
-                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoice.invoice_number)}</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoiceNumber)}</span></div>
                 <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(formatThaiDate(invoice.invoice_date))}</span></div>
               </div>
             </section>
@@ -769,13 +817,25 @@ export default function App() {
             <section class="signatures"><div class="signature">ผู้รับใบแจ้งหนี้ :</div><div class="signature">ผู้จัดทำ :</div><div class="signature">ผู้อนุมัติ :</div></section>
             <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
           </main>
-          <script>window.onload = function () { window.focus(); window.print(); };</script>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.document');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
         </body>
       </html>`);
     printWindow.document.close();
   };
 
-  const printProjectReceipt = (invoice, selectedReceiptDate) => {
+  const printProjectReceipt = (invoice, selectedReceiptDate, options: { receiptNumber?: string; invoiceNumber?: string } = {}) => {
     const printWindow = window.open('', '_blank', 'width=1000,height=800');
     if (!printWindow) {
       setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
@@ -792,12 +852,14 @@ export default function App() {
     const netAmount = formatInvoiceAmount(amounts.net);
     const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
     const receiptDateLabel = formatThaiDate(selectedReceiptDate);
+    const receiptNumber = options.receiptNumber || invoice.receipt_number;
+    const invoiceNumber = options.invoiceNumber || invoice.invoice_number;
 
     printWindow.document.write(`<!doctype html>
       <html lang="th">
         <head>
           <meta charset="utf-8" />
-          <title>${escapeHtml(invoice.receipt_number)}</title>
+          <title>${escapeHtml(receiptNumber)}</title>
           <style>
             @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
             * { box-sizing: border-box; }
@@ -850,6 +912,7 @@ export default function App() {
             .signatures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 35mm; margin-top: 9mm; text-align: center; }
             .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
             .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            .document + .document { break-before: page; page-break-before: always; }
             @media print { .print-note { display: none; } }
           </style>
         </head>
@@ -862,7 +925,7 @@ export default function App() {
                 <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
                 <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
               </div>
-              <div class="document-title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>(Receipt / Tax Invoice)</small><small>(ต้นฉบับ)</small></div>
+              <div class="document-title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>(Receipt / Tax Invoice)</small><small class="copy-label">(ต้นฉบับ)</small></div>
             </section>
             <div class="rule"></div>
             <section class="customer">
@@ -874,8 +937,8 @@ export default function App() {
               </div>
               <div class="customer-right">
                 <div class="meta-row"><span class="meta-label">เล่มที่</span><span>001</span></div>
-                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoice.receipt_number)}</span></div>
-                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span>${escapeHtml(invoice.invoice_number)}</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(receiptNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span>${escapeHtml(invoiceNumber)}</span></div>
                 <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(receiptDateLabel)}</span></div>
               </div>
             </section>
@@ -907,7 +970,19 @@ export default function App() {
             <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
             <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
           </main>
-          <script>window.onload = function () { window.focus(); window.print(); };</script>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.document');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
         </body>
       </html>`);
     printWindow.document.close();
@@ -986,6 +1061,7 @@ export default function App() {
             .footer { display: flex; justify-content: space-between; margin-top: 25mm; text-align: center; }
             .signature { width: 38%; padding-top: 12mm; border-top: 1px solid #6b7280; }
             .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
+            .invoice + .invoice { break-before: page; page-break-before: always; }
             @media print { .print-note { display: none; } }
           </style>
         </head>
@@ -998,7 +1074,7 @@ export default function App() {
                 <div class="issuer-name">บริษัท ดิไรฟ์ อินโนเวชั่น จำกัด</div>
                 <div class="issuer-detail">653/37 ถนนจรัญสนิทวงศ์ แขวงบางอ้อ เขตบางพลัด กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
               </div>
-              <div class="title">ใบแจ้งหนี้<span class="copy">(สำเนา)</span></div>
+              <div class="title">ใบแจ้งหนี้<span class="copy copy-label">(ต้นฉบับ)</span></div>
             </section>
             <div class="rule"></div>
             <section class="parties">
@@ -1039,7 +1115,19 @@ export default function App() {
             <section class="footer"><div class="signature">ผู้จัดทำ / Prepared by</div><div class="signature">ผู้รับวางบิล / Received by</div></section>
             <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
           </main>
-          <script>window.onload = function () { window.focus(); window.print(); };</script>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.invoice');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
         </body>
       </html>`);
     printWindow.document.close();
@@ -1123,6 +1211,7 @@ export default function App() {
             .signatures { display: flex; justify-content: space-between; gap: 35mm; margin-top: 20mm; text-align: center; }
             .signature { flex: 1; padding-top: 12mm; border-top: 1px solid #6b7280; }
             .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
+            .receipt + .receipt { break-before: page; page-break-before: always; }
             @media print { .print-note { display: none; } }
           </style>
         </head>
@@ -1135,7 +1224,7 @@ export default function App() {
                 <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
                 <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
               </div>
-              <div class="title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>( Receipt / Tax Invoice)</small><span class="copy">(ต้นฉบับ)</span></div>
+              <div class="title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>( Receipt / Tax Invoice)</small><span class="copy copy-label">(ต้นฉบับ)</span></div>
             </section>
             <div class="rule"></div>
             <section class="parties">
@@ -1174,7 +1263,19 @@ export default function App() {
             <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
             <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
           </main>
-          <script>window.onload = function () { window.focus(); window.print(); };</script>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.receipt');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
         </body>
       </html>`);
     printWindow.document.close();
@@ -2324,7 +2425,7 @@ export default function App() {
                         <td className="p-3.5 min-w-64 font-medium text-slate-800">{invoice.name}</td>
                         <td className="p-3.5 whitespace-nowrap">{invoice.tax_id}</td>
                         <td className="p-3.5 min-w-72">{invoice.address}</td>
-                        <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => printInvoice(invoice, invoiceIndex)} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => { setReceiptDate(getBangkokDateInputValue()); setReceiptPrintRequest({ invoice, invoiceIndex }); }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
+                        <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => openDocumentPrint({ invoice, invoiceIndex, project: false, documentType: 'INVOICE' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => openDocumentPrint({ invoice, invoiceIndex, project: false, documentType: 'RECEIPT' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
                       </tr>
                     ))}
                   </tbody>
@@ -2454,7 +2555,7 @@ export default function App() {
                             <td className="p-3.5 min-w-72">{invoice.billing_description}</td>
                             <td className="p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap">{formatBaht(invoice.amount)}</td>
                             <td className="p-3.5 whitespace-nowrap font-mono text-xs">{invoice.invoice_number}</td>
-                            <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => printProjectInvoice(printableInvoice)} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => { setReceiptDate(getBangkokDateInputValue()); setReceiptPrintRequest({ invoice: printableInvoice, invoiceIndex, project: true }); }} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
+                            <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => openDocumentPrint({ invoice: printableInvoice, invoiceIndex, project: true, documentType: 'INVOICE' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => openDocumentPrint({ invoice: printableInvoice, invoiceIndex, project: true, documentType: 'RECEIPT' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
                           </tr>
                         );
                       })}
@@ -2835,36 +2936,86 @@ export default function App() {
         </div>
       )}
 
-      {receiptPrintRequest && (
+      {documentPrintRequest && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
               <div>
-                <h3 className="font-bold text-slate-800 text-lg">พิมพ์ใบเสร็จรับเงิน</h3>
-                <p className="text-xs text-slate-500 mt-1">อ้างอิง Invoice: {receiptPrintRequest.invoice.invoice_number || `INV-${invoiceYear}-${String(receiptPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
+                <h3 className="font-bold text-slate-800 text-lg">พิมพ์{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จรับเงิน' : 'Invoice'}</h3>
+                <p className="text-xs text-slate-500 mt-1">{documentPrintRequest.documentType === 'RECEIPT' ? 'อ้างอิง Invoice: ' : 'เลขที่ Invoice: '}{documentPrintRequest.invoice.invoice_number || `INV-${invoiceYear}-${String(documentPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
               </div>
-              <button type="button" onClick={() => setReceiptPrintRequest(null)} className="text-slate-400 hover:text-slate-600" title="ปิด"><X className="w-5 h-5" /></button>
+              <button type="button" onClick={() => setDocumentPrintRequest(null)} className="text-slate-400 hover:text-slate-600" title="ปิด"><X className="w-5 h-5" /></button>
             </div>
-            <form onSubmit={event => {
+            <form onSubmit={async event => {
               event.preventDefault();
-              if (receiptPrintRequest.project) {
-                printProjectReceipt(receiptPrintRequest.invoice, receiptDate);
-              } else {
-                printReceipt(receiptPrintRequest.invoice, receiptPrintRequest.invoiceIndex, receiptDate, {
-                  invoiceNumber: receiptPrintRequest.invoice.invoice_number,
-                  receiptNumber: receiptPrintRequest.invoice.receipt_number,
+              if (isDocumentNumberLoading || !documentNumber.trim()) return;
+              setDocumentNumberError('');
+              setIsDocumentNumberLoading(true);
+              try {
+                const response = await fetch('/api/issued-documents', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    document_type: documentPrintRequest.documentType,
+                    source_type: documentPrintRequest.sourceType,
+                    reference_key: documentPrintRequest.referenceKey,
+                    source_id: documentPrintRequest.invoice.id,
+                    document_number: documentNumber.trim(),
+                  }),
                 });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Unable to issue document number');
+
+                let printableInvoice = documentPrintRequest.invoice;
+                if (documentPrintRequest.project && documentPrintRequest.documentType === 'INVOICE') {
+                  printableInvoice = {
+                    ...printableInvoice,
+                    invoice_number: result.document_number,
+                    receipt_number: result.document_number.replace('INV', 'REC'),
+                  };
+                  setProjectInvoices(current => current.map(item => item.id === printableInvoice.id
+                    ? { ...item, invoice_number: result.document_number }
+                    : item));
+                }
+
+                if (documentPrintRequest.documentType === 'INVOICE') {
+                  if (documentPrintRequest.project) {
+                    printProjectInvoice(printableInvoice, { invoiceNumber: result.document_number });
+                  } else {
+                    printInvoice(printableInvoice, documentPrintRequest.invoiceIndex, { invoiceNumber: result.document_number });
+                  }
+                } else if (documentPrintRequest.project) {
+                  printProjectReceipt(printableInvoice, receiptDate, {
+                    invoiceNumber: printableInvoice.invoice_number,
+                    receiptNumber: result.document_number,
+                  });
+                } else {
+                  printReceipt(printableInvoice, documentPrintRequest.invoiceIndex, receiptDate, {
+                    invoiceNumber: printableInvoice.invoice_number,
+                    receiptNumber: result.document_number,
+                  });
+                }
+                setDocumentPrintRequest(null);
+              } catch (error) {
+                setDocumentNumberError(error instanceof Error ? error.message : 'ไม่สามารถออกเลขที่เอกสารได้');
+              } finally {
+                setIsDocumentNumberLoading(false);
               }
-              setReceiptPrintRequest(null);
             }} className="space-y-5">
-              <div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700">เลขที่{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'}</label>
+                <input required value={documentNumber} onChange={event => setDocumentNumber(event.target.value)} disabled={isDocumentNumberLoading} className="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-60" placeholder="เช่น INV-2026-001" />
+                <p className="text-xs text-slate-500">{isDocumentNumberLoading ? 'กำลังโหลดเลขที่ปัจจุบัน...' : isDocumentNumberIssued ? 'เอกสารนี้ออกเลขที่นี้แล้ว การพิมพ์ซ้ำต้องใช้เลขเดิม' : 'เลขปัจจุบันที่ระบบแนะนำ สามารถแก้ไขได้ก่อนออกเอกสาร'}</p>
+              </div>
+              {documentNumberError && <p className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{documentNumberError}</p>}
+              {documentPrintRequest.documentType === 'RECEIPT' && <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">วันที่ใบเสร็จ</label>
                 <input type="date" required value={receiptDate} onChange={event => setReceiptDate(event.target.value)} className="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 <p className="text-xs text-slate-500 mt-2">วันที่นี้จะแสดงในใบเสร็จรับเงิน และไม่เปลี่ยนวันที่ของ Invoice</p>
-              </div>
+              </div>}
               <div className="flex justify-end gap-2">
-                <button type="button" onClick={() => setReceiptPrintRequest(null)} className="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
-                <button type="submit" className="inline-flex items-center gap-2 px-4 py-2.5 text-sm bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium"><Printer className="w-4 h-4" />พิมพ์ใบเสร็จ</button>
+                <button type="button" onClick={() => setDocumentPrintRequest(null)} className="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
+                <button type="submit" disabled={isDocumentNumberLoading || !documentNumber.trim()} className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm ${documentPrintRequest.documentType === 'RECEIPT' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-indigo-600 hover:bg-indigo-700'} disabled:opacity-60 text-white rounded-lg font-medium`}><Printer className="w-4 h-4" />พิมพ์{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'}</button>
               </div>
             </form>
           </div>

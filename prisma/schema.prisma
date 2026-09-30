@@ -159,3 +159,17 @@ model ProjectInvoice {
   @@index([invoiceDate])
   @@index([projectId, invoiceDate])
 }
+
+model IssuedDocument {
+  id             String   @id @default(cuid())
+  documentType   String   // "INVOICE" or "RECEIPT"
+  sourceType     String   // "RECURRING" or "PROJECT"
+  referenceKey   String
+  documentNumber String   @unique
+  issuedAt       DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([documentType, sourceType, referenceKey])
+  @@index([documentType, sourceType, issuedAt])
+}

@@ -4,6 +4,7 @@
   "/api/employee-summary/route": "app/api/employee-summary/route.js",
   "/api/employees/route": "app/api/employees/route.js",
   "/api/invoice-schedules/route": "app/api/invoice-schedules/route.js",
+  "/api/issued-documents/route": "app/api/issued-documents/route.js",
   "/api/leaves/route": "app/api/leaves/route.js",
   "/api/onsite/route": "app/api/onsite/route.js",
   "/api/overtime/route": "app/api/overtime/route.js",

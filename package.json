@@ -8,6 +8,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "start": "next start",
     "lint": "next lint",
+    "test:employees": "node --import tsx --test tests/employees.test.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {

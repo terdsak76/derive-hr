@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
+
+const employeeSelect = { id: true, name: true, department: true, position: true } as const;
 
 type VehicleType = 'CAR' | 'TAXI' | 'MOTORCYCLE';
 
@@ -99,9 +102,12 @@ function calculateExpense(body: any, config: TravelConfigSnapshot | null): numbe
   return Math.round((fuelCost + totalDistance * config.depreciation_per_km + tollFee) * 100) / 100;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const user = await requireEmployeeUser(request);
+  if (user instanceof NextResponse) return user;
   const onsites = await prisma.onsite.findMany({
-    include: { employee: true },
+    where: isEmployeeAdmin(user.role) ? undefined : { employeeId: user.id },
+    include: { employee: { select: employeeSelect } },
     orderBy: { createdAt: 'desc' },
   });
   return NextResponse.json(onsites.map(serializeOnsite));
@@ -109,6 +115,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const user = await requireEmployeeUser(req);
+    if (user instanceof NextResponse) return user;
     const body = await req.json();
     const {
       employee_id,
@@ -122,6 +130,10 @@ export async function POST(req: Request) {
       toll_fee,
       taxi_fare,
     } = body;
+
+    if (!isEmployeeAdmin(user.role) && employee_id !== user.id) {
+      return NextResponse.json({ error: 'You can only create your own onsite records.' }, { status: 403 });
+    }
 
     if (!employee_id || !destination || !date || !purpose) {
       return NextResponse.json({ error: 'Missing required onsite fields' }, { status: 400 });
@@ -177,7 +189,7 @@ export async function POST(req: Request) {
         endDate: new Date(`${date}T23:59:59+07:00`),
         allowance: expense,
       },
-      include: { employee: true },
+      include: { employee: { select: employeeSelect } },
     });
 
     return NextResponse.json(serializeOnsite(newOnsite), { status: 201 });

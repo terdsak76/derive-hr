@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
-
-function getSession(request: Request) {
-  const token = request.headers.get('cookie')
-    ?.split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(`${getSessionCookieName()}=`))
-    ?.split('=')[1];
-  return token ? verifySessionToken(token) : null;
-}
+import { getEmployeeSession as getSession } from '@/lib/employee-access';
 
 function serializeLeave(item: {
   id: string;
@@ -36,7 +27,7 @@ function serializeLeave(item: {
 }
 
 export async function GET(request: Request) {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const leaves = await prisma.leave.findMany({
@@ -47,7 +38,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = getSession(req);
+  const session = await getSession(req);
 
   if (!session) {
     return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนยื่นใบลา' }, { status: 401 });
@@ -70,7 +61,7 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const session = getSession(req);
+  const session = await getSession(req);
 
   if (!session) {
     return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนอนุมัติใบลา' }, { status: 401 });

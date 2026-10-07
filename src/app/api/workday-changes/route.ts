@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
-
-function getSession(request: Request) {
-  const token = request.headers.get('cookie')
-    ?.split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(`${getSessionCookieName()}=`))
-    ?.split('=')[1];
-  return token ? verifySessionToken(token) : null;
-}
+import { getEmployeeSession as getSession } from '@/lib/employee-access';
 
 function serializeRequest(item) {
   return {
@@ -26,7 +17,7 @@ function serializeRequest(item) {
 }
 
 export async function GET(request: Request): Promise<NextResponse> {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const requests = await prisma.workdayChangeRequest.findMany({
@@ -39,7 +30,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await request.json();
@@ -70,7 +61,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 }
 
 export async function PATCH(request: Request): Promise<NextResponse> {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session || session.role !== 'ADMIN') {
     return NextResponse.json({ error: 'เฉพาะ Admin เท่านั้นที่อนุมัติคำขอได้' }, { status: 403 });
   }

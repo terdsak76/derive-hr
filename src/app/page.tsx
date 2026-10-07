@@ -7,6 +7,7 @@ import {
   Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer
 } from 'lucide-react';
 import { parseBangkokDateTime } from '@/lib/overtime';
+import EmployeeManagement from '@/components/employee-management';
 
 const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
 const getBangkokDateInputValue = (date: Date = new Date()): string => {
@@ -225,7 +226,6 @@ export default function App() {
   const [documentNumberError, setDocumentNumberError] = useState('');
   const [isDocumentNumberIssued, setIsDocumentNumberIssued] = useState(false);
   const [receiptDate, setReceiptDate] = useState(getBangkokDateInputValue());
-  const [accountEmployees, setAccountEmployees] = useState([]);
   const [overtimeRecords, setOvertimeRecords] = useState([]);
   const [overtimeQuote, setOvertimeQuote] = useState(null);
   const [overtimeQuoteLoading, setOvertimeQuoteLoading] = useState(false);
@@ -289,12 +289,6 @@ export default function App() {
     job_detail: ''
   });
 
-  const [accountForm, setAccountForm] = useState({
-    id: '',
-    email: '',
-    password: ''
-  });
-
   const [overtimeForm, setOvertimeForm] = useState({
     employee_id: '',
     start_at: '',
@@ -312,44 +306,24 @@ export default function App() {
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
     setCurrentUser(null);
+    setActiveTab('dashboard');
+    setEmployees([]);
   };
 
-  const loadAccountEmployees = async () => {
-    try {
-        const response = await fetch('/api/employees');
-        if (!response.ok) {
-          throw new Error('Unable to load employees');
-        }
-
-        const databaseEmployees = await response.json();
-      setAccountEmployees(databaseEmployees);
-
-      if (databaseEmployees.length > 0 && currentUser?.role === 'ADMIN') {
-        setAccountForm({
-          id: databaseEmployees[0].id,
-          email: databaseEmployees[0].email || '',
-          password: ''
-        });
-      }
-      } catch (error) {
-      console.error('Failed to load employees for account management:', error);
-      setAccountEmployees([]);
-      }
-    };
-
-  const handleAccountSave = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch('/api/auth/update-account', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(accountForm),
-      });
-      if (!response.ok) throw new Error('Failed to update account');
-      alert('บัญชีอัปเดตสำเร็จ');
-    } catch (error) {
-      alert('เกิดข้อผิดพลาด: ' + error.message);
+  const handleEmployeesChange = (updatedEmployees) => {
+    setEmployees(updatedEmployees);
+    const ownProfile = updatedEmployees.find(employee => employee.id === currentUser?.id);
+    if (ownProfile) {
+      setCurrentUser(current => current?.id === ownProfile.id
+        ? { ...current, name: ownProfile.name, email: ownProfile.email, role: ownProfile.role }
+        : current);
     }
+    setOvertimeForm(current => ({
+      ...current,
+      employee_id: updatedEmployees.some(employee => employee.id === current.employee_id)
+        ? current.employee_id
+        : updatedEmployees[0]?.id || '',
+    }));
   };
 
   const todayDate = getDateInputValue(new Date());
@@ -1763,14 +1737,11 @@ export default function App() {
           <div className="pt-4 border-t border-slate-800 my-2"></div>
 
           <button
-            onClick={() => {
-              setActiveTab('account');
-              loadAccountEmployees();
-            }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'account' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
+            onClick={() => setActiveTab('employees')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'employees' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
           >
             <Users className="w-5 h-5" />
-            <span>แก้ไขบัญชี</span>
+            <span>จัดการพนักงาน (Employees)</span>
           </button>
 
         </nav>
@@ -1798,7 +1769,7 @@ export default function App() {
               {activeTab === 'overtime' && 'บันทึกและคำนวณค่าล่วงเวลา (Overtime)'}
               {activeTab === 'invoices' && 'ตาราง Invoice ลูกค้าตามรอบวางบิล'}
               {activeTab === 'project-invoices' && 'Invoice / Receipt สำหรับโครงการ'}
-              {activeTab === 'account' && 'จัดการบัญชีผู้ใช้ (Account Settings)'}
+              {activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)'}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน</p>
               </div>
@@ -1833,21 +1804,8 @@ export default function App() {
         {/* Dynamic Main Body */}
         <div className="app-content p-6 space-y-6 flex-1">
           {}
-          {activeTab === 'account' && (
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-              <h2 className="text-lg font-bold text-slate-800 mb-4">Account Settings</h2>
-              {currentUser.role === 'ADMIN' && accountEmployees.length > 1 && (
-                <select value={accountForm.id} onChange={event => { const employee = accountEmployees.find(item => item.id === event.target.value); setAccountForm({ id: employee.id, email: employee.email || '', password: '' }); }} className="w-full p-2.5 mb-3 border border-slate-300 rounded-lg">
-                  <option value="">Select employee</option>
-                  {accountEmployees.map(employee => <option key={employee.id} value={employee.id}>{employee.name} ({employee.email})</option>)}
-                </select>
-              )}
-              <form onSubmit={handleAccountSave} className="max-w-lg space-y-3">
-                <input type="email" required value={accountForm.email || ''} onChange={event => setAccountForm({ ...accountForm, email: event.target.value })} placeholder="Email" className="w-full p-2.5 border border-slate-300 rounded-lg" />
-                <input type="password" required value={accountForm.password || ''} onChange={event => setAccountForm({ ...accountForm, password: event.target.value })} placeholder="New password" className="w-full p-2.5 border border-slate-300 rounded-lg" />
-                <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">Save account</button>
-              </form>
-    </div>
+          {activeTab === 'employees' && (
+            <EmployeeManagement currentUser={currentUser} onEmployeesChange={handleEmployeesChange} />
           )}
 
           {activeTab === 'dashboard' && (

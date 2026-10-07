@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
+import { getEmployeeSession as getSession } from '@/lib/employee-access';
 
 const BANGKOK_TIME_ZONE = 'Asia/Bangkok';
 
@@ -31,15 +31,6 @@ function getBangkokDayBounds(date: Date): { start: Date; end: Date } {
   return { start, end };
 }
 
-function getSession(request: Request) {
-  const token = request.headers.get('cookie')
-    ?.split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(`${getSessionCookieName()}=`))
-    ?.split('=')[1];
-  return token ? verifySessionToken(token) : null;
-}
-
 function serializeAttendance(item: {
   id: string;
   employeeId: string;
@@ -64,7 +55,7 @@ function serializeAttendance(item: {
 }
 
 export async function GET(request: Request): Promise<NextResponse> {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const attendance = await prisma.attendance.findMany({
@@ -76,7 +67,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
-  const session = getSession(request);
+  const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await request.json();

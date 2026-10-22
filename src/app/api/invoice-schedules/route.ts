@@ -88,3 +88,37 @@ export async function GET(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Unable to load invoice schedules' }, { status: 500 });
   }
 }
+
+export async function PATCH(request: Request): Promise<NextResponse> {
+  try {
+    if (!(await requireAdmin(request))) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Request body must be valid JSON' }, { status: 400 });
+    }
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return NextResponse.json({ error: 'Invalid invoice description request' }, { status: 400 });
+    }
+    const { id, description } = body as Record<string, unknown>;
+    if (typeof id !== 'string' || !id.trim() || typeof description !== 'string'
+      || !description.trim() || description.length > 5000) {
+      return NextResponse.json({ error: 'กรุณาระบุคำอธิบายรายการ 1–5,000 ตัวอักษร' }, { status: 400 });
+    }
+
+    const saved = await prisma.invoiceSchedule.update({
+      where: { id: id.trim() },
+      data: { description: description.trim() },
+      select: { id: true, description: true },
+    });
+    return NextResponse.json(saved);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
+      return NextResponse.json({ error: 'ไม่พบรายการ Invoice' }, { status: 404 });
+    }
+    console.error('Failed to save invoice description:', error);
+    return NextResponse.json({ error: 'ไม่สามารถบันทึกคำอธิบายได้' }, { status: 500 });
+  }
+}

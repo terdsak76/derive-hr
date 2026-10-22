@@ -71,7 +71,9 @@ module.exports = mod;
 return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 __turbopack_context__.s([
     "GET",
-    ()=>GET
+    ()=>GET,
+    "PATCH",
+    ()=>PATCH
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/prisma.ts [app-route] (ecmascript)");
@@ -185,6 +187,67 @@ async function GET(request) {
         console.error('Failed to load invoice schedules:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Unable to load invoice schedules'
+        }, {
+            status: 500
+        });
+    }
+}
+async function PATCH(request) {
+    try {
+        if (!await requireAdmin(request)) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Forbidden'
+        }, {
+            status: 403
+        });
+        let body;
+        try {
+            body = await request.json();
+        } catch  {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Request body must be valid JSON'
+            }, {
+                status: 400
+            });
+        }
+        if (!body || typeof body !== 'object' || Array.isArray(body)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Invalid invoice description request'
+            }, {
+                status: 400
+            });
+        }
+        const { id, description } = body;
+        if (typeof id !== 'string' || !id.trim() || typeof description !== 'string' || !description.trim() || description.length > 5000) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'กรุณาระบุคำอธิบายรายการ 1–5,000 ตัวอักษร'
+            }, {
+                status: 400
+            });
+        }
+        const saved = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].invoiceSchedule.update({
+            where: {
+                id: id.trim()
+            },
+            data: {
+                description: description.trim()
+            },
+            select: {
+                id: true,
+                description: true
+            }
+        });
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(saved);
+    } catch (error) {
+        if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'ไม่พบรายการ Invoice'
+            }, {
+                status: 404
+            });
+        }
+        console.error('Failed to save invoice description:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'ไม่สามารถบันทึกคำอธิบายได้'
         }, {
             status: 500
         });

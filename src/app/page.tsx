@@ -7,6 +7,7 @@ import {
   Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer
 } from 'lucide-react';
 import { parseBangkokDateTime } from '@/lib/overtime';
+import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
 
 const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
@@ -225,6 +226,13 @@ export default function App() {
   const [isDocumentNumberLoading, setIsDocumentNumberLoading] = useState(false);
   const [documentNumberError, setDocumentNumberError] = useState('');
   const [isDocumentNumberIssued, setIsDocumentNumberIssued] = useState(false);
+  const [invoiceDescription, setInvoiceDescription] = useState('');
+  const [isInvoiceDescriptionSaving, setIsInvoiceDescriptionSaving] = useState(false);
+  const [invoiceDescriptionError, setInvoiceDescriptionError] = useState('');
+  const [invoiceDescriptionSaved, setInvoiceDescriptionSaved] = useState(false);
+  const canEditInvoiceDescription = documentPrintRequest?.documentType === 'INVOICE' && !documentPrintRequest.project;
+  const hasUnsavedInvoiceDescription = canEditInvoiceDescription
+    && invoiceDescription !== (documentPrintRequest.invoice.description || '');
   const [receiptDate, setReceiptDate] = useState(getBangkokDateInputValue());
   const [overtimeRecords, setOvertimeRecords] = useState([]);
   const [overtimeQuote, setOvertimeQuote] = useState(null);
@@ -614,6 +622,9 @@ export default function App() {
         : (invoice.receipt_number || `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`));
 
     setDocumentPrintRequest({ invoice, invoiceIndex, project, documentType, sourceType, referenceKey, year });
+    setInvoiceDescription(invoice.description || '');
+    setInvoiceDescriptionError('');
+    setInvoiceDescriptionSaved(false);
     setDocumentNumber('');
     setDocumentNumberError('');
     setIsDocumentNumberIssued(false);
@@ -638,6 +649,36 @@ export default function App() {
       setDocumentNumberError(error instanceof Error ? error.message : 'ไม่สามารถโหลดเลขที่เอกสารได้');
     } finally {
       setIsDocumentNumberLoading(false);
+    }
+  };
+
+  const saveInvoiceDescription = async () => {
+    if (!canEditInvoiceDescription || isInvoiceDescriptionSaving || isDocumentNumberLoading) return;
+    setInvoiceDescriptionError('');
+    setInvoiceDescriptionSaved(false);
+    if (!invoiceDescription.trim() || invoiceDescription.length > 5000) {
+      setInvoiceDescriptionError('กรุณาระบุคำอธิบายรายการ 1–5,000 ตัวอักษร');
+      return;
+    }
+    setIsInvoiceDescriptionSaving(true);
+    try {
+      const response = await fetch('/api/invoice-schedules', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: documentPrintRequest.invoice.id, description: invoiceDescription }),
+      });
+      const saved = await response.json();
+      if (!response.ok) throw new Error(saved.error || 'ไม่สามารถบันทึกคำอธิบายได้');
+      setInvoiceSchedules(current => current.map(item => item.id === saved.id
+        ? { ...item, description: saved.description } : item));
+      setDocumentPrintRequest(current => current && current.invoice.id === saved.id
+        ? { ...current, invoice: { ...current.invoice, description: saved.description } } : current);
+      setInvoiceDescription(saved.description);
+      setInvoiceDescriptionSaved(true);
+    } catch (error) {
+      setInvoiceDescriptionError(error instanceof Error ? error.message : 'ไม่สามารถบันทึกคำอธิบายได้');
+    } finally {
+      setIsInvoiceDescriptionSaving(false);
     }
   };
 
@@ -970,140 +1011,14 @@ export default function App() {
     }
 
     const issueDate = options.issueDate || `${invoice.issue_day} ${thaiMonths[invoiceMonth - 1]} ${invoiceYear + 543}`;
-    const periodLabel = invoice.period === 'project' ? 'ตามงวดงาน' : invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
     const invoiceNumber = options.invoiceNumber || invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
-    const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
-    const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
-    const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
-    const netAmountSatang = Math.round(totalAmountSatang * 97 / 100);
-    const serviceAmount = serviceAmountSatang / 100;
-    const vatAmount = vatAmountSatang / 100;
-    const totalAmount = totalAmountSatang / 100;
-    const netAmount = netAmountSatang / 100;
-    const amount = formatInvoiceAmount(serviceAmount);
-    const vat = formatInvoiceAmount(vatAmount);
-    const grandTotal = formatInvoiceAmount(totalAmount);
-    const netAmountText = formatInvoiceAmount(netAmount);
-
-    printWindow.document.write(`<!doctype html>
-      <html lang="th">
-        <head>
-          <meta charset="utf-8" />
-          <title>${escapeHtml(invoiceNumber)}</title>
-          <style>
-            @page { size: A4 portrait; margin: 12mm 10mm; }
-            * { box-sizing: border-box; }
-            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 12px; }
-            .invoice { width: 100%; max-width: 190mm; margin: 0 auto; }
-            .top { display: flex; justify-content: space-between; align-items: flex-start; min-height: 30mm; }
-            .brand { width: 55%; }
-            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 8px; font-size: 27px; line-height: 34px; padding: 0 8px 0 12px; }
-            .brand-subtitle { color: #6b7280; font-size: 9px; letter-spacing: 3px; margin: 2px 0 14px 2px; }
-            .issuer-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-            .issuer-detail { line-height: 1.65; }
-            .title { width: 42%; text-align: right; font-size: 25px; font-weight: 700; padding-top: 0; }
-            .copy { display: block; font-size: 13px; font-weight: 400; margin-top: 2px; }
-            .rule { border-top: 2px solid #111; margin: 10px 0 12px; }
-            .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-height: 34mm; border-bottom: 1px solid #111; padding-bottom: 12px; }
-            .party { line-height: 1.8; }
-            .party-label { display: inline-block; min-width: 72px; }
-            .party-value { font-weight: 600; }
-            .meta { line-height: 2; text-align: left; }
-            .meta-row { display: flex; justify-content: space-between; gap: 12px; }
-            .meta-label { font-weight: 600; white-space: nowrap; }
-            .meta-value { min-width: 120px; text-align: left; }
-            table { width: 100%; border-collapse: collapse; margin-top: 14px; table-layout: fixed; }
-            th, td { border: 1px solid #111; padding: 8px 7px; vertical-align: top; min-width: 0; }
-            th { background: #173b64; color: #fff; text-align: center; font-size: 12px; }
-            th small { display: block; font-size: 11px; margin-top: 7px; font-weight: 400; }
-            td { min-height: 55mm; }
-            .item { width: 8%; text-align: center; }
-            .description { width: 43%; overflow-wrap: anywhere; }
-            .price { width: 18%; text-align: right; white-space: nowrap; font-size: 11px; }
-            .quantity { width: 12%; text-align: center; }
-            .total { width: 19%; text-align: right; white-space: nowrap; font-size: 11px; }
-            .description strong { display: block; margin-bottom: 8px; }
-            .description p { margin: 4px 0; line-height: 1.7; }
-            .summary { display: flex; justify-content: flex-end; margin-top: 0; }
-            .summary table { width: 49%; margin-top: 0; table-layout: fixed; }
-            .summary td { min-height: 0; padding: 7px; }
-            .summary .label { width: 61.2245%; font-weight: 600; background: #f3f4f6; }
-            .summary .total { width: 38.7755%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
-            .summary .grand-total td { font-size: 14px; font-weight: 700; }
-            .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
-            .withholding-note { margin-top: 8px; font-size: 12px; line-height: 1.7; }
-            .footer { display: flex; justify-content: space-between; margin-top: 25mm; text-align: center; }
-            .signature { width: 38%; padding-top: 12mm; border-top: 1px solid #6b7280; }
-            .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
-            .invoice + .invoice { break-before: page; page-break-before: always; }
-            @media print { .print-note { display: none; } }
-          </style>
-        </head>
-        <body>
-          <main class="invoice">
-            <section class="top">
-              <div class="brand">
-                <div class="brand-mark">DeRIVE</div>
-                <div class="brand-subtitle">Innovation Company Limited</div>
-                <div class="issuer-name">บริษัท ดิไรฟ์ อินโนเวชั่น จำกัด</div>
-                <div class="issuer-detail">653/37 ถนนจรัญสนิทวงศ์ แขวงบางอ้อ เขตบางพลัด กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
-              </div>
-              <div class="title">ใบแจ้งหนี้<span class="copy copy-label">(ต้นฉบับ)</span></div>
-            </section>
-            <div class="rule"></div>
-            <section class="parties">
-              <div class="party">
-                <div><span class="party-label">Attention:</span></div>
-                <div><span class="party-label">Company:</span><span class="party-value">${escapeHtml(invoice.name)}</span></div>
-                <div><span class="party-label"></span>${escapeHtml(invoice.address)}</div>
-                <div><span class="party-label"></span>เลขประจำตัวผู้เสียภาษี: ${escapeHtml(invoice.tax_id)} (สำนักงานใหญ่)</div>
-              </div>
-              <div class="meta">
-                <div class="meta-row"><span class="meta-label">เลขที่ No. :</span><span class="meta-value">${escapeHtml(invoiceNumber)}</span></div>
-                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span class="meta-value">${escapeHtml(issueDate)}</span></div>
-              </div>
-            </section>
-            <table>
-              <thead>
-                <tr><th class="item">ลำดับที่<small>ITEM</small></th><th class="description">รายการ<small>DESCRIPTION</small></th><th class="price">ราคา/หน่วย<small>Price/Unit</small></th><th class="quantity">จำนวน (ปี)<small>Quantity</small></th><th class="total">จำนวนเงิน<small>Amount</small></th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="item">1</td>
-                  <td class="description"><strong>${escapeHtml(invoice.description)}</strong><p>รอบการออกเอกสาร: ${escapeHtml(periodLabel)}</p><p>รายละเอียดบริการ: ${escapeHtml(invoice.service)}</p></td>
-                  <td class="price">${amount}</td>
-                  <td class="quantity">1</td>
-                  <td class="total">${amount}</td>
-                </tr>
-              </tbody>
-            </table>
-            <section class="summary">
-              <table>
-                <tr><td class="label">รวมเป็นเงิน</td><td class="total">${amount}</td></tr>
-                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="total">${vat}</td></tr>
-                <tr class="grand-total"><td class="label">จำนวนเงินทั้งสิ้น</td><td class="total">${grandTotal}</td></tr>
-              </table>
-            </section>
-            <div class="amount-words">(${escapeHtml(bahtToThaiWords(totalAmount))})</div>
-            <div class="withholding-note"><strong>หมายเหตุ:</strong> ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%<br />คงเหลือยอดเงิน <strong>${netAmountText} บาท</strong></div>
-            <section class="footer"><div class="signature">ผู้จัดทำ / Prepared by</div><div class="signature">ผู้รับวางบิล / Received by</div></section>
-            <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
-          </main>
-          <script>
-            window.onload = function () {
-              const original = document.querySelector('.invoice');
-              if (original) {
-                const copy = original.cloneNode(true);
-                const copyLabel = copy.querySelector('.copy-label');
-                if (copyLabel) copyLabel.textContent = '(สำเนา)';
-                original.after(copy);
-              }
-              window.focus();
-              window.print();
-            };
-          </script>
-        </body>
-      </html>`);
+    printWindow.document.write(renderInvoiceHtml({
+      invoice,
+      invoiceNumber,
+      issueDate,
+      amountWords: bahtToThaiWords(getInvoiceAmounts(invoice.amount).total),
+      assetBaseUrl: `${window.location.origin}/invoice`,
+    }));
     printWindow.document.close();
   };
 
@@ -2900,17 +2815,17 @@ export default function App() {
 
       {documentPrintRequest && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
               <div>
                 <h3 className="font-bold text-slate-800 text-lg">พิมพ์{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จรับเงิน' : 'Invoice'}</h3>
                 <p className="text-xs text-slate-500 mt-1">{documentPrintRequest.documentType === 'RECEIPT' ? 'อ้างอิง Invoice: ' : 'เลขที่ Invoice: '}{documentPrintRequest.invoice.invoice_number || `INV-${invoiceYear}-${String(documentPrintRequest.invoiceIndex + 1).padStart(3, '0')}`}</p>
               </div>
-              <button type="button" onClick={() => setDocumentPrintRequest(null)} className="text-slate-400 hover:text-slate-600" title="ปิด"><X className="w-5 h-5" /></button>
+              <button type="button" disabled={isInvoiceDescriptionSaving || isDocumentNumberLoading} onClick={() => setDocumentPrintRequest(null)} className="text-slate-400 hover:text-slate-600 disabled:opacity-60" title="ปิด"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={async event => {
               event.preventDefault();
-              if (isDocumentNumberLoading || !documentNumber.trim()) return;
+              if (isDocumentNumberLoading || isInvoiceDescriptionSaving || hasUnsavedInvoiceDescription || !documentNumber.trim()) return;
               setDocumentNumberError('');
               setIsDocumentNumberLoading(true);
               try {
@@ -2970,14 +2885,41 @@ export default function App() {
                 <p className="text-xs text-slate-500">{isDocumentNumberLoading ? 'กำลังโหลดเลขที่ปัจจุบัน...' : isDocumentNumberIssued ? 'เอกสารนี้ออกเลขที่นี้แล้ว การพิมพ์ซ้ำต้องใช้เลขเดิม' : 'เลขปัจจุบันที่ระบบแนะนำ สามารถแก้ไขได้ก่อนออกเอกสาร'}</p>
               </div>
               {documentNumberError && <p className="text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">{documentNumberError}</p>}
+              {canEditInvoiceDescription && (
+                <div className="space-y-2">
+                  <label htmlFor="invoice-print-description" className="block text-sm font-semibold text-slate-700">คำอธิบายรายการใน Invoice</label>
+                  <textarea
+                    id="invoice-print-description"
+                    rows={6}
+                    required
+                    maxLength={5000}
+                    value={invoiceDescription}
+                    disabled={isInvoiceDescriptionSaving || isDocumentNumberLoading}
+                    onChange={event => {
+                      setInvoiceDescription(event.target.value);
+                      setInvoiceDescriptionError('');
+                      setInvoiceDescriptionSaved(false);
+                    }}
+                    className="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-60"
+                  />
+                  <p className="text-xs text-slate-500">บันทึกเพื่อใช้ข้อความนี้ในการพิมพ์และในรอบบิลถัดไปของลูกค้ารายการนี้</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs text-slate-500">{invoiceDescription.length.toLocaleString()} / 5,000</span>
+                    <button type="button" onClick={saveInvoiceDescription} disabled={!hasUnsavedInvoiceDescription || !invoiceDescription.trim() || isInvoiceDescriptionSaving || isDocumentNumberLoading} className="px-3 py-2 text-sm font-medium rounded-lg border border-indigo-200 text-indigo-700 hover:bg-indigo-50 disabled:opacity-60">{isInvoiceDescriptionSaving ? 'กำลังบันทึก...' : 'บันทึกคำอธิบาย'}</button>
+                  </div>
+                  {invoiceDescriptionError && <p role="alert" className="text-sm text-rose-600">{invoiceDescriptionError}</p>}
+                  {invoiceDescriptionSaved && <p role="status" className="text-sm text-emerald-700">บันทึกคำอธิบายแล้ว พร้อมพิมพ์</p>}
+                  {hasUnsavedInvoiceDescription && <p className="text-xs text-amber-700">กรุณาบันทึกคำอธิบายก่อนพิมพ์</p>}
+                </div>
+              )}
               {documentPrintRequest.documentType === 'RECEIPT' && <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">วันที่ใบเสร็จ</label>
                 <input type="date" required value={receiptDate} onChange={event => setReceiptDate(event.target.value)} className="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 <p className="text-xs text-slate-500 mt-2">วันที่นี้จะแสดงในใบเสร็จรับเงิน และไม่เปลี่ยนวันที่ของ Invoice</p>
               </div>}
               <div className="flex justify-end gap-2">
-                <button type="button" onClick={() => setDocumentPrintRequest(null)} className="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg">ยกเลิก</button>
-                <button type="submit" disabled={isDocumentNumberLoading || !documentNumber.trim()} className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm ${documentPrintRequest.documentType === 'RECEIPT' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-indigo-600 hover:bg-indigo-700'} disabled:opacity-60 text-white rounded-lg font-medium`}><Printer className="w-4 h-4" />พิมพ์{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'}</button>
+                <button type="button" disabled={isInvoiceDescriptionSaving || isDocumentNumberLoading} onClick={() => setDocumentPrintRequest(null)} className="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg disabled:opacity-60">ยกเลิก</button>
+                <button type="submit" disabled={isDocumentNumberLoading || isInvoiceDescriptionSaving || hasUnsavedInvoiceDescription || !documentNumber.trim()} className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm ${documentPrintRequest.documentType === 'RECEIPT' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-indigo-600 hover:bg-indigo-700'} disabled:opacity-60 text-white rounded-lg font-medium`}><Printer className="w-4 h-4" />พิมพ์{documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'}</button>
               </div>
             </form>
           </div>

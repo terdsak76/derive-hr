@@ -1786,18 +1786,22 @@ export default function App() {
             >
               <LogOut className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => setActiveTab('attendance')}
-              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
-            >
-              <Clock className="w-4 h-4 text-emerald-400" /> ลงเวลาทำงาน
-            </button>
-            <button
-              onClick={() => setShowLeaveModal(true)}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
-            >
-              <Plus className="w-4 h-4" /> แจ้งการลา
-            </button>
+            {activeTab === 'dashboard' && (
+              <>
+                <button
+                  onClick={() => setActiveTab('attendance')}
+                  className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
+                >
+                  <Clock className="w-4 h-4 text-emerald-400" /> ลงเวลาทำงาน
+                </button>
+                <button
+                  onClick={() => setShowLeaveModal(true)}
+                  className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition"
+                >
+                  <Plus className="w-4 h-4" /> แจ้งการลา
+                </button>
+              </>
+            )}
     </div>
         </header>
 

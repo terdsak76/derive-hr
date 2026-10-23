@@ -13,6 +13,7 @@
     "db:incentives": "node scripts/apply-incentive-migration.mjs",
     "db:taxes": "node scripts/apply-tax-migration.mjs",
     "db:owners": "node scripts/apply-owner-migration.mjs",
+    "db:full-incentive": "node scripts/apply-full-incentive-migration.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

@@ -13,6 +13,8 @@ import { applyIncentiveMigration } from '../scripts/apply-incentive-migration.mj
 import { applyTaxMigration } from '../scripts/apply-tax-migration.mjs';
 import { socialSecurityCents, vatAmounts, type TaxReport } from '../src/lib/taxes';
 import { applyOwnerMigration } from '../scripts/apply-owner-migration.mjs';
+import { applyFullIncentiveMigration } from '../scripts/apply-full-incentive-migration.mjs';
+import { calculateIncentiveCents } from '../src/lib/incentives';
 
 let directory: string;
 let prisma: PrismaClient;
@@ -33,7 +35,7 @@ function request(path: string, method = 'GET', userId: string | undefined = 'adm
     ...(method === 'GET' ? {} : { body: JSON.stringify(body) }),
   });
 }
-const incentiveBody = { employee_id: 'employee', month: '2026-10', score: 85.5, amount: 1234.56 };
+const incentiveBody = { employee_id: 'employee', month: '2026-10', score: 85.5 };
 const save = (body: unknown = incentiveBody, user = 'admin') => incentives.PUT(request('/api/incentives', 'PUT', user, body));
 async function report(month = '2026-10', basis = 'scheduled') {
   const response = await finance.GET(request(`/api/company-finance?month=${month}&basis=${basis}`));
@@ -90,6 +92,7 @@ beforeEach(async () => {
     await prisma.employee.create({ data: {
       id, role, name: id, email: `${id}@example.test`, department: 'Test', position: 'Test', passwordHash: 'unused',
       monthlySalaryCents: salary, createdAt: new Date('2026-01-01T00:00:00Z'),
+      fullIncentiveCents: id === 'employee' ? 200000 : 0,
     } });
   }
 });
@@ -179,24 +182,24 @@ test('admin access is required even if an employee token claims ADMIN', async ()
 
 test('incentives persist, update instead of duplicate, and stay separate by month', async () => {
   assert.equal((await save()).status, 200);
-  assert.equal((await save({ ...incentiveBody, score: 92, amount: 2000.01 })).status, 200);
-  assert.equal((await save({ ...incentiveBody, month: '2026-11', amount: 500 })).status, 200);
+  assert.equal((await save({ ...incentiveBody, score: 92 })).status, 200);
+  assert.equal((await save({ ...incentiveBody, month: '2026-11', score: 25 })).status, 200);
   assert.equal(await prisma.incentive.count(), 2);
   const rows = await (await incentives.GET(request('/api/incentives?month=2026-10'))).json();
   const employee = rows.find((row: { id: string }) => row.id === 'employee');
   assert.equal(employee.score, 92);
-  assert.equal(employee.amount, 2000.01);
+  assert.equal(employee.amount, 1840);
+  assert.equal(employee.fullIncentive, 2000);
   assert.ok(!('monthlySalaryCents' in employee));
-  assert.equal((await report()).expenses.incentive, 2000.01);
+  assert.equal((await report()).expenses.incentive, 1840);
   assert.equal((await report('2026-11')).expenses.incentive, 500);
   assert.equal((await save({ ...incentiveBody, amount: 0, score: 0 })).status, 200);
   assert.equal((await report()).expenses.incentive, 0);
 });
 
-test('rejects invalid scores, monetary precision, malformed JSON and invalid months', async () => {
+test('rejects invalid scores, malformed JSON and invalid months', async () => {
   for (const body of [null, [], {}, { ...incentiveBody, score: -1 }, { ...incentiveBody, score: 101 },
-    { ...incentiveBody, score: '85' }, { ...incentiveBody, amount: -1 }, { ...incentiveBody, amount: 1.001 },
-    { ...incentiveBody, amount: '' }, { ...incentiveBody, amount: 21474836.48 },
+    { ...incentiveBody, score: '85' }, { ...incentiveBody, score: null },
     { ...incentiveBody, month: '2026-13' }, { ...incentiveBody, employee_id: '' }]) {
     assert.equal((await save(body)).status, 400);
   }
@@ -214,6 +217,79 @@ test('employees with incentive history cannot be deleted', async () => {
   assert.equal(response.status, 409);
   assert.equal(await prisma.incentive.count(), 1);
   assert.ok(await prisma.employee.findUnique({ where: { id: 'employee' } }));
+});
+
+test('incentive amount is calculated server-side and rounds satang rather than trusting the submitted amount', async () => {
+  await prisma.employee.update({ where: { id: 'employee' }, data: { fullIncentiveCents: 10001 } });
+  const saved = await (await save({ ...incentiveBody, score: 50, amount: 999999, fullIncentive: 999999 })).json();
+  assert.equal(saved.fullIncentive, 100.01);
+  assert.equal(saved.amount, 50.01);
+  assert.equal((await report()).expenses.incentive, 50.01);
+  for (const [score, amount] of [[0, 0], [100, 100.01], [85.5, 85.51]]) {
+    assert.equal((await (await save({ ...incentiveBody, score })).json()).amount, amount);
+  }
+  assert.equal(calculateIncentiveCents(2147483647, 100), 2147483647);
+  const zero = await (await save({ ...incentiveBody, employee_id: 'unset', score: 100 })).json();
+  assert.equal(zero.amount, 0);
+});
+
+test('changing full incentive preserves previously saved months until explicitly recalculated', async () => {
+  await save();
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', fullIncentive: 3000 }))).status, 200);
+  assert.equal((await report()).expenses.incentive, 1710);
+  const previous = await (await incentives.GET(request('/api/incentives?month=2026-10'))).json();
+  assert.equal(previous.find((row: { id: string }) => row.id === 'employee').amount, 1710);
+  assert.equal(previous.find((row: { id: string }) => row.id === 'employee').fullIncentive, 3000);
+  const november = await (await save({ ...incentiveBody, month: '2026-11' })).json();
+  assert.equal(november.amount, 2565);
+  assert.equal((await report()).expenses.incentive, 1710);
+  await save();
+  assert.equal((await report()).expenses.incentive, 2565);
+  assert.equal((await report('2026-11')).expenses.incentive, 2565);
+});
+
+test('full incentive is admin-managed, validated and returned in baht', async () => {
+  for (const id of ['admin', 'legacy']) {
+    const response = await employees.PATCH(request('/api/employees', 'PATCH', id, { id: 'employee', fullIncentive: 1234.56 }));
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).fullIncentive, 1234.56);
+    assert.equal((await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } })).fullIncentiveCents, 123456);
+  }
+  for (const field of ['fullIncentive', 'fullIncentiveCents']) {
+    assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'employee', { id: 'employee', [field]: 999999 }))).status, 403);
+  }
+  for (const value of [-1, 0.001, '1000', null, 21474836.48]) {
+    assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', fullIncentive: value }))).status, 400);
+  }
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', fullIncentive: 0 }))).status, 200);
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', name: 'Renamed' }))).status, 200);
+  assert.equal((await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } })).fullIncentiveCents, 0);
+  const created = await employees.POST(request('/api/employees', 'POST', 'admin', {
+    name: 'New', email: 'new@test.example', department: 'Test', position: 'Test', password: 'password123', fullIncentive: 5000.01,
+  }));
+  assert.equal(created.status, 201);
+  assert.equal((await created.json()).fullIncentive, 5000.01);
+});
+
+test('full incentive migration is additive, repeatable and preserves historical payments', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple(`CREATE TABLE Employee (id TEXT PRIMARY KEY, salary INTEGER);
+      INSERT INTO Employee VALUES ('existing', 3000000);
+      CREATE TABLE Incentive (employeeId TEXT, amountCents INTEGER);
+      INSERT INTO Incentive VALUES ('existing', 123456);`);
+    assert.equal(await applyFullIncentiveMigration(database), 'applied');
+    assert.equal(await applyFullIncentiveMigration(database), 'already-applied');
+    const employee = (await database.execute('SELECT * FROM Employee')).rows[0];
+    assert.equal(employee.fullIncentiveCents, 0);
+    assert.equal(employee.salary, 3000000);
+    assert.equal((await database.execute('SELECT amountCents FROM Incentive')).rows[0].amountCents, 123456);
+    await assert.rejects(() => database.execute('UPDATE Employee SET fullIncentiveCents = -1'));
+    await assert.rejects(() => database.execute('UPDATE Employee SET fullIncentiveCents = 2147483648'));
+    await database.execute('UPDATE Employee SET fullIncentiveCents = 500000');
+    await applyFullIncentiveMigration(database);
+    assert.equal((await database.execute('SELECT fullIncentiveCents FROM Employee')).rows[0].fullIncentiveCents, 500000);
+  } finally { database.close(); }
 });
 
 async function createIncome() {
@@ -239,9 +315,9 @@ test('monthly finance includes all expense sources and both invoice sources with
     await prisma.overtime.create({ data: { id, employeeId: 'employee', createdById: 'admin', startAt: new Date(date), endAt: new Date(new Date(date).getTime() + 3600000), workedMinutes: 60, hourlyRateCents: 10000, otAmountCents: 10000, status } });
   }
   const result = await report();
-  assert.deepEqual(result.expenses, { salary: 30000, onsite: 200, overtime: 200, incentive: 1234.56, socialSecurity: 875, purchases: 0, total: 32509.56 });
+  assert.deepEqual(result.expenses, { salary: 30000, onsite: 200, overtime: 200, incentive: 1710, socialSecurity: 875, purchases: 0, total: 32985 });
   assert.deepEqual(result.income, { recurring: 160000, project: 20000, total: 180000 });
-  assert.equal(result.profit, 147490.44);
+  assert.equal(result.profit, 147015);
   assert.equal(result.incomeItems.length, 4);
   assert.equal(result.employees.find(employee => employee.id === 'unset')?.salary, null);
   assert.equal((await report('2026-11')).expenses.onsite, 1000);
@@ -293,7 +369,7 @@ test('year and month selections match the existing single-month report', async (
 
 test('all months totals reconcile to twelve monthly rows and include each cost in its month', async () => {
   await createIncome(); await save();
-  await save({ ...incentiveBody, month: '2026-11', amount: 500 });
+  await save({ ...incentiveBody, month: '2026-11', score: 25 });
   await prisma.employee.create({ data: { id: 'midyear', name: 'Midyear', email: 'midyear@example.test', department: 'Test', position: 'Test', passwordHash: 'unused', monthlySalaryCents: 100000, createdAt: new Date('2026-07-01T00:00:00+07:00') } });
   for (const [id, date, amount] of [
     ['year-start', '2026-01-01T00:00:00+07:00', 10.25],
@@ -305,8 +381,8 @@ test('all months totals reconcile to twelve monthly rows and include each cost i
   assert.equal(annual.month, '2026');
   assert.equal(annual.monthly.length, 12);
   assert.deepEqual(annual.income, { recurring: 360999, project: 29000, total: 389999 });
-  assert.deepEqual(annual.expenses, { salary: 366000, onsite: 31, overtime: 10, incentive: 1734.56, socialSecurity: 10800, purchases: 0, total: 378575.56 });
-  assert.equal(annual.profit, 11423.44);
+  assert.deepEqual(annual.expenses, { salary: 366000, onsite: 31, overtime: 10, incentive: 2210, socialSecurity: 10800, purchases: 0, total: 379051 });
+  assert.equal(annual.profit, 10948);
   assert.equal(annual.monthly[0].expenses.salary, 30000);
   assert.equal(annual.monthly[6].expenses.salary, 31000);
   assert.equal(annual.employees.find(employee => employee.id === 'midyear')?.salary, 6000);
@@ -479,10 +555,10 @@ test('purchases without VAT do not manufacture a credit or add VAT to expenses',
 
 test('owner flag exempts both social security shares but preserves salary and other expenses', async () => {
   for (const [id, name, salary] of [['owner-a', 'Songsak', 3000000], ['owner-b', 'Terdsak', 1000000]] as const) {
-    await prisma.employee.create({ data: { id, name, email: `${id}@example.test`, department: 'Management', position: 'Owner', role: 'USER', passwordHash: 'unused', isOwner: true, monthlySalaryCents: salary, createdAt: new Date('2026-01-01T00:00:00Z') } });
+    await prisma.employee.create({ data: { id, name, email: `${id}@example.test`, department: 'Management', position: 'Owner', role: 'USER', passwordHash: 'unused', isOwner: true, monthlySalaryCents: salary, fullIncentiveCents: 100000, createdAt: new Date('2026-01-01T00:00:00Z') } });
   }
   assert.equal(socialSecurityCents(3000000, true), 0);
-  await save({ ...incentiveBody, employee_id: 'owner-a', amount: 1000 });
+  await save({ ...incentiveBody, employee_id: 'owner-a', score: 100 });
   const tax = await taxReport();
   assert.equal(tax.summary.employerSocialSecurity, 875);
   assert.equal(tax.summary.employeeSocialSecurity, 875);

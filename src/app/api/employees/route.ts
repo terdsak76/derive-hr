@@ -6,7 +6,13 @@ import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 
 const employeeSelect = {
   id: true, name: true, department: true, position: true, email: true, role: true, isOwner: true,
+  fullIncentiveCents: true,
 } as const;
+
+function serializeEmployee<T extends { fullIncentiveCents: number }>(employee: T) {
+  const { fullIncentiveCents, ...profile } = employee;
+  return { ...profile, fullIncentive: fullIncentiveCents / 100 };
+}
 
 class EmployeeConflict extends Error {}
 
@@ -39,7 +45,15 @@ async function readBody(request: Request): Promise<Record<string, unknown> | nul
 }
 
 function parseEmployee(body: Record<string, unknown>, creating: boolean) {
-  const data: { name?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean } = {};
+  const data: { name?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean; fullIncentiveCents?: number } = {};
+  if (body.fullIncentive !== undefined) {
+    const amount = body.fullIncentive;
+    if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0 || amount > 21474836.47 ||
+      Math.abs(amount * 100 - Math.round(amount * 100)) > 0.000001) {
+      return { error: 'Full incentive must be 0–21,474,836.47 baht with at most 2 decimal places.' } as const;
+    }
+    data.fullIncentiveCents = Math.round(amount * 100);
+  }
   if (body.isOwner !== undefined) {
     if (typeof body.isOwner !== 'boolean') return { error: 'Owner flag must be true or false.' } as const;
     data.isOwner = body.isOwner;
@@ -76,7 +90,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       orderBy: { name: 'asc' },
       select: employeeSelect,
     });
-    return NextResponse.json(employees);
+    return NextResponse.json(employees.map(serializeEmployee));
   } catch (error) {
     return employeeError(error);
   }
@@ -95,10 +109,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       data: {
         name: parsed.data.name!, department: parsed.data.department!, position: parsed.data.position!,
         email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER', isOwner: parsed.data.isOwner ?? false,
+        fullIncentiveCents: parsed.data.fullIncentiveCents ?? 0,
       },
       select: employeeSelect,
     });
-    return NextResponse.json(employee, { status: 201 });
+    return NextResponse.json(serializeEmployee(employee), { status: 201 });
   } catch (error) {
     return employeeError(error);
   }
@@ -119,10 +134,13 @@ export async function PATCH(request: Request): Promise<NextResponse> {
     if (body.isOwner !== undefined && !isEmployeeAdmin(user.role)) {
       return NextResponse.json({ error: 'Only admins can change owner status.' }, { status: 403 });
     }
+    if ((body.fullIncentive !== undefined || body.fullIncentiveCents !== undefined) && !isEmployeeAdmin(user.role)) {
+      return NextResponse.json({ error: 'Only admins can change full incentive.' }, { status: 403 });
+    }
     const parsed = parseEmployee(body, false);
     if ('error' in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
     const employee = await prisma.employee.update({ where: { id }, data: parsed.data, select: employeeSelect });
-    return NextResponse.json(employee);
+    return NextResponse.json(serializeEmployee(employee));
   } catch (error) {
     return employeeError(error);
   }

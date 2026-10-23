@@ -15,6 +15,7 @@ model Employee {
   passwordHash           String
   role                   String                 @default("USER")
   monthlySalaryCents     Int?
+  fullIncentiveCents     Int                    @default(0)
   isOwner                Boolean                @default(false)
   attendances            Attendance[]
   leaves                 Leave[]

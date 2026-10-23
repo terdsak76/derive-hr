@@ -100,7 +100,8 @@ const employeeSelect = {
     department: true,
     position: true,
     email: true,
-    role: true
+    role: true,
+    isOwner: true
 };
 class EmployeeConflict extends Error {
 }
@@ -152,6 +153,12 @@ async function readBody(request) {
 }
 function parseEmployee(body, creating) {
     const data = {};
+    if (body.isOwner !== undefined) {
+        if (typeof body.isOwner !== 'boolean') return {
+            error: 'Owner flag must be true or false.'
+        };
+        data.isOwner = body.isOwner;
+    }
     for (const field of [
         'name',
         'department',
@@ -235,7 +242,8 @@ async function POST(request) {
                 position: parsed.data.position,
                 email: parsed.data.email,
                 passwordHash: parsed.data.passwordHash,
-                role: 'USER'
+                role: 'USER',
+                isOwner: parsed.data.isOwner ?? false
             },
             select: employeeSelect
         });
@@ -270,6 +278,13 @@ async function PATCH(request) {
             });
         }
         // Roles, salaries, and relation IDs are never accepted from this form.
+        if (body.isOwner !== undefined && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$employee$2d$access$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isEmployeeAdmin"])(user.role)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Only admins can change owner status.'
+            }, {
+                status: 403
+            });
+        }
         const parsed = parseEmployee(body, false);
         if ('error' in parsed) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: parsed.error
@@ -336,6 +351,13 @@ async function DELETE(request) {
                 }
             });
             if (sharedOvertime) throw new EmployeeConflict('This employee created overtime records for other employees. Preserve those records before deleting the account.');
+            if (await tx.incentive.count({
+                where: {
+                    employeeId: id
+                }
+            })) {
+                throw new EmployeeConflict('This employee has incentive history and cannot be deleted.');
+            }
             await tx.attendance.deleteMany({
                 where: {
                     employeeId: id
@@ -544,7 +566,7 @@ const adapter = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
 });
 const globalForPrisma = globalThis;
 const cachedPrisma = globalForPrisma.prisma;
-const prisma = cachedPrisma && 'issuedDocument' in cachedPrisma ? cachedPrisma : new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
+const prisma = cachedPrisma && 'vatPurchase' in cachedPrisma ? cachedPrisma : new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
     adapter
 });
 if ("TURBOPACK compile-time truthy", 1) {

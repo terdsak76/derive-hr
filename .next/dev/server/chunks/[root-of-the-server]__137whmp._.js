@@ -202,7 +202,7 @@ const adapter = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
 });
 const globalForPrisma = globalThis;
 const cachedPrisma = globalForPrisma.prisma;
-const prisma = cachedPrisma && 'issuedDocument' in cachedPrisma ? cachedPrisma : new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
+const prisma = cachedPrisma && 'vatPurchase' in cachedPrisma ? cachedPrisma : new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
     adapter
 });
 if ("TURBOPACK compile-time truthy", 1) {

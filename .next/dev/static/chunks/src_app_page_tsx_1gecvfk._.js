@@ -21,28 +21,161 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/refresh-cw.js [app-client] (ecmascript) <export default as RefreshCw>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/dollar-sign.js [app-client] (ecmascript) <export default as DollarSign>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$building$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Building2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/building-2.js [app-client] (ecmascript) <export default as Building2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/user-check.js [app-client] (ecmascript) <export default as UserCheck>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/shield.js [app-client] (ecmascript) <export default as Shield>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$in$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogIn$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-in.js [app-client] (ecmascript) <export default as LogIn>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-out.js [app-client] (ecmascript) <export default as LogOut>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$spreadsheet$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSpreadsheet$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-spreadsheet.js [app-client] (ecmascript) <export default as FileSpreadsheet>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$timer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Timer$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/timer.js [app-client] (ecmascript) <export default as Timer>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$printer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Printer$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/printer.js [app-client] (ecmascript) <export default as Printer>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$overtime$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/overtime.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$invoice$2d$template$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/invoice-template.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$employee$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/employee-management.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$incentive$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/incentive-management.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$company$2d$finance$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/company-finance.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$tax$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/tax-management.tsx [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
+;
+;
+;
+;
+;
+;
+const tabDescriptions = {
+    dashboard: 'ภาพรวมพนักงาน การเข้างาน และคำขอที่รออนุมัติ',
+    attendance: 'ลงเวลาเข้า–ออกงาน และตรวจสอบประวัติการทำงาน',
+    leaves: 'ยื่นใบลาและติดตามสถานะคำขอ',
+    onsite: 'บันทึกการเดินทางนอกสถานที่และค่าใช้จ่าย',
+    workday: 'ยื่นคำขอและติดตามการเปลี่ยนวันทำงาน',
+    summary: 'ดูสถิติการลา สาย การเปลี่ยนวันทำงาน และค่าใช้จ่ายรายเดือน',
+    overtime: 'บันทึกเวลาทำงานล่วงเวลาและตรวจสอบค่าตอบแทน',
+    invoices: 'ดูรอบบิลลูกค้าและพิมพ์ Invoice หรือใบเสร็จ',
+    'project-invoices': 'จัดการโครงการ งวดงาน และเอกสารเรียกเก็บเงิน',
+    employees: 'ดูและจัดการข้อมูลพนักงาน',
+    incentives: 'บันทึกคะแนนผลงานและ Incentive รายพนักงานประจำเดือน',
+    'company-finance': 'ดูรายรับ รายจ่าย และส่วนต่างแยกตามเดือนหรือปี',
+    'social-security': 'ตรวจสอบเงินสมทบนายจ้าง ลูกจ้าง และยอดนำส่งรายเดือน',
+    vat: 'บันทึกภาษีขาย ภาษีซื้อ และตรวจสอบยอดชำระหรือเครดิต VAT'
+};
 const getDateInputValue = (date)=>date.toISOString().split('T')[0];
+const getBangkokDateInputValue = (date = new Date())=>{
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Bangkok',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).formatToParts(date).reduce((result, part)=>({
+            ...result,
+            [part.type]: part.value
+        }), {});
+    return `${parts.year}-${parts.month}-${parts.day}`;
+};
 const getDateAfter = (days)=>getDateInputValue(new Date(Date.now() + days * 86400000));
+const thaiMonths = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+];
+const formatThaiDate = (value)=>{
+    const [year, month, day] = String(value || '').split('-').map(Number);
+    return year && month && day ? `${day} ${thaiMonths[month - 1]} ${year + 543}` : value;
+};
 const formatBaht = (value)=>new Intl.NumberFormat('th-TH', {
         style: 'currency',
         currency: 'THB',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(Number(value) || 0);
+const formatInvoiceAmount = (value)=>new Intl.NumberFormat('th-TH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(Number(value) || 0);
+const thaiNumberDigits = [
+    'ศูนย์',
+    'หนึ่ง',
+    'สอง',
+    'สาม',
+    'สี่',
+    'ห้า',
+    'หก',
+    'เจ็ด',
+    'แปด',
+    'เก้า'
+];
+const thaiNumberPositions = [
+    '',
+    'สิบ',
+    'ร้อย',
+    'พัน',
+    'หมื่น',
+    'แสน'
+];
+function thaiNumberUnderMillion(value) {
+    if (value === 0) return '';
+    const digits = String(value);
+    let result = '';
+    for(let index = 0; index < digits.length; index += 1){
+        const digit = Number(digits[index]);
+        if (digit === 0) continue;
+        const position = digits.length - index - 1;
+        if (position === 1 && digit === 1) {
+            result += '';
+        } else if (position === 1 && digit === 2) {
+            result += 'ยี่';
+        } else if (position === 0 && digit === 1 && value > 1) {
+            result += 'เอ็ด';
+        } else {
+            result += thaiNumberDigits[digit];
+        }
+        result += thaiNumberPositions[position];
+    }
+    return result;
+}
+function thaiNumberToWords(value) {
+    if (value === 0) return thaiNumberDigits[0];
+    const millionPart = Math.floor(value / 1_000_000);
+    const remainder = value % 1_000_000;
+    const millionText = millionPart > 0 ? `${thaiNumberToWords(millionPart)}ล้าน` : '';
+    return `${millionText}${thaiNumberUnderMillion(remainder)}`;
+}
+function bahtToThaiWords(value) {
+    const amountInSatang = Math.round((Number(value) || 0) * 100);
+    const baht = Math.floor(amountInSatang / 100);
+    const satang = amountInSatang % 100;
+    const bahtText = `${thaiNumberToWords(baht)}บาท`;
+    return satang === 0 ? `${bahtText}ถ้วน` : `${bahtText}${thaiNumberToWords(satang)}สตางค์`;
+}
+const escapeHtml = (value)=>String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 const overtimeStatusLabels = {
     PENDING_APPROVAL: 'รออนุมัติ',
     APPROVED: 'อนุมัติแล้ว',
     REJECTED: 'ไม่อนุมัติ'
 };
+const isAdminRole = (role)=>[
+        'ADMIN',
+        'ROLE_ADMIN'
+    ].includes(String(role || '').trim().toUpperCase());
+function parseOvertimeRange(startText, endText) {
+    const startAt = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$overtime$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseBangkokDateTime"])(startText);
+    const endAt = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$overtime$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseBangkokDateTime"])(endText);
+    return startAt && endAt ? {
+        startAt,
+        endAt
+    } : null;
+}
 function LoginPage({ onLogin }) {
     _s();
     const [email, setEmail] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
@@ -87,12 +220,12 @@ function LoginPage({ onLogin }) {
                                 className: "w-7 h-7"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 56,
+                                lineNumber: 153,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 55,
+                            lineNumber: 152,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -102,7 +235,7 @@ function LoginPage({ onLogin }) {
                                     children: "HR Connect Pro"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 59,
+                                    lineNumber: 156,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -110,19 +243,19 @@ function LoginPage({ onLogin }) {
                                     children: "เข้าสู่ระบบบริหารบุคคล"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 60,
+                                    lineNumber: 157,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 58,
+                            lineNumber: 155,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 54,
+                    lineNumber: 151,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -133,7 +266,7 @@ function LoginPage({ onLogin }) {
                             children: "ยินดีต้อนรับ"
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 65,
+                            lineNumber: 162,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -141,13 +274,13 @@ function LoginPage({ onLogin }) {
                             children: "กรุณาเข้าสู่ระบบด้วยอีเมลบริษัท"
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 66,
+                            lineNumber: 163,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 64,
+                    lineNumber: 161,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -161,7 +294,7 @@ function LoginPage({ onLogin }) {
                                     children: "อีเมล"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 71,
+                                    lineNumber: 168,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -174,13 +307,13 @@ function LoginPage({ onLogin }) {
                                     className: "w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 72,
+                                    lineNumber: 169,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 70,
+                            lineNumber: 167,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -190,7 +323,7 @@ function LoginPage({ onLogin }) {
                                     children: "รหัสผ่าน"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 83,
+                                    lineNumber: 180,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -203,13 +336,13 @@ function LoginPage({ onLogin }) {
                                     className: "w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 84,
+                                    lineNumber: 181,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 82,
+                            lineNumber: 179,
                             columnNumber: 11
                         }, this),
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -217,7 +350,7 @@ function LoginPage({ onLogin }) {
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 95,
+                            lineNumber: 192,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -229,31 +362,31 @@ function LoginPage({ onLogin }) {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 199,
                                     columnNumber: 13
                                 }, this),
                                 isSubmitting ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 97,
+                            lineNumber: 194,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 69,
+                    lineNumber: 166,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/page.tsx",
-            lineNumber: 53,
+            lineNumber: 150,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/page.tsx",
-        lineNumber: 52,
+        lineNumber: 149,
         columnNumber: 5
     }, this);
 }
@@ -272,7 +405,42 @@ function App() {
     const [onsite, setOnsite] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [workdayChanges, setWorkdayChanges] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [summaryRows, setSummaryRows] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [accountEmployees, setAccountEmployees] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [invoiceMonth, setInvoiceMonth] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(new Date().getMonth() + 1);
+    const [invoiceYear, setInvoiceYear] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(new Date().getFullYear());
+    const [invoiceSchedules, setInvoiceSchedules] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isInvoiceLoading, setIsInvoiceLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [invoiceError, setInvoiceError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [projects, setProjects] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [projectInvoices, setProjectInvoices] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isProjectInvoiceLoading, setIsProjectInvoiceLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isProjectSaving, setIsProjectSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [projectInvoiceError, setProjectInvoiceError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [projectForm, setProjectForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        name: '',
+        budget: '',
+        client_name: '',
+        address: '',
+        tax_id: ''
+    });
+    const [projectInvoiceForm, setProjectInvoiceForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        project_id: '',
+        installment: '',
+        invoice_date: getBangkokDateInputValue(),
+        billing_description: '',
+        amount: ''
+    });
+    const [documentPrintRequest, setDocumentPrintRequest] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [documentNumber, setDocumentNumber] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [isDocumentNumberLoading, setIsDocumentNumberLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [documentNumberError, setDocumentNumberError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [isDocumentNumberIssued, setIsDocumentNumberIssued] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [invoiceDescription, setInvoiceDescription] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [isInvoiceDescriptionSaving, setIsInvoiceDescriptionSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [invoiceDescriptionError, setInvoiceDescriptionError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
+    const [invoiceDescriptionSaved, setInvoiceDescriptionSaved] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const canEditInvoiceDescription = documentPrintRequest?.documentType === 'INVOICE' && !documentPrintRequest.project;
+    const hasUnsavedInvoiceDescription = canEditInvoiceDescription && invoiceDescription !== (documentPrintRequest.invoice.description || '');
+    const [receiptDate, setReceiptDate] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(getBangkokDateInputValue());
     const [overtimeRecords, setOvertimeRecords] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [overtimeQuote, setOvertimeQuote] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [overtimeQuoteLoading, setOvertimeQuoteLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -329,11 +497,6 @@ function App() {
         project: '',
         job_detail: ''
     });
-    const [accountForm, setAccountForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        id: '',
-        email: '',
-        password: ''
-    });
     const [overtimeForm, setOvertimeForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         employee_id: '',
         start_at: '',
@@ -359,42 +522,24 @@ function App() {
             method: 'POST'
         });
         setCurrentUser(null);
+        setActiveTab('dashboard');
+        setEmployees([]);
     };
-    const loadAccountEmployees = async ()=>{
-        try {
-            const response = await fetch('/api/employees');
-            if (!response.ok) {
-                throw new Error('Unable to load employees');
-            }
-            const databaseEmployees = await response.json();
-            setAccountEmployees(databaseEmployees);
-            if (databaseEmployees.length > 0 && currentUser?.role === 'ADMIN') {
-                setAccountForm({
-                    id: databaseEmployees[0].id,
-                    email: databaseEmployees[0].email || '',
-                    password: ''
-                });
-            }
-        } catch (error) {
-            console.error('Failed to load employees for account management:', error);
-            setAccountEmployees([]);
+    const handleEmployeesChange = (updatedEmployees)=>{
+        setEmployees(updatedEmployees);
+        const ownProfile = updatedEmployees.find((employee)=>employee.id === currentUser?.id);
+        if (ownProfile) {
+            setCurrentUser((current)=>current?.id === ownProfile.id ? {
+                    ...current,
+                    name: ownProfile.name,
+                    email: ownProfile.email,
+                    role: ownProfile.role
+                } : current);
         }
-    };
-    const handleAccountSave = async (event)=>{
-        event.preventDefault();
-        try {
-            const response = await fetch('/api/auth/update-account', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(accountForm)
-            });
-            if (!response.ok) throw new Error('Failed to update account');
-            alert('บัญชีอัปเดตสำเร็จ');
-        } catch (error) {
-            alert('เกิดข้อผิดพลาด: ' + error.message);
-        }
+        setOvertimeForm((current)=>({
+                ...current,
+                employee_id: updatedEmployees.some((employee)=>employee.id === current.employee_id) ? current.employee_id : updatedEmployees[0]?.id || ''
+            }));
     };
     const todayDate = getDateInputValue(new Date());
     const myTodayAttendance = currentUser ? attendance.find((item)=>item.employee_id === currentUser.id && item.date === todayDate) : null;
@@ -544,6 +689,756 @@ function App() {
         summaryMonth,
         summaryYear
     ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "App.useEffect": ()=>{
+            if (currentUser && [
+                'invoices',
+                'project-invoices',
+                'incentives',
+                'company-finance',
+                'vat',
+                'social-security'
+            ].includes(activeTab) && !isAdminRole(currentUser.role)) {
+                setActiveTab('dashboard');
+            }
+        }
+    }["App.useEffect"], [
+        currentUser?.id,
+        currentUser?.role,
+        activeTab
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "App.useEffect": ()=>{
+            if (!currentUser || !isAdminRole(currentUser.role)) {
+                setInvoiceSchedules([]);
+                return;
+            }
+            const loadInvoiceSchedules = {
+                "App.useEffect.loadInvoiceSchedules": async ()=>{
+                    setIsInvoiceLoading(true);
+                    setInvoiceError('');
+                    try {
+                        const selectedMonth = `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+                        const response = await fetch(`/api/invoice-schedules?month=${selectedMonth}`);
+                        const result = await response.json();
+                        if (!response.ok) throw new Error(result.error || 'Unable to load invoice schedules');
+                        setInvoiceSchedules(result);
+                    } catch (error) {
+                        console.error('Failed to load invoice schedules:', error);
+                        setInvoiceError(error instanceof Error ? error.message : 'Unable to load invoice schedules');
+                        setInvoiceSchedules([]);
+                    } finally{
+                        setIsInvoiceLoading(false);
+                    }
+                }
+            }["App.useEffect.loadInvoiceSchedules"];
+            loadInvoiceSchedules();
+        }
+    }["App.useEffect"], [
+        currentUser?.id,
+        currentUser?.role,
+        invoiceMonth,
+        invoiceYear
+    ]);
+    const loadProjectInvoices = async ()=>{
+        if (!currentUser || !isAdminRole(currentUser.role)) return;
+        setIsProjectInvoiceLoading(true);
+        setProjectInvoiceError('');
+        try {
+            const selectedMonth = `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+            const response = await fetch(`/api/project-invoices?month=${selectedMonth}`);
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'Unable to load project invoices');
+            setProjectInvoices(result);
+        } catch (error) {
+            console.error('Failed to load project invoices:', error);
+            setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to load project invoices');
+            setProjectInvoices([]);
+        } finally{
+            setIsProjectInvoiceLoading(false);
+        }
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "App.useEffect": ()=>{
+            if (!currentUser || !isAdminRole(currentUser.role)) {
+                setProjects([]);
+                setProjectInvoices([]);
+                return;
+            }
+            fetch('/api/projects').then({
+                "App.useEffect": (response)=>response.ok ? response.json() : []
+            }["App.useEffect"]).then({
+                "App.useEffect": (result)=>{
+                    setProjects(result);
+                    setProjectInvoiceForm({
+                        "App.useEffect": (current)=>({
+                                ...current,
+                                project_id: current.project_id || result[0]?.id || ''
+                            })
+                    }["App.useEffect"]);
+                }
+            }["App.useEffect"]).catch({
+                "App.useEffect": (error)=>{
+                    console.error('Failed to load projects:', error);
+                    setProjects([]);
+                }
+            }["App.useEffect"]);
+        }
+    }["App.useEffect"], [
+        currentUser?.id,
+        currentUser?.role
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "App.useEffect": ()=>{
+            loadProjectInvoices();
+        }
+    }["App.useEffect"], [
+        currentUser?.id,
+        currentUser?.role,
+        invoiceMonth,
+        invoiceYear
+    ]);
+    const handleCreateProject = async (event)=>{
+        event.preventDefault();
+        setIsProjectSaving(true);
+        setProjectInvoiceError('');
+        try {
+            const response = await fetch('/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(projectForm)
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'Unable to save project');
+            setProjects((current)=>[
+                    ...current,
+                    result
+                ].sort((left, right)=>left.name.localeCompare(right.name, 'th')));
+            setProjectInvoiceForm((current)=>({
+                    ...current,
+                    project_id: current.project_id || result.id
+                }));
+            setProjectForm({
+                name: '',
+                budget: '',
+                client_name: '',
+                address: '',
+                tax_id: ''
+            });
+        } catch (error) {
+            setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to save project');
+        } finally{
+            setIsProjectSaving(false);
+        }
+    };
+    const handleCreateProjectInvoice = async (event)=>{
+        event.preventDefault();
+        setIsProjectSaving(true);
+        setProjectInvoiceError('');
+        try {
+            const response = await fetch('/api/project-invoices', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(projectInvoiceForm)
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'Unable to save project invoice');
+            await loadProjectInvoices();
+            setInvoiceMonth(Number(result.invoice_date.slice(5, 7)));
+            setInvoiceYear(Number(result.invoice_date.slice(0, 4)));
+            setProjectInvoiceForm((current)=>({
+                    ...current,
+                    installment: '',
+                    invoice_date: getBangkokDateInputValue(),
+                    billing_description: '',
+                    amount: ''
+                }));
+        } catch (error) {
+            setProjectInvoiceError(error instanceof Error ? error.message : 'Unable to save project invoice');
+        } finally{
+            setIsProjectSaving(false);
+        }
+    };
+    const toPrintableProjectInvoice = (invoice)=>({
+            ...invoice,
+            issue_day: Number(invoice.invoice_date.slice(8, 10)),
+            period: 'project',
+            description: invoice.billing_description,
+            service: `งวดงาน ${invoice.installment}`,
+            name: invoice.client_name,
+            tax_id: invoice.tax_id,
+            invoice_number: invoice.invoice_number,
+            receipt_number: invoice.invoice_number.replace('INV', 'REC')
+        });
+    const openDocumentPrint = async ({ invoice, invoiceIndex, project, documentType })=>{
+        const sourceType = project ? 'PROJECT' : 'RECURRING';
+        const year = project ? Number(String(invoice.invoice_date).slice(0, 4)) : invoiceYear;
+        const month = project ? String(invoice.invoice_date).slice(0, 7) : `${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`;
+        const referenceKey = project ? `project:${invoice.id}` : `recurring:${invoice.id}:${month}`;
+        const prefix = project ? documentType === 'INVOICE' ? 'P-INV' : 'P-REC' : documentType === 'INVOICE' ? 'INV' : 'REC';
+        const fallbackNumber = project ? documentType === 'INVOICE' ? invoice.invoice_number : invoice.receipt_number : documentType === 'INVOICE' ? invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}` : invoice.receipt_number || `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`;
+        setDocumentPrintRequest({
+            invoice,
+            invoiceIndex,
+            project,
+            documentType,
+            sourceType,
+            referenceKey,
+            year
+        });
+        setInvoiceDescription(invoice.description || '');
+        setInvoiceDescriptionError('');
+        setInvoiceDescriptionSaved(false);
+        setDocumentNumber('');
+        setDocumentNumberError('');
+        setIsDocumentNumberIssued(false);
+        if (documentType === 'RECEIPT') setReceiptDate(getBangkokDateInputValue());
+        setIsDocumentNumberLoading(true);
+        try {
+            const params = new URLSearchParams({
+                document_type: documentType,
+                source_type: sourceType,
+                reference_key: referenceKey,
+                source_id: invoice.id,
+                prefix,
+                year: String(year)
+            });
+            if (fallbackNumber) params.set('fallback_number', fallbackNumber);
+            const response = await fetch(`/api/issued-documents?${params.toString()}`);
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'Unable to load document number');
+            setDocumentNumber(result.document_number);
+            setIsDocumentNumberIssued(Boolean(result.issued));
+        } catch (error) {
+            setDocumentNumberError(error instanceof Error ? error.message : 'ไม่สามารถโหลดเลขที่เอกสารได้');
+        } finally{
+            setIsDocumentNumberLoading(false);
+        }
+    };
+    const saveInvoiceDescription = async ()=>{
+        if (!canEditInvoiceDescription || isInvoiceDescriptionSaving || isDocumentNumberLoading) return;
+        setInvoiceDescriptionError('');
+        setInvoiceDescriptionSaved(false);
+        if (!invoiceDescription.trim() || invoiceDescription.length > 5000) {
+            setInvoiceDescriptionError('กรุณาระบุคำอธิบายรายการ 1–5,000 ตัวอักษร');
+            return;
+        }
+        setIsInvoiceDescriptionSaving(true);
+        try {
+            const response = await fetch('/api/invoice-schedules', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: documentPrintRequest.invoice.id,
+                    description: invoiceDescription
+                })
+            });
+            const saved = await response.json();
+            if (!response.ok) throw new Error(saved.error || 'ไม่สามารถบันทึกคำอธิบายได้');
+            setInvoiceSchedules((current)=>current.map((item)=>item.id === saved.id ? {
+                        ...item,
+                        description: saved.description
+                    } : item));
+            setDocumentPrintRequest((current)=>current && current.invoice.id === saved.id ? {
+                    ...current,
+                    invoice: {
+                        ...current.invoice,
+                        description: saved.description
+                    }
+                } : current);
+            setInvoiceDescription(saved.description);
+            setInvoiceDescriptionSaved(true);
+        } catch (error) {
+            setInvoiceDescriptionError(error instanceof Error ? error.message : 'ไม่สามารถบันทึกคำอธิบายได้');
+        } finally{
+            setIsInvoiceDescriptionSaving(false);
+        }
+    };
+    const getProjectInvoiceAmounts = (invoice)=>{
+        const subtotalSatang = Math.round((Number(invoice.amount) || 0) * 100);
+        const vatSatang = Math.round(subtotalSatang * 7 / 100);
+        const totalSatang = subtotalSatang + vatSatang;
+        const withholdingSatang = Math.round(subtotalSatang * 3 / 100);
+        return {
+            subtotal: subtotalSatang / 100,
+            vat: vatSatang / 100,
+            total: totalSatang / 100,
+            net: (totalSatang - withholdingSatang) / 100
+        };
+    };
+    const getProjectInstallmentParts = (installment)=>{
+        const value = String(installment || '');
+        const number = value.match(/(?:งวด(?:งาน)?\s*(?:ที่)?\s*)?(\d+(?:\.\d+)?)/i)?.[1] || value || '-';
+        const percentage = value.match(/(\d+(?:\.\d+)?)\s*%/)?.[1];
+        return {
+            number,
+            percentage: percentage ? `${percentage}%` : '-',
+            percentageValue: percentage ? Number(percentage) : 0
+        };
+    };
+    const printProjectInvoice = (invoice, options = {})=>{
+        const printWindow = window.open('', '_blank', 'width=1000,height=800');
+        if (!printWindow) {
+            setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+            return;
+        }
+        const amounts = getProjectInvoiceAmounts(invoice);
+        const installment = getProjectInstallmentParts(invoice.installment);
+        const derivedProjectBudget = installment.percentageValue > 0 ? amounts.subtotal / (installment.percentageValue / 100) : null;
+        const projectBudget = Number(invoice.project_budget) > 0 ? Number(invoice.project_budget) : derivedProjectBudget;
+        const amount = formatInvoiceAmount(amounts.subtotal);
+        const vat = formatInvoiceAmount(amounts.vat);
+        const grandTotal = formatInvoiceAmount(amounts.total);
+        const netAmount = formatInvoiceAmount(amounts.net);
+        const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
+        const invoiceNumber = options.invoiceNumber || invoice.invoice_number;
+        printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(invoiceNumber)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 11px; }
+            .document { width: 100%; max-width: 192mm; margin: 0 auto; }
+            .header { display: grid; grid-template-columns: 48% 52%; min-height: 32mm; align-items: start; }
+            .brand { padding-top: 1mm; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 7px; font-size: 24px; line-height: 31px; padding: 0 7px 0 10px; }
+            .brand-subtitle { color: #6b7280; font-size: 8px; letter-spacing: 2.5px; margin: 1px 0 8px 2px; }
+            .issuer-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+            .issuer-detail { line-height: 1.45; font-size: 10px; }
+            .document-title { text-align: center; font-size: 24px; font-weight: 700; padding-top: 3mm; }
+            .document-title small { display: block; font-size: 12px; font-weight: 400; margin-top: 2px; }
+            .rule { border-top: 2px solid #111; margin: 4px 0 7px; }
+            .customer { display: grid; grid-template-columns: 58% 42%; min-height: 28mm; border-bottom: 1px solid #111; padding: 0 2px 7px; }
+            .customer-left { line-height: 1.65; padding-right: 8px; }
+            .customer-left .label { display: inline-block; min-width: 63px; }
+            .customer-left .value { font-weight: 600; }
+            .customer-right { line-height: 1.75; padding-left: 8px; }
+            .meta-row { display: flex; gap: 7px; }
+            .meta-label { min-width: 83px; font-weight: 600; white-space: nowrap; }
+            table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+            .items { margin-top: 10px; }
+            th, td { border: 1px solid #111; padding: 5px 6px; vertical-align: middle; overflow-wrap: anywhere; }
+            th { background: #d9e2f3; text-align: center; font-weight: 700; }
+            .items thead tr:first-child th { height: 9mm; }
+            .items thead tr:last-child th { height: 8mm; }
+            .project-col { width: 25%; }
+            .detail-col { width: 37%; }
+            .installment-col { width: 11%; text-align: center; }
+            .percent-col { width: 11%; text-align: center; }
+            .amount-col { width: 16%; text-align: right; white-space: nowrap; }
+            .items tbody td { height: 31mm; vertical-align: top; }
+            .project-name { font-weight: 700; line-height: 1.55; }
+            .muted { display: block; color: #4b5563; font-size: 10px; margin-top: 4px; }
+            .center { text-align: center; }
+            .right { text-align: right; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 38%; }
+            .summary td { height: 7mm; padding: 4px 6px; }
+            .summary .label { width: 57.8947%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 42.1053%; text-align: right; white-space: nowrap; }
+            .summary .grand td { font-weight: 700; font-size: 13px; }
+            .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
+            .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
+            .balance { display: flex; justify-content: flex-end; gap: 8px; padding: 5px 2px 4px; font-size: 11px; }
+            .balance strong { min-width: 30mm; text-align: right; }
+            .payment { border-top: 1px solid #111; padding-top: 5px; line-height: 1.55; min-height: 28mm; }
+            .payment-title { font-weight: 700; margin-bottom: 2px; }
+            .signatures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm; margin-top: 13mm; text-align: center; }
+            .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
+            .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            .document + .document { break-before: page; page-break-before: always; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="document">
+            <section class="header">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่ (061-5202649)</div>
+              </div>
+              <div class="document-title">ใบแจ้งหนี้<small class="copy-label">(ต้นฉบับ)</small></div>
+            </section>
+            <div class="rule"></div>
+            <section class="customer">
+              <div class="customer-left">
+                <div><span class="label">Attention:</span></div>
+                <div><span class="label">Company:</span><span class="value">${escapeHtml(invoice.client_name)}</span></div>
+                <div><span class="label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="label"></span>เลขประจำตัวผู้เสียภาษี : ${escapeHtml(invoice.tax_id)}</div>
+              </div>
+              <div class="customer-right">
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(invoiceNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(formatThaiDate(invoice.invoice_date))}</span></div>
+              </div>
+            </section>
+            <table class="items">
+              <colgroup><col style="width: 25%" /><col style="width: 37%" /><col style="width: 11%" /><col style="width: 11%" /><col style="width: 16%" /></colgroup>
+              <thead>
+                <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
+                <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
+              </thead>
+              <tbody><tr><td><span class="project-name">${escapeHtml(invoice.project_name)}</span><span class="muted">งบประมาณโครงการ: ${projectBudget === null ? '-' : formatInvoiceAmount(projectBudget)}</span></td><td>${escapeHtml(invoice.billing_description)}</td><td class="center">${escapeHtml(installment.number)}</td><td class="center">${escapeHtml(installment.percentage)}</td><td class="right">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเป็นเงิน</td><td class="money">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="money">${vat}</td></tr>
+                <tr class="grand"><td class="label">รวมทั้งสิ้น</td><td class="money">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">${escapeHtml(amountWords)}</div>
+            <div class="withholding-note"><strong>หมายเหตุ: ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%</strong></div>
+            <div class="balance"><span>คงเหลือยอดเงิน</span><strong>${netAmount}</strong><span>บาท</span></div>
+            <section class="payment">
+              <div class="payment-title">วิธีการชำระเงิน</div>
+              <div>1. ฝากเข้าบัญชีธนาคาร : ชื่อบัญชี บจก.ดีไรฟ์ อินโนเวชั่น เลขที่ 016-8-53748-4 ธนาคารกสิกรไทย สาขาวรจักร</div>
+              <div>2. เช็คสั่งจ่าย “บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด” โดยขีดคร่อมเช็ค และขีดฆ่า “หรือผู้ถือ”</div>
+              <div>3. Payment Terms: Payment is due within 14 days from the invoice date</div>
+            </section>
+            <section class="signatures"><div class="signature">ผู้รับใบแจ้งหนี้ :</div><div class="signature">ผู้จัดทำ :</div><div class="signature">ผู้อนุมัติ :</div></section>
+            <div class="print-note">ตรวจสอบข้อมูลก่อนพิมพ์เอกสารฉบับจริง</div>
+          </main>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.document');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>`);
+        printWindow.document.close();
+    };
+    const printProjectReceipt = (invoice, selectedReceiptDate, options = {})=>{
+        const printWindow = window.open('', '_blank', 'width=1000,height=800');
+        if (!printWindow) {
+            setProjectInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+            return;
+        }
+        const amounts = getProjectInvoiceAmounts(invoice);
+        const installment = getProjectInstallmentParts(invoice.installment);
+        const derivedProjectBudget = installment.percentageValue > 0 ? amounts.subtotal / (installment.percentageValue / 100) : null;
+        const projectBudget = Number(invoice.project_budget) > 0 ? Number(invoice.project_budget) : derivedProjectBudget;
+        const amount = formatInvoiceAmount(amounts.subtotal);
+        const vat = formatInvoiceAmount(amounts.vat);
+        const grandTotal = formatInvoiceAmount(amounts.total);
+        const netAmount = formatInvoiceAmount(amounts.net);
+        const amountWords = `(   ***${bahtToThaiWords(amounts.total)}***   )`;
+        const receiptDateLabel = formatThaiDate(selectedReceiptDate);
+        const receiptNumber = options.receiptNumber || invoice.receipt_number;
+        const invoiceNumber = options.invoiceNumber || invoice.invoice_number;
+        printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(receiptNumber)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 8mm 9mm 7mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 11px; }
+            .document { width: 100%; max-width: 192mm; margin: 0 auto; }
+            .header { display: grid; grid-template-columns: 48% 52%; min-height: 32mm; align-items: start; }
+            .brand { padding-top: 1mm; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 7px; font-size: 24px; line-height: 31px; padding: 0 7px 0 10px; }
+            .brand-subtitle { color: #6b7280; font-size: 8px; letter-spacing: 2.5px; margin: 1px 0 8px 2px; }
+            .issuer-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+            .issuer-detail { line-height: 1.45; font-size: 10px; }
+            .document-title { text-align: center; font-size: 20px; font-weight: 700; padding-top: 2mm; line-height: 1.35; }
+            .document-title small { display: block; font-size: 11px; font-weight: 400; margin-top: 2px; }
+            .rule { border-top: 2px solid #111; margin: 4px 0 7px; }
+            .customer { display: grid; grid-template-columns: 58% 42%; min-height: 28mm; border-bottom: 1px solid #111; padding: 0 2px 7px; }
+            .customer-left { line-height: 1.65; padding-right: 8px; }
+            .customer-left .label { display: inline-block; min-width: 63px; }
+            .customer-left .value { font-weight: 600; }
+            .customer-right { line-height: 1.75; padding-left: 8px; }
+            .meta-row { display: flex; gap: 7px; }
+            .meta-label { min-width: 83px; font-weight: 600; white-space: nowrap; }
+            table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+            .items { margin-top: 10px; }
+            th, td { border: 1px solid #111; padding: 5px 6px; vertical-align: middle; overflow-wrap: anywhere; }
+            th { background: #d9e2f3; text-align: center; font-weight: 700; }
+            .items thead tr:first-child th { height: 9mm; }
+            .items thead tr:last-child th { height: 8mm; }
+            .project-col { width: 25%; }
+            .detail-col { width: 37%; }
+            .installment-col { width: 11%; text-align: center; }
+            .percent-col { width: 11%; text-align: center; }
+            .amount-col { width: 16%; text-align: right; white-space: nowrap; }
+            .items tbody td { height: 27mm; vertical-align: top; }
+            .project-name { font-weight: 700; line-height: 1.55; }
+            .muted { display: block; color: #4b5563; font-size: 10px; margin-top: 4px; }
+            .center { text-align: center; }
+            .right { text-align: right; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 38%; }
+            .summary td { height: 7mm; padding: 4px 6px; }
+            .summary .label { width: 57.8947%; background: #f3f4f6; font-weight: 600; }
+            .summary .money { width: 42.1053%; text-align: right; white-space: nowrap; }
+            .summary .grand td { font-weight: 700; font-size: 13px; }
+            .amount-words { border-bottom: 1px solid #111; padding: 6px 2px; font-weight: 700; min-height: 8mm; }
+            .withholding-note { display: block; padding: 5px 2px 0; margin-bottom: 2px; font-size: 11px; line-height: 1.5; }
+            .balance { display: flex; justify-content: flex-end; gap: 8px; padding: 5px 2px 4px; font-size: 11px; }
+            .balance strong { min-width: 30mm; text-align: right; }
+            .payment { border-top: 1px solid #111; padding-top: 5px; line-height: 1.55; min-height: 36mm; }
+            .payment-title { font-weight: 700; margin-bottom: 2px; }
+            .signatures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 35mm; margin-top: 9mm; text-align: center; }
+            .signature { border-top: 1px solid #6b7280; padding-top: 9mm; min-height: 16mm; }
+            .print-note { margin-top: 5px; color: #6b7280; font-size: 9px; text-align: center; }
+            .document + .document { break-before: page; page-break-before: always; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="document">
+            <section class="header">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
+              </div>
+              <div class="document-title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>(Receipt / Tax Invoice)</small><small class="copy-label">(ต้นฉบับ)</small></div>
+            </section>
+            <div class="rule"></div>
+            <section class="customer">
+              <div class="customer-left">
+                <div><span class="label">Attention:</span></div>
+                <div><span class="label">Company:</span><span class="value">${escapeHtml(invoice.client_name)}</span></div>
+                <div><span class="label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="label"></span>เลขประจำตัวผู้เสียภาษี : ${escapeHtml(invoice.tax_id)}</div>
+              </div>
+              <div class="customer-right">
+                <div class="meta-row"><span class="meta-label">เล่มที่</span><span>001</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span>${escapeHtml(receiptNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span>${escapeHtml(invoiceNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span>${escapeHtml(receiptDateLabel)}</span></div>
+              </div>
+            </section>
+            <table class="items">
+              <colgroup><col style="width: 25%" /><col style="width: 37%" /><col style="width: 11%" /><col style="width: 11%" /><col style="width: 16%" /></colgroup>
+              <thead>
+                <tr><th class="project-col" rowspan="2">โครงการ / งบประมาณโครงการ</th><th class="detail-col" rowspan="2">รายละเอียดงวดงานตามสัญญา</th><th colspan="3">รายการจ่ายเงินงวด</th></tr>
+                <tr><th class="installment-col">งวดงานที่</th><th class="percent-col">เปอร์เซ็น</th><th class="amount-col">Amount</th></tr>
+              </thead>
+              <tbody><tr><td><span class="project-name">${escapeHtml(invoice.project_name)}</span><span class="muted">งบประมาณโครงการ: ${projectBudget === null ? '-' : formatInvoiceAmount(projectBudget)}</span></td><td>${escapeHtml(invoice.billing_description)}</td><td class="center">${escapeHtml(installment.number)}</td><td class="center">${escapeHtml(installment.percentage)}</td><td class="right">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเป็นเงิน</td><td class="money">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="money">${vat}</td></tr>
+                <tr class="grand"><td class="label">รวมทั้งสิ้น</td><td class="money">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">${escapeHtml(amountWords)}</div>
+            <div class="withholding-note"><strong>หมายเหตุ: ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%</strong></div>
+            <div class="balance"><span>คงเหลือยอดเงิน</span><strong>${netAmount}</strong><span>บาท</span></div>
+            <section class="payment">
+              <div class="payment-title">ชำระเงินโดย</div>
+              <div>(   ) เงินสด ( Cash)</div>
+              <div>(   ) เช็ค (Cheque) ธนาคาร/Bank __________________ เลขที่/No. __________________ ลงวันที่/Date ______________</div>
+              <div>(   ) โอนเข้าบัญชี เลขที่ 016-8-53748-4 ธนาคาร/Bank กสิกรไทย สาขา/Branch วรจักร วันที่/Date ______________</div>
+              <div class="muted">ในกรณีชำระด้วยเช็ค โปรดสั่งจ่ายและขีดคร่อมในนาม “บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด” เท่านั้น</div>
+            </section>
+            <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
+            <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
+          </main>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.document');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>`);
+        printWindow.document.close();
+    };
+    const printInvoice = (invoice, invoiceIndex, options = {})=>{
+        const printWindow = window.open('', '_blank', 'width=1000,height=800');
+        if (!printWindow) {
+            setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+            return;
+        }
+        const issueDate = options.issueDate || `${invoice.issue_day} ${thaiMonths[invoiceMonth - 1]} ${invoiceYear + 543}`;
+        const invoiceNumber = options.invoiceNumber || invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
+        printWindow.document.write((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$invoice$2d$template$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["renderInvoiceHtml"])({
+            invoice,
+            invoiceNumber,
+            issueDate,
+            amountWords: bahtToThaiWords((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$invoice$2d$template$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getInvoiceAmounts"])(invoice.amount).total),
+            assetBaseUrl: `${window.location.origin}/invoice`
+        }));
+        printWindow.document.close();
+    };
+    const printReceipt = (invoice, invoiceIndex, selectedReceiptDate, options = {})=>{
+        const printWindow = window.open('', '_blank', 'width=1000,height=800');
+        if (!printWindow) {
+            setInvoiceError('ไม่สามารถเปิดหน้าต่างพิมพ์ได้ กรุณาอนุญาตให้เปิดป๊อปอัป');
+            return;
+        }
+        const receiptNumber = options.receiptNumber || invoice.receipt_number || `REC-${invoiceYear}/${String(invoiceIndex + 1).padStart(3, '0')}`;
+        const invoiceNumber = options.invoiceNumber || invoice.invoice_number || `INV-${invoiceYear}-${String(invoiceIndex + 1).padStart(3, '0')}`;
+        const [receiptYear, receiptMonth, receiptDay] = selectedReceiptDate.split('-').map(Number);
+        const printingDate = `${receiptDay} ${thaiMonths[receiptMonth - 1]} ${receiptYear + 543}`;
+        const periodLabel = invoice.period === 'project' ? 'ตามงวดงาน' : invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน';
+        const serviceAmountSatang = Math.round((Number(invoice.amount) || 0) * 100);
+        const vatAmountSatang = Math.round(serviceAmountSatang * 7 / 100);
+        const totalAmountSatang = serviceAmountSatang + vatAmountSatang;
+        const netAmountSatang = Math.round(totalAmountSatang * 97 / 100);
+        const serviceAmount = serviceAmountSatang / 100;
+        const vatAmount = vatAmountSatang / 100;
+        const totalAmount = totalAmountSatang / 100;
+        const netAmount = netAmountSatang / 100;
+        const amount = formatInvoiceAmount(serviceAmount);
+        const vat = formatInvoiceAmount(vatAmount);
+        const grandTotal = formatInvoiceAmount(totalAmount);
+        const netAmountText = formatInvoiceAmount(netAmount);
+        printWindow.document.write(`<!doctype html>
+      <html lang="th">
+        <head>
+          <meta charset="utf-8" />
+          <title>${escapeHtml(receiptNumber)}</title>
+          <style>
+            @page { size: A4 portrait; margin: 12mm 10mm; }
+            * { box-sizing: border-box; }
+            body { margin: 0; color: #111827; font-family: Arial, "Noto Sans Thai", Tahoma, sans-serif; font-size: 12px; }
+            .receipt { width: 100%; max-width: 190mm; margin: 0 auto; }
+            .top { display: flex; justify-content: space-between; align-items: flex-start; min-height: 30mm; }
+            .brand { width: 55%; }
+            .brand-mark { display: inline-block; color: #fff; background: #1f2937; letter-spacing: 8px; font-size: 27px; line-height: 34px; padding: 0 8px 0 12px; }
+            .brand-subtitle { color: #6b7280; font-size: 9px; letter-spacing: 3px; margin: 2px 0 14px 2px; }
+            .issuer-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+            .issuer-detail { line-height: 1.65; }
+            .title { width: 42%; text-align: right; font-size: 22px; font-weight: 700; line-height: 1.35; }
+            .title small { display: block; font-size: 12px; font-weight: 400; }
+            .copy { display: block; font-size: 12px; font-weight: 400; margin-top: 5px; }
+            .rule { border-top: 2px solid #111; margin: 10px 0 12px; }
+            .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-height: 34mm; border-bottom: 1px solid #111; padding-bottom: 12px; }
+            .party { line-height: 1.8; }
+            .party-label { display: inline-block; min-width: 72px; }
+            .party-value { font-weight: 600; }
+            .meta { line-height: 2; text-align: left; }
+            .meta-row { display: flex; justify-content: space-between; gap: 12px; }
+            .meta-label { font-weight: 600; white-space: nowrap; }
+            .meta-value { min-width: 120px; text-align: left; }
+            table { width: 100%; border-collapse: collapse; margin-top: 14px; table-layout: fixed; }
+            th, td { border: 1px solid #111; padding: 8px 7px; vertical-align: top; min-width: 0; }
+            th { background: #173b64; color: #fff; text-align: center; font-size: 12px; }
+            th small { display: block; font-size: 11px; margin-top: 7px; font-weight: 400; }
+            td { min-height: 48mm; }
+            .item { width: 8%; text-align: center; }
+            .description { width: 43%; overflow-wrap: anywhere; }
+            .price { width: 18%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .quantity { width: 12%; text-align: center; }
+            .total { width: 19%; text-align: right; white-space: nowrap; font-size: 11px; }
+            .description strong { display: block; margin-bottom: 8px; }
+            .description p { margin: 4px 0; line-height: 1.7; }
+            .summary { display: flex; justify-content: flex-end; }
+            .summary table { width: 49%; margin-top: 0; table-layout: fixed; }
+            .summary td { min-height: 0; padding: 7px; }
+            .summary .label { width: 61.2245%; font-weight: 600; background: #f3f4f6; }
+            .summary .total { width: 38.7755%; padding-left: 4px; padding-right: 4px; text-align: right; white-space: nowrap; overflow: hidden; font-size: 12px; }
+            .summary .grand-total td { font-size: 14px; font-weight: 700; }
+            .amount-words { margin-top: 10px; font-size: 13px; font-weight: 700; }
+            .payment { margin-top: 13px; line-height: 1.8; }
+            .payment-title { font-weight: 700; }
+            .note { margin-top: 8px; line-height: 1.7; }
+            .signatures { display: flex; justify-content: space-between; gap: 35mm; margin-top: 20mm; text-align: center; }
+            .signature { flex: 1; padding-top: 12mm; border-top: 1px solid #6b7280; }
+            .print-note { margin-top: 12px; color: #6b7280; font-size: 10px; }
+            .receipt + .receipt { break-before: page; page-break-before: always; }
+            @media print { .print-note { display: none; } }
+          </style>
+        </head>
+        <body>
+          <main class="receipt">
+            <section class="top">
+              <div class="brand">
+                <div class="brand-mark">DeRIVE</div>
+                <div class="brand-subtitle">Innovation Company Limited</div>
+                <div class="issuer-name">บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด</div>
+                <div class="issuer-detail">653/37 ถ.จรัญสนิทวงศ์ แขวงอรุณอมรินทร์ เขตบางกอกน้อย กรุงเทพมหานคร 10700<br />Tax ID: 0105556107148 สำนักงานใหญ่</div>
+              </div>
+              <div class="title">ใบเสร็จรับเงิน / ใบกำกับภาษี<small>( Receipt / Tax Invoice)</small><span class="copy copy-label">(ต้นฉบับ)</span></div>
+            </section>
+            <div class="rule"></div>
+            <section class="parties">
+              <div class="party">
+                <div><span class="party-label">Attention:</span></div>
+                <div><span class="party-label">Company:</span><span class="party-value">${escapeHtml(invoice.name)}</span></div>
+                <div><span class="party-label"></span>${escapeHtml(invoice.address)}</div>
+                <div><span class="party-label"></span>เลขประจำตัวผู้เสียภาษี: ${escapeHtml(invoice.tax_id)} (สำนักงานใหญ่)</div>
+              </div>
+              <div class="meta">
+                <div class="meta-row"><span class="meta-label">เล่มที่</span><span class="meta-value">001</span></div>
+                <div class="meta-row"><span class="meta-label">เลขที่/ No. :</span><span class="meta-value">${escapeHtml(receiptNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">อ้างอิง Invoice :</span><span class="meta-value">${escapeHtml(invoiceNumber)}</span></div>
+                <div class="meta-row"><span class="meta-label">วันที่ Date :</span><span class="meta-value">${escapeHtml(printingDate)}</span></div>
+              </div>
+            </section>
+            <table>
+              <thead><tr><th class="item">ลำดับที่<small>ITEM</small></th><th class="description">รายการ<small>DESCRIPTION</small></th><th class="price">ราคา/หน่วย<small>Price/Unit</small></th><th class="quantity">จำนวน<small>Quantity</small></th><th class="total">จำนวนเงิน<small>Amount</small></th></tr></thead>
+              <tbody><tr><td class="item">1</td><td class="description"><strong>${escapeHtml(invoice.description)}</strong><p>รอบการออกเอกสาร: ${escapeHtml(periodLabel)}</p><p>รายละเอียดบริการ: ${escapeHtml(invoice.service)}</p></td><td class="price">${amount}</td><td class="quantity">1</td><td class="total">${amount}</td></tr></tbody>
+            </table>
+            <section class="summary">
+              <table>
+                <tr><td class="label">รวมเงิน</td><td class="total">${amount}</td></tr>
+                <tr><td class="label">ภาษีมูลค่าเพิ่ม 7%</td><td class="total">${vat}</td></tr>
+                <tr class="grand-total"><td class="label">รวมทั้งสิ้น</td><td class="total">${grandTotal}</td></tr>
+              </table>
+            </section>
+            <div class="amount-words">(${escapeHtml(bahtToThaiWords(totalAmount))})</div>
+            <section class="payment">
+              <div class="payment-title">ชำระเงินโดย</div>
+              <div>(   ) เงินสด ( Cash)</div>
+              <div>(   ) เช็ค (Cheque) ธนาคาร/Bank __________________ เลขที่/No. __________________ ลงวันที่/Date ______________</div>
+              <div>(   ) โอนเข้าบัญชี ธนาคาร/Bank __________________ สาขา/Branch __________________ วันที่/Date ______________</div>
+            </section>
+            <div class="note"><strong>หมายเหตุ:</strong> ยอดเงินหน้าเช็ค หรือ รับเงินสด หลังหักภาษี ณ ที่จ่าย 3%<br />คงเหลือเงิน <strong>${netAmountText} บาท</strong></div>
+            <section class="signatures"><div class="signature">ผู้รับเงิน / Collector By</div><div class="signature">ผู้อนุมัติ / Authorized Signature</div></section>
+            <div class="print-note">วันที่ในใบเสร็จนี้คือวันที่พิมพ์เอกสาร</div>
+          </main>
+          <script>
+            window.onload = function () {
+              const original = document.querySelector('.receipt');
+              if (original) {
+                const copy = original.cloneNode(true);
+                const copyLabel = copy.querySelector('.copy-label');
+                if (copyLabel) copyLabel.textContent = '(สำเนา)';
+                original.after(copy);
+              }
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>`);
+        printWindow.document.close();
+    };
     const loadOvertimeRecords = async ()=>{
         if (!currentUser) return;
         setIsOvertimeLoading(true);
@@ -578,7 +1473,8 @@ function App() {
         "App.useEffect": ()=>{
             setOvertimeQuote(null);
             setOvertimeError('');
-            if (currentUser?.role?.toUpperCase() !== 'ADMIN' || !overtimeForm.employee_id || !overtimeForm.start_at || !overtimeForm.end_at || overtimeForm.end_at <= overtimeForm.start_at) {
+            const range = parseOvertimeRange(overtimeForm.start_at, overtimeForm.end_at);
+            if (!currentUser || !overtimeForm.employee_id || !overtimeForm.start_at || !overtimeForm.end_at || !range || range.endAt.getTime() <= range.startAt.getTime()) {
                 setOvertimeQuoteLoading(false);
                 return;
             }
@@ -633,7 +1529,12 @@ function App() {
             setOvertimeError('กรุณากรอกพนักงาน วันเวลาเริ่มต้น และวันเวลาสิ้นสุด');
             return;
         }
-        if (overtimeForm.end_at <= overtimeForm.start_at) {
+        const range = parseOvertimeRange(overtimeForm.start_at, overtimeForm.end_at);
+        if (!range) {
+            setOvertimeError('กรุณาระบุวันเวลา OT เป็นเวลาไทยในรูปแบบที่ถูกต้อง');
+            return;
+        }
+        if (range.endAt.getTime() <= range.startAt.getTime()) {
             setOvertimeError('วันเวลาสิ้นสุดต้องอยู่หลังวันเวลาเริ่มต้น');
             return;
         }
@@ -967,7 +1868,7 @@ function App() {
             children: "กำลังตรวจสอบการเข้าสู่ระบบ..."
         }, void 0, false, {
             fileName: "[project]/src/app/page.tsx",
-            lineNumber: 762,
+            lineNumber: 1577,
             columnNumber: 12
         }, this);
     }
@@ -976,7 +1877,7 @@ function App() {
             onLogin: setCurrentUser
         }, void 0, false, {
             fileName: "[project]/src/app/page.tsx",
-            lineNumber: 766,
+            lineNumber: 1581,
             columnNumber: 12
         }, this);
     }
@@ -995,12 +1896,12 @@ function App() {
                                     className: "w-6 h-6"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 774,
+                                    lineNumber: 1589,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 773,
+                                lineNumber: 1588,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1008,35 +1909,35 @@ function App() {
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                                         className: "font-bold text-lg leading-tight",
                                         style: {
-                                            color: "#ffffff"
+                                            color: "#0f172a"
                                         },
                                         children: "DeRIVE HR System"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 777,
+                                        lineNumber: 1592,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-xs text-slate-400",
                                         style: {
-                                            color: "#ffffff"
+                                            color: "#64748b"
                                         },
                                         children: "ระบบบริหารบุคคล"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 780,
+                                        lineNumber: 1595,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 776,
+                                lineNumber: 1591,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 772,
+                        lineNumber: 1587,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -1050,20 +1951,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 789,
+                                        lineNumber: 1604,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "ภาพรวม (Dashboard)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 790,
+                                        lineNumber: 1605,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 785,
+                                lineNumber: 1600,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1074,20 +1975,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 796,
+                                        lineNumber: 1611,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "บันทึกเวลา (Attendance)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 797,
+                                        lineNumber: 1612,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 792,
+                                lineNumber: 1607,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1098,20 +1999,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 803,
+                                        lineNumber: 1618,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "แจ้งลา / ขาดงาน (Leaves)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 804,
+                                        lineNumber: 1619,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 799,
+                                lineNumber: 1614,
                                 columnNumber: 19
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1122,20 +2023,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 810,
+                                        lineNumber: 1625,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "การเดินทาง Onsite"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 811,
+                                        lineNumber: 1626,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 806,
+                                lineNumber: 1621,
                                 columnNumber: 19
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1146,20 +2047,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 817,
+                                        lineNumber: 1632,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "ขอเปลี่ยนวันทำงาน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 818,
+                                        lineNumber: 1633,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 813,
+                                lineNumber: 1628,
                                 columnNumber: 19
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1170,20 +2071,20 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 825,
+                                        lineNumber: 1640,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "สรุปสถิติพนักงาน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 826,
+                                        lineNumber: 1641,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 821,
+                                lineNumber: 1636,
                                 columnNumber: 19
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1194,60 +2095,209 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 833,
+                                        lineNumber: 1648,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "บันทึก OT"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 834,
+                                        lineNumber: 1649,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 829,
+                                lineNumber: 1644,
                                 columnNumber: 11
+                            }, this),
+                            isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setActiveTab('invoices'),
+                                className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$spreadsheet$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSpreadsheet$3e$__["FileSpreadsheet"], {
+                                        className: "w-5 h-5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1657,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        children: "ตาราง Invoice ลูกค้า"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1658,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1653,
+                                columnNumber: 13
+                            }, this),
+                            isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setActiveTab('project-invoices'),
+                                className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'project-invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                        className: "w-5 h-5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1667,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        children: "Invoice / Receipt โครงการ"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1668,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1663,
+                                columnNumber: 13
+                            }, this),
+                            isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('incentives'),
+                                        className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'incentives' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__["UserCheck"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1675,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "Incentive พนักงาน"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1675,
+                                                columnNumber: 50
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1674,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('company-finance'),
+                                        className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'company-finance' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__["DollarSign"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1678,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "รายรับ–รายจ่ายบริษัท"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1678,
+                                                columnNumber: 51
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1677,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('social-security'),
+                                        className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'social-security' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__["Shield"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1681,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "ประกันสังคม"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1681,
+                                                columnNumber: 47
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1680,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: ()=>setActiveTab('vat'),
+                                        className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'vat' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$spreadsheet$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileSpreadsheet$3e$__["FileSpreadsheet"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1684,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "VAT ชำระ / ขอคืน"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 1684,
+                                                columnNumber: 56
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 1683,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1673,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "pt-4 border-t border-slate-800 my-2"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 837,
+                                lineNumber: 1689,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>{
-                                    setActiveTab('account');
-                                    loadAccountEmployees();
-                                },
-                                className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'account' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
+                                onClick: ()=>setActiveTab('employees'),
+                                className: `w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'employees' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`,
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 846,
+                                        lineNumber: 1695,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        children: "แก้ไขบัญชี"
+                                        children: "จัดการพนักงาน (Employees)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 847,
+                                        lineNumber: 1696,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 839,
+                                lineNumber: 1691,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 784,
+                        lineNumber: 1599,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1262,14 +2312,14 @@ function App() {
                                             className: "w-4 h-4 text-emerald-400"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 855,
+                                            lineNumber: 1704,
                                             columnNumber: 57
                                         }, this),
                                         " DB Engine:"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 855,
+                                    lineNumber: 1704,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1277,24 +2327,24 @@ function App() {
                                     children: "Turso / libSQL"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 856,
+                                    lineNumber: 1705,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 854,
+                            lineNumber: 1703,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 853,
+                        lineNumber: 1702,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 771,
+                lineNumber: 1586,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -1315,25 +2365,31 @@ function App() {
                                             activeTab === 'workday' && 'คำขอเปลี่ยนวันทำงาน (Working Day Change)',
                                             activeTab === 'summary' && 'สรุปสถิติการลา สาย และแลกวันทำงาน',
                                             activeTab === 'overtime' && 'บันทึกและคำนวณค่าล่วงเวลา (Overtime)',
-                                            activeTab === 'account' && 'จัดการบัญชีผู้ใช้ (Account Settings)'
+                                            activeTab === 'invoices' && 'ตาราง Invoice ลูกค้าตามรอบวางบิล',
+                                            activeTab === 'project-invoices' && 'Invoice / Receipt สำหรับโครงการ',
+                                            activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)',
+                                            activeTab === 'incentives' && 'Incentive ตามผลงานพนักงาน',
+                                            activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท',
+                                            activeTab === 'social-security' && 'ประกันสังคม',
+                                            activeTab === 'vat' && 'VAT ชำระ / ขอคืน'
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 865,
+                                        lineNumber: 1714,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    tabDescriptions[activeTab] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-xs text-slate-500 mt-0.5",
-                                        children: "จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน"
+                                        children: tabDescriptions[activeTab]
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 875,
-                                        columnNumber: 13
+                                        lineNumber: 1730,
+                                        columnNumber: 44
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 864,
+                                lineNumber: 1713,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1347,7 +2403,7 @@ function App() {
                                                 children: currentUser.name
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 880,
+                                                lineNumber: 1735,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1355,13 +2411,13 @@ function App() {
                                                 children: currentUser.role === 'ADMIN' ? 'ผู้ดูแลระบบ' : 'พนักงาน'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 881,
+                                                lineNumber: 1736,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 879,
+                                        lineNumber: 1734,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1372,168 +2428,103 @@ function App() {
                                             className: "w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 888,
+                                            lineNumber: 1743,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 883,
+                                        lineNumber: 1738,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>setActiveTab('attendance'),
-                                        className: "flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition",
+                                    activeTab === 'dashboard' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
-                                                className: "w-4 h-4 text-emerald-400"
-                                            }, void 0, false, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>setActiveTab('attendance'),
+                                                className: "flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
+                                                        className: "w-4 h-4 text-emerald-400"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 1751,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    " ลงเวลาทำงาน"
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 894,
-                                                columnNumber: 15
-                                            }, this),
-                                            " ลงเวลาทำงาน"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 890,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>setShowLeaveModal(true),
-                                        className: "flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
-                                                className: "w-4 h-4"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 900,
-                                                columnNumber: 15
-                                            }, this),
-                                            " แจ้งการลา"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 896,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 878,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 863,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "app-content p-6 space-y-6 flex-1",
-                        children: [
-                            activeTab === 'account' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "bg-white rounded-xl border border-slate-200 shadow-sm p-6",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "text-lg font-bold text-slate-800 mb-4",
-                                        children: "Account Settings"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 910,
-                                        columnNumber: 15
-                                    }, this),
-                                    currentUser.role === 'ADMIN' && accountEmployees.length > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                        value: accountForm.id,
-                                        onChange: (event)=>{
-                                            const employee = accountEmployees.find((item)=>item.id === event.target.value);
-                                            setAccountForm({
-                                                id: employee.id,
-                                                email: employee.email || '',
-                                                password: ''
-                                            });
-                                        },
-                                        className: "w-full p-2.5 mb-3 border border-slate-300 rounded-lg",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                value: "",
-                                                children: "Select employee"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 913,
-                                                columnNumber: 19
-                                            }, this),
-                                            accountEmployees.map((employee)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                    value: employee.id,
-                                                    children: [
-                                                        employee.name,
-                                                        " (",
-                                                        employee.email,
-                                                        ")"
-                                                    ]
-                                                }, employee.id, true, {
-                                                    fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 914,
-                                                    columnNumber: 53
-                                                }, this))
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 912,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                        onSubmit: handleAccountSave,
-                                        className: "max-w-lg space-y-3",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                type: "email",
-                                                required: true,
-                                                value: accountForm.email || '',
-                                                onChange: (event)=>setAccountForm({
-                                                        ...accountForm,
-                                                        email: event.target.value
-                                                    }),
-                                                placeholder: "Email",
-                                                className: "w-full p-2.5 border border-slate-300 rounded-lg"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 918,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                type: "password",
-                                                required: true,
-                                                value: accountForm.password || '',
-                                                onChange: (event)=>setAccountForm({
-                                                        ...accountForm,
-                                                        password: event.target.value
-                                                    }),
-                                                placeholder: "New password",
-                                                className: "w-full p-2.5 border border-slate-300 rounded-lg"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 919,
+                                                lineNumber: 1747,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                type: "submit",
-                                                className: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg",
-                                                children: "Save account"
-                                            }, void 0, false, {
+                                                onClick: ()=>setShowLeaveModal(true),
+                                                className: "flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-sm font-medium shadow transition",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                                        className: "w-4 h-4"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 1757,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    " แจ้งการลา"
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 920,
+                                                lineNumber: 1753,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 917,
+                                        lineNumber: 1746,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 909,
+                                lineNumber: 1733,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/page.tsx",
+                        lineNumber: 1712,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "app-content p-6 space-y-6 flex-1",
+                        children: [
+                            activeTab === 'incentives' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$incentive$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1766,
+                                columnNumber: 75
+                            }, this),
+                            activeTab === 'company-finance' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$company$2d$finance$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1767,
+                                columnNumber: 80
+                            }, this),
+                            activeTab === 'social-security' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$tax$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                mode: "social-security"
+                            }, "social-security", false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1768,
+                                columnNumber: 80
+                            }, this),
+                            activeTab === 'vat' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$tax$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                mode: "vat"
+                            }, "vat", false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1769,
+                                columnNumber: 68
+                            }, this),
+                            activeTab === 'employees' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$employee$2d$management$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                currentUser: currentUser,
+                                onEmployeesChange: handleEmployeesChange
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 1772,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'dashboard' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1549,7 +2540,7 @@ function App() {
                                                         children: "พนักงานทั้งหมด"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 930,
+                                                        lineNumber: 1780,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1560,7 +2551,7 @@ function App() {
                                                                 children: stats.totalEmployees
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 932,
+                                                                lineNumber: 1782,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1568,19 +2559,19 @@ function App() {
                                                                 children: " คน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 933,
+                                                                lineNumber: 1783,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 931,
+                                                        lineNumber: 1781,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 929,
+                                                lineNumber: 1779,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1591,7 +2582,7 @@ function App() {
                                                         children: "เข้างานวันนี้"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 938,
+                                                        lineNumber: 1788,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1602,7 +2593,7 @@ function App() {
                                                                 children: stats.presentToday
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 940,
+                                                                lineNumber: 1790,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1610,19 +2601,19 @@ function App() {
                                                                 children: " มาทำงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 941,
+                                                                lineNumber: 1791,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 939,
+                                                        lineNumber: 1789,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 937,
+                                                lineNumber: 1787,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1633,7 +2624,7 @@ function App() {
                                                         children: "ลาหยุดวันนี้"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 946,
+                                                        lineNumber: 1796,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1644,7 +2635,7 @@ function App() {
                                                                 children: stats.onLeaveToday
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 948,
+                                                                lineNumber: 1798,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1652,19 +2643,19 @@ function App() {
                                                                 children: " ลา"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 949,
+                                                                lineNumber: 1799,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 947,
+                                                        lineNumber: 1797,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 945,
+                                                lineNumber: 1795,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1675,7 +2666,7 @@ function App() {
                                                         children: "ไป Onsite วันนี้"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 954,
+                                                        lineNumber: 1804,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1686,7 +2677,7 @@ function App() {
                                                                 children: stats.onsiteToday
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 956,
+                                                                lineNumber: 1806,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1694,19 +2685,19 @@ function App() {
                                                                 children: " นอกสถานที่"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 957,
+                                                                lineNumber: 1807,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 955,
+                                                        lineNumber: 1805,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 953,
+                                                lineNumber: 1803,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1717,7 +2708,7 @@ function App() {
                                                         children: "ขาดงานวันนี้"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 962,
+                                                        lineNumber: 1812,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1728,7 +2719,7 @@ function App() {
                                                                 children: stats.absentToday
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 964,
+                                                                lineNumber: 1814,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1736,25 +2727,25 @@ function App() {
                                                                 children: " ขาด"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 965,
+                                                                lineNumber: 1815,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 963,
+                                                        lineNumber: 1813,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 961,
+                                                lineNumber: 1811,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 928,
+                                        lineNumber: 1778,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1773,14 +2764,14 @@ function App() {
                                                                         className: "w-5 h-5 text-amber-500"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 976,
+                                                                        lineNumber: 1826,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     "คำขอรออนุมัติลา (Pending Requests)"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 975,
+                                                                lineNumber: 1825,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1789,13 +2780,13 @@ function App() {
                                                                 children: "ดูทั้งหมด"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 979,
+                                                                lineNumber: 1829,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 974,
+                                                        lineNumber: 1824,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1805,7 +2796,7 @@ function App() {
                                                             children: "ไม่มีคำขอลาที่รอการอนุมัติ"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 983,
+                                                            lineNumber: 1833,
                                                             columnNumber: 23
                                                         }, this) : leaves.filter((l)=>l.status === 'Pending').map((item)=>{
                                                             const emp = getEmp(item.employee_id);
@@ -1828,13 +2819,13 @@ function App() {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 990,
+                                                                                        lineNumber: 1840,
                                                                                         columnNumber: 94
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 990,
+                                                                                lineNumber: 1840,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1851,7 +2842,7 @@ function App() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 991,
+                                                                                lineNumber: 1841,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1863,13 +2854,13 @@ function App() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 992,
+                                                                                lineNumber: 1842,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 989,
+                                                                        lineNumber: 1839,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     currentUser.role === 'ADMIN' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1883,12 +2874,12 @@ function App() {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 997,
+                                                                                    lineNumber: 1847,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 996,
+                                                                                lineNumber: 1846,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1899,36 +2890,36 @@ function App() {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1000,
+                                                                                    lineNumber: 1850,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 999,
+                                                                                lineNumber: 1849,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 995,
+                                                                        lineNumber: 1845,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, item.id, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 988,
+                                                                lineNumber: 1838,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 981,
+                                                        lineNumber: 1831,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 973,
+                                                lineNumber: 1823,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1944,14 +2935,14 @@ function App() {
                                                                         className: "w-5 h-5 text-blue-500"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1015,
+                                                                        lineNumber: 1865,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     "ปฏิบัติงานนอกสถานที่วันนี้ (Onsite Visits)"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1014,
+                                                                lineNumber: 1864,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1960,13 +2951,13 @@ function App() {
                                                                 children: "+ เพิ่ม Onsite"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1018,
+                                                                lineNumber: 1868,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1013,
+                                                        lineNumber: 1863,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1976,7 +2967,7 @@ function App() {
                                                             children: "ไม่มีบันทึกการลงพื้นที่ Onsite"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1022,
+                                                            lineNumber: 1872,
                                                             columnNumber: 23
                                                         }, this) : onsite.slice(0, 4).map((item)=>{
                                                             const emp = getEmp(item.employee_id);
@@ -1994,7 +2985,7 @@ function App() {
                                                                                         children: emp.name
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1030,
+                                                                                        lineNumber: 1880,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2002,13 +2993,13 @@ function App() {
                                                                                         children: item.vehicle
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1031,
+                                                                                        lineNumber: 1881,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1029,
+                                                                                lineNumber: 1879,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2020,7 +3011,7 @@ function App() {
                                                                                         children: item.client_name
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1033,
+                                                                                        lineNumber: 1883,
                                                                                         columnNumber: 77
                                                                                     }, this),
                                                                                     " (",
@@ -2029,7 +3020,7 @@ function App() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1033,
+                                                                                lineNumber: 1883,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2040,13 +3031,13 @@ function App() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1034,
+                                                                                lineNumber: 1884,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1028,
+                                                                        lineNumber: 1878,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2060,7 +3051,7 @@ function App() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1037,
+                                                                                lineNumber: 1887,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2068,43 +3059,43 @@ function App() {
                                                                                 children: item.status
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1038,
+                                                                                lineNumber: 1888,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1036,
+                                                                        lineNumber: 1886,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, item.id, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1027,
+                                                                lineNumber: 1877,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1020,
+                                                        lineNumber: 1870,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1012,
+                                                lineNumber: 1862,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 971,
+                                        lineNumber: 1821,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 926,
+                                lineNumber: 1776,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'attendance' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2120,7 +3111,7 @@ function App() {
                                                         className: "w-4 h-4 absolute left-3 top-3 text-slate-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1055,
+                                                        lineNumber: 1905,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2131,13 +3122,13 @@ function App() {
                                                         className: "w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1056,
+                                                        lineNumber: 1906,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1054,
+                                                lineNumber: 1904,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2152,7 +3143,7 @@ function App() {
                                                                         children: "Project"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1068,
+                                                                        lineNumber: 1918,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2165,13 +3156,13 @@ function App() {
                                                                         className: "w-40 px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1069,
+                                                                        lineNumber: 1919,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1067,
+                                                                lineNumber: 1917,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2181,7 +3172,7 @@ function App() {
                                                                         children: "Job Detail"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1077,
+                                                                        lineNumber: 1927,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2194,19 +3185,19 @@ function App() {
                                                                         className: "w-44 px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1078,
+                                                                        lineNumber: 1928,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1076,
+                                                                lineNumber: 1926,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1066,
+                                                        lineNumber: 1916,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2220,7 +3211,7 @@ function App() {
                                                                         children: "สถานะวันนี้"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1090,
+                                                                        lineNumber: 1940,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2228,13 +3219,13 @@ function App() {
                                                                         children: hasCompletedToday ? 'ลงเวลาครบแล้ว' : nextClockType === 'out' ? 'กำลังทำงาน' : 'ยังไม่เข้างาน'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1091,
+                                                                        lineNumber: 1941,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1089,
+                                                                lineNumber: 1939,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2248,7 +3239,7 @@ function App() {
                                                                         className: `absolute top-1 h-9 w-[92px] rounded-full bg-white shadow transition-all duration-300 ${nextClockType === 'in' ? 'left-1' : 'left-[92px]'}`
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1115,
+                                                                        lineNumber: 1965,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2256,7 +3247,7 @@ function App() {
                                                                         children: isClockSaving && nextClockType === 'in' ? 'บันทึก...' : 'เข้า'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1120,
+                                                                        lineNumber: 1970,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2264,31 +3255,31 @@ function App() {
                                                                         children: isClockSaving && nextClockType === 'out' ? 'บันทึก...' : 'ออก'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1123,
+                                                                        lineNumber: 1973,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1102,
+                                                                lineNumber: 1952,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1088,
+                                                        lineNumber: 1938,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1064,
+                                                lineNumber: 1914,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1053,
+                                        lineNumber: 1903,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2305,7 +3296,7 @@ function App() {
                                                                 children: "วันที่"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1135,
+                                                                lineNumber: 1985,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2313,7 +3304,7 @@ function App() {
                                                                 children: "รหัส/ชื่อพนักงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1136,
+                                                                lineNumber: 1986,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2321,7 +3312,7 @@ function App() {
                                                                 children: "แผนก"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1137,
+                                                                lineNumber: 1987,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2329,7 +3320,7 @@ function App() {
                                                                 children: "เวลาเข้า"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1138,
+                                                                lineNumber: 1988,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2337,7 +3328,7 @@ function App() {
                                                                 children: "เวลาออก"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1139,
+                                                                lineNumber: 1989,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2345,7 +3336,7 @@ function App() {
                                                                 children: "สถานะ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1140,
+                                                                lineNumber: 1990,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2353,18 +3344,18 @@ function App() {
                                                                 children: "หมายเหตุ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1141,
+                                                                lineNumber: 1991,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1134,
+                                                        lineNumber: 1984,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1133,
+                                                    lineNumber: 1983,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2382,7 +3373,7 @@ function App() {
                                                                     children: row.date
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1154,
+                                                                    lineNumber: 2004,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2399,13 +3390,13 @@ function App() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1156,
+                                                                            lineNumber: 2006,
                                                                             columnNumber: 42
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1155,
+                                                                    lineNumber: 2005,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2413,7 +3404,7 @@ function App() {
                                                                     children: emp.department
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1158,
+                                                                    lineNumber: 2008,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2421,7 +3412,7 @@ function App() {
                                                                     children: row.clock_in
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1159,
+                                                                    lineNumber: 2009,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2429,7 +3420,7 @@ function App() {
                                                                     children: row.clock_out
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1160,
+                                                                    lineNumber: 2010,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2440,7 +3431,7 @@ function App() {
                                                                             children: "มาตรงเวลา"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1162,
+                                                                            lineNumber: 2012,
                                                                             columnNumber: 60
                                                                         }, this),
                                                                         row.status === 'Late' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2448,7 +3439,7 @@ function App() {
                                                                             children: "สาย"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1163,
+                                                                            lineNumber: 2013,
                                                                             columnNumber: 57
                                                                         }, this),
                                                                         row.status === 'Onsite' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2456,7 +3447,7 @@ function App() {
                                                                             children: "Onsite"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1164,
+                                                                            lineNumber: 2014,
                                                                             columnNumber: 59
                                                                         }, this),
                                                                         row.status === 'Leave' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2464,7 +3455,7 @@ function App() {
                                                                             children: "ลา"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1165,
+                                                                            lineNumber: 2015,
                                                                             columnNumber: 58
                                                                         }, this),
                                                                         row.status === 'Absent' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2472,13 +3463,13 @@ function App() {
                                                                             children: "ขาดงาน"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1166,
+                                                                            lineNumber: 2016,
                                                                             columnNumber: 59
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1161,
+                                                                    lineNumber: 2011,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2486,36 +3477,36 @@ function App() {
                                                                     children: row.note || '-'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1168,
+                                                                    lineNumber: 2018,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, row.id, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1153,
+                                                            lineNumber: 2003,
                                                             columnNumber: 27
                                                         }, this);
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1144,
+                                                    lineNumber: 1994,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1132,
+                                            lineNumber: 1982,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1131,
+                                        lineNumber: 1981,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1052,
+                                lineNumber: 1902,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'leaves' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2531,7 +3522,7 @@ function App() {
                                                         className: "w-4 h-4 absolute left-3 top-3 text-slate-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1183,
+                                                        lineNumber: 2033,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2542,13 +3533,13 @@ function App() {
                                                         className: "w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1184,
+                                                        lineNumber: 2034,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1182,
+                                                lineNumber: 2032,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2559,20 +3550,20 @@ function App() {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1196,
+                                                        lineNumber: 2046,
                                                         columnNumber: 19
                                                     }, this),
                                                     " ยื่นใบลาใหม่"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1192,
+                                                lineNumber: 2042,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1181,
+                                        lineNumber: 2031,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2589,7 +3580,7 @@ function App() {
                                                                 children: "พนักงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1204,
+                                                                lineNumber: 2054,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2597,7 +3588,7 @@ function App() {
                                                                 children: "ประเภทการลา"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1205,
+                                                                lineNumber: 2055,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2605,7 +3596,7 @@ function App() {
                                                                 children: "ช่วงวันที่"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1206,
+                                                                lineNumber: 2056,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2613,7 +3604,7 @@ function App() {
                                                                 children: "จำนวนวัน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1207,
+                                                                lineNumber: 2057,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2621,7 +3612,7 @@ function App() {
                                                                 children: "เหตุผล"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1208,
+                                                                lineNumber: 2058,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2629,7 +3620,7 @@ function App() {
                                                                 children: "สถานะ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1209,
+                                                                lineNumber: 2059,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2637,18 +3628,18 @@ function App() {
                                                                 children: "จัดการ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1210,
+                                                                lineNumber: 2060,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1203,
+                                                        lineNumber: 2053,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1202,
+                                                    lineNumber: 2052,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2670,13 +3661,13 @@ function App() {
                                                                             children: emp.department
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1225,
+                                                                            lineNumber: 2075,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1223,
+                                                                    lineNumber: 2073,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2684,7 +3675,7 @@ function App() {
                                                                     children: item.type
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1227,
+                                                                    lineNumber: 2077,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2696,7 +3687,7 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1228,
+                                                                    lineNumber: 2078,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2707,7 +3698,7 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1229,
+                                                                    lineNumber: 2079,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2715,7 +3706,7 @@ function App() {
                                                                     children: item.reason
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1230,
+                                                                    lineNumber: 2080,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2726,7 +3717,7 @@ function App() {
                                                                             children: "อนุมัติแล้ว"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1232,
+                                                                            lineNumber: 2082,
                                                                             columnNumber: 62
                                                                         }, this),
                                                                         item.status === 'Pending' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2734,7 +3725,7 @@ function App() {
                                                                             children: "รออนุมัติ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1233,
+                                                                            lineNumber: 2083,
                                                                             columnNumber: 61
                                                                         }, this),
                                                                         item.status === 'Rejected' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2742,13 +3733,13 @@ function App() {
                                                                             children: "ปฏิเสธ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1234,
+                                                                            lineNumber: 2084,
                                                                             columnNumber: 62
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1231,
+                                                                    lineNumber: 2081,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2762,7 +3753,7 @@ function App() {
                                                                                 children: "อนุมัติ"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1239,
+                                                                                lineNumber: 2089,
                                                                                 columnNumber: 35
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2771,47 +3762,47 @@ function App() {
                                                                                 children: "ปฏิเสธ"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1240,
+                                                                                lineNumber: 2090,
                                                                                 columnNumber: 35
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1238,
+                                                                        lineNumber: 2088,
                                                                         columnNumber: 33
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1236,
+                                                                    lineNumber: 2086,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, item.id, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1222,
+                                                            lineNumber: 2072,
                                                             columnNumber: 27
                                                         }, this);
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1213,
+                                                    lineNumber: 2063,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1201,
+                                            lineNumber: 2051,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1200,
+                                        lineNumber: 2050,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1180,
+                                lineNumber: 2030,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'onsite' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2827,7 +3818,7 @@ function App() {
                                                         className: "w-4 h-4 absolute left-3 top-3 text-slate-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1258,
+                                                        lineNumber: 2108,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2838,13 +3829,13 @@ function App() {
                                                         className: "w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1259,
+                                                        lineNumber: 2109,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1257,
+                                                lineNumber: 2107,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2860,14 +3851,14 @@ function App() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1274,
+                                                                lineNumber: 2124,
                                                                 columnNumber: 21
                                                             }, this),
                                                             " ตั้งค่าค่าเดินทาง"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1268,
+                                                        lineNumber: 2118,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2878,26 +3869,26 @@ function App() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1280,
+                                                                lineNumber: 2130,
                                                                 columnNumber: 21
                                                             }, this),
                                                             " บันทึกการเดินทาง"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1276,
+                                                        lineNumber: 2126,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1267,
+                                                lineNumber: 2117,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1256,
+                                        lineNumber: 2106,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2914,7 +3905,7 @@ function App() {
                                                                 children: "วันที่"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1289,
+                                                                lineNumber: 2139,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2922,7 +3913,7 @@ function App() {
                                                                 children: "พนักงานผู้เดินทาง"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1290,
+                                                                lineNumber: 2140,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2930,7 +3921,7 @@ function App() {
                                                                 children: "ชื่อลูกค้า/บริษัท"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1291,
+                                                                lineNumber: 2141,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2938,7 +3929,7 @@ function App() {
                                                                 children: "สถานที่ปลายทาง"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1292,
+                                                                lineNumber: 2142,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2946,7 +3937,7 @@ function App() {
                                                                 children: "พาหนะ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1293,
+                                                                lineNumber: 2143,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2954,7 +3945,7 @@ function App() {
                                                                 children: "ระยะทางรวม"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1294,
+                                                                lineNumber: 2144,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2962,7 +3953,7 @@ function App() {
                                                                 children: "ค่าทางด่วน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1295,
+                                                                lineNumber: 2145,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2970,7 +3961,7 @@ function App() {
                                                                 children: "ค่าเดินทาง"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1296,
+                                                                lineNumber: 2146,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2978,18 +3969,18 @@ function App() {
                                                                 children: "สถานะงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1297,
+                                                                lineNumber: 2147,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1288,
+                                                        lineNumber: 2138,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1287,
+                                                    lineNumber: 2137,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3007,7 +3998,7 @@ function App() {
                                                                     children: item.date
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1310,
+                                                                    lineNumber: 2160,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3015,7 +4006,7 @@ function App() {
                                                                     children: emp.name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1311,
+                                                                    lineNumber: 2161,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3023,7 +4014,7 @@ function App() {
                                                                     children: item.client_name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1312,
+                                                                    lineNumber: 2162,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3031,7 +4022,7 @@ function App() {
                                                                     children: item.destination
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1313,
+                                                                    lineNumber: 2163,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3041,12 +4032,12 @@ function App() {
                                                                         children: item.vehicle === 'CAR' ? 'รถยนต์' : item.vehicle === 'MOTORCYCLE' ? 'รถมอเตอร์ไซค์' : 'รถแท็กซี่'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1315,
+                                                                        lineNumber: 2165,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1314,
+                                                                    lineNumber: 2164,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3057,7 +4048,7 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1319,
+                                                                    lineNumber: 2169,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3068,7 +4059,7 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1320,
+                                                                    lineNumber: 2170,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3079,7 +4070,7 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1321,
+                                                                    lineNumber: 2171,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3089,48 +4080,48 @@ function App() {
                                                                         children: "เสร็จสิ้น"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1324,
+                                                                        lineNumber: 2174,
                                                                         columnNumber: 33
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-medium",
                                                                         children: "กำลังดำเนินการ"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1326,
+                                                                        lineNumber: 2176,
                                                                         columnNumber: 33
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1322,
+                                                                    lineNumber: 2172,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, item.id, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1309,
+                                                            lineNumber: 2159,
                                                             columnNumber: 27
                                                         }, this);
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1300,
+                                                    lineNumber: 2150,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1286,
+                                            lineNumber: 2136,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1285,
+                                        lineNumber: 2135,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1255,
+                                lineNumber: 2105,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'workday' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3147,7 +4138,7 @@ function App() {
                                                         children: "สร้างคำขอเปลี่ยนวันทำงาน"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1343,
+                                                        lineNumber: 2193,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3155,13 +4146,13 @@ function App() {
                                                         children: "คำขอจะมีสถานะรออนุมัติจนกว่า Admin จะตรวจสอบ"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1344,
+                                                        lineNumber: 2194,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1342,
+                                                lineNumber: 2192,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -3178,7 +4169,7 @@ function App() {
                                                                         children: "วันที่ทำงานเดิม"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1349,
+                                                                        lineNumber: 2199,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3192,13 +4183,13 @@ function App() {
                                                                         className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1350,
+                                                                        lineNumber: 2200,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1348,
+                                                                lineNumber: 2198,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3208,7 +4199,7 @@ function App() {
                                                                         children: "วันที่ทำงานชดเชย"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1353,
+                                                                        lineNumber: 2203,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3222,19 +4213,19 @@ function App() {
                                                                         className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1354,
+                                                                        lineNumber: 2204,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1352,
+                                                                lineNumber: 2202,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1347,
+                                                        lineNumber: 2197,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3244,7 +4235,7 @@ function App() {
                                                                 children: "โครงการ / Project"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1358,
+                                                                lineNumber: 2208,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3258,13 +4249,13 @@ function App() {
                                                                 className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1359,
+                                                                lineNumber: 2209,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1357,
+                                                        lineNumber: 2207,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3274,7 +4265,7 @@ function App() {
                                                                 children: "รายละเอียดงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1362,
+                                                                lineNumber: 2212,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -3289,13 +4280,13 @@ function App() {
                                                                 className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1363,
+                                                                lineNumber: 2213,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1361,
+                                                        lineNumber: 2211,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3304,19 +4295,19 @@ function App() {
                                                         children: "ส่งคำขออนุมัติ"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1365,
+                                                        lineNumber: 2215,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1346,
+                                                lineNumber: 2196,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1341,
+                                        lineNumber: 2191,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3329,12 +4320,12 @@ function App() {
                                                     children: "รายการคำขอเปลี่ยนวันทำงาน"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1371,
+                                                    lineNumber: 2221,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1370,
+                                                lineNumber: 2220,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3351,7 +4342,7 @@ function App() {
                                                                         children: "พนักงาน"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1376,
+                                                                        lineNumber: 2226,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3359,7 +4350,7 @@ function App() {
                                                                         children: "เปลี่ยนวัน"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1376,
+                                                                        lineNumber: 2226,
                                                                         columnNumber: 61
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3367,7 +4358,7 @@ function App() {
                                                                         children: "Project / รายละเอียดงาน"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1376,
+                                                                        lineNumber: 2226,
                                                                         columnNumber: 98
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3375,7 +4366,7 @@ function App() {
                                                                         children: "สถานะ"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1376,
+                                                                        lineNumber: 2226,
                                                                         columnNumber: 148
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3383,18 +4374,18 @@ function App() {
                                                                         children: "จัดการ"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1376,
+                                                                        lineNumber: 2226,
                                                                         columnNumber: 180
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1376,
+                                                                lineNumber: 2226,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1375,
+                                                            lineNumber: 2225,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3406,12 +4397,12 @@ function App() {
                                                                     children: "ยังไม่มีคำขอเปลี่ยนวันทำงาน"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1379,
+                                                                    lineNumber: 2229,
                                                                     columnNumber: 58
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1379,
+                                                                lineNumber: 2229,
                                                                 columnNumber: 54
                                                             }, this) : workdayChanges.map((item)=>{
                                                                 const employee = getEmp(item.employee_id);
@@ -3427,13 +4418,13 @@ function App() {
                                                                                     children: item.created_at
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1382,
+                                                                                    lineNumber: 2232,
                                                                                     columnNumber: 91
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1382,
+                                                                            lineNumber: 2232,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3446,7 +4437,7 @@ function App() {
                                                                                     children: "→"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1383,
+                                                                                    lineNumber: 2233,
                                                                                     columnNumber: 78
                                                                                 }, this),
                                                                                 " ",
@@ -3454,7 +4445,7 @@ function App() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1383,
+                                                                            lineNumber: 2233,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3465,7 +4456,7 @@ function App() {
                                                                                     children: item.project
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1384,
+                                                                                    lineNumber: 2234,
                                                                                     columnNumber: 49
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3473,13 +4464,13 @@ function App() {
                                                                                     children: item.job_detail
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1384,
+                                                                                    lineNumber: 2234,
                                                                                     columnNumber: 109
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1384,
+                                                                            lineNumber: 2234,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3489,26 +4480,26 @@ function App() {
                                                                                 children: "อนุมัติแล้ว"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1385,
+                                                                                lineNumber: 2235,
                                                                                 columnNumber: 79
                                                                             }, this) : item.status === 'REJECTED' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                 className: "bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full",
                                                                                 children: "ไม่อนุมัติ"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1385,
+                                                                                lineNumber: 2235,
                                                                                 columnNumber: 212
                                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                 className: "bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full",
                                                                                 children: "รอ Admin อนุมัติ"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1385,
+                                                                                lineNumber: 2235,
                                                                                 columnNumber: 309
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1385,
+                                                                            lineNumber: 2235,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3522,7 +4513,7 @@ function App() {
                                                                                         children: "อนุมัติ"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1386,
+                                                                                        lineNumber: 2236,
                                                                                         columnNumber: 175
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3531,53 +4522,53 @@ function App() {
                                                                                         children: "ปฏิเสธ"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1386,
+                                                                                        lineNumber: 2236,
                                                                                         columnNumber: 326
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1386,
+                                                                                lineNumber: 2236,
                                                                                 columnNumber: 135
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1386,
+                                                                            lineNumber: 2236,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, item.id, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1381,
+                                                                    lineNumber: 2231,
                                                                     columnNumber: 32
                                                                 }, this);
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1378,
+                                                            lineNumber: 2228,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1374,
+                                                    lineNumber: 2224,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1373,
+                                                lineNumber: 2223,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1369,
+                                        lineNumber: 2219,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1340,
+                                lineNumber: 2190,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'summary' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3593,21 +4584,21 @@ function App() {
                                                         children: "สรุปข้อมูลรายเดือนของพนักงาน"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1400,
+                                                        lineNumber: 2250,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-xs text-slate-500 mt-1",
-                                                        children: "ตรวจสอบจำนวนวันลา จำนวนครั้งมาสาย และคำขอแลกวันทำงาน"
+                                                        children: "ตรวจสอบวันลา มาสาย แลกวันทำงาน และ OT ที่อนุมัติแล้ว"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1401,
+                                                        lineNumber: 2251,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1399,
+                                                lineNumber: 2249,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3620,7 +4611,7 @@ function App() {
                                                                 children: "เดือน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1405,
+                                                                lineNumber: 2255,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3645,18 +4636,18 @@ function App() {
                                                                         children: month
                                                                     }, month, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1407,
+                                                                        lineNumber: 2257,
                                                                         columnNumber: 181
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1406,
+                                                                lineNumber: 2256,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1404,
+                                                        lineNumber: 2254,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3666,7 +4657,7 @@ function App() {
                                                                 children: "ปี"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1411,
+                                                                lineNumber: 2261,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3684,30 +4675,30 @@ function App() {
                                                                         children: year
                                                                     }, year, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1413,
+                                                                        lineNumber: 2263,
                                                                         columnNumber: 118
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1412,
+                                                                lineNumber: 2262,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1410,
+                                                        lineNumber: 2260,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 1403,
+                                                lineNumber: 2253,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1398,
+                                        lineNumber: 2248,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3724,7 +4715,7 @@ function App() {
                                                                 children: "พนักงาน"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3732,7 +4723,7 @@ function App() {
                                                                 children: "แผนก"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 59
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3740,7 +4731,7 @@ function App() {
                                                                 children: "วันลา"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 90
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3748,7 +4739,7 @@ function App() {
                                                                 children: "มาสาย (ครั้ง)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 134
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3756,7 +4747,7 @@ function App() {
                                                                 children: "แลกวันทำงาน (คำขอ)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 186
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3764,35 +4755,51 @@ function App() {
                                                                 children: "ค่าเดินทาง (บาท)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1421,
+                                                                lineNumber: 2271,
                                                                 columnNumber: 243
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 text-right",
+                                                                children: "OT (ชั่วโมง)"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2271,
+                                                                columnNumber: 297
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 text-right",
+                                                                children: "ค่าล่วงเวลา (บาท)"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2271,
+                                                                columnNumber: 347
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1421,
+                                                        lineNumber: 2271,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1420,
+                                                    lineNumber: 2270,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                                     className: "divide-y divide-slate-200",
                                                     children: summaryRows.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            colSpan: 6,
+                                                            colSpan: 8,
                                                             className: "p-8 text-center text-slate-400",
                                                             children: "ไม่พบข้อมูลพนักงาน"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1424,
+                                                            lineNumber: 2274,
                                                             columnNumber: 53
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1424,
+                                                        lineNumber: 2274,
                                                         columnNumber: 49
                                                     }, this) : summaryRows.map((employee)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                             className: "hover:bg-slate-50",
@@ -3806,13 +4813,13 @@ function App() {
                                                                             children: employee.email
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1426,
+                                                                            lineNumber: 2276,
                                                                             columnNumber: 89
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1426,
+                                                                    lineNumber: 2276,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3820,7 +4827,7 @@ function App() {
                                                                     children: employee.department
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1427,
+                                                                    lineNumber: 2277,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3830,12 +4837,12 @@ function App() {
                                                                         children: employee.leaveDays
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1428,
+                                                                        lineNumber: 2278,
                                                                         columnNumber: 59
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1428,
+                                                                    lineNumber: 2278,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3845,12 +4852,12 @@ function App() {
                                                                         children: employee.lateCount
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1429,
+                                                                        lineNumber: 2279,
                                                                         columnNumber: 59
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1429,
+                                                                    lineNumber: 2279,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3860,12 +4867,12 @@ function App() {
                                                                         children: employee.workdayChangeCount
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1430,
+                                                                        lineNumber: 2280,
                                                                         columnNumber: 59
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1430,
+                                                                    lineNumber: 2280,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3876,35 +4883,1367 @@ function App() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1431,
+                                                                    lineNumber: 2281,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 text-right font-semibold text-indigo-700",
+                                                                    children: Number(employee.overtimeHours || 0).toFixed(2)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2282,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 text-right font-semibold text-violet-700",
+                                                                    children: formatBaht(employee.overtimePay || 0)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2283,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, employee.id, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1425,
+                                                            lineNumber: 2275,
                                                             columnNumber: 23
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1423,
+                                                    lineNumber: 2273,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1419,
+                                            lineNumber: 2269,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1418,
+                                        lineNumber: 2268,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1397,
+                                lineNumber: 2247,
+                                columnNumber: 13
+                            }, this),
+                            activeTab === 'invoices' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                        className: "font-bold text-slate-800",
+                                                        children: "Invoice Schedule"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2296,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-xs text-slate-500 mt-1",
+                                                        children: "รายการ Invoice ของลูกค้าที่มีกำหนดออกในเดือนที่เลือก"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2297,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2295,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex gap-3",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                children: "เดือน"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2301,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                value: invoiceMonth,
+                                                                onChange: (event)=>setInvoiceMonth(Number(event.target.value)),
+                                                                className: "p-2.5 bg-white border border-slate-300 rounded-lg text-sm",
+                                                                children: [
+                                                                    'มกราคม',
+                                                                    'กุมภาพันธ์',
+                                                                    'มีนาคม',
+                                                                    'เมษายน',
+                                                                    'พฤษภาคม',
+                                                                    'มิถุนายน',
+                                                                    'กรกฎาคม',
+                                                                    'สิงหาคม',
+                                                                    'กันยายน',
+                                                                    'ตุลาคม',
+                                                                    'พฤศจิกายน',
+                                                                    'ธันวาคม'
+                                                                ].map((month, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                        value: index + 1,
+                                                                        children: month
+                                                                    }, month, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2303,
+                                                                        columnNumber: 181
+                                                                    }, this))
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2302,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2300,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                children: "ปี"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2307,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                value: invoiceYear,
+                                                                onChange: (event)=>setInvoiceYear(Number(event.target.value)),
+                                                                className: "p-2.5 bg-white border border-slate-300 rounded-lg text-sm",
+                                                                children: [
+                                                                    invoiceYear - 2,
+                                                                    invoiceYear - 1,
+                                                                    invoiceYear,
+                                                                    invoiceYear + 1,
+                                                                    invoiceYear + 2
+                                                                ].map((year)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                        value: year,
+                                                                        children: year
+                                                                    }, year, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2309,
+                                                                        columnNumber: 118
+                                                                    }, this))
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2308,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2306,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2299,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2294,
+                                        columnNumber: 15
+                                    }, this),
+                                    invoiceError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "m-5 text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2",
+                                        children: invoiceError
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2315,
+                                        columnNumber: 32
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "overflow-x-auto",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                                            className: "w-full text-left text-sm text-slate-600",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                                    className: "bg-slate-100 text-slate-700 font-semibold border-b border-slate-200",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Client"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2320,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Product"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2321,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Service"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2322,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 min-w-64",
+                                                                children: "Description"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2323,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Period"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2324,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Date of issue"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2325,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 text-right",
+                                                                children: "Amount"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2326,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 min-w-64",
+                                                                children: "Customer"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2327,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5",
+                                                                children: "Tax ID"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2328,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 min-w-72",
+                                                                children: "Address"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2329,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                className: "p-3.5 text-center",
+                                                                children: "พิมพ์เอกสาร"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2330,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2319,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2318,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                                    className: "divide-y divide-slate-200",
+                                                    children: isInvoiceLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                            colSpan: 11,
+                                                            className: "p-8 text-center text-slate-400",
+                                                            children: "กำลังโหลดตาราง Invoice..."
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/page.tsx",
+                                                            lineNumber: 2335,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2335,
+                                                        columnNumber: 23
+                                                    }, this) : invoiceSchedules.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                            colSpan: 11,
+                                                            className: "p-8 text-center text-slate-400",
+                                                            children: "ไม่พบ Invoice ในเดือนที่เลือก"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/page.tsx",
+                                                            lineNumber: 2337,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2337,
+                                                        columnNumber: 23
+                                                    }, this) : invoiceSchedules.map((invoice, invoiceIndex)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                            className: "hover:bg-slate-50 align-top",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 font-semibold text-slate-800",
+                                                                    children: invoice.client
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2340,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 font-medium text-indigo-700",
+                                                                    children: invoice.product
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2341,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5",
+                                                                    children: invoice.service
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2342,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 min-w-64",
+                                                                    children: invoice.description
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2343,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 whitespace-nowrap",
+                                                                    children: invoice.period === 'year' ? 'รายปี' : invoice.period === 'quarter' ? 'รายไตรมาส' : 'รายเดือน'
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2344,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 whitespace-nowrap",
+                                                                    children: invoice.issue_date
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2345,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap",
+                                                                    children: formatBaht(invoice.amount)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2346,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 min-w-64 font-medium text-slate-800",
+                                                                    children: invoice.name
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2347,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 whitespace-nowrap",
+                                                                    children: invoice.tax_id
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2348,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 min-w-72",
+                                                                    children: invoice.address
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2349,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    className: "p-3.5 text-center",
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex flex-col items-center gap-1.5",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                onClick: ()=>openDocumentPrint({
+                                                                                        invoice,
+                                                                                        invoiceIndex,
+                                                                                        project: false,
+                                                                                        documentType: 'INVOICE'
+                                                                                    }),
+                                                                                className: "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium",
+                                                                                title: "พิมพ์ Invoice",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$printer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Printer$3e$__["Printer"], {
+                                                                                        className: "w-3.5 h-3.5"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                                        lineNumber: 2350,
+                                                                                        columnNumber: 378
+                                                                                    }, this),
+                                                                                    "Invoice"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2350,
+                                                                                columnNumber: 111
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                onClick: ()=>openDocumentPrint({
+                                                                                        invoice,
+                                                                                        invoiceIndex,
+                                                                                        project: false,
+                                                                                        documentType: 'RECEIPT'
+                                                                                    }),
+                                                                                className: "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium",
+                                                                                title: "พิมพ์ใบเสร็จรับเงิน",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                                                        className: "w-3.5 h-3.5"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                                        lineNumber: 2350,
+                                                                                        columnNumber: 704
+                                                                                    }, this),
+                                                                                    "ใบเสร็จ"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2350,
+                                                                                columnNumber: 429
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2350,
+                                                                        columnNumber: 59
+                                                                    }, this)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2350,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, invoice.id, true, {
+                                                            fileName: "[project]/src/app/page.tsx",
+                                                            lineNumber: 2339,
+                                                            columnNumber: 23
+                                                        }, this))
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2333,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2317,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2316,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 2293,
+                                columnNumber: 13
+                            }, this),
+                            activeTab === 'project-invoices' && isAdminRole(currentUser.role) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "space-y-6",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "grid grid-cols-1 xl:grid-cols-3 gap-6",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                                className: "bg-white rounded-xl border border-slate-200 shadow-sm p-5",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mb-5",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "font-bold text-slate-800",
+                                                                children: "เพิ่มข้อมูลโครงการ"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2364,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-slate-500 mt-1",
+                                                                children: "เก็บข้อมูลลูกค้าไว้เลือกใช้กับ Invoice / Receipt"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2365,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2363,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                                        onSubmit: handleCreateProject,
+                                                        className: "space-y-3",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "ชื่อโครงการ"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2369,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        required: true,
+                                                                        value: projectForm.name,
+                                                                        onChange: (event)=>setProjectForm({
+                                                                                ...projectForm,
+                                                                                name: event.target.value
+                                                                            }),
+                                                                        placeholder: "เช่น โครงการพัฒนาระบบ HR",
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2370,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2368,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "งบประมาณโครงการ (บาท)"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2373,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        type: "number",
+                                                                        min: "0",
+                                                                        step: "0.01",
+                                                                        required: true,
+                                                                        value: projectForm.budget,
+                                                                        onChange: (event)=>setProjectForm({
+                                                                                ...projectForm,
+                                                                                budget: event.target.value
+                                                                            }),
+                                                                        placeholder: "0.00",
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2374,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2372,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "ชื่อลูกค้า"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2377,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        required: true,
+                                                                        value: projectForm.client_name,
+                                                                        onChange: (event)=>setProjectForm({
+                                                                                ...projectForm,
+                                                                                client_name: event.target.value
+                                                                            }),
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2378,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2376,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "ที่อยู่"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2381,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                                        required: true,
+                                                                        rows: 3,
+                                                                        value: projectForm.address,
+                                                                        onChange: (event)=>setProjectForm({
+                                                                                ...projectForm,
+                                                                                address: event.target.value
+                                                                            }),
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2382,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2380,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "เลขประจำตัวผู้เสียภาษี"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2385,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                        required: true,
+                                                                        value: projectForm.tax_id,
+                                                                        onChange: (event)=>setProjectForm({
+                                                                                ...projectForm,
+                                                                                tax_id: event.target.value
+                                                                            }),
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2386,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2384,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "submit",
+                                                                disabled: isProjectSaving,
+                                                                className: "w-full bg-slate-800 hover:bg-slate-900 disabled:opacity-60 text-white font-medium py-2.5 rounded-lg transition",
+                                                                children: isProjectSaving ? 'กำลังบันทึก...' : 'บันทึกโครงการ'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2388,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2367,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2362,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                                className: "xl:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-5",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mb-5",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "font-bold text-slate-800",
+                                                                children: "สร้าง Invoice โครงการ"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2394,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-slate-500 mt-1",
+                                                                children: "เลือกโครงการ แล้วระบุงวดงาน วันที่ รายละเอียด และจำนวนเงิน"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2395,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2393,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                                                        onSubmit: handleCreateProjectInvoice,
+                                                        className: "space-y-4",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "grid grid-cols-1 md:grid-cols-2 gap-3",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                                children: "โครงการ"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2400,
+                                                                                columnNumber: 25
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                                required: true,
+                                                                                value: projectInvoiceForm.project_id,
+                                                                                onChange: (event)=>setProjectInvoiceForm({
+                                                                                        ...projectInvoiceForm,
+                                                                                        project_id: event.target.value
+                                                                                    }),
+                                                                                className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                        value: "",
+                                                                                        children: "เลือกโครงการ"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                                        lineNumber: 2402,
+                                                                                        columnNumber: 27
+                                                                                    }, this),
+                                                                                    projects.map((project)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                            value: project.id,
+                                                                                            children: [
+                                                                                                project.name,
+                                                                                                " — ",
+                                                                                                project.client_name,
+                                                                                                " — ฿",
+                                                                                                formatInvoiceAmount(project.budget)
+                                                                                            ]
+                                                                                        }, project.id, true, {
+                                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                                            lineNumber: 2403,
+                                                                                            columnNumber: 52
+                                                                                        }, this))
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2401,
+                                                                                columnNumber: 25
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2399,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                                children: "งวดงาน"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2407,
+                                                                                columnNumber: 25
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                required: true,
+                                                                                value: projectInvoiceForm.installment,
+                                                                                onChange: (event)=>setProjectInvoiceForm({
+                                                                                        ...projectInvoiceForm,
+                                                                                        installment: event.target.value
+                                                                                    }),
+                                                                                placeholder: "เช่น งวดที่ 1 / 30%",
+                                                                                className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2408,
+                                                                                columnNumber: 25
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2406,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                                children: "วันที่"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2411,
+                                                                                columnNumber: 25
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                type: "date",
+                                                                                required: true,
+                                                                                value: projectInvoiceForm.invoice_date,
+                                                                                onChange: (event)=>setProjectInvoiceForm({
+                                                                                        ...projectInvoiceForm,
+                                                                                        invoice_date: event.target.value
+                                                                                    }),
+                                                                                className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2412,
+                                                                                columnNumber: 25
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2410,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                                className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                                children: "จำนวนเงินก่อน VAT (บาท)"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2415,
+                                                                                columnNumber: 25
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                                type: "number",
+                                                                                min: "0",
+                                                                                step: "0.01",
+                                                                                required: true,
+                                                                                value: projectInvoiceForm.amount,
+                                                                                onChange: (event)=>setProjectInvoiceForm({
+                                                                                        ...projectInvoiceForm,
+                                                                                        amount: event.target.value
+                                                                                    }),
+                                                                                placeholder: "0.00",
+                                                                                className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2416,
+                                                                                columnNumber: 25
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2414,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2398,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "คำอธิบายรายการเรียกเก็บเงิน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2420,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                                        required: true,
+                                                                        rows: 3,
+                                                                        value: projectInvoiceForm.billing_description,
+                                                                        onChange: (event)=>setProjectInvoiceForm({
+                                                                                ...projectInvoiceForm,
+                                                                                billing_description: event.target.value
+                                                                            }),
+                                                                        placeholder: "รายละเอียดงานหรือรายการที่เรียกเก็บเงิน",
+                                                                        className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2421,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2419,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "submit",
+                                                                disabled: isProjectSaving || projects.length === 0,
+                                                                className: "w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-medium px-5 py-2.5 rounded-lg transition",
+                                                                children: isProjectSaving ? 'กำลังบันทึก...' : 'บันทึก Invoice โครงการ'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2423,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            projects.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-amber-600 mt-2",
+                                                                children: "กรุณาเพิ่มข้อมูลโครงการก่อนสร้าง Invoice"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2424,
+                                                                columnNumber: 47
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2397,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2392,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2361,
+                                        columnNumber: 15
+                                    }, this),
+                                    projectInvoiceError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2",
+                                        children: projectInvoiceError
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2429,
+                                        columnNumber: 39
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                                        className: "bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "p-5 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row md:items-end justify-between gap-4",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "font-bold text-slate-800",
+                                                                children: "รายการ Invoice / Receipt โครงการ"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2434,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-slate-500 mt-1",
+                                                                children: "แสดงรายการตามเดือนและปีของวันที่ Invoice"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2435,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2433,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex gap-3",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "เดือน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2439,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                        value: invoiceMonth,
+                                                                        onChange: (event)=>setInvoiceMonth(Number(event.target.value)),
+                                                                        className: "p-2.5 bg-white border border-slate-300 rounded-lg text-sm",
+                                                                        children: thaiMonths.map((month, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: index + 1,
+                                                                                children: month
+                                                                            }, month, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2441,
+                                                                                columnNumber: 59
+                                                                            }, this))
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2440,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2438,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "block text-xs font-semibold text-slate-600 mb-1",
+                                                                        children: "ปี"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2445,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                                        value: invoiceYear,
+                                                                        onChange: (event)=>setInvoiceYear(Number(event.target.value)),
+                                                                        className: "p-2.5 bg-white border border-slate-300 rounded-lg text-sm",
+                                                                        children: [
+                                                                            invoiceYear - 2,
+                                                                            invoiceYear - 1,
+                                                                            invoiceYear,
+                                                                            invoiceYear + 1,
+                                                                            invoiceYear + 2
+                                                                        ].map((year)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                                value: year,
+                                                                                children: year
+                                                                            }, year, false, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2447,
+                                                                                columnNumber: 120
+                                                                            }, this))
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2446,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2444,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/page.tsx",
+                                                        lineNumber: 2437,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2432,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "overflow-x-auto",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                                                    className: "w-full text-left text-sm text-slate-600",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                                            className: "bg-slate-100 text-slate-700 font-semibold border-b border-slate-200",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5",
+                                                                        children: "วันที่"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2456,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5",
+                                                                        children: "โครงการ / ลูกค้า"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2457,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5",
+                                                                        children: "งวดงาน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2458,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5 min-w-72",
+                                                                        children: "คำอธิบายรายการเรียกเก็บเงิน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2459,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5 text-right",
+                                                                        children: "จำนวนเงิน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2460,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5",
+                                                                        children: "เลขที่ Invoice"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2461,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                                        className: "p-3.5 text-center",
+                                                                        children: "พิมพ์เอกสาร"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                        lineNumber: 2462,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2455,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/page.tsx",
+                                                            lineNumber: 2454,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                                            className: "divide-y divide-slate-200",
+                                                            children: isProjectInvoiceLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    colSpan: 7,
+                                                                    className: "p-8 text-center text-slate-400",
+                                                                    children: "กำลังโหลดรายการ Invoice โครงการ..."
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2467,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2467,
+                                                                columnNumber: 25
+                                                            }, this) : projectInvoices.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                    colSpan: 7,
+                                                                    className: "p-8 text-center text-slate-400",
+                                                                    children: "ไม่พบรายการในเดือนที่เลือก"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2469,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/page.tsx",
+                                                                lineNumber: 2469,
+                                                                columnNumber: 25
+                                                            }, this) : projectInvoices.map((invoice, invoiceIndex)=>{
+                                                                const printableInvoice = toPrintableProjectInvoice(invoice);
+                                                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                                    className: "hover:bg-slate-50 align-top",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 whitespace-nowrap font-mono text-xs",
+                                                                            children: invoice.invoice_date
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2474,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 min-w-64",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "font-semibold text-slate-800",
+                                                                                    children: invoice.project_name
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                                    lineNumber: 2475,
+                                                                                    columnNumber: 60
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "text-xs text-slate-500 mt-1",
+                                                                                    children: invoice.client_name
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                                    lineNumber: 2475,
+                                                                                    columnNumber: 134
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2475,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 whitespace-nowrap",
+                                                                            children: invoice.installment
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2476,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 min-w-72",
+                                                                            children: invoice.billing_description
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2477,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap",
+                                                                            children: formatBaht(invoice.amount)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2478,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 whitespace-nowrap font-mono text-xs",
+                                                                            children: invoice.invoice_number
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2479,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                                            className: "p-3.5 text-center",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex flex-col items-center gap-1.5",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                        onClick: ()=>openDocumentPrint({
+                                                                                                invoice: printableInvoice,
+                                                                                                invoiceIndex,
+                                                                                                project: true,
+                                                                                                documentType: 'INVOICE'
+                                                                                            }),
+                                                                                        className: "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium",
+                                                                                        title: "พิมพ์ Invoice",
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$printer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Printer$3e$__["Printer"], {
+                                                                                                className: "w-3.5 h-3.5"
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                                lineNumber: 2480,
+                                                                                                columnNumber: 399
+                                                                                            }, this),
+                                                                                            "Invoice"
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                                        lineNumber: 2480,
+                                                                                        columnNumber: 115
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                        onClick: ()=>openDocumentPrint({
+                                                                                                invoice: printableInvoice,
+                                                                                                invoiceIndex,
+                                                                                                project: true,
+                                                                                                documentType: 'RECEIPT'
+                                                                                            }),
+                                                                                        className: "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium",
+                                                                                        title: "พิมพ์ใบเสร็จรับเงิน",
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                                                                className: "w-3.5 h-3.5"
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                                lineNumber: 2480,
+                                                                                                columnNumber: 742
+                                                                                            }, this),
+                                                                                            "ใบเสร็จ"
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/app/page.tsx",
+                                                                                        lineNumber: 2480,
+                                                                                        columnNumber: 450
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/page.tsx",
+                                                                                lineNumber: 2480,
+                                                                                columnNumber: 63
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/page.tsx",
+                                                                            lineNumber: 2480,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, invoice.id, true, {
+                                                                    fileName: "[project]/src/app/page.tsx",
+                                                                    lineNumber: 2473,
+                                                                    columnNumber: 27
+                                                                }, this);
+                                                            })
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/page.tsx",
+                                                            lineNumber: 2465,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2453,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 2452,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2431,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 2360,
                                 columnNumber: 13
                             }, this),
                             activeTab === 'overtime' && currentUser.role?.toUpperCase() === 'ADMIN' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3923,7 +6262,7 @@ function App() {
                                                             children: "บันทึกเวลาทำ OT"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1445,
+                                                            lineNumber: 2496,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3931,13 +6270,13 @@ function App() {
                                                             children: "ระบบคำนวณตามเงินเดือนปัจจุบันของพนักงาน และเก็บค่าอัตราไว้เป็นประวัติ"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1446,
+                                                            lineNumber: 2497,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1444,
+                                                    lineNumber: 2495,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -3951,7 +6290,7 @@ function App() {
                                                                     children: "พนักงาน"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1450,
+                                                                    lineNumber: 2501,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 currentUser.role?.toUpperCase() === 'ADMIN' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3967,7 +6306,7 @@ function App() {
                                                                             children: "เลือกพนักงาน"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1458,
+                                                                            lineNumber: 2509,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         employees.map((employee)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3975,26 +6314,26 @@ function App() {
                                                                                 children: employee.name
                                                                             }, employee.id, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1460,
+                                                                                lineNumber: 2511,
                                                                                 columnNumber: 29
                                                                             }, this))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1452,
+                                                                    lineNumber: 2503,
                                                                     columnNumber: 25
                                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "w-full p-2.5 bg-slate-100 border border-slate-200 rounded-lg text-sm text-slate-700",
                                                                     children: currentUser.name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1464,
+                                                                    lineNumber: 2515,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1449,
+                                                            lineNumber: 2500,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4004,7 +6343,7 @@ function App() {
                                                                     children: "เริ่ม OT (เวลาไทย)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1470,
+                                                                    lineNumber: 2521,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4018,13 +6357,13 @@ function App() {
                                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1471,
+                                                                    lineNumber: 2522,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1469,
+                                                            lineNumber: 2520,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4034,7 +6373,7 @@ function App() {
                                                                     children: "สิ้นสุด OT (เวลาไทย)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1481,
+                                                                    lineNumber: 2532,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4048,13 +6387,13 @@ function App() {
                                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1482,
+                                                                    lineNumber: 2533,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1480,
+                                                            lineNumber: 2531,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4068,20 +6407,20 @@ function App() {
                                                                             children: "เงินเดือน"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1493,
+                                                                            lineNumber: 2544,
                                                                             columnNumber: 75
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
                                                                             children: overtimeQuote ? formatBaht(overtimeQuote.monthly_salary) : '-'
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1493,
+                                                                            lineNumber: 2544,
                                                                             columnNumber: 124
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1493,
+                                                                    lineNumber: 2544,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4092,20 +6431,20 @@ function App() {
                                                                             children: "อัตรา OT / ชั่วโมง"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1494,
+                                                                            lineNumber: 2545,
                                                                             columnNumber: 75
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
                                                                             children: overtimeQuote ? formatBaht(overtimeQuote.hourly_rate) : '-'
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1494,
+                                                                            lineNumber: 2545,
                                                                             columnNumber: 133
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1494,
+                                                                    lineNumber: 2545,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4116,20 +6455,20 @@ function App() {
                                                                             children: "จำนวนชั่วโมง"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1495,
+                                                                            lineNumber: 2546,
                                                                             columnNumber: 75
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
                                                                             children: overtimeQuote ? Number(overtimeQuote.ot_hours).toFixed(2) : '-'
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1495,
+                                                                            lineNumber: 2546,
                                                                             columnNumber: 127
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1495,
+                                                                    lineNumber: 2546,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4140,7 +6479,7 @@ function App() {
                                                                             children: "ยอด OT"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1496,
+                                                                            lineNumber: 2547,
                                                                             columnNumber: 107
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -4148,13 +6487,13 @@ function App() {
                                                                             children: overtimeQuote ? formatBaht(overtimeQuote.ot_amount) : '-'
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1496,
+                                                                            lineNumber: 2547,
                                                                             columnNumber: 167
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1496,
+                                                                    lineNumber: 2547,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 overtimeQuoteLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4162,13 +6501,13 @@ function App() {
                                                                     children: "กำลังคำนวณจากข้อมูลล่าสุด..."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1497,
+                                                                    lineNumber: 2548,
                                                                     columnNumber: 48
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1492,
+                                                            lineNumber: 2543,
                                                             columnNumber: 21
                                                         }, this),
                                                         overtimeError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4176,7 +6515,7 @@ function App() {
                                                             children: overtimeError
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1500,
+                                                            lineNumber: 2551,
                                                             columnNumber: 39
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4186,19 +6525,19 @@ function App() {
                                                             children: isOvertimeSaving ? 'กำลังบันทึก...' : 'บันทึก OT'
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1501,
+                                                            lineNumber: 2552,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1448,
+                                                    lineNumber: 2499,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1443,
+                                            lineNumber: 2494,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4214,7 +6553,7 @@ function App() {
                                                                     children: "รายการ OT"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1514,
+                                                                    lineNumber: 2565,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4222,13 +6561,13 @@ function App() {
                                                                     children: "เรียงตามเวลาเริ่ม OT ล่าสุด"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1515,
+                                                                    lineNumber: 2566,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1513,
+                                                            lineNumber: 2564,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4239,18 +6578,18 @@ function App() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1517,
+                                                                lineNumber: 2568,
                                                                 columnNumber: 161
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/page.tsx",
-                                                            lineNumber: 1517,
+                                                            lineNumber: 2568,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1512,
+                                                    lineNumber: 2563,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4267,7 +6606,7 @@ function App() {
                                                                             children: "พนักงาน"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1523,
+                                                                            lineNumber: 2574,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4275,7 +6614,7 @@ function App() {
                                                                             children: "ช่วงเวลา"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1524,
+                                                                            lineNumber: 2575,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4283,7 +6622,7 @@ function App() {
                                                                             children: "ชั่วโมง"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1525,
+                                                                            lineNumber: 2576,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4291,7 +6630,7 @@ function App() {
                                                                             children: "อัตรา/ชม."
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1526,
+                                                                            lineNumber: 2577,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4299,7 +6638,7 @@ function App() {
                                                                             children: "ยอด OT"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1527,
+                                                                            lineNumber: 2578,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4307,7 +6646,7 @@ function App() {
                                                                             children: "สถานะ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1528,
+                                                                            lineNumber: 2579,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4315,7 +6654,7 @@ function App() {
                                                                             children: "การอนุมัติ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1529,
+                                                                            lineNumber: 2580,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -4323,18 +6662,18 @@ function App() {
                                                                             children: "บันทึกเมื่อ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                            lineNumber: 1530,
+                                                                            lineNumber: 2581,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1522,
+                                                                    lineNumber: 2573,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1521,
+                                                                lineNumber: 2572,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -4346,12 +6685,12 @@ function App() {
                                                                         children: "กำลังโหลดรายการ OT..."
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1535,
+                                                                        lineNumber: 2586,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1535,
+                                                                    lineNumber: 2586,
                                                                     columnNumber: 27
                                                                 }, this) : overtimeRecords.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4360,12 +6699,12 @@ function App() {
                                                                         children: "ยังไม่มีรายการ OT"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1537,
+                                                                        lineNumber: 2588,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                    lineNumber: 1537,
+                                                                    lineNumber: 2588,
                                                                     columnNumber: 27
                                                                 }, this) : overtimeRecords.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                                         className: "hover:bg-slate-50",
@@ -4375,7 +6714,7 @@ function App() {
                                                                                 children: item.employee_name
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1540,
+                                                                                lineNumber: 2591,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4385,7 +6724,7 @@ function App() {
                                                                                         children: item.start_at_display
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1541,
+                                                                                        lineNumber: 2592,
                                                                                         columnNumber: 77
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4396,13 +6735,13 @@ function App() {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                                        lineNumber: 1541,
+                                                                                        lineNumber: 2592,
                                                                                         columnNumber: 111
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1541,
+                                                                                lineNumber: 2592,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4410,7 +6749,7 @@ function App() {
                                                                                 children: Number(item.ot_hours).toFixed(2)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1542,
+                                                                                lineNumber: 2593,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4418,7 +6757,7 @@ function App() {
                                                                                 children: formatBaht(item.hourly_rate)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1543,
+                                                                                lineNumber: 2594,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4426,7 +6765,7 @@ function App() {
                                                                                 children: formatBaht(item.ot_amount)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1544,
+                                                                                lineNumber: 2595,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4436,12 +6775,12 @@ function App() {
                                                                                     children: overtimeStatusLabels[item.status] || item.status
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1546,
+                                                                                    lineNumber: 2597,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1545,
+                                                                                lineNumber: 2596,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4456,7 +6795,7 @@ function App() {
                                                                                             children: "อนุมัติ"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                                            lineNumber: 1553,
+                                                                                            lineNumber: 2604,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4466,25 +6805,25 @@ function App() {
                                                                                             children: "ปฏิเสธ"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/page.tsx",
-                                                                                            lineNumber: 1558,
+                                                                                            lineNumber: 2609,
                                                                                             columnNumber: 35
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1552,
+                                                                                    lineNumber: 2603,
                                                                                     columnNumber: 33
                                                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     className: "text-xs text-slate-400",
                                                                                     children: item.approved_by_name || '-'
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/page.tsx",
-                                                                                    lineNumber: 1565,
+                                                                                    lineNumber: 2616,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1550,
+                                                                                lineNumber: 2601,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4492,58 +6831,58 @@ function App() {
                                                                                 children: item.created_at_display
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                                lineNumber: 1568,
+                                                                                lineNumber: 2619,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, item.id, true, {
                                                                         fileName: "[project]/src/app/page.tsx",
-                                                                        lineNumber: 1539,
+                                                                        lineNumber: 2590,
                                                                         columnNumber: 27
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/page.tsx",
-                                                                lineNumber: 1533,
+                                                                lineNumber: 2584,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 1520,
+                                                        lineNumber: 2571,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1519,
+                                                    lineNumber: 2570,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1511,
+                                            lineNumber: 2562,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1442,
+                                    lineNumber: 2493,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 1441,
+                                lineNumber: 2492,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 906,
+                        lineNumber: 1765,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 861,
+                lineNumber: 1710,
                 columnNumber: 7
             }, this),
             showLeaveModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4561,14 +6900,14 @@ function App() {
                                             className: "w-5 h-5 text-indigo-600"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1589,
+                                            lineNumber: 2640,
                                             columnNumber: 17
                                         }, this),
                                         " ยื่นใบแจ้งลา (Leave Request)"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1588,
+                                    lineNumber: 2639,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4578,18 +6917,18 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1592,
+                                        lineNumber: 2643,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1591,
+                                    lineNumber: 2642,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1587,
+                            lineNumber: 2638,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -4603,7 +6942,7 @@ function App() {
                                             children: "ผู้ยื่นใบลา"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1598,
+                                            lineNumber: 2649,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4615,19 +6954,19 @@ function App() {
                                                     children: currentUser.email
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1601,
+                                                    lineNumber: 2652,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1599,
+                                            lineNumber: 2650,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1597,
+                                    lineNumber: 2648,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4637,7 +6976,7 @@ function App() {
                                             children: "ประเภทการลา"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1606,
+                                            lineNumber: 2657,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -4653,7 +6992,7 @@ function App() {
                                                     children: "ลาป่วย (Sick Leave)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1612,
+                                                    lineNumber: 2663,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4661,7 +7000,7 @@ function App() {
                                                     children: "ลากิจ (Personal Leave)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1613,
+                                                    lineNumber: 2664,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4669,19 +7008,19 @@ function App() {
                                                     children: "ลาพักร้อน (Annual Leave)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1614,
+                                                    lineNumber: 2665,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1607,
+                                            lineNumber: 2658,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1605,
+                                    lineNumber: 2656,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4694,7 +7033,7 @@ function App() {
                                                     children: "วันที่เริ่มต้น"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1620,
+                                                    lineNumber: 2671,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4708,13 +7047,13 @@ function App() {
                                                     required: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1621,
+                                                    lineNumber: 2672,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1619,
+                                            lineNumber: 2670,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4724,7 +7063,7 @@ function App() {
                                                     children: "วันที่สิ้นสุด"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1630,
+                                                    lineNumber: 2681,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4738,19 +7077,19 @@ function App() {
                                                     required: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1631,
+                                                    lineNumber: 2682,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1629,
+                                            lineNumber: 2680,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1618,
+                                    lineNumber: 2669,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4760,7 +7099,7 @@ function App() {
                                             children: "เหตุผลการลา"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1642,
+                                            lineNumber: 2693,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -4775,13 +7114,13 @@ function App() {
                                             required: true
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1643,
+                                            lineNumber: 2694,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1641,
+                                    lineNumber: 2692,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4794,7 +7133,7 @@ function App() {
                                             children: "ยกเลิก"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1654,
+                                            lineNumber: 2705,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4803,30 +7142,30 @@ function App() {
                                             children: "บันทึกคำขอลา"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1655,
+                                            lineNumber: 2706,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1653,
+                                    lineNumber: 2704,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1596,
+                            lineNumber: 2647,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 1586,
+                    lineNumber: 2637,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 1585,
+                lineNumber: 2636,
                 columnNumber: 9
             }, this),
             showOnsiteModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4844,14 +7183,14 @@ function App() {
                                             className: "w-5 h-5 text-indigo-600"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1668,
+                                            lineNumber: 2719,
                                             columnNumber: 17
                                         }, this),
                                         " บันทึกการเดินทาง Onsite"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1667,
+                                    lineNumber: 2718,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4861,18 +7200,18 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1670,
+                                        lineNumber: 2721,
                                         columnNumber: 113
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1670,
+                                    lineNumber: 2721,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1666,
+                            lineNumber: 2717,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -4889,7 +7228,7 @@ function App() {
                                                     children: "พนักงานผู้เดินทาง"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1676,
+                                                    lineNumber: 2727,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4897,13 +7236,13 @@ function App() {
                                                     children: currentUser.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1677,
+                                                    lineNumber: 2728,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1675,
+                                            lineNumber: 2726,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4913,7 +7252,7 @@ function App() {
                                                     children: "วันที่เดินทาง"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1680,
+                                                    lineNumber: 2731,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4927,19 +7266,19 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1681,
+                                                    lineNumber: 2732,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1679,
+                                            lineNumber: 2730,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1674,
+                                    lineNumber: 2725,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4952,7 +7291,7 @@ function App() {
                                                     children: "ชื่อลูกค้า / บริษัท"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1687,
+                                                    lineNumber: 2738,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4966,13 +7305,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1688,
+                                                    lineNumber: 2739,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1686,
+                                            lineNumber: 2737,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4982,7 +7321,7 @@ function App() {
                                                     children: "สถานที่ / ปลายทาง"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1691,
+                                                    lineNumber: 2742,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4996,19 +7335,19 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1692,
+                                                    lineNumber: 2743,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1690,
+                                            lineNumber: 2741,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1685,
+                                    lineNumber: 2736,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5018,7 +7357,7 @@ function App() {
                                             children: "พาหนะ"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1697,
+                                            lineNumber: 2748,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5046,18 +7385,18 @@ function App() {
                                                     children: label
                                                 }, value, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1704,
+                                                    lineNumber: 2755,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1698,
+                                            lineNumber: 2749,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1696,
+                                    lineNumber: 2747,
                                     columnNumber: 15
                                 }, this),
                                 onsiteForm.vehicle !== 'TAXI' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5070,7 +7409,7 @@ function App() {
                                                     children: "ระยะทางขาไป (กม.)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1712,
+                                                    lineNumber: 2763,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5086,13 +7425,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1713,
+                                                    lineNumber: 2764,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1711,
+                                            lineNumber: 2762,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5102,7 +7441,7 @@ function App() {
                                                     children: "ระยะทางขากลับ (กม.)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1716,
+                                                    lineNumber: 2767,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5118,13 +7457,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1717,
+                                                    lineNumber: 2768,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1715,
+                                            lineNumber: 2766,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5134,7 +7473,7 @@ function App() {
                                                     children: "ค่าทางด่วน (บาท)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1720,
+                                                    lineNumber: 2771,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5149,19 +7488,19 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1721,
+                                                    lineNumber: 2772,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1719,
+                                            lineNumber: 2770,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1710,
+                                    lineNumber: 2761,
                                     columnNumber: 17
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "grid grid-cols-1 md:grid-cols-2 gap-3",
@@ -5173,7 +7512,7 @@ function App() {
                                                     children: "ค่าแท็กซี่ (บาท)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1727,
+                                                    lineNumber: 2778,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5189,13 +7528,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1728,
+                                                    lineNumber: 2779,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1726,
+                                            lineNumber: 2777,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5205,7 +7544,7 @@ function App() {
                                                     children: "ค่าทางด่วน (บาท)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1731,
+                                                    lineNumber: 2782,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5220,19 +7559,19 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1732,
+                                                    lineNumber: 2783,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1730,
+                                            lineNumber: 2781,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1725,
+                                    lineNumber: 2776,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5242,7 +7581,7 @@ function App() {
                                             children: "วัตถุประสงค์ / รายละเอียดงาน"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1738,
+                                            lineNumber: 2789,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -5256,13 +7595,13 @@ function App() {
                                             className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1739,
+                                            lineNumber: 2790,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1737,
+                                    lineNumber: 2788,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5275,7 +7614,7 @@ function App() {
                                                     children: "ค่าเดินทางโดยประมาณ"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1744,
+                                                    lineNumber: 2795,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5283,13 +7622,13 @@ function App() {
                                                     children: "ระบบจะคำนวณใหม่อีกครั้งเมื่อกดบันทึก"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1745,
+                                                    lineNumber: 2796,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1743,
+                                            lineNumber: 2794,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5303,13 +7642,13 @@ function App() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1747,
+                                            lineNumber: 2798,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1742,
+                                    lineNumber: 2793,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5322,7 +7661,7 @@ function App() {
                                             children: "ตั้งค่าคำนวณ"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1751,
+                                            lineNumber: 2802,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5335,7 +7674,7 @@ function App() {
                                                     children: "ยกเลิก"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1753,
+                                                    lineNumber: 2804,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5345,36 +7684,36 @@ function App() {
                                                     children: isOnsiteSaving ? 'กำลังบันทึก...' : 'บันทึกและคำนวณ'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1754,
+                                                    lineNumber: 2805,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1752,
+                                            lineNumber: 2803,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1750,
+                                    lineNumber: 2801,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1673,
+                            lineNumber: 2724,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 1665,
+                    lineNumber: 2716,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 1664,
+                lineNumber: 2715,
                 columnNumber: 9
             }, this),
             showTravelConfigModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5392,7 +7731,7 @@ function App() {
                                             children: "ตั้งค่าค่าเดินทาง"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1768,
+                                            lineNumber: 2819,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5400,13 +7739,13 @@ function App() {
                                             children: "กำหนดแยกตามเดือน และใช้กับรถยนต์/มอเตอร์ไซค์"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1769,
+                                            lineNumber: 2820,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1767,
+                                    lineNumber: 2818,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5416,18 +7755,18 @@ function App() {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 1771,
+                                        lineNumber: 2822,
                                         columnNumber: 119
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1771,
+                                    lineNumber: 2822,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1766,
+                            lineNumber: 2817,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -5441,7 +7780,7 @@ function App() {
                                             children: "เดือน"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1776,
+                                            lineNumber: 2827,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5452,13 +7791,13 @@ function App() {
                                             className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1777,
+                                            lineNumber: 2828,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1775,
+                                    lineNumber: 2826,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5471,7 +7810,7 @@ function App() {
                                                     children: "ราคาน้ำมัน (บาท/ลิตร)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1781,
+                                                    lineNumber: 2832,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5487,13 +7826,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1782,
+                                                    lineNumber: 2833,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1780,
+                                            lineNumber: 2831,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5503,7 +7842,7 @@ function App() {
                                                     children: "ค่าเสื่อม (บาท/กม.)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1785,
+                                                    lineNumber: 2836,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5519,13 +7858,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1786,
+                                                    lineNumber: 2837,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1784,
+                                            lineNumber: 2835,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5535,7 +7874,7 @@ function App() {
                                                     children: "รถยนต์ (กม./ลิตร)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1789,
+                                                    lineNumber: 2840,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5551,13 +7890,13 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1790,
+                                                    lineNumber: 2841,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1788,
+                                            lineNumber: 2839,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5567,7 +7906,7 @@ function App() {
                                                     children: "มอเตอร์ไซค์ (กม./ลิตร)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1793,
+                                                    lineNumber: 2844,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5583,19 +7922,19 @@ function App() {
                                                     className: "w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/page.tsx",
-                                                    lineNumber: 1794,
+                                                    lineNumber: 2845,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1792,
+                                            lineNumber: 2843,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1779,
+                                    lineNumber: 2830,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5604,14 +7943,14 @@ function App() {
                                         "รถยนต์/มอเตอร์ไซค์ = ค่าน้ำมัน + ค่าเสื่อมตามระยะทาง + ค่าทางด่วน",
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1798,
+                                            lineNumber: 2849,
                                             columnNumber: 82
                                         }, this),
                                         "รถแท็กซี่ = ค่าแท็กซี่จริง + ค่าทางด่วน"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1797,
+                                    lineNumber: 2848,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5624,7 +7963,7 @@ function App() {
                                             children: "ยกเลิก"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1802,
+                                            lineNumber: 2853,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5634,40 +7973,407 @@ function App() {
                                             children: isTravelConfigSaving ? 'กำลังบันทึก...' : currentUser.role === 'ADMIN' ? 'บันทึก Config' : 'Admin เท่านั้น'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 1803,
+                                            lineNumber: 2854,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 1801,
+                                    lineNumber: 2852,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 1774,
+                            lineNumber: 2825,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 1765,
+                    lineNumber: 2816,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 1764,
+                lineNumber: 2815,
+                columnNumber: 9
+            }, this),
+            documentPrintRequest && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] flex items-center justify-center p-4",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl border border-slate-200",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center justify-between border-b border-slate-100 pb-3 mb-5",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                            className: "font-bold text-slate-800 text-lg",
+                                            children: [
+                                                "พิมพ์",
+                                                documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จรับเงิน' : 'Invoice'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2866,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-slate-500 mt-1",
+                                            children: [
+                                                documentPrintRequest.documentType === 'RECEIPT' ? 'อ้างอิง Invoice: ' : 'เลขที่ Invoice: ',
+                                                documentPrintRequest.invoice.invoice_number || `INV-${invoiceYear}-${String(documentPrintRequest.invoiceIndex + 1).padStart(3, '0')}`
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2867,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2865,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    type: "button",
+                                    disabled: isInvoiceDescriptionSaving || isDocumentNumberLoading,
+                                    onClick: ()=>setDocumentPrintRequest(null),
+                                    className: "text-slate-400 hover:text-slate-600 disabled:opacity-60",
+                                    title: "ปิด",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
+                                        className: "w-5 h-5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 2869,
+                                        columnNumber: 228
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2869,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/page.tsx",
+                            lineNumber: 2864,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                            onSubmit: async (event)=>{
+                                event.preventDefault();
+                                if (isDocumentNumberLoading || isInvoiceDescriptionSaving || hasUnsavedInvoiceDescription || !documentNumber.trim()) return;
+                                setDocumentNumberError('');
+                                setIsDocumentNumberLoading(true);
+                                try {
+                                    const response = await fetch('/api/issued-documents', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            document_type: documentPrintRequest.documentType,
+                                            source_type: documentPrintRequest.sourceType,
+                                            reference_key: documentPrintRequest.referenceKey,
+                                            source_id: documentPrintRequest.invoice.id,
+                                            document_number: documentNumber.trim()
+                                        })
+                                    });
+                                    const result = await response.json();
+                                    if (!response.ok) throw new Error(result.error || 'Unable to issue document number');
+                                    let printableInvoice = documentPrintRequest.invoice;
+                                    if (documentPrintRequest.project && documentPrintRequest.documentType === 'INVOICE') {
+                                        printableInvoice = {
+                                            ...printableInvoice,
+                                            invoice_number: result.document_number,
+                                            receipt_number: result.document_number.replace('INV', 'REC')
+                                        };
+                                        setProjectInvoices((current)=>current.map((item)=>item.id === printableInvoice.id ? {
+                                                    ...item,
+                                                    invoice_number: result.document_number
+                                                } : item));
+                                    }
+                                    if (documentPrintRequest.documentType === 'INVOICE') {
+                                        if (documentPrintRequest.project) {
+                                            printProjectInvoice(printableInvoice, {
+                                                invoiceNumber: result.document_number
+                                            });
+                                        } else {
+                                            printInvoice(printableInvoice, documentPrintRequest.invoiceIndex, {
+                                                invoiceNumber: result.document_number
+                                            });
+                                        }
+                                    } else if (documentPrintRequest.project) {
+                                        printProjectReceipt(printableInvoice, receiptDate, {
+                                            invoiceNumber: printableInvoice.invoice_number,
+                                            receiptNumber: result.document_number
+                                        });
+                                    } else {
+                                        printReceipt(printableInvoice, documentPrintRequest.invoiceIndex, receiptDate, {
+                                            invoiceNumber: printableInvoice.invoice_number,
+                                            receiptNumber: result.document_number
+                                        });
+                                    }
+                                    setDocumentPrintRequest(null);
+                                } catch (error) {
+                                    setDocumentNumberError(error instanceof Error ? error.message : 'ไม่สามารถออกเลขที่เอกสารได้');
+                                } finally{
+                                    setIsDocumentNumberLoading(false);
+                                }
+                            },
+                            className: "space-y-5",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "block text-sm font-semibold text-slate-700",
+                                            children: [
+                                                "เลขที่",
+                                                documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2928,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            required: true,
+                                            value: documentNumber,
+                                            onChange: (event)=>setDocumentNumber(event.target.value),
+                                            disabled: isDocumentNumberLoading,
+                                            className: "w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-60",
+                                            placeholder: "เช่น INV-2026-001"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2929,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-slate-500",
+                                            children: isDocumentNumberLoading ? 'กำลังโหลดเลขที่ปัจจุบัน...' : isDocumentNumberIssued ? 'เอกสารนี้ออกเลขที่นี้แล้ว การพิมพ์ซ้ำต้องใช้เลขเดิม' : 'เลขปัจจุบันที่ระบบแนะนำ สามารถแก้ไขได้ก่อนออกเอกสาร'
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2930,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2927,
+                                    columnNumber: 15
+                                }, this),
+                                documentNumberError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-sm text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2",
+                                    children: documentNumberError
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2932,
+                                    columnNumber: 39
+                                }, this),
+                                canEditInvoiceDescription && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            htmlFor: "invoice-print-description",
+                                            className: "block text-sm font-semibold text-slate-700",
+                                            children: "คำอธิบายรายการใน Invoice"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2935,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                            id: "invoice-print-description",
+                                            rows: 6,
+                                            required: true,
+                                            maxLength: 5000,
+                                            value: invoiceDescription,
+                                            disabled: isInvoiceDescriptionSaving || isDocumentNumberLoading,
+                                            onChange: (event)=>{
+                                                setInvoiceDescription(event.target.value);
+                                                setInvoiceDescriptionError('');
+                                                setInvoiceDescriptionSaved(false);
+                                            },
+                                            className: "w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-60"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2936,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-slate-500",
+                                            children: "บันทึกเพื่อใช้ข้อความนี้ในการพิมพ์และในรอบบิลถัดไปของลูกค้ารายการนี้"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2950,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between gap-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-xs text-slate-500",
+                                                    children: [
+                                                        invoiceDescription.length.toLocaleString(),
+                                                        " / 5,000"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2952,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    type: "button",
+                                                    onClick: saveInvoiceDescription,
+                                                    disabled: !hasUnsavedInvoiceDescription || !invoiceDescription.trim() || isInvoiceDescriptionSaving || isDocumentNumberLoading,
+                                                    className: "px-3 py-2 text-sm font-medium rounded-lg border border-indigo-200 text-indigo-700 hover:bg-indigo-50 disabled:opacity-60",
+                                                    children: isInvoiceDescriptionSaving ? 'กำลังบันทึก...' : 'บันทึกคำอธิบาย'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2953,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2951,
+                                            columnNumber: 19
+                                        }, this),
+                                        invoiceDescriptionError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            role: "alert",
+                                            className: "text-sm text-rose-600",
+                                            children: invoiceDescriptionError
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2955,
+                                            columnNumber: 47
+                                        }, this),
+                                        invoiceDescriptionSaved && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            role: "status",
+                                            className: "text-sm text-emerald-700",
+                                            children: "บันทึกคำอธิบายแล้ว พร้อมพิมพ์"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2956,
+                                            columnNumber: 47
+                                        }, this),
+                                        hasUnsavedInvoiceDescription && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-amber-700",
+                                            children: "กรุณาบันทึกคำอธิบายก่อนพิมพ์"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2957,
+                                            columnNumber: 52
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2934,
+                                    columnNumber: 17
+                                }, this),
+                                documentPrintRequest.documentType === 'RECEIPT' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "block text-sm font-semibold text-slate-700 mb-1.5",
+                                            children: "วันที่ใบเสร็จ"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2961,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "date",
+                                            required: true,
+                                            value: receiptDate,
+                                            onChange: (event)=>setReceiptDate(event.target.value),
+                                            className: "w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2962,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-slate-500 mt-2",
+                                            children: "วันที่นี้จะแสดงในใบเสร็จรับเงิน และไม่เปลี่ยนวันที่ของ Invoice"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2963,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2960,
+                                    columnNumber: 67
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex justify-end gap-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            type: "button",
+                                            disabled: isInvoiceDescriptionSaving || isDocumentNumberLoading,
+                                            onClick: ()=>setDocumentPrintRequest(null),
+                                            className: "px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100 rounded-lg disabled:opacity-60",
+                                            children: "ยกเลิก"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2966,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            type: "submit",
+                                            disabled: isDocumentNumberLoading || isInvoiceDescriptionSaving || hasUnsavedInvoiceDescription || !documentNumber.trim(),
+                                            className: `inline-flex items-center gap-2 px-4 py-2.5 text-sm ${documentPrintRequest.documentType === 'RECEIPT' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-indigo-600 hover:bg-indigo-700'} disabled:opacity-60 text-white rounded-lg font-medium`,
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$printer$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Printer$3e$__["Printer"], {
+                                                    className: "w-4 h-4"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 2967,
+                                                    columnNumber: 410
+                                                }, this),
+                                                "พิมพ์",
+                                                documentPrintRequest.documentType === 'RECEIPT' ? 'ใบเสร็จ' : 'Invoice'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 2967,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/page.tsx",
+                                    lineNumber: 2965,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/page.tsx",
+                            lineNumber: 2871,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/app/page.tsx",
+                    lineNumber: 2863,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 2862,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/page.tsx",
-        lineNumber: 769,
+        lineNumber: 1584,
         columnNumber: 5
     }, this);
 }
-_s1(App, "tG9u6rs8pKpwY/Sk074MoWFjrTQ=");
+_s1(App, "X0pYAubLNKjcdo+sEPUPw8Wr5KE=");
 _c1 = App;
 var _c, _c1;
 __turbopack_context__.k.register(_c, "LoginPage");

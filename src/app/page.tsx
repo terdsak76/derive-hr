@@ -4,11 +4,32 @@ import {
   Users, Calendar, MapPin, Clock, FileText, Plus, Search, Filter,
   CheckCircle2, XCircle, AlertCircle, ArrowUpRight, Check, X, RefreshCw,
   ChevronRight, Car, DollarSign, Building2, UserCheck, Shield,
-  Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer
+  Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer, Menu
 } from 'lucide-react';
 import { parseBangkokDateTime } from '@/lib/overtime';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
+import IncentiveManagement from '@/components/incentive-management';
+import CompanyFinance from '@/components/company-finance';
+import TaxManagement from '@/components/tax-management';
+import AppNavigation from '@/components/app-navigation';
+
+const tabDescriptions: Record<string, string> = {
+  dashboard: 'ภาพรวมพนักงาน การเข้างาน และคำขอที่รออนุมัติ',
+  attendance: 'ลงเวลาเข้า–ออกงาน และตรวจสอบประวัติการทำงาน',
+  leaves: 'ยื่นใบลาและติดตามสถานะคำขอ',
+  onsite: 'บันทึกการเดินทางนอกสถานที่และค่าใช้จ่าย',
+  workday: 'ยื่นคำขอและติดตามการเปลี่ยนวันทำงาน',
+  summary: 'ดูสถิติการลา สาย การเปลี่ยนวันทำงาน และค่าใช้จ่ายรายเดือน',
+  overtime: 'บันทึกเวลาทำงานล่วงเวลาและตรวจสอบค่าตอบแทน',
+  invoices: 'ดูรอบบิลลูกค้าและพิมพ์ Invoice หรือใบเสร็จ',
+  'project-invoices': 'จัดการโครงการ งวดงาน และเอกสารเรียกเก็บเงิน',
+  employees: 'ดูและจัดการข้อมูลพนักงาน',
+  incentives: 'บันทึกคะแนนผลงานและ Incentive รายพนักงานประจำเดือน',
+  'company-finance': 'ดูรายรับ รายจ่าย และส่วนต่างแยกตามเดือนหรือปี',
+  'social-security': 'ตรวจสอบเงินสมทบนายจ้าง ลูกจ้าง และยอดนำส่งรายเดือน',
+  vat: 'บันทึกภาษีขาย ภาษีซื้อ และตรวจสอบยอดชำระหรือเครดิต VAT',
+};
 
 const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
 const getBangkokDateInputValue = (date: Date = new Date()): string => {
@@ -189,6 +210,13 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setSidebarOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [sidebarOpen]);
   const [summaryMonth, setSummaryMonth] = useState(new Date().getMonth() + 1);
   const [summaryYear, setSummaryYear] = useState(new Date().getFullYear());
   const [employees, setEmployees] = useState([]);
@@ -470,7 +498,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && ['invoices', 'project-invoices'].includes(activeTab) && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -1561,10 +1589,11 @@ export default function App() {
     return <LoginPage onLogin={setCurrentUser} />;
   }
                         return (
-    <div className="app-shell min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col md:flex-row">
+    <div className="app-shell min-h-screen bg-slate-50 text-slate-800 font-sans">
           {}
-      <aside className="app-sidebar w-full md:w-64 bg-slate-900 text-slate-200 flex flex-col shrink-0">
-        <div className="p-5 border-b border-slate-800 flex items-center gap-3">
+      {sidebarOpen && <button type="button" className="app-sidebar-backdrop" aria-label="ปิดเมนู" onClick={() => setSidebarOpen(false)} />}
+      <aside id="app-sidebar" className={`app-sidebar bg-slate-900 text-slate-200 ${sidebarOpen ? 'is-open' : ''}`}>
+        <div className="app-sidebar-brand p-5 border-b border-slate-800 flex items-center gap-3">
           <div className="p-2 bg-indigo-600 rounded-lg text-white">
             <Building2 className="w-6 h-6" />
                 </div>
@@ -1574,105 +1603,26 @@ export default function App() {
             </h1>
             <p className="text-xs text-slate-400" style={{ color: "#64748b" }}>ระบบบริหารบุคคล</p>
                     </div>
+          <button type="button" className="app-sidebar-close ml-auto p-1 text-slate-500" aria-label="ปิดเมนู" onClick={() => setSidebarOpen(false)}><X className="w-5 h-5" /></button>
                     </div>
 
-        <nav className="p-4 space-y-1.5 flex-1">
-                    <button
-            onClick={() => setActiveTab('dashboard')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'dashboard' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                    >
-            <Users className="w-5 h-5" />
-            <span>ภาพรวม (Dashboard)</span>
-                </button>
-                <button
-            onClick={() => setActiveTab('attendance')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'attendance' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                >
-            <Clock className="w-5 h-5" />
-            <span>บันทึกเวลา (Attendance)</span>
-                </button>
-                  <button
-            onClick={() => setActiveTab('leaves')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'leaves' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                  >
-            <Calendar className="w-5 h-5" />
-            <span>แจ้งลา / ขาดงาน (Leaves)</span>
-                    </button>
-                  <button
-            onClick={() => setActiveTab('onsite')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'onsite' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                      >
-            <MapPin className="w-5 h-5" />
-            <span>การเดินทาง Onsite</span>
-                      </button>
-                  <button
-            onClick={() => setActiveTab('workday')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'workday' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                  >
-            <Calendar className="w-5 h-5" />
-            <span>ขอเปลี่ยนวันทำงาน</span>
-                  </button>
+        <AppNavigation activeTab={activeTab} onSelect={tab => { setActiveTab(tab); setSidebarOpen(false); }} isAdmin={isAdminRole(currentUser.role)} />
 
-                  <button
-            onClick={() => setActiveTab('summary')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'summary' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-                  >
-            <FileText className="w-5 h-5" />
-            <span>สรุปสถิติพนักงาน</span>
-                  </button>
-
-          <button
-            onClick={() => setActiveTab('overtime')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'overtime' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-          >
-            <Timer className="w-5 h-5" />
-            <span>บันทึก OT</span>
-          </button>
-
-          {isAdminRole(currentUser.role) && (
-            <button
-              onClick={() => setActiveTab('invoices')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-            >
-              <FileSpreadsheet className="w-5 h-5" />
-              <span>ตาราง Invoice ลูกค้า</span>
-            </button>
-          )}
-
-          {isAdminRole(currentUser.role) && (
-            <button
-              onClick={() => setActiveTab('project-invoices')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'project-invoices' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-            >
-              <FileText className="w-5 h-5" />
-              <span>Invoice / Receipt โครงการ</span>
-            </button>
-          )}
-
-          <div className="pt-4 border-t border-slate-800 my-2"></div>
-
-          <button
-            onClick={() => setActiveTab('employees')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${activeTab === 'employees' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'hover:bg-slate-800 text-slate-300'}`}
-          >
-            <Users className="w-5 h-5" />
-            <span>จัดการพนักงาน (Employees)</span>
-          </button>
-
-        </nav>
-
-        {/* Footer actions */}
-        <div className="p-4 border-t border-slate-800 space-y-2 text-xs text-slate-400">
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-400" /> DB Engine:</span>
-            <span className="bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-mono">Turso / libSQL</span>
+        <div className="app-sidebar-account">
+          <div className="app-sidebar-account-info">
+            <p className="text-sm font-semibold text-slate-700">{currentUser.name}</p>
+            <p className="text-xs text-slate-500">{isAdminRole(currentUser.role) ? 'ผู้ดูแลระบบ' : 'พนักงาน'}</p>
           </div>
+          <button type="button" onClick={handleLogout} aria-label="ออกจากระบบ" title="ออกจากระบบ">
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </aside>
       {}
-      <main className="app-main flex-1 flex flex-col overflow-y-auto">
+      <main className="app-main min-w-0 flex-1 flex flex-col overflow-y-auto">
         {/* Header Bar */}
         <header className="app-header bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-0 z-10">
+          <button type="button" className="app-sidebar-toggle self-start p-2 rounded-lg border border-slate-200 text-slate-700" aria-label="เปิดเมนู" aria-expanded={sidebarOpen} aria-controls="app-sidebar" onClick={() => setSidebarOpen(value => !value)}><Menu className="w-5 h-5" /></button>
                     <div>
             <h2 className="text-xl font-bold text-slate-800">
               {activeTab === 'dashboard' && 'ภาพรวมระบบ HR (HR Overview)'}
@@ -1685,22 +1635,15 @@ export default function App() {
               {activeTab === 'invoices' && 'ตาราง Invoice ลูกค้าตามรอบวางบิล'}
               {activeTab === 'project-invoices' && 'Invoice / Receipt สำหรับโครงการ'}
               {activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)'}
+              {activeTab === 'incentives' && 'Incentive ตามผลงานพนักงาน'}
+              {activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท'}
+              {activeTab === 'social-security' && 'ประกันสังคม'}
+              {activeTab === 'vat' && 'VAT ชำระ / ขอคืน'}
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">จัดการข้อมูล ขาด ลา การทำงานนอกสถานที่ ย้ายวันทำงาน</p>
+            {tabDescriptions[activeTab] && <p className="text-xs text-slate-500 mt-0.5">{tabDescriptions[activeTab]}</p>}
               </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden lg:block text-right mr-1">
-              <p className="text-sm font-semibold text-slate-700">{currentUser.name}</p>
-              <p className="text-[11px] text-slate-500">{currentUser.role === 'ADMIN' ? 'ผู้ดูแลระบบ' : 'พนักงาน'}</p>
-              </div>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
-              title="ออกจากระบบ"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
             {activeTab === 'dashboard' && (
               <>
                 <button
@@ -1722,6 +1665,10 @@ export default function App() {
 
         {/* Dynamic Main Body */}
         <div className="app-content p-6 space-y-6 flex-1">
+          {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
+          {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
+          {activeTab === 'social-security' && isAdminRole(currentUser.role) && <TaxManagement key="social-security" mode="social-security" />}
+          {activeTab === 'vat' && isAdminRole(currentUser.role) && <TaxManagement key="vat" mode="vat" />}
           {}
           {activeTab === 'employees' && (
             <EmployeeManagement currentUser={currentUser} onEmployeesChange={handleEmployeesChange} />

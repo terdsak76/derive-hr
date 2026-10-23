@@ -5,7 +5,7 @@ import { hashPassword } from '@/lib/auth';
 import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 
 const employeeSelect = {
-  id: true, name: true, department: true, position: true, email: true, role: true,
+  id: true, name: true, department: true, position: true, email: true, role: true, isOwner: true,
 } as const;
 
 class EmployeeConflict extends Error {}
@@ -39,7 +39,11 @@ async function readBody(request: Request): Promise<Record<string, unknown> | nul
 }
 
 function parseEmployee(body: Record<string, unknown>, creating: boolean) {
-  const data: { name?: string; department?: string; position?: string; email?: string; passwordHash?: string } = {};
+  const data: { name?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean } = {};
+  if (body.isOwner !== undefined) {
+    if (typeof body.isOwner !== 'boolean') return { error: 'Owner flag must be true or false.' } as const;
+    data.isOwner = body.isOwner;
+  }
   for (const field of ['name', 'department', 'position', 'email'] as const) {
     if (!creating && body[field] === undefined) continue;
     if (typeof body[field] !== 'string' || !body[field].trim() || body[field].trim().length > 254) {
@@ -90,7 +94,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const employee = await prisma.employee.create({
       data: {
         name: parsed.data.name!, department: parsed.data.department!, position: parsed.data.position!,
-        email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER',
+        email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER', isOwner: parsed.data.isOwner ?? false,
       },
       select: employeeSelect,
     });
@@ -112,6 +116,9 @@ export async function PATCH(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: 'You can only edit your own employee profile.' }, { status: 403 });
     }
     // Roles, salaries, and relation IDs are never accepted from this form.
+    if (body.isOwner !== undefined && !isEmployeeAdmin(user.role)) {
+      return NextResponse.json({ error: 'Only admins can change owner status.' }, { status: 403 });
+    }
     const parsed = parseEmployee(body, false);
     if ('error' in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
     const employee = await prisma.employee.update({ where: { id }, data: parsed.data, select: employeeSelect });
@@ -139,6 +146,9 @@ export async function DELETE(request: Request): Promise<NextResponse> {
         where: { createdById: id, employeeId: { not: id } }, select: { id: true },
       });
       if (sharedOvertime) throw new EmployeeConflict('This employee created overtime records for other employees. Preserve those records before deleting the account.');
+      if (await tx.incentive.count({ where: { employeeId: id } })) {
+        throw new EmployeeConflict('This employee has incentive history and cannot be deleted.');
+      }
       await tx.attendance.deleteMany({ where: { employeeId: id } });
       await tx.leave.deleteMany({ where: { employeeId: id } });
       await tx.onsite.deleteMany({ where: { employeeId: id } });

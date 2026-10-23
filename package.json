@@ -9,6 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test:employees": "node --import tsx --test tests/employees.test.ts",
+    "test:finance": "node --import tsx --test tests/finance.test.ts",
+    "db:incentives": "node scripts/apply-incentive-migration.mjs",
+    "db:taxes": "node scripts/apply-tax-migration.mjs",
+    "db:owners": "node scripts/apply-owner-migration.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

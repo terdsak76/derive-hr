@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Pencil, Plus, RefreshCw, Search, Trash2, X } from 'lucide-react';
 import type { AuthUser } from '@/lib/auth';
 
-type Employee = AuthUser & { department: string; position: string };
-type EmployeeForm = { id: string; name: string; department: string; position: string; email: string; password: string };
-const emptyForm: EmployeeForm = { id: '', name: '', department: '', position: '', email: '', password: '' };
+type Employee = AuthUser & { department: string; position: string; isOwner: boolean };
+type EmployeeForm = { id: string; name: string; department: string; position: string; email: string; password: string; isOwner: boolean };
+const emptyForm: EmployeeForm = { id: '', name: '', department: '', position: '', email: '', password: '', isOwner: false };
 const inputClass = 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500';
 
 export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
@@ -26,7 +26,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
   function editEmployee(employee: Employee) {
     setError('');
     setSuccess('');
-    setForm({ id: employee.id, name: employee.name, department: employee.department, position: employee.position, email: employee.email, password: '' });
+    setForm({ id: employee.id, name: employee.name, department: employee.department, position: employee.position, email: employee.email, password: '', isOwner: employee.isOwner });
   }
 
   async function loadEmployees(signal?: AbortSignal) {
@@ -60,10 +60,11 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
     setError('');
     setSuccess('');
     try {
+      const { isOwner, ...profile } = form;
       const response = await fetch('/api/employees', {
         method: form.id ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(isAdmin ? form : profile),
       });
       const saved = await response.json();
       if (!response.ok) throw new Error(saved.error || 'ไม่สามารถบันทึกข้อมูลพนักงานได้');
@@ -139,6 +140,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
               <div><label htmlFor="employee-position" className="block text-sm font-medium text-slate-700 mb-1">ตำแหน่ง</label><input id="employee-position" required maxLength={254} value={form.position} onChange={event => setForm({ ...form, position: event.target.value })} className={inputClass} /></div>
               <div><label htmlFor="employee-email" className="block text-sm font-medium text-slate-700 mb-1">อีเมล</label><input id="employee-email" type="email" autoComplete="email" required maxLength={254} value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} className={inputClass} /></div>
               <div><label htmlFor="employee-password" className="block text-sm font-medium text-slate-700 mb-1">{form.id ? 'รหัสผ่านใหม่ (ไม่บังคับ)' : 'รหัสผ่าน'}</label><input id="employee-password" type="password" autoComplete="new-password" required={!form.id} minLength={8} maxLength={128} value={form.password} onChange={event => setForm({ ...form, password: event.target.value })} aria-describedby="employee-password-help" className={inputClass} /><p id="employee-password-help" className="text-xs text-slate-500 mt-1">อย่างน้อย 8 ตัวอักษร{form.id ? ' เว้นว่างเพื่อใช้รหัสผ่านเดิม' : ''}</p></div>
+              {isAdmin && <label className="md:col-span-2 flex items-start gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.isOwner} onChange={event => setForm({ ...form, isOwner: event.target.checked })} className="mt-1" /><span>เจ้าของกิจการ (Owner)<span className="block text-xs text-slate-500 mt-1">ไม่นำมาคำนวณเงินสมทบประกันสังคมทั้งฝ่ายนายจ้างและลูกจ้าง</span></span></label>}
               <div className="md:col-span-2 flex items-center gap-3 pt-2">
                 <button type="submit" className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium">{isSaving ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}</button>
                 <button type="button" onClick={() => setForm(null)} className="px-4 py-2.5 border border-slate-300 rounded-lg text-sm text-slate-600">ยกเลิก</button>
@@ -156,7 +158,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
             <tbody className="divide-y divide-slate-200">
               {isLoading ? <tr><td colSpan={5} className="p-8 text-center text-slate-400">กำลังโหลดข้อมูลพนักงาน...</td></tr> : filteredEmployees.length === 0 ? <tr><td colSpan={5} className="p-8 text-center text-slate-400">ไม่พบข้อมูลพนักงาน</td></tr> : filteredEmployees.map(employee => (
                 <tr key={employee.id} className="hover:bg-slate-50">
-                  <td className="p-4"><p className="font-semibold text-slate-800">{employee.name}</p><p className="text-xs text-slate-400 mt-1">{employee.id}</p></td>
+                  <td className="p-4"><p className="font-semibold text-slate-800">{employee.name} {employee.isOwner && <span className="text-xs px-2 py-0.5 bg-amber-50 text-amber-800 rounded-full">Owner</span>}</p><p className="text-xs text-slate-400 mt-1">{employee.id}</p></td>
                   <td className="p-4"><p>{employee.department}</p><p className="text-xs text-slate-500 mt-1">{employee.position}</p></td>
                   <td className="p-4">{employee.email}</td>
                   <td className="p-4">{['ADMIN', 'ROLE_ADMIN'].includes(employee.role.trim().toUpperCase()) ? 'Admin' : 'User'}</td>

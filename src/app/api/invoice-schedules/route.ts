@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
+import { isInvoiceScheduled } from '@/lib/finance';
 
 function getSession(request: Request) {
   const token = request.headers.get('cookie')
@@ -24,14 +25,6 @@ async function requireAdmin(request: Request) {
     select: { role: true },
   });
   return user && isAdminRole(user.role) ? user : null;
-}
-
-function isScheduledInMonth(period: string, issueMonth: number | null, selectedMonth: number): boolean {
-  if (period === 'month') return true;
-  if (!issueMonth) return false;
-  if (period === 'year') return issueMonth === selectedMonth;
-  if (period === 'quarter') return (selectedMonth - issueMonth + 12) % 3 === 0;
-  return false;
 }
 
 export async function GET(request: Request): Promise<NextResponse> {
@@ -62,7 +55,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       orderBy: [{ client: 'asc' }, { product: 'asc' }, { issueDay: 'asc' }],
     });
 
-    return NextResponse.json(schedules.filter(schedule => isScheduledInMonth(
+    return NextResponse.json(schedules.filter(schedule => isInvoiceScheduled(
       schedule.period,
       schedule.issueMonth,
       month,

@@ -15,6 +15,7 @@ model Employee {
   passwordHash           String
   role                   String                 @default("USER")
   monthlySalaryCents     Int?
+  isOwner                Boolean                @default(false)
   attendances            Attendance[]
   leaves                 Leave[]
   onsites                Onsite[]
@@ -23,6 +24,7 @@ model Employee {
   overtimes              Overtime[]             @relation("OvertimeEmployee")
   createdOvertimes       Overtime[]             @relation("OvertimeCreator")
   approvedOvertimes      Overtime[]             @relation("OvertimeApprover")
+  incentives             Incentive[]
   createdAt              DateTime               @default(now())
 }
 
@@ -111,6 +113,20 @@ model Overtime {
   @@map("OT")
 }
 
+model Incentive {
+  id          String   @id @default(cuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  month       String   // YYYY-MM, Bangkok calendar month
+  score       Float
+  amountCents Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([employeeId, month])
+  @@index([month])
+}
+
 model InvoiceSchedule {
   id          String   @id @default(cuid())
   client      String
@@ -172,4 +188,48 @@ model IssuedDocument {
 
   @@unique([documentType, sourceType, referenceKey])
   @@index([documentType, sourceType, issuedAt])
+}
+
+model VatSale {
+  id           String   @id @default(cuid())
+  referenceKey String   @unique
+  sourceType   String
+  sourceId     String
+  invoiceMonth String
+  invoiceNumber String
+  customer     String
+  description  String
+  taxDate      DateTime
+  amountCents  Int
+  vatCents     Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([taxDate])
+}
+
+model VatPurchase {
+  id             String   @id @default(cuid())
+  month          String
+  purchaseDate   DateTime
+  supplier       String
+  invoiceNumber  String
+  description    String
+  amountCents    Int
+  vatCents       Int
+  creditable     Boolean  @default(false)
+  expense        Boolean  @default(true)
+  vatMode        String   @default("exclusive")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([supplier, invoiceNumber])
+  @@index([month])
+}
+
+model VatMonth {
+  month              String   @id
+  openingCreditCents Int      @default(0)
+  creditAction       String   @default("CARRY")
+  updatedAt          DateTime @updatedAt
 }

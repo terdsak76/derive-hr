@@ -22,6 +22,9 @@ let employees: typeof import('../src/app/api/employees/route');
 let taxes: typeof import('../src/app/api/taxes/route');
 let purchases: typeof import('../src/app/api/taxes/purchases/route');
 let sales: typeof import('../src/app/api/taxes/sales/route');
+let overtime: typeof import('../src/app/api/overtime/route');
+let overtimeQuote: typeof import('../src/app/api/overtime/quote/route');
+let approvals: typeof import('../src/app/api/request-approvals/route');
 
 function request(path: string, method = 'GET', userId: string | undefined = 'admin', body?: unknown) {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -70,12 +73,16 @@ before(async () => {
   taxes = await import('../src/app/api/taxes/route');
   purchases = await import('../src/app/api/taxes/purchases/route');
   sales = await import('../src/app/api/taxes/sales/route');
+  overtime = await import('../src/app/api/overtime/route');
+  overtimeQuote = await import('../src/app/api/overtime/quote/route');
+  approvals = await import('../src/app/api/request-approvals/route');
 });
 
 beforeEach(async () => {
   await prisma.$transaction([
     prisma.vatSale.deleteMany(), prisma.vatPurchase.deleteMany(), prisma.vatMonth.deleteMany(),
     prisma.incentive.deleteMany(), prisma.overtime.deleteMany(), prisma.onsite.deleteMany(),
+    prisma.leave.deleteMany(), prisma.workdayChangeRequest.deleteMany(),
     prisma.issuedDocument.deleteMany(), prisma.projectInvoice.deleteMany(), prisma.project.deleteMany(),
     prisma.invoiceSchedule.deleteMany(), prisma.employee.deleteMany(),
   ]);
@@ -90,6 +97,74 @@ beforeEach(async () => {
 after(async () => {
   if (prisma) await prisma.$disconnect();
   if (directory) await rm(directory, { recursive: true });
+});
+
+test('approval inbox is admin-only regardless of token role claims', async () => {
+  for (const id of ['', 'missing', 'employee']) {
+    const status = id === 'employee' ? 403 : 401;
+    assert.equal((await approvals.GET(request('/api/request-approvals', 'GET', id))).status, status);
+    assert.equal((await approvals.PATCH(request('/api/request-approvals', 'PATCH', id,
+      { id: 'request', type: 'LEAVE', status: 'APPROVED' }))).status, status);
+  }
+  assert.equal((await approvals.GET(request('/api/request-approvals', 'GET', 'legacy'))).status, 200);
+});
+
+async function seedApprovalRequests() {
+  const start = new Date('2026-10-23T00:00:00Z');
+  const leave = await prisma.leave.create({ data: { employeeId: 'employee', type: 'SICK', startDate: start, endDate: start,
+    reason: 'Rest', createdAt: new Date('2026-10-01T00:00:00Z') } });
+  const workday = await prisma.workdayChangeRequest.create({ data: { employeeId: 'employee', fromDate: start,
+    toDate: new Date('2026-10-24T00:00:00Z'), project: 'Project', jobDetail: 'Customer meeting',
+    createdAt: new Date('2026-10-02T00:00:00Z') } });
+  const ot = await prisma.overtime.create({ data: { employeeId: 'employee', startAt: start,
+    endAt: new Date('2026-10-23T02:00:00Z'), workedMinutes: 120, hourlyRateCents: 17045,
+    otAmountCents: 51136, createdById: 'employee', createdAt: new Date('2026-10-03T00:00:00Z') } });
+  return [{ id: leave.id, type: 'LEAVE' }, { id: workday.id, type: 'WORKDAY_CHANGE' }, { id: ot.id, type: 'OVERTIME' }];
+}
+
+test('approval inbox combines pending request types oldest-first without sensitive employee data', async () => {
+  await seedApprovalRequests();
+  await prisma.leave.create({ data: { employeeId: 'employee', type: 'PERSONAL', startDate: new Date(), endDate: new Date(), reason: 'Done', status: 'APPROVED' } });
+  const response = await approvals.GET(request('/api/request-approvals'));
+  assert.equal(response.status, 200);
+  const rows = await response.json();
+  assert.deepEqual(rows.map((row: { type: string }) => row.type), ['LEAVE', 'WORKDAY_CHANGE', 'OVERTIME']);
+  assert.equal(rows[0].employeeName, 'employee');
+  assert.equal(rows[2].hours, 2);
+  assert.equal(rows[2].amount, 511.36);
+  assert.ok(!JSON.stringify(rows).includes('passwordHash'));
+  assert.ok(!JSON.stringify(rows).includes('monthlySalaryCents'));
+});
+
+test('admin can approve or reject every request type with approval audit and no repeated decisions', async () => {
+  const requests = await seedApprovalRequests();
+  for (const [index, item] of requests.entries()) {
+    const status = index === 1 ? 'REJECTED' : 'APPROVED';
+    const response = await approvals.PATCH(request('/api/request-approvals', 'PATCH', 'legacy', { ...item, status }));
+    assert.equal(response.status, 200);
+    assert.equal((await approvals.PATCH(request('/api/request-approvals', 'PATCH', 'admin', { ...item, status: 'REJECTED' }))).status, 409);
+  }
+  const leave = await prisma.leave.findUniqueOrThrow({ where: { id: requests[0].id } });
+  const workday = await prisma.workdayChangeRequest.findUniqueOrThrow({ where: { id: requests[1].id } });
+  const ot = await prisma.overtime.findUniqueOrThrow({ where: { id: requests[2].id } });
+  assert.equal(leave.status, 'APPROVED');
+  assert.equal(workday.status, 'REJECTED');
+  assert.equal(ot.status, 'APPROVED');
+  assert.equal(workday.approvedById, 'legacy');
+  assert.equal(ot.approvedById, 'legacy');
+  assert.ok(workday.approvedAt && ot.approvedAt);
+  assert.deepEqual(await (await approvals.GET(request('/api/request-approvals'))).json(), []);
+});
+
+test('approval decisions reject malformed input and unknown requests', async () => {
+  for (const body of [null, [], {}, { id: 'x', type: 'ONSITE', status: 'APPROVED' },
+    { id: 'x', type: 'LEAVE', status: 'PENDING' }, { id: '', type: 'LEAVE', status: 'APPROVED' }]) {
+    assert.equal((await approvals.PATCH(request('/api/request-approvals', 'PATCH', 'admin', body))).status, 400);
+  }
+  assert.equal((await approvals.PATCH(request('/api/request-approvals', 'PATCH', 'admin',
+    { id: 'missing', type: 'LEAVE', status: 'APPROVED' }))).status, 409);
+  const valid = request('/api/request-approvals');
+  assert.equal((await approvals.PATCH(new Request(valid.url, { method: 'PATCH', headers: valid.headers, body: '{' }))).status, 400);
 });
 
 test('admin access is required even if an employee token claims ADMIN', async () => {
@@ -468,4 +543,49 @@ test('owner migration targets exact IDs, preserves other employees, and is repea
     await assert.rejects(() => applyOwnerMigration(database, ['missing']));
     assert.equal((await database.execute("SELECT COUNT(*) AS count FROM Employee WHERE isOwner = 1")).rows[0].count, 2);
   } finally { database.close(); }
+});
+
+const otBody = { employee_id: 'admin', start_at: '2026-10-20T18:00', end_at: '2026-10-20T20:00', hourly_rate: 99999, ot_amount: 1 };
+
+test('employees can quote and create their own pending OT even if a different employee ID is submitted', async () => {
+  const quote = await overtimeQuote.POST(request('/api/overtime/quote', 'POST', 'employee', otBody));
+  assert.equal(quote.status, 200);
+  const quoted = await quote.json();
+  assert.equal(quoted.employee_id, 'employee');
+  assert.equal(quoted.ot_amount, 511.36);
+  const response = await overtime.POST(request('/api/overtime', 'POST', 'employee', otBody));
+  assert.equal(response.status, 201);
+  const saved = await response.json();
+  assert.equal(saved.employee_id, 'employee');
+  assert.equal(saved.created_by_id, 'employee');
+  assert.equal(saved.status, 'PENDING_APPROVAL');
+  assert.equal(saved.ot_amount, 511.36);
+  assert.equal(saved.worked_minutes, 120);
+  assert.equal((await report()).expenses.overtime, 0);
+  assert.equal((await overtime.PATCH(request('/api/overtime', 'PATCH', 'employee', { id: saved.id, status: 'APPROVED' }))).status, 403);
+  assert.equal((await overtime.PATCH(request('/api/overtime', 'PATCH', 'legacy', { id: saved.id, status: 'APPROVED' }))).status, 200);
+  assert.equal((await report()).expenses.overtime, 511.36);
+});
+
+test('regular users see only their own OT; legacy admins can record and approve employee OT', async () => {
+  await overtime.POST(request('/api/overtime', 'POST', 'employee', otBody));
+  await prisma.employee.update({ where: { id: 'unset' }, data: { monthlySalaryCents: 2000000 } });
+  const other = await overtime.POST(request('/api/overtime', 'POST', 'legacy', { ...otBody, employee_id: 'unset' }));
+  assert.equal(other.status, 201);
+  const quoted = await overtimeQuote.POST(request('/api/overtime/quote', 'POST', 'legacy', { ...otBody, employee_id: 'unset' }));
+  assert.equal(quoted.status, 200);
+  assert.equal((await quoted.json()).employee_id, 'unset');
+  const ownRows = await (await overtime.GET(request('/api/overtime', 'GET', 'employee'))).json();
+  assert.equal(ownRows.length, 1);
+  assert.ok(ownRows.every((row: { employee_id: string }) => row.employee_id === 'employee'));
+  const allRows = await (await overtime.GET(request('/api/overtime', 'GET', 'legacy'))).json();
+  assert.equal(allRows.length, 2);
+});
+
+test('OT requires login and salary data, and still rejects overlapping intervals', async () => {
+  assert.equal((await overtime.POST(request('/api/overtime', 'POST', '', otBody))).status, 401);
+  assert.equal((await overtime.POST(request('/api/overtime', 'POST', 'unset', otBody))).status, 400);
+  assert.equal((await overtimeQuote.POST(request('/api/overtime/quote', 'POST', 'unset', otBody))).status, 400);
+  assert.equal((await overtime.POST(request('/api/overtime', 'POST', 'employee', otBody))).status, 201);
+  assert.equal((await overtime.POST(request('/api/overtime', 'POST', 'employee', otBody))).status, 409);
 });

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
+import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 import { calculateOvertime, centsToAmount, parseBangkokDateTime } from '@/lib/overtime';
 
 type RequestBody = {
@@ -9,23 +9,9 @@ type RequestBody = {
   end_at?: unknown;
 };
 
-function getSession(request: Request) {
-  const token = request.headers.get('cookie')
-    ?.split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(`${getSessionCookieName()}=`))
-    ?.split('=')[1];
-  return token ? verifySessionToken(token) : null;
-}
-
 async function requireUser(request: Request) {
-  const session = getSession(request);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const user = await prisma.employee.findUnique({
-    where: { id: session.employeeId },
-    select: { id: true, role: true },
-  });
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const user = await requireEmployeeUser(request);
+  if (user instanceof NextResponse) return user;
   return { user };
 }
 
@@ -41,7 +27,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   const requestedEmployeeId = typeof body.employee_id === 'string' ? body.employee_id.trim() : '';
-  const employeeId = auth.user.role.toUpperCase() === 'ADMIN'
+  const employeeId = isEmployeeAdmin(auth.user.role)
     ? requestedEmployeeId
     : auth.user.id;
   const startAt = parseBangkokDateTime(body.start_at);

@@ -13,8 +13,10 @@ import IncentiveManagement from '@/components/incentive-management';
 import CompanyFinance from '@/components/company-finance';
 import TaxManagement from '@/components/tax-management';
 import AppNavigation from '@/components/app-navigation';
+import RequestApprovals from '@/components/request-approvals';
 
 const tabDescriptions: Record<string, string> = {
+  'request-approvals': 'รวมคำขอการลา เปลี่ยนวันทำงาน และ OT ที่รออนุมัติ',
   dashboard: 'ภาพรวมพนักงาน การเข้างาน และคำขอที่รออนุมัติ',
   attendance: 'ลงเวลาเข้า–ออกงาน และตรวจสอบประวัติการทำงาน',
   leaves: 'ยื่นใบลาและติดตามสถานะคำขอ',
@@ -420,6 +422,9 @@ export default function App() {
     setLeaveForm(current => ({ ...current, employee_id: currentUser.id }));
     setOnsiteForm(current => ({ ...current, employee_id: currentUser.id }));
     setClockForm(current => ({ ...current, employee_id: currentUser.id }));
+    if (!isAdminRole(currentUser.role)) {
+      setOvertimeForm(current => ({ ...current, employee_id: currentUser.id }));
+    }
 
     const loadEmployees = async () => {
       try {
@@ -432,7 +437,7 @@ export default function App() {
         setEmployees(databaseEmployees);
         setOvertimeForm(current => ({
           ...current,
-          employee_id: currentUser.role?.toUpperCase() === 'ADMIN'
+          employee_id: isAdminRole(currentUser.role)
             ? current.employee_id || databaseEmployees[0]?.id || ''
             : currentUser.id,
         }));
@@ -498,7 +503,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security'].includes(activeTab) && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security', 'request-approvals'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -1276,7 +1281,8 @@ export default function App() {
   const handleCreateOvertime = async (event) => {
     event.preventDefault();
     if (isOvertimeSaving) return;
-    if (!overtimeForm.employee_id || !overtimeForm.start_at || !overtimeForm.end_at) {
+    const employeeId = isAdminRole(currentUser.role) ? overtimeForm.employee_id : currentUser.id;
+    if (!employeeId || !overtimeForm.start_at || !overtimeForm.end_at) {
       setOvertimeError('กรุณากรอกพนักงาน วันเวลาเริ่มต้น และวันเวลาสิ้นสุด');
       return;
     }
@@ -1297,7 +1303,7 @@ export default function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // Financial values are intentionally not sent; the server recalculates them.
-        body: JSON.stringify(overtimeForm),
+        body: JSON.stringify({ ...overtimeForm, employee_id: employeeId }),
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Unable to save overtime record');
@@ -1639,6 +1645,7 @@ export default function App() {
               {activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท'}
               {activeTab === 'social-security' && 'ประกันสังคม'}
               {activeTab === 'vat' && 'VAT ชำระ / ขอคืน'}
+              {activeTab === 'request-approvals' && 'Request Approval (อนุมัติคำขอ)'}
             </h2>
             {tabDescriptions[activeTab] && <p className="text-xs text-slate-500 mt-0.5">{tabDescriptions[activeTab]}</p>}
               </div>
@@ -1665,6 +1672,11 @@ export default function App() {
 
         {/* Dynamic Main Body */}
         <div className="app-content p-6 space-y-6 flex-1">
+          {activeTab === 'request-approvals' && isAdminRole(currentUser.role) && <RequestApprovals onDecision={decision => {
+            if (decision.type === 'LEAVE') setLeaves(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status === 'APPROVED' ? 'Approved' : 'Rejected' } : row));
+            if (decision.type === 'WORKDAY_CHANGE') setWorkdayChanges(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status } : row));
+            if (decision.type === 'OVERTIME') void loadOvertimeRecords();
+          }} />}
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
           {activeTab === 'social-security' && isAdminRole(currentUser.role) && <TaxManagement key="social-security" mode="social-security" />}
@@ -2390,7 +2402,7 @@ export default function App() {
             </div>
           )}
 
-          {activeTab === 'overtime' && currentUser.role?.toUpperCase() === 'ADMIN' && (
+          {activeTab === 'overtime' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <section className="xl:col-span-1 bg-white rounded-xl border border-slate-200 shadow-sm p-5">
@@ -2401,7 +2413,7 @@ export default function App() {
                   <form onSubmit={handleCreateOvertime} className="space-y-4">
                     <div>
                       <label className="block text-xs font-semibold text-slate-600 mb-1">พนักงาน</label>
-                      {currentUser.role?.toUpperCase() === 'ADMIN' ? (
+                      {isAdminRole(currentUser.role) ? (
                         <select
                           required
                           value={overtimeForm.employee_id}
@@ -2501,7 +2513,7 @@ export default function App() {
                               </span>
                             </td>
                             <td className="p-3.5 whitespace-nowrap">
-                              {currentUser.role?.toUpperCase() === 'ADMIN' && item.status === 'PENDING_APPROVAL' ? (
+                              {isAdminRole(currentUser.role) && item.status === 'PENDING_APPROVAL' ? (
                                 <div className="flex gap-1.5">
                                   <button
                                     onClick={() => handleUpdateOvertimeStatus(item.id, 'APPROVED')}

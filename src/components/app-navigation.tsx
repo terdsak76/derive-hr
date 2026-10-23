@@ -50,13 +50,14 @@ export default function AppNavigation({ activeTab, onSelect, isAdmin }: {
       <Icon className="w-4 h-4 mt-0.5 shrink-0" /><span>{label}</span>
     </button>;
   }
-  const employeeActive = employeeItems.some(item => item.tab === activeTab) || activeTab === 'employees';
+  const employeeActive = employeeItems.some(item => item.tab === activeTab) || activeTab === 'employees' || activeTab === 'request-approvals';
   const incomeActive = incomeItems.some(item => item.tab === activeTab);
   const expenseActive = expenseItems.some(item => item.tab === activeTab);
   return <nav aria-label="เมนูหลัก" className="p-3 space-y-4 flex-1">
     {item({ tab: 'dashboard', label: 'ภาพรวม (Dashboard)', icon: Building2 })}
     <MenuGroup id="employee-menu" label="Employee" icon={Users} active={employeeActive}>
       {employeeItems.map(item)}
+      {isAdmin && item({ tab: 'request-approvals', label: 'Request Approval', icon: UserCheck })}
       <div className="pt-2 mt-2 border-t border-slate-200">
         {item({ tab: 'employees', label: isAdmin ? 'จัดการพนักงาน' : 'ข้อมูลพนักงานของฉัน', icon: Users })}
       </div>

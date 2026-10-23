@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
+import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 import {
   calculateOvertime,
   centsToAmount,
@@ -21,35 +21,16 @@ type StatusUpdateBody = {
 
 class OverlapError extends Error {}
 
-function getSession(request: Request) {
-  const token = request.headers.get('cookie')
-    ?.split(';')
-    .map(value => value.trim())
-    .find(value => value.startsWith(`${getSessionCookieName()}=`))
-    ?.split('=')[1];
-  return token ? verifySessionToken(token) : null;
-}
-
 async function requireUser(request: Request) {
-  const session = getSession(request);
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  // Reload the user so role changes take effect immediately instead of relying
-  // only on the role captured when the session cookie was issued.
-  const user = await prisma.employee.findUnique({
-    where: { id: session.employeeId },
-    select: { id: true, role: true },
-  });
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const user = await requireEmployeeUser(request);
+  if (user instanceof NextResponse) return user;
   return { user };
 }
 
 async function requireAdmin(request: Request) {
   const auth = await requireUser(request);
   if (auth instanceof NextResponse) return auth;
-  if (auth.user.role.toUpperCase() !== 'ADMIN') {
+  if (!isEmployeeAdmin(auth.user.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
   return auth;
@@ -136,7 +117,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   try {
     const records = await prisma.overtime.findMany({
       orderBy: [{ startAt: 'desc' }, { createdAt: 'desc' }],
-      where: auth.user.role.toUpperCase() === 'ADMIN'
+      where: isEmployeeAdmin(auth.user.role)
         ? undefined
         : { employeeId: auth.user.id },
       include: {
@@ -164,7 +145,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const calculation = await loadCalculation(
     body,
-    auth.user.role.toUpperCase() === 'ADMIN' ? undefined : auth.user.id,
+    isEmployeeAdmin(auth.user.role) ? undefined : auth.user.id,
   );
   if (!('calculation' in calculation)) return badRequest(calculation.error);
 

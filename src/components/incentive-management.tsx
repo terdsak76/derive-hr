@@ -36,7 +36,7 @@ function IncentiveRow({ row, onSaved, onBusy }: { row: Row; onSaved: (row: Row) 
 
   return <tr className="border-t border-slate-100 align-top">
     <td className="p-4 font-medium text-slate-800">{row.name}<div className="text-xs text-slate-500 mt-1">{row.department}</div></td>
-    <td className="p-4 text-right whitespace-nowrap">{money(row.fullIncentive)}{row.fullIncentive === 0 && <p className="text-xs text-amber-700 mt-1">ตั้งค่าได้ในจัดการพนักงาน</p>}</td>
+    <td className="p-4 text-right whitespace-nowrap">{money(row.fullIncentive)}{row.fullIncentive === 0 && <p className="text-xs text-amber-700 mt-1">ตั้งค่าได้ใน Salary &amp; Incentive Management</p>}</td>
     <td className="p-4"><input aria-label={`คะแนน ${row.name}`} form={formId} type="number" min="0" max="100" step="0.01" required value={score} disabled={saving} onChange={event => { setScore(event.target.value); setSuccess(false); }} placeholder="0–100" className={inputClass} /></td>
     <td className="p-4 text-right whitespace-nowrap"><output aria-label={`Incentive ที่คำนวณ ${row.name}`}>{amount === null ? '—' : money(amount)}</output></td>
     <td className="p-4 text-right whitespace-nowrap">{row.amount === null ? 'ยังไม่บันทึก' : money(row.amount)}</td>
@@ -76,7 +76,7 @@ export default function IncentiveManagement() {
 
   return <div className="space-y-5">
     <section className="bg-white rounded-xl border border-slate-200 p-5 flex flex-wrap justify-between items-end gap-4">
-      <div><h3 className="font-bold text-slate-800">Incentive ตามผลงานประจำเดือน</h3><p className="text-sm text-slate-500 mt-1">Incentive = Full incentive × คะแนน / 100 (ปัดเป็น 2 ตำแหน่ง) ตั้งค่า Full incentive ในจัดการพนักงาน แล้วกรอกคะแนนและบันทึกรายเดือน</p><p className="text-xs text-slate-500 mt-1">ยอดที่บันทึกไว้จะไม่เปลี่ยนตาม Full incentive จนกว่าจะบันทึกเดือนนั้นใหม่</p></div>
+      <div><h3 className="font-bold text-slate-800">Incentive ตามผลงานประจำเดือน</h3><p className="text-sm text-slate-500 mt-1">Incentive = Full incentive × คะแนน / 100 (ปัดเป็น 2 ตำแหน่ง) ตั้งค่า Full incentive ใน Salary &amp; Incentive Management แล้วกรอกคะแนนและบันทึกรายเดือน</p><p className="text-xs text-slate-500 mt-1">ยอดที่บันทึกไว้จะไม่เปลี่ยนตาม Full incentive จนกว่าจะบันทึกเดือนนั้นใหม่</p></div>
       <div className="flex items-end gap-3"><div><label htmlFor="incentive-month" className="block text-xs font-semibold mb-1">เดือน</label><input id="incentive-month" type="month" min="2000-01" max="9998-12" required value={month} disabled={pending > 0} onChange={event => { if (event.target.value) setMonth(event.target.value); }} className={inputClass} /></div>
         <button type="button" aria-label="โหลด Incentive ใหม่" disabled={loading || pending > 0} onClick={() => setRefresh(value => value + 1)} className="p-2.5 border border-slate-300 rounded-lg disabled:opacity-50"><RefreshCw className="w-4 h-4" /></button></div>
     </section>

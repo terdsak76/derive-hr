@@ -15,6 +15,7 @@ import { socialSecurityCents, vatAmounts, type TaxReport } from '../src/lib/taxe
 import { applyOwnerMigration } from '../scripts/apply-owner-migration.mjs';
 import { applyFullIncentiveMigration } from '../scripts/apply-full-incentive-migration.mjs';
 import { calculateIncentiveCents } from '../src/lib/incentives';
+import { applySalaryHistoryMigration } from '../scripts/apply-salary-history-migration.mjs';
 
 let directory: string;
 let prisma: PrismaClient;
@@ -27,6 +28,7 @@ let sales: typeof import('../src/app/api/taxes/sales/route');
 let overtime: typeof import('../src/app/api/overtime/route');
 let overtimeQuote: typeof import('../src/app/api/overtime/quote/route');
 let approvals: typeof import('../src/app/api/request-approvals/route');
+let salaryHistory: typeof import('../src/app/api/salary-incentive-history/route');
 
 function request(path: string, method = 'GET', userId: string | undefined = 'admin', body?: unknown) {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -53,6 +55,8 @@ before(async () => {
       'node_modules/prisma/build/index.js', 'migrate', 'diff', '--from-empty', '--to-schema', 'prisma/schema.prisma', '--script',
     ]);
     await database.executeMultiple(stdout);
+    await database.execute('DROP TABLE "salary_incentive_history"');
+    await applySalaryHistoryMigration(database);
     // Use the shipped migration, including its database CHECK constraints.
     await database.execute('DROP TABLE "Incentive"');
     assert.equal(await applyIncentiveMigration(database), 'applied');
@@ -78,12 +82,14 @@ before(async () => {
   overtime = await import('../src/app/api/overtime/route');
   overtimeQuote = await import('../src/app/api/overtime/quote/route');
   approvals = await import('../src/app/api/request-approvals/route');
+  salaryHistory = await import('../src/app/api/salary-incentive-history/route');
 });
 
 beforeEach(async () => {
   await prisma.$transaction([
     prisma.vatSale.deleteMany(), prisma.vatPurchase.deleteMany(), prisma.vatMonth.deleteMany(),
     prisma.incentive.deleteMany(), prisma.overtime.deleteMany(), prisma.onsite.deleteMany(),
+    prisma.salaryIncentiveHistory.deleteMany(),
     prisma.leave.deleteMany(), prisma.workdayChangeRequest.deleteMany(),
     prisma.issuedDocument.deleteMany(), prisma.projectInvoice.deleteMany(), prisma.project.deleteMany(),
     prisma.invoiceSchedule.deleteMany(), prisma.employee.deleteMany(),
@@ -290,6 +296,117 @@ test('full incentive migration is additive, repeatable and preserves historical 
     await applyFullIncentiveMigration(database);
     assert.equal((await database.execute('SELECT fullIncentiveCents FROM Employee')).rows[0].fullIncentiveCents, 500000);
   } finally { database.close(); }
+});
+
+const salaryBody = { employeeId: 'employee', salary: 32000, fullIncentive: 4000, startDate: '2026-10-01' };
+const saveSalary = (body: unknown = salaryBody, user = 'admin') => salaryHistory.POST(request('/api/salary-incentive-history', 'POST', user, body));
+
+test('salary history is admin-only and ignores forged token role claims', async () => {
+  for (const id of ['', 'missing', 'employee']) {
+    const status = id === 'employee' ? 403 : 401;
+    assert.equal((await salaryHistory.GET(request('/api/salary-incentive-history', 'GET', id))).status, status);
+    assert.equal((await saveSalary(salaryBody, id)).status, status);
+  }
+  assert.equal((await saveSalary(salaryBody, 'legacy')).status, 201);
+});
+
+test('salary periods close one day before the next start and latest values synchronize to Employee', async () => {
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2025-12-01', salary: 30000 })).status, 201);
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2026-01-01', salary: 32000 })).status, 201);
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2026-03-01', salary: 35000, fullIncentive: 5000 })).status, 201);
+  const rows = await prisma.salaryIncentiveHistory.findMany({ where: { employeeId: 'employee' }, orderBy: { startDate: 'asc' } });
+  assert.deepEqual(rows.map(row => row.endDate?.toISOString().slice(0, 10) ?? null), ['2025-12-31', '2026-02-28', null]);
+  const employee = await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } });
+  assert.equal(employee.monthlySalaryCents, 3500000);
+  assert.equal(employee.fullIncentiveCents, 500000);
+  const response = await salaryHistory.GET(request('/api/salary-incentive-history'));
+  assert.equal(response.status, 200);
+  const data = (await response.json()).find((row: { id: string }) => row.id === 'employee');
+  assert.equal(data.salary, 35000);
+  assert.deepEqual(data.history.map((row: { startDate: string }) => row.startDate), ['2026-03-01', '2026-01-01', '2025-12-01']);
+  assert.ok(!JSON.stringify(data).includes('passwordHash'));
+  const profile = (await (await employees.GET(request('/api/employees'))).json()).find((row: { id: string }) => row.id === 'employee');
+  assert.equal(profile.monthlySalary, 35000);
+});
+
+test('backdated insertion repairs adjacent periods and never replaces the newest salary', async () => {
+  await saveSalary({ ...salaryBody, startDate: '2028-01-01', salary: 31000 });
+  await saveSalary({ ...salaryBody, startDate: '2028-03-01', salary: 35000 });
+  await saveSalary({ ...salaryBody, startDate: '2028-02-15', salary: 32000 });
+  await saveSalary({ ...salaryBody, startDate: '2027-12-01', salary: 30000 });
+  const rows = await prisma.salaryIncentiveHistory.findMany({ where: { employeeId: 'employee' }, orderBy: { startDate: 'asc' } });
+  assert.deepEqual(rows.map(row => row.endDate?.toISOString().slice(0, 10) ?? null), ['2027-12-31', '2028-02-14', '2028-02-29', null]);
+  assert.equal((await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } })).monthlySalaryCents, 3500000);
+});
+
+test('salary input validates dates and money, duplicate dates leave all compensation unchanged', async () => {
+  for (const body of [null, [], {}, { ...salaryBody, employeeId: '' }, { ...salaryBody, startDate: '2026-02-30' },
+    { ...salaryBody, startDate: '2026-2-01' }, { ...salaryBody, startDate: '2026-10-01T00:00:00Z' },
+    { ...salaryBody, salary: -1 }, { ...salaryBody, salary: '1000' }, { ...salaryBody, salary: null },
+    { ...salaryBody, salary: 1.001 }, { ...salaryBody, salary: 21474836.48 }, { ...salaryBody, fullIncentive: -1 }]) {
+    assert.equal((await saveSalary(body)).status, 400);
+  }
+  assert.equal((await saveSalary({ ...salaryBody, employeeId: 'missing' })).status, 404);
+  assert.equal((await saveSalary()).status, 201);
+  assert.equal((await saveSalary({ ...salaryBody, salary: 99999 })).status, 409);
+  assert.equal(await prisma.salaryIncentiveHistory.count(), 1);
+  assert.equal((await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } })).monthlySalaryCents, 3200000);
+  const valid = request('/api/salary-incentive-history');
+  assert.equal((await salaryHistory.POST(new Request(valid.url, { method: 'POST', headers: valid.headers, body: '{' }))).status, 400);
+});
+
+test('latest salary and incentive feed payroll consumers without rewriting saved monthly incentives', async () => {
+  await save();
+  assert.equal((await saveSalary({ ...salaryBody, salary: 10000, fullIncentive: 5000 })).status, 201);
+  const result = await report();
+  assert.equal(result.expenses.salary, 10000);
+  assert.equal(result.expenses.socialSecurity, 500);
+  assert.equal(result.expenses.incentive, 1710);
+  const quote = await overtimeQuote.POST(request('/api/overtime/quote', 'POST', 'employee', {
+    start_at: '2026-10-20T18:00', end_at: '2026-10-20T20:00',
+  }));
+  assert.equal(quote.status, 200);
+  assert.equal((await quote.json()).monthly_salary, 10000);
+  const incentive = await (await save()).json();
+  assert.equal(incentive.amount, 4275);
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', fullIncentive: 9999 }))).status, 409);
+  assert.equal((await employees.DELETE(request('/api/employees', 'DELETE', 'admin', { id: 'employee' }))).status, 409);
+});
+
+test('salary migration preserves opening balances and supports numeric and text creation dates', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple(`CREATE TABLE Employee (id TEXT PRIMARY KEY, monthlySalaryCents INTEGER, fullIncentiveCents INTEGER, createdAt DATETIME);
+      INSERT INTO Employee VALUES ('text', 3000000, 500000, '2026-01-31T18:00:00.000Z');
+      INSERT INTO Employee VALUES ('numeric', 2000000, 400000, 1769882400000);
+      INSERT INTO Employee VALUES ('unset', NULL, 0, '2026-01-01T00:00:00Z');
+      CREATE TABLE Incentive (amountCents INTEGER); INSERT INTO Incentive VALUES (123456);`);
+    await applySalaryHistoryMigration(database);
+    await applySalaryHistoryMigration(database);
+    const rows = (await database.execute('SELECT * FROM salary_incentive_history ORDER BY employeeId')).rows;
+    assert.equal(rows.length, 2);
+    for (const row of rows) {
+      assert.equal(new Date(String(row.startDate)).toISOString().slice(0, 10), '2026-02-01');
+      assert.equal(row.endDate, null);
+      assert.equal(Number(row.isOpening), 1);
+    }
+    assert.equal((await database.execute("SELECT monthlySalaryCents FROM Employee WHERE id = 'text'")).rows[0].monthlySalaryCents, 3000000);
+    assert.equal((await database.execute('SELECT amountCents FROM Incentive')).rows[0].amountCents, 123456);
+  } finally { database.close(); }
+});
+
+test('migrated opening dates sort and filter consistently with new salary entries', async () => {
+  const database = createClient({ url: process.env.TURSO_DATABASE_URL! });
+  try { await applySalaryHistoryMigration(database); } finally { database.close(); }
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2026-01-01' })).status, 409);
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2025-12-01', salary: 27000 })).status, 201);
+  let employee = await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } });
+  assert.equal(employee.monthlySalaryCents, 3000000);
+  assert.equal((await saveSalary({ ...salaryBody, startDate: '2026-02-01', salary: 32000 })).status, 201);
+  employee = await prisma.employee.findUniqueOrThrow({ where: { id: 'employee' } });
+  assert.equal(employee.monthlySalaryCents, 3200000);
+  const opening = await prisma.salaryIncentiveHistory.findFirstOrThrow({ where: { employeeId: 'employee', isOpening: true } });
+  assert.equal(opening.endDate?.toISOString().slice(0, 10), '2026-01-31');
 });
 
 async function createIncome() {

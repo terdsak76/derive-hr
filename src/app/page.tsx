@@ -14,8 +14,10 @@ import CompanyFinance from '@/components/company-finance';
 import TaxManagement from '@/components/tax-management';
 import AppNavigation from '@/components/app-navigation';
 import RequestApprovals from '@/components/request-approvals';
+import SalaryIncentiveManagement from '@/components/salary-incentive-management';
 
 const tabDescriptions: Record<string, string> = {
+  'salary-incentive-history': 'จัดการเงินเดือนและ Full incentive พร้อมประวัติวันเริ่มต้นและวันสิ้นสุด',
   'request-approvals': 'รวมคำขอการลา เปลี่ยนวันทำงาน และ OT ที่รออนุมัติ',
   dashboard: 'ภาพรวมพนักงาน การเข้างาน และคำขอที่รออนุมัติ',
   attendance: 'ลงเวลาเข้า–ออกงาน และตรวจสอบประวัติการทำงาน',
@@ -503,7 +505,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security', 'request-approvals'].includes(activeTab) && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -1646,6 +1648,7 @@ export default function App() {
               {activeTab === 'social-security' && 'ประกันสังคม'}
               {activeTab === 'vat' && 'VAT ชำระ / ขอคืน'}
               {activeTab === 'request-approvals' && 'Request Approval (อนุมัติคำขอ)'}
+              {activeTab === 'salary-incentive-history' && 'Salary & Incentive Management'}
             </h2>
             {tabDescriptions[activeTab] && <p className="text-xs text-slate-500 mt-0.5">{tabDescriptions[activeTab]}</p>}
               </div>
@@ -1678,6 +1681,7 @@ export default function App() {
             if (decision.type === 'OVERTIME') void loadOvertimeRecords();
           }} />}
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
+          {activeTab === 'salary-incentive-history' && isAdminRole(currentUser.role) && <SalaryIncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
           {activeTab === 'social-security' && isAdminRole(currentUser.role) && <TaxManagement key="social-security" mode="social-security" />}
           {activeTab === 'vat' && isAdminRole(currentUser.role) && <TaxManagement key="vat" mode="vat" />}

@@ -26,7 +26,23 @@ model Employee {
   createdOvertimes       Overtime[]             @relation("OvertimeCreator")
   approvedOvertimes      Overtime[]             @relation("OvertimeApprover")
   incentives             Incentive[]
+  salaryIncentiveHistory SalaryIncentiveHistory[]
   createdAt              DateTime               @default(now())
+}
+
+model SalaryIncentiveHistory {
+  id                 String   @id @default(cuid())
+  employeeId         String
+  employee           Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  salaryCents        Int?
+  fullIncentiveCents Int
+  startDate          DateTime
+  endDate            DateTime?
+  isOpening          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  @@unique([employeeId, startDate])
+  @@map("salary_incentive_history")
 }
 
 model Attendance {

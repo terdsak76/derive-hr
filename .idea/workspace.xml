@@ -5,12 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="debf0edc-d4be-418f-a857-9378a68bfb7a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/logs/next-development.log" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/logs/next-development.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/trace" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/validator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inv-2026_026_Derive-TWSS-MA-BP_มิ.ย. 69.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/employees/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/employees/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/incentives/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/incentives/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/app-navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app-navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/employee-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-management.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/incentive-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/incentive-management.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/finance.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/finance.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,61 +55,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.000000000000007" />
-      <entry key="MS500" value="1.003181842669315" />
-      <entry key="S2" value="1.783086945460581" />
-      <entry key="S5" value="4.369246730955533" />
-      <entry key="S10" value="8.662056435221768" />
-      <entry key="S30" value="20.90825268438675" />
-      <entry key="S60" value="33.95678293169354" />
-      <entry key="M2" value="63.41498295721267" />
-      <entry key="M5" value="164.08773051094806" />
-      <entry key="M10" value="344.5565053253801" />
-      <entry key="M15" value="528.4295020520362" />
-      <entry key="M30" value="1044.941845833748" />
-      <entry key="H1" value="1842.4306109655033" />
-      <entry key="H2" value="2888.855943036502" />
-      <entry key="H4" value="4063.3983433192166" />
-      <entry key="D1" value="6108.156388258584" />
-      <entry key="W1" value="6654.758629765284" />
+      <entry key="MS100" value="1.5238375286728592" />
+      <entry key="MS500" value="3.196574932883721" />
+      <entry key="S2" value="7.927399937372265" />
+      <entry key="S5" value="16.344110982576943" />
+      <entry key="S10" value="27.915565915329665" />
+      <entry key="S30" value="57.413885933317594" />
+      <entry key="S60" value="76.96816636685513" />
+      <entry key="M2" value="107.35665976300079" />
+      <entry key="M5" value="224.16944398617673" />
+      <entry key="M10" value="414.3012613823283" />
+      <entry key="M15" value="599.676636215178" />
+      <entry key="M30" value="1126.6999748886649" />
+      <entry key="H1" value="1968.106858348999" />
+      <entry key="H2" value="3085.5675277651576" />
+      <entry key="H4" value="4337.621641792777" />
+      <entry key="D1" value="6520.784275140956" />
+      <entry key="W1" value="7106.538076061809" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
-      <entry key="S10" value="2.1369148618173963E-268" />
-      <entry key="S30" value="5.978548267317832E-90" />
-      <entry key="S60" value="2.445107005289748E-45" />
-      <entry key="M2" value="4.944802326979028E-23" />
-      <entry key="M5" value="1.195802821993497E-9" />
-      <entry key="M10" value="3.458038203943674E-5" />
-      <entry key="M15" value="0.0010614181865895816" />
-      <entry key="M30" value="0.032579413539679795" />
-      <entry key="H1" value="0.18049768292052812" />
-      <entry key="H2" value="0.4248501887966178" />
-      <entry key="H4" value="0.6518053304451052" />
-      <entry key="D1" value="0.9311500079230662" />
-      <entry key="W1" value="0.9898610507890748" />
+      <entry key="S10" value="4.671274051086151E-296" />
+      <entry key="S30" value="3.6014587840744015E-99" />
+      <entry key="S60" value="6.001215530268714E-50" />
+      <entry key="M2" value="2.44973784929502E-25" />
+      <entry key="M5" value="1.4310270559486221E-10" />
+      <entry key="M10" value="1.1962554308961406E-5" />
+      <entry key="M15" value="5.230573168234317E-4" />
+      <entry key="M30" value="0.02287044636257385" />
+      <entry key="H1" value="0.1512297800123167" />
+      <entry key="H2" value="0.38888273298298126" />
+      <entry key="H4" value="0.6236046287376465" />
+      <entry key="D1" value="0.9243112132210354" />
+      <entry key="W1" value="0.9888191960076868" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9330329915368144" />
-      <entry key="MS500" value="0.9894051201522598" />
-      <entry key="S2" value="1.7789697388442263" />
-      <entry key="S5" value="4.366573960631966" />
-      <entry key="S10" value="8.659860470522302" />
-      <entry key="S30" value="20.90667133975881" />
-      <entry key="S60" value="33.95541694719871" />
-      <entry key="M2" value="63.41368622860051" />
-      <entry key="M5" value="164.08643757487474" />
-      <entry key="M10" value="344.5552140554025" />
-      <entry key="M15" value="528.4292148081541" />
-      <entry key="M30" value="1044.9729874725087" />
-      <entry key="H1" value="1842.6096143021377" />
-      <entry key="H2" value="2889.2794687568967" />
-      <entry key="H4" value="4064.0491714795935" />
-      <entry key="D1" value="6109.087290899503" />
-      <entry key="W1" value="6655.748452397168" />
+      <entry key="MS100" value="1.5027788414359289" />
+      <entry key="MS500" value="3.1870578925352033" />
+      <entry key="S2" value="7.920970734420557" />
+      <entry key="S5" value="16.33825671896692" />
+      <entry key="S10" value="27.910472785650693" />
+      <entry key="S30" value="57.41051010211134" />
+      <entry key="S60" value="76.96591841357531" />
+      <entry key="M2" value="107.35485293367832" />
+      <entry key="M5" value="224.16726876804816" />
+      <entry key="M10" value="414.2991152085036" />
+      <entry key="M15" value="599.6751276004384" />
+      <entry key="M30" value="1126.7210064406884" />
+      <entry key="H1" value="1968.2563782311158" />
+      <entry key="H2" value="3085.9549575283067" />
+      <entry key="H4" value="4338.244188165155" />
+      <entry key="D1" value="6521.7083198088285" />
+      <entry key="W1" value="7107.52685386925" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{

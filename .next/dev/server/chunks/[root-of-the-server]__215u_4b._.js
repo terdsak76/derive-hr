@@ -101,8 +101,18 @@ const employeeSelect = {
     position: true,
     email: true,
     role: true,
-    isOwner: true
+    isOwner: true,
+    fullIncentiveCents: true,
+    monthlySalaryCents: true
 };
+function serializeEmployee(employee) {
+    const { fullIncentiveCents, monthlySalaryCents, ...profile } = employee;
+    return {
+        ...profile,
+        fullIncentive: fullIncentiveCents / 100,
+        monthlySalary: monthlySalaryCents === null ? null : monthlySalaryCents / 100
+    };
+}
 class EmployeeConflict extends Error {
 }
 function employeeError(error) {
@@ -153,6 +163,15 @@ async function readBody(request) {
 }
 function parseEmployee(body, creating) {
     const data = {};
+    if (body.fullIncentive !== undefined) {
+        const amount = body.fullIncentive;
+        if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0 || amount > 21474836.47 || Math.abs(amount * 100 - Math.round(amount * 100)) > 0.000001) {
+            return {
+                error: 'Full incentive must be 0–21,474,836.47 baht with at most 2 decimal places.'
+            };
+        }
+        data.fullIncentiveCents = Math.round(amount * 100);
+    }
     if (body.isOwner !== undefined) {
         if (typeof body.isOwner !== 'boolean') return {
             error: 'Owner flag must be true or false.'
@@ -209,7 +228,7 @@ async function GET(request) {
             },
             select: employeeSelect
         });
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employees);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employees.map(serializeEmployee));
     } catch (error) {
         return employeeError(error);
     }
@@ -243,11 +262,12 @@ async function POST(request) {
                 email: parsed.data.email,
                 passwordHash: parsed.data.passwordHash,
                 role: 'USER',
-                isOwner: parsed.data.isOwner ?? false
+                isOwner: parsed.data.isOwner ?? false,
+                fullIncentiveCents: parsed.data.fullIncentiveCents ?? 0
             },
             select: employeeSelect
         });
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employee, {
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(serializeEmployee(employee), {
             status: 201
         });
     } catch (error) {
@@ -285,20 +305,46 @@ async function PATCH(request) {
                 status: 403
             });
         }
+        if ((body.fullIncentive !== undefined || body.fullIncentiveCents !== undefined) && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$employee$2d$access$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isEmployeeAdmin"])(user.role)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Only admins can change full incentive.'
+            }, {
+                status: 403
+            });
+        }
         const parsed = parseEmployee(body, false);
         if ('error' in parsed) return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: parsed.error
         }, {
             status: 400
         });
-        const employee = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].employee.update({
-            where: {
-                id
-            },
-            data: parsed.data,
-            select: employeeSelect
+        return await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].$transaction(async (tx)=>{
+            if (parsed.data.fullIncentiveCents !== undefined) {
+                const latest = await tx.salaryIncentiveHistory.findFirst({
+                    where: {
+                        employeeId: id
+                    },
+                    orderBy: {
+                        startDate: 'desc'
+                    }
+                });
+                if (latest && latest.fullIncentiveCents !== parsed.data.fullIncentiveCents) {
+                    return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                        error: 'กรุณาเปลี่ยน Full incentive ในเมนู Salary & Incentive Management เพื่อเก็บประวัติ'
+                    }, {
+                        status: 409
+                    });
+                }
+            }
+            const employee = await tx.employee.update({
+                where: {
+                    id
+                },
+                data: parsed.data,
+                select: employeeSelect
+            });
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(serializeEmployee(employee));
         });
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employee);
     } catch (error) {
         return employeeError(error);
     }
@@ -357,6 +403,13 @@ async function DELETE(request) {
                 }
             })) {
                 throw new EmployeeConflict('This employee has incentive history and cannot be deleted.');
+            }
+            if (await tx.salaryIncentiveHistory.count({
+                where: {
+                    employeeId: id
+                }
+            })) {
+                throw new EmployeeConflict('This employee has salary history and cannot be deleted.');
             }
             await tx.attendance.deleteMany({
                 where: {

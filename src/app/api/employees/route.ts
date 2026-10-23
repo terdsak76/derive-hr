@@ -6,12 +6,12 @@ import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 
 const employeeSelect = {
   id: true, name: true, department: true, position: true, email: true, role: true, isOwner: true,
-  fullIncentiveCents: true,
+  fullIncentiveCents: true, monthlySalaryCents: true,
 } as const;
 
-function serializeEmployee<T extends { fullIncentiveCents: number }>(employee: T) {
-  const { fullIncentiveCents, ...profile } = employee;
-  return { ...profile, fullIncentive: fullIncentiveCents / 100 };
+function serializeEmployee<T extends { fullIncentiveCents: number; monthlySalaryCents: number | null }>(employee: T) {
+  const { fullIncentiveCents, monthlySalaryCents, ...profile } = employee;
+  return { ...profile, fullIncentive: fullIncentiveCents / 100, monthlySalary: monthlySalaryCents === null ? null : monthlySalaryCents / 100 };
 }
 
 class EmployeeConflict extends Error {}
@@ -139,8 +139,16 @@ export async function PATCH(request: Request): Promise<NextResponse> {
     }
     const parsed = parseEmployee(body, false);
     if ('error' in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
-    const employee = await prisma.employee.update({ where: { id }, data: parsed.data, select: employeeSelect });
-    return NextResponse.json(serializeEmployee(employee));
+    return await prisma.$transaction(async tx => {
+      if (parsed.data.fullIncentiveCents !== undefined) {
+        const latest = await tx.salaryIncentiveHistory.findFirst({ where: { employeeId: id }, orderBy: { startDate: 'desc' } });
+        if (latest && latest.fullIncentiveCents !== parsed.data.fullIncentiveCents) {
+          return NextResponse.json({ error: 'กรุณาเปลี่ยน Full incentive ในเมนู Salary & Incentive Management เพื่อเก็บประวัติ' }, { status: 409 });
+        }
+      }
+      const employee = await tx.employee.update({ where: { id }, data: parsed.data, select: employeeSelect });
+      return NextResponse.json(serializeEmployee(employee));
+    });
   } catch (error) {
     return employeeError(error);
   }
@@ -166,6 +174,9 @@ export async function DELETE(request: Request): Promise<NextResponse> {
       if (sharedOvertime) throw new EmployeeConflict('This employee created overtime records for other employees. Preserve those records before deleting the account.');
       if (await tx.incentive.count({ where: { employeeId: id } })) {
         throw new EmployeeConflict('This employee has incentive history and cannot be deleted.');
+      }
+      if (await tx.salaryIncentiveHistory.count({ where: { employeeId: id } })) {
+        throw new EmployeeConflict('This employee has salary history and cannot be deleted.');
       }
       await tx.attendance.deleteMany({ where: { employeeId: id } });
       await tx.leave.deleteMany({ where: { employeeId: id } });

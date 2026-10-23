@@ -20,6 +20,7 @@ const incomeItems: Item[] = [
   { tab: 'project-invoices', label: 'Invoice โครงการ', icon: FileText },
 ];
 const expenseItems: Item[] = [
+  { tab: 'salary-incentive-history', label: 'Salary & Incentive Management', icon: DollarSign },
   { tab: 'incentives', label: 'Incentive พนักงาน', icon: UserCheck },
   { tab: 'social-security', label: 'ประกันสังคม', icon: Shield },
   { tab: 'vat', label: 'VAT ชำระ / ขอคืน', icon: FileSpreadsheet },

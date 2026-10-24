@@ -442,13 +442,14 @@ test('monthly finance includes all expense sources and both invoice sources with
 
 test('issued mode counts an invoice once and excludes receipts, other months, and unissued invoices', async () => {
   await createIncome();
+  await prisma.issuedDocument.create({ data: { documentType: 'INVOICE', sourceType: 'RECURRING', referenceKey: 'recurring:quarterly:2026-10', documentNumber: 'INV-DRAFT' } });
   assert.equal((await report('2026-10', 'issued')).income.total, 0);
   for (const [type, source, reference, number] of [
     ['INVOICE', 'RECURRING', 'recurring:monthly:2026-10', 'INV-1'],
     ['RECEIPT', 'RECURRING', 'recurring:monthly:2026-10', 'REC-1'],
     ['INVOICE', 'RECURRING', 'recurring:yearly:2026-11', 'INV-2'],
     ['INVOICE', 'PROJECT', 'project:project-invoice', 'P-INV-1'],
-  ]) await prisma.issuedDocument.create({ data: { documentType: type, sourceType: source, referenceKey: reference, documentNumber: number } });
+  ]) await prisma.issuedDocument.create({ data: { documentType: type, sourceType: source, referenceKey: reference, documentNumber: number, status: 'ISSUED' } });
   assert.deepEqual((await report('2026-10', 'issued')).income, { recurring: 10000, project: 20000, total: 30000 });
 });
 
@@ -520,8 +521,8 @@ test('issued all-month view counts recurring invoices in their own months and pr
     ['recurring:monthly:2026-10', 'RECURRING'], ['recurring:monthly:2026-11', 'RECURRING'],
     ['recurring:quarterly:2026-01', 'RECURRING'], ['recurring:quarterly:2026-10', 'RECURRING'],
     ['project:project-invoice', 'PROJECT'], ['recurring:monthly:2027-01', 'RECURRING'],
-  ]) await prisma.issuedDocument.create({ data: { documentType: 'INVOICE', sourceType, referenceKey, documentNumber: `INV-${referenceKey}` } });
-  await prisma.issuedDocument.create({ data: { documentType: 'RECEIPT', sourceType: 'RECURRING', referenceKey: 'recurring:yearly:2026-10', documentNumber: 'REC-only' } });
+  ]) await prisma.issuedDocument.create({ data: { documentType: 'INVOICE', sourceType, referenceKey, documentNumber: `INV-${referenceKey}`, status: 'ISSUED' } });
+  await prisma.issuedDocument.create({ data: { documentType: 'RECEIPT', sourceType: 'RECURRING', referenceKey: 'recurring:yearly:2026-10', documentNumber: 'REC-only', status: 'ISSUED' } });
   const annual = await selectedReport('2026', 'all', 'issued');
   assert.deepEqual(annual.income, { recurring: 80000, project: 20000, total: 100000 });
   assert.equal(annual.monthly[0].income.total, 30000);

@@ -1,0 +1,1 @@
+globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/api/company-finance/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"/Users/terdsak/Documents/projects/derive-hr/src/app/api/company-finance/route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}};

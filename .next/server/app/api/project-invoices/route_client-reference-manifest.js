@@ -1,0 +1,1 @@
+globalThis.__RSC_MANIFEST=(globalThis.__RSC_MANIFEST||{});globalThis.__RSC_MANIFEST["/api/project-invoices/route"]={"moduleLoading":{"prefix":"/_next/"},"ssrModuleMapping":{},"edgeSSRModuleMapping":{},"clientModules":{},"entryCSSFiles":{"/Users/terdsak/Documents/projects/derive-hr/src/app/api/project-invoices/route":[]},"rscModuleMapping":{},"edgeRscModuleMapping":{}};

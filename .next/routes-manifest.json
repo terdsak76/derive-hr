@@ -1,0 +1,231 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/account",
+      "regex": "^/api/account(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/account(?:/)?$"
+    },
+    {
+      "page": "/api/attendance",
+      "regex": "^/api/attendance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/attendance(?:/)?$"
+    },
+    {
+      "page": "/api/auth/login",
+      "regex": "^/api/auth/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/login(?:/)?$"
+    },
+    {
+      "page": "/api/auth/logout",
+      "regex": "^/api/auth/logout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/logout(?:/)?$"
+    },
+    {
+      "page": "/api/auth/me",
+      "regex": "^/api/auth/me(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/me(?:/)?$"
+    },
+    {
+      "page": "/api/auth/update-account",
+      "regex": "^/api/auth/update\\-account(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/update\\-account(?:/)?$"
+    },
+    {
+      "page": "/api/company-finance",
+      "regex": "^/api/company\\-finance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/company\\-finance(?:/)?$"
+    },
+    {
+      "page": "/api/employee-summary",
+      "regex": "^/api/employee\\-summary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/employee\\-summary(?:/)?$"
+    },
+    {
+      "page": "/api/employees",
+      "regex": "^/api/employees(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/employees(?:/)?$"
+    },
+    {
+      "page": "/api/incentives",
+      "regex": "^/api/incentives(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/incentives(?:/)?$"
+    },
+    {
+      "page": "/api/invoice-schedules",
+      "regex": "^/api/invoice\\-schedules(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/invoice\\-schedules(?:/)?$"
+    },
+    {
+      "page": "/api/issued-documents",
+      "regex": "^/api/issued\\-documents(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/issued\\-documents(?:/)?$"
+    },
+    {
+      "page": "/api/kbiz",
+      "regex": "^/api/kbiz(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kbiz(?:/)?$"
+    },
+    {
+      "page": "/api/leaves",
+      "regex": "^/api/leaves(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/leaves(?:/)?$"
+    },
+    {
+      "page": "/api/onsite",
+      "regex": "^/api/onsite(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/onsite(?:/)?$"
+    },
+    {
+      "page": "/api/overtime",
+      "regex": "^/api/overtime(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/overtime(?:/)?$"
+    },
+    {
+      "page": "/api/overtime/quote",
+      "regex": "^/api/overtime/quote(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/overtime/quote(?:/)?$"
+    },
+    {
+      "page": "/api/project-invoices",
+      "regex": "^/api/project\\-invoices(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/project\\-invoices(?:/)?$"
+    },
+    {
+      "page": "/api/projects",
+      "regex": "^/api/projects(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/projects(?:/)?$"
+    },
+    {
+      "page": "/api/request-approvals",
+      "regex": "^/api/request\\-approvals(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/request\\-approvals(?:/)?$"
+    },
+    {
+      "page": "/api/revenue-tax-payments",
+      "regex": "^/api/revenue\\-tax\\-payments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/revenue\\-tax\\-payments(?:/)?$"
+    },
+    {
+      "page": "/api/salary-incentive-history",
+      "regex": "^/api/salary\\-incentive\\-history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/salary\\-incentive\\-history(?:/)?$"
+    },
+    {
+      "page": "/api/taxes",
+      "regex": "^/api/taxes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/taxes(?:/)?$"
+    },
+    {
+      "page": "/api/taxes/purchases",
+      "regex": "^/api/taxes/purchases(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/taxes/purchases(?:/)?$"
+    },
+    {
+      "page": "/api/taxes/sales",
+      "regex": "^/api/taxes/sales(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/taxes/sales(?:/)?$"
+    },
+    {
+      "page": "/api/travel-config",
+      "regex": "^/api/travel\\-config(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/travel\\-config(?:/)?$"
+    },
+    {
+      "page": "/api/vendor-payments",
+      "regex": "^/api/vendor\\-payments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/vendor\\-payments(?:/)?$"
+    },
+    {
+      "page": "/api/workday-changes",
+      "regex": "^/api/workday\\-changes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/workday\\-changes(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

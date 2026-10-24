@@ -11,12 +11,18 @@ import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
 import IncentiveManagement from '@/components/incentive-management';
 import CompanyFinance from '@/components/company-finance';
+import KbizReconciliation from '@/components/kbiz-reconciliation';
+import VendorPayments from '@/components/vendor-payments';
+import RevenueTaxPayments from '@/components/revenue-tax-payments';
 import TaxManagement from '@/components/tax-management';
 import AppNavigation from '@/components/app-navigation';
 import RequestApprovals from '@/components/request-approvals';
 import SalaryIncentiveManagement from '@/components/salary-incentive-management';
 
 const tabDescriptions: Record<string, string> = {
+  'revenue-tax-payments': 'บันทึกเดือนและยอดชำระภาษีกรมสรรพากร พร้อมจับคู่รายการถอน Kbiz',
+  'vendor-payments': 'บันทึก Vendor, Tax ID และยอดชำระ พิมพ์ใบสำคัญจ่าย และจับคู่รายการถอน Kbiz',
+  kbiz: 'จับคู่เงินฝาก Kbiz กับ Invoice และระบุรายละเอียดรายการรายจ่าย',
   'salary-incentive-history': 'จัดการเงินเดือนและ Full incentive พร้อมประวัติวันเริ่มต้นและวันสิ้นสุด',
   'request-approvals': 'รวมคำขอการลา เปลี่ยนวันทำงาน และ OT ที่รออนุมัติ',
   dashboard: 'ภาพรวมพนักงาน การเข้างาน และคำขอที่รออนุมัติ',
@@ -329,6 +335,22 @@ export default function App() {
     job_detail: ''
   });
 
+  const [documentStatuses, setDocumentStatuses] = useState<Record<string, string>>({});
+  const [documentStatusError, setDocumentStatusError] = useState('');
+  useEffect(() => {
+    if (!currentUser || !isAdminRole(currentUser.role) || !['invoices', 'project-invoices'].includes(activeTab)) return;
+    let cancelled = false;
+    fetch('/api/issued-documents?list=true', { cache: 'no-store' }).then(async response => {
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Unable to load document statuses');
+      if (!cancelled) {
+        setDocumentStatuses(Object.fromEntries(result.map(item => [`${item.documentType}:${item.referenceKey}`, item.status])));
+        setDocumentStatusError('');
+      }
+    }).catch(error => { if (!cancelled) setDocumentStatusError(error.message); });
+    return () => { cancelled = true; };
+  }, [activeTab, currentUser?.id, currentUser?.role]);
+
   const [overtimeForm, setOvertimeForm] = useState({
     employee_id: '',
     start_at: '',
@@ -505,7 +527,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'kbiz', 'vendor-payments', 'revenue-tax-payments', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -678,6 +700,17 @@ export default function App() {
       const response = await fetch(`/api/issued-documents?${params.toString()}`);
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Unable to load document number');
+      if (!result.issued) {
+        const draftResponse = await fetch('/api/issued-documents', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ document_type: documentType, source_type: sourceType, reference_key: referenceKey,
+            source_id: invoice.id, document_number: result.document_number, action: 'INITIAL' }),
+        });
+        const draft = await draftResponse.json();
+        if (!draftResponse.ok) throw new Error(draft.error || 'Unable to prepare document');
+        Object.assign(result, draft);
+      }
+      setDocumentStatuses(current => ({ ...current, [`${documentType}:${referenceKey}`]: result.status }));
       setDocumentNumber(result.document_number);
       setIsDocumentNumberIssued(Boolean(result.issued));
     } catch (error) {
@@ -1645,6 +1678,9 @@ export default function App() {
               {activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)'}
               {activeTab === 'incentives' && 'Incentive ตามผลงานพนักงาน'}
               {activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท'}
+              {activeTab === 'kbiz' && 'Kbiz Transaction Reconciliation'}
+              {activeTab === 'vendor-payments' && 'Vendor Payments / จ่ายผู้ขาย'}
+              {activeTab === 'revenue-tax-payments' && 'Revenue Department Tax Payments / ภาษีกรมสรรพากร'}
               {activeTab === 'social-security' && 'ประกันสังคม'}
               {activeTab === 'vat' && 'VAT ชำระ / ขอคืน'}
               {activeTab === 'request-approvals' && 'Request Approval (อนุมัติคำขอ)'}
@@ -1675,6 +1711,7 @@ export default function App() {
 
         {/* Dynamic Main Body */}
         <div className="app-content p-6 space-y-6 flex-1">
+          {['invoices', 'project-invoices'].includes(activeTab) && documentStatusError && <p role="alert" className="text-rose-700">{documentStatusError}</p>}
           {activeTab === 'request-approvals' && isAdminRole(currentUser.role) && <RequestApprovals onDecision={decision => {
             if (decision.type === 'LEAVE') setLeaves(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status === 'APPROVED' ? 'Approved' : 'Rejected' } : row));
             if (decision.type === 'WORKDAY_CHANGE') setWorkdayChanges(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status } : row));
@@ -1683,6 +1720,9 @@ export default function App() {
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
           {activeTab === 'salary-incentive-history' && isAdminRole(currentUser.role) && <SalaryIncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
+          {activeTab === 'kbiz' && isAdminRole(currentUser.role) && <KbizReconciliation />}
+          {activeTab === 'vendor-payments' && isAdminRole(currentUser.role) && <VendorPayments />}
+          {activeTab === 'revenue-tax-payments' && isAdminRole(currentUser.role) && <RevenueTaxPayments onReconcile={() => setActiveTab('kbiz')} />}
           {activeTab === 'social-security' && isAdminRole(currentUser.role) && <TaxManagement key="social-security" mode="social-security" />}
           {activeTab === 'vat' && isAdminRole(currentUser.role) && <TaxManagement key="vat" mode="vat" />}
           {}
@@ -2245,14 +2285,15 @@ export default function App() {
                       <th className="p-3.5 min-w-64">Customer</th>
                       <th className="p-3.5">Tax ID</th>
                       <th className="p-3.5 min-w-72">Address</th>
+                      <th className="p-3.5">Status (Invoice / Receipt)</th>
                       <th className="p-3.5 text-center">พิมพ์เอกสาร</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
                     {isInvoiceLoading ? (
-                      <tr><td colSpan={11} className="p-8 text-center text-slate-400">กำลังโหลดตาราง Invoice...</td></tr>
+                      <tr><td colSpan={12} className="p-8 text-center text-slate-400">กำลังโหลดตาราง Invoice...</td></tr>
                     ) : invoiceSchedules.length === 0 ? (
-                      <tr><td colSpan={11} className="p-8 text-center text-slate-400">ไม่พบ Invoice ในเดือนที่เลือก</td></tr>
+                      <tr><td colSpan={12} className="p-8 text-center text-slate-400">ไม่พบ Invoice ในเดือนที่เลือก</td></tr>
                     ) : invoiceSchedules.map((invoice, invoiceIndex) => (
                       <tr key={invoice.id} className="hover:bg-slate-50 align-top">
                         <td className="p-3.5 font-semibold text-slate-800">{invoice.client}</td>
@@ -2265,6 +2306,7 @@ export default function App() {
                         <td className="p-3.5 min-w-64 font-medium text-slate-800">{invoice.name}</td>
                         <td className="p-3.5 whitespace-nowrap">{invoice.tax_id}</td>
                         <td className="p-3.5 min-w-72">{invoice.address}</td>
+                        <td className="p-3.5 whitespace-nowrap text-xs">{['INVOICE', 'RECEIPT'].map(type => <p key={type}>{type}: {documentStatuses[`${type}:recurring:${invoice.id}:${invoiceYear}-${String(invoiceMonth).padStart(2, '0')}`] || 'INITIAL'}</p>)}</td>
                         <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => openDocumentPrint({ invoice, invoiceIndex, project: false, documentType: 'INVOICE' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => openDocumentPrint({ invoice, invoiceIndex, project: false, documentType: 'RECEIPT' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
                       </tr>
                     ))}
@@ -2377,14 +2419,15 @@ export default function App() {
                         <th className="p-3.5 min-w-72">คำอธิบายรายการเรียกเก็บเงิน</th>
                         <th className="p-3.5 text-right">จำนวนเงิน</th>
                         <th className="p-3.5">เลขที่ Invoice</th>
+                        <th className="p-3.5">Status (Invoice / Receipt)</th>
                         <th className="p-3.5 text-center">พิมพ์เอกสาร</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
                       {isProjectInvoiceLoading ? (
-                        <tr><td colSpan={7} className="p-8 text-center text-slate-400">กำลังโหลดรายการ Invoice โครงการ...</td></tr>
+                        <tr><td colSpan={8} className="p-8 text-center text-slate-400">กำลังโหลดรายการ Invoice โครงการ...</td></tr>
                       ) : projectInvoices.length === 0 ? (
-                        <tr><td colSpan={7} className="p-8 text-center text-slate-400">ไม่พบรายการในเดือนที่เลือก</td></tr>
+                        <tr><td colSpan={8} className="p-8 text-center text-slate-400">ไม่พบรายการในเดือนที่เลือก</td></tr>
                       ) : projectInvoices.map((invoice, invoiceIndex) => {
                         const printableInvoice = toPrintableProjectInvoice(invoice);
                         return (
@@ -2395,6 +2438,7 @@ export default function App() {
                             <td className="p-3.5 min-w-72">{invoice.billing_description}</td>
                             <td className="p-3.5 text-right font-semibold text-emerald-700 whitespace-nowrap">{formatBaht(invoice.amount)}</td>
                             <td className="p-3.5 whitespace-nowrap font-mono text-xs">{invoice.invoice_number}</td>
+                            <td className="p-3.5 whitespace-nowrap text-xs">{['INVOICE', 'RECEIPT'].map(type => <p key={type}>{type}: {documentStatuses[`${type}:project:${invoice.id}`] || 'INITIAL'}</p>)}</td>
                             <td className="p-3.5 text-center"><div className="flex flex-col items-center gap-1.5"><button onClick={() => openDocumentPrint({ invoice: printableInvoice, invoiceIndex, project: true, documentType: 'INVOICE' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium" title="พิมพ์ Invoice"><Printer className="w-3.5 h-3.5" />Invoice</button><button onClick={() => openDocumentPrint({ invoice: printableInvoice, invoiceIndex, project: true, documentType: 'RECEIPT' })} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium" title="พิมพ์ใบเสร็จรับเงิน"><FileText className="w-3.5 h-3.5" />ใบเสร็จ</button></div></td>
                           </tr>
                         );
@@ -2805,6 +2849,7 @@ export default function App() {
                 });
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.error || 'Unable to issue document number');
+                setDocumentStatuses(current => ({ ...current, [`${documentPrintRequest.documentType}:${documentPrintRequest.referenceKey}`]: result.status }));
 
                 let printableInvoice = documentPrintRequest.invoice;
                 if (documentPrintRequest.project && documentPrintRequest.documentType === 'INVOICE') {

@@ -27,6 +27,7 @@ model Employee {
   approvedOvertimes      Overtime[]             @relation("OvertimeApprover")
   incentives             Incentive[]
   salaryIncentiveHistory SalaryIncentiveHistory[]
+  kbizPayments           KbizEmployeeAllocation[]
   createdAt              DateTime               @default(now())
 }
 
@@ -199,6 +200,12 @@ model IssuedDocument {
   sourceType     String   // "RECURRING" or "PROJECT"
   referenceKey   String
   documentNumber String   @unique
+  status         String   @default("INITIAL")
+  customer       String   @default("")
+  description    String   @default("")
+  invoiceMonth   String   @default("")
+  netCents       Int?
+  grossCents     Int?
   issuedAt       DateTime @default(now())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -249,4 +256,122 @@ model VatMonth {
   openingCreditCents Int      @default(0)
   creditAction       String   @default("CARRY")
   updatedAt          DateTime @updatedAt
+}
+
+model KbizTransaction {
+  id                 String   @id @default(cuid())
+  fingerprint        String   @unique
+  accountNumber      String
+  transactionDate    String
+  transactionTime    String
+  bankDescription    String
+  channel            String
+  details            String
+  withdrawalCents    Int
+  depositCents       Int
+  balanceCents       Int
+  sourceFile         String
+  expenseDescription String   @default("")
+  expenseKind        String   @default("OTHER")
+  updatedById        String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  allocations        KbizAllocation[]
+  vendorAllocations  KbizVendorAllocation[]
+  employeeAllocations KbizEmployeeAllocation[]
+  taxAllocations      KbizTaxAllocation[]
+
+  @@index([transactionDate])
+}
+
+model KbizAllocation {
+  id             String @id @default(cuid())
+  transactionId  String
+  transaction    KbizTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  referenceKey   String
+  invoiceNumber  String
+  customer       String
+  amountCents    Int
+  expectedCents  Int
+  basis          String
+
+  @@unique([transactionId, referenceKey])
+  @@index([referenceKey])
+}
+
+model VendorPayment {
+  id            String   @id @default(cuid())
+  paymentNumber String   @unique
+  vendorName    String
+  taxId         String
+  amountCents   Int
+  withholdingRate Int @default(0)
+  withholdingBaseCents Int @default(0)
+  paymentDate   String
+  description   String   @default("")
+  status        String   @default("INITIAL")
+  printedAt     DateTime?
+  updatedById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  allocations   KbizVendorAllocation[]
+  withholdingPayables RevenueTaxPayment[]
+
+  @@index([paymentDate])
+}
+
+model KbizVendorAllocation {
+  id              String @id @default(cuid())
+  transactionId   String
+  transaction     KbizTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  vendorPaymentId String
+  vendorPayment   VendorPayment @relation(fields: [vendorPaymentId], references: [id], onDelete: Restrict)
+  amountCents     Int
+
+  @@unique([transactionId, vendorPaymentId])
+  @@index([vendorPaymentId])
+}
+
+model KbizEmployeeAllocation {
+  id             String @id @default(cuid())
+  transactionId  String
+  transaction    KbizTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  employeeId     String
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  employeeName   String
+  paymentType    String
+  paymentMonth   String
+  amountCents    Int
+
+  @@unique([transactionId, employeeId, paymentType, paymentMonth])
+  @@index([employeeId, paymentMonth])
+}
+
+model RevenueTaxPayment {
+  id            String   @id @default(cuid())
+  paymentNumber String   @unique
+  paymentMonth  String
+  amountCents   Int
+  status        String   @default("INITIAL")
+  updatedById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  allocations   KbizTaxAllocation[]
+  vendorPaymentId String?
+  vendorPayment VendorPayment? @relation(fields: [vendorPaymentId], references: [id], onDelete: Restrict)
+
+  @@unique([vendorPaymentId, paymentMonth])
+  @@index([paymentMonth])
+}
+
+model KbizTaxAllocation {
+  id             String @id @default(cuid())
+  transactionId  String
+  transaction    KbizTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  taxPaymentId   String
+  taxPayment     RevenueTaxPayment @relation(fields: [taxPaymentId], references: [id], onDelete: Restrict)
+  amountCents    Int
+
+  @@unique([transactionId, taxPaymentId])
+  @@index([taxPaymentId])
 }

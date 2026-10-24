@@ -178,6 +178,9 @@ export async function DELETE(request: Request): Promise<NextResponse> {
       if (await tx.salaryIncentiveHistory.count({ where: { employeeId: id } })) {
         throw new EmployeeConflict('This employee has salary history and cannot be deleted.');
       }
+      if (await tx.kbizEmployeeAllocation.count({ where: { employeeId: id } })) {
+        throw new EmployeeConflict('This employee has reconciled bank payments and cannot be deleted.');
+      }
       await tx.attendance.deleteMany({ where: { employeeId: id } });
       await tx.leave.deleteMany({ where: { employeeId: id } });
       await tx.onsite.deleteMany({ where: { employeeId: id } });

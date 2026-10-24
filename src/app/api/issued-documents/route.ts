@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
+import { documentDetails } from '@/lib/document-details';
+import { syncDocumentStatuses } from '@/lib/document-status';
 
 const DOCUMENT_TYPES = new Set(['INVOICE', 'RECEIPT']);
 const SOURCE_TYPES = new Set(['RECURRING', 'PROJECT']);
@@ -95,6 +97,11 @@ export async function GET(request: Request): Promise<NextResponse> {
     if (!(await requireAdmin(request))) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     const url = new URL(request.url);
+    if (url.searchParams.get('list') === 'true') {
+      return NextResponse.json(await prisma.issuedDocument.findMany({
+        select: { referenceKey: true, documentType: true, documentNumber: true, status: true },
+      }), { headers: { 'Cache-Control': 'no-store' } });
+    }
     const documentType = parseRequest(url.searchParams.get('document_type'));
     const sourceType = parseRequest(url.searchParams.get('source_type'));
     const referenceKey = String(url.searchParams.get('reference_key') || '').trim();
@@ -108,17 +115,18 @@ export async function GET(request: Request): Promise<NextResponse> {
 
     const existing = await prisma.issuedDocument.findUnique({
       where: { documentType_sourceType_referenceKey: { documentType, sourceType, referenceKey } },
-      select: { documentNumber: true },
+      select: { documentNumber: true, status: true },
     });
-    if (existing) return NextResponse.json({ document_number: existing.documentNumber, issued: true });
+    if (existing) return NextResponse.json({ document_number: existing.documentNumber, issued: existing.status !== 'INITIAL', status: existing.status });
 
     if (fallbackNumber && !(await isNumberUsed(fallbackNumber, documentType, sourceType, sourceId))) {
-      return NextResponse.json({ document_number: fallbackNumber, issued: false });
+      return NextResponse.json({ document_number: fallbackNumber, issued: false, status: 'INITIAL' });
     }
 
     return NextResponse.json({
       document_number: await getNextNumber(documentType, sourceType, prefix, year),
       issued: false,
+      status: 'INITIAL',
     });
   } catch (error) {
     console.error('Failed to load document number:', error);
@@ -131,6 +139,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     if (!(await requireAdmin(request))) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     const body = await request.json();
+    if (body.action !== undefined && !['INITIAL', 'ISSUE'].includes(body.action)) return NextResponse.json({ error: 'Invalid document action' }, { status: 400 });
+    const preparing = body.action === 'INITIAL';
     const documentType = parseRequest(body.document_type);
     const sourceType = parseRequest(body.source_type);
     const referenceKey = String(body.reference_key || '').trim();
@@ -143,29 +153,40 @@ export async function POST(request: Request): Promise<NextResponse> {
     const existing = await prisma.issuedDocument.findUnique({
       where: { documentType_sourceType_referenceKey: { documentType, sourceType, referenceKey } },
     });
-    if (existing) {
+    if (existing && existing.status !== 'INITIAL') {
       if (existing.documentNumber !== documentNumber) {
         return NextResponse.json({ error: `เอกสารนี้ออกเลขที่ ${existing.documentNumber} ไปแล้ว ไม่สามารถเปลี่ยนเลขที่ได้` }, { status: 409 });
       }
-      return NextResponse.json({ document_number: existing.documentNumber, issued: true });
+      return NextResponse.json({ document_number: existing.documentNumber, issued: true, status: existing.status });
     }
 
-    if (await isNumberUsed(documentNumber, documentType, sourceType, sourceId)) {
+    if (existing?.documentNumber !== documentNumber && await isNumberUsed(documentNumber, documentType, sourceType, sourceId)) {
       return NextResponse.json({ error: `เลขที่เอกสาร ${documentNumber} ถูกใช้แล้ว กรุณาเลือกเลขใหม่` }, { status: 409 });
     }
 
+    const details = await documentDetails(prisma, sourceType, referenceKey);
+    if (!details) return NextResponse.json({ error: 'Invoice source not found' }, { status: 404 });
+    if (sourceType === 'PROJECT' && sourceId !== referenceKey.slice(8)) return NextResponse.json({ error: 'Invalid project reference' }, { status: 400 });
     const issued = await prisma.$transaction(async transaction => {
-      if (documentType === 'INVOICE' && sourceType === 'PROJECT' && sourceId) {
+      const current = await transaction.issuedDocument.findUnique({
+        where: { documentType_sourceType_referenceKey: { documentType, sourceType, referenceKey } },
+      });
+      if (current && current.status !== 'INITIAL') return current;
+      if (!preparing && documentType === 'INVOICE' && sourceType === 'PROJECT' && sourceId) {
         await transaction.projectInvoice.update({
           where: { id: sourceId },
           data: { invoiceNumber: documentNumber },
         });
       }
-      return transaction.issuedDocument.create({
-        data: { documentType, sourceType, referenceKey, documentNumber },
+      const saved = await transaction.issuedDocument.upsert({
+        where: { documentType_sourceType_referenceKey: { documentType, sourceType, referenceKey } },
+        create: { documentType, sourceType, referenceKey, documentNumber, ...details, status: preparing ? 'INITIAL' : 'ISSUED' },
+        update: { documentNumber, ...details, status: preparing ? 'INITIAL' : 'ISSUED', ...(!preparing ? { issuedAt: new Date() } : {}) },
       });
+      if (!preparing) await syncDocumentStatuses(transaction, [referenceKey]);
+      return transaction.issuedDocument.findUniqueOrThrow({ where: { id: saved.id } });
     });
-    return NextResponse.json({ document_number: issued.documentNumber, issued: true }, { status: 201 });
+    return NextResponse.json({ document_number: issued.documentNumber, issued: issued.status !== 'INITIAL', status: issued.status }, { status: 201 });
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
       return NextResponse.json({ error: 'เลขที่เอกสารถูกใช้แล้ว กรุณาเลือกเลขใหม่' }, { status: 409 });

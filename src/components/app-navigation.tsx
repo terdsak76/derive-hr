@@ -20,6 +20,8 @@ const incomeItems: Item[] = [
   { tab: 'project-invoices', label: 'Invoice โครงการ', icon: FileText },
 ];
 const expenseItems: Item[] = [
+  { tab: 'revenue-tax-payments', label: 'Revenue Department Tax Payments / ภาษีกรมสรรพากร', icon: FileSpreadsheet },
+  { tab: 'vendor-payments', label: 'Vendor Payments / จ่ายผู้ขาย', icon: FileText },
   { tab: 'salary-incentive-history', label: 'Salary & Incentive Management', icon: DollarSign },
   { tab: 'incentives', label: 'Incentive พนักงาน', icon: UserCheck },
   { tab: 'social-security', label: 'ประกันสังคม', icon: Shield },
@@ -63,7 +65,8 @@ export default function AppNavigation({ activeTab, onSelect, isAdmin }: {
         {item({ tab: 'employees', label: isAdmin ? 'จัดการพนักงาน' : 'ข้อมูลพนักงานของฉัน', icon: Users })}
       </div>
     </MenuGroup>
-    {isAdmin && <MenuGroup id="finance-menu" label="Finance" icon={DollarSign} active={incomeActive || expenseActive || activeTab === 'company-finance'}>
+    {isAdmin && <MenuGroup id="finance-menu" label="Finance" icon={DollarSign} active={incomeActive || expenseActive || activeTab === 'company-finance' || activeTab === 'kbiz'}>
+      {item({ tab: 'kbiz', label: 'Kbiz Reconciliation', icon: FileSpreadsheet })}
       <MenuGroup id="finance-income-menu" label="Income" icon={FileSpreadsheet} active={incomeActive} nested>
         {incomeItems.map(item)}
       </MenuGroup>

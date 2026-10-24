@@ -6,27 +6,82 @@
   <component name="ChangeListManager">
     <list default="true" id="debf0edc-d4be-418f-a857-9378a68bfb7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/.previewinfo" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/.previewinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/.rscinfo" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/.rscinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/0.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/1.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/1.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/2.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/2.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/3.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/3.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/build-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/build-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/logs/next-development.log" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/logs/next-development.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/issued-documents/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/issued-documents/route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__215u_4b._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/trace" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/validator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inv-2026_026_Derive-TWSS-MA-BP_มิ.ย. 69.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/diagnostics/build-diagnostics.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/diagnostics/build-diagnostics.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app-paths-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error/page.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error/page.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found/page.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found/page.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/account/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/account/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/account/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/account/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employees/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employees/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employees/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employees/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/app/page.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/page.js.nft.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/pages-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/pages-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/server/server-reference-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/server-reference-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/trace" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/trace-build" beforeDir="false" afterPath="$PROJECT_DIR$/.next/trace-build" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/types/routes.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/types/validator.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/company-finance/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/company-finance/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/employees/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/employees/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/issued-documents/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/issued-documents/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/app-navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app-navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/employee-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-management.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/incentive-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/incentive-management.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/finance.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/finance.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,61 +110,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.5238375286728592" />
-      <entry key="MS500" value="3.196574932883721" />
-      <entry key="S2" value="7.927399937372265" />
-      <entry key="S5" value="16.344110982576943" />
-      <entry key="S10" value="27.915565915329665" />
-      <entry key="S30" value="57.413885933317594" />
-      <entry key="S60" value="76.96816636685513" />
-      <entry key="M2" value="107.35665976300079" />
-      <entry key="M5" value="224.16944398617673" />
-      <entry key="M10" value="414.3012613823283" />
-      <entry key="M15" value="599.676636215178" />
-      <entry key="M30" value="1126.6999748886649" />
-      <entry key="H1" value="1968.106858348999" />
-      <entry key="H2" value="3085.5675277651576" />
-      <entry key="H4" value="4337.621641792777" />
-      <entry key="D1" value="6520.784275140956" />
-      <entry key="W1" value="7106.538076061809" />
+      <entry key="MS100" value="1.3035669636970146" />
+      <entry key="MS500" value="3.1752450570217197" />
+      <entry key="S2" value="9.293170498736504" />
+      <entry key="S5" value="19.467462541164483" />
+      <entry key="S10" value="34.01267366708621" />
+      <entry key="S30" value="61.2206059951069" />
+      <entry key="S60" value="78.21238866363407" />
+      <entry key="M2" value="112.38061233731318" />
+      <entry key="M5" value="224.52820755959536" />
+      <entry key="M10" value="406.11544622586894" />
+      <entry key="M15" value="585.7605951249817" />
+      <entry key="M30" value="1130.3917554001944" />
+      <entry key="H1" value="2117.305195717073" />
+      <entry key="H2" value="3536.4626419244696" />
+      <entry key="H4" value="5157.122816416517" />
+      <entry key="D1" value="8031.523806666138" />
+      <entry key="W1" value="8816.629457168152" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
-      <entry key="S10" value="4.671274051086151E-296" />
-      <entry key="S30" value="3.6014587840744015E-99" />
-      <entry key="S60" value="6.001215530268714E-50" />
-      <entry key="M2" value="2.44973784929502E-25" />
-      <entry key="M5" value="1.4310270559486221E-10" />
-      <entry key="M10" value="1.1962554308961406E-5" />
-      <entry key="M15" value="5.230573168234317E-4" />
-      <entry key="M30" value="0.02287044636257385" />
-      <entry key="H1" value="0.1512297800123167" />
-      <entry key="H2" value="0.38888273298298126" />
-      <entry key="H4" value="0.6236046287376465" />
-      <entry key="D1" value="0.9243112132210354" />
-      <entry key="W1" value="0.9888191960076868" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="1.1359283641434432E-139" />
+      <entry key="S60" value="3.370353637443964E-70" />
+      <entry key="M2" value="1.835852291837189E-35" />
+      <entry key="M5" value="1.2750731316945682E-14" />
+      <entry key="M10" value="1.1291913618578598E-7" />
+      <entry key="M15" value="2.336209029378423E-5" />
+      <entry key="M30" value="0.0048334346270307625" />
+      <entry key="H1" value="0.06952290721072252" />
+      <entry key="H2" value="0.26367196895142114" />
+      <entry key="H4" value="0.5134899891443379" />
+      <entry key="D1" value="0.8948604832248946" />
+      <entry key="W1" value="0.9842556224155705" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.5027788414359289" />
-      <entry key="MS500" value="3.1870578925352033" />
-      <entry key="S2" value="7.920970734420557" />
-      <entry key="S5" value="16.33825671896692" />
-      <entry key="S10" value="27.910472785650693" />
-      <entry key="S30" value="57.41051010211134" />
-      <entry key="S60" value="76.96591841357531" />
-      <entry key="M2" value="107.35485293367832" />
-      <entry key="M5" value="224.16726876804816" />
-      <entry key="M10" value="414.2991152085036" />
-      <entry key="M15" value="599.6751276004384" />
-      <entry key="M30" value="1126.7210064406884" />
-      <entry key="H1" value="1968.2563782311158" />
-      <entry key="H2" value="3085.9549575283067" />
-      <entry key="H4" value="4338.244188165155" />
-      <entry key="D1" value="6521.7083198088285" />
-      <entry key="W1" value="7107.52685386925" />
+      <entry key="MS100" value="1.2856202975766213" />
+      <entry key="MS500" value="3.166197104170886" />
+      <entry key="S2" value="9.285450588961877" />
+      <entry key="S5" value="19.459988462387688" />
+      <entry key="S10" value="34.005791230113864" />
+      <entry key="S30" value="61.216416177663305" />
+      <entry key="S60" value="78.20971420472283" />
+      <entry key="M2" value="112.37868916146522" />
+      <entry key="M5" value="224.5266475472448" />
+      <entry key="M10" value="406.11397805859167" />
+      <entry key="M15" value="585.7591500518337" />
+      <entry key="M30" value="1130.3950576700954" />
+      <entry key="H1" value="2117.373138061647" />
+      <entry key="H2" value="3536.724849738393" />
+      <entry key="H4" value="5157.635170493342" />
+      <entry key="D1" value="8032.418361062349" />
+      <entry key="W1" value="8817.613664627406" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -121,27 +176,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "js.debugger.nextJs.config.created.client": "true",
-    "js.debugger.nextJs.config.created.server": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.Next.js: server-side.executor": "Run",
-    "ts.external.directory.path": "/Users/terdsak/Documents/projects/derive-hr/node_modules/typescript/lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Next.js: server-side.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/terdsak/Documents/projects/derive-hr/node_modules/typescript/lib&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />

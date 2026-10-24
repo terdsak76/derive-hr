@@ -41,7 +41,7 @@ export async function GET(request: Request) {
         id: true, billingDescription: true, amount: true, invoiceDate: true, project: { select: { clientName: true } },
       } }),
       basis === 'issued' ? prisma.issuedDocument.findMany({
-        where: { documentType: 'INVOICE' }, select: { sourceType: true, referenceKey: true },
+        where: { documentType: 'INVOICE', status: { not: 'INITIAL' } }, select: { sourceType: true, referenceKey: true },
       }) : Promise.resolve([]),
       prisma.vatPurchase.findMany({ where: { month: { in: months.map(month => month.key) }, expense: true }, select: { month: true, amountCents: true, vatCents: true, creditable: true } }),
     ]);

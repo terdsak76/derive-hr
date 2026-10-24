@@ -411,6 +411,13 @@ async function DELETE(request) {
             })) {
                 throw new EmployeeConflict('This employee has salary history and cannot be deleted.');
             }
+            if (await tx.kbizEmployeeAllocation.count({
+                where: {
+                    employeeId: id
+                }
+            })) {
+                throw new EmployeeConflict('This employee has reconciled bank payments and cannot be deleted.');
+            }
             await tx.attendance.deleteMany({
                 where: {
                     employeeId: id

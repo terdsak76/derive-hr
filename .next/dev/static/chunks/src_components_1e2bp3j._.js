@@ -1369,6 +1369,7 @@ var _s = __turbopack_context__.k.signature();
 const emptyForm = {
     id: '',
     name: '',
+    kbizName: '',
     department: '',
     position: '',
     email: '',
@@ -1397,6 +1398,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
         setForm({
             id: employee.id,
             name: employee.name,
+            kbizName: employee.kbizName,
             department: employee.department,
             position: employee.position,
             email: employee.email,
@@ -1443,7 +1445,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
         setError('');
         setSuccess('');
         try {
-            const { isOwner, fullIncentive, ...profile } = form;
+            const { isOwner, fullIncentive, kbizName, ...profile } = form;
             const response = await fetch('/api/employees', {
                 method: form.id ? 'PATCH' : 'POST',
                 headers: {
@@ -1452,6 +1454,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                 body: JSON.stringify(isAdmin ? {
                     ...profile,
                     isOwner,
+                    kbizName,
                     ...!form.id ? {
                         fullIncentive: Number(fullIncentive)
                     } : {}
@@ -1693,6 +1696,45 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     lineNumber: 138,
                                     columnNumber: 15
                                 }, this),
+                                isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            htmlFor: "employee-kbiz-name",
+                                            className: "block text-sm font-medium text-slate-700 mb-1",
+                                            children: "ชื่อสำหรับจับคู่ Kbiz / Bank matching name"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/employee-management.tsx",
+                                            lineNumber: 139,
+                                            columnNumber: 32
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            id: "employee-kbiz-name",
+                                            maxLength: 254,
+                                            value: form.kbizName,
+                                            onChange: (event)=>setForm({
+                                                    ...form,
+                                                    kbizName: event.target.value
+                                                }),
+                                            className: inputClass
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/employee-management.tsx",
+                                            lineNumber: 139,
+                                            columnNumber: 176
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-slate-500 mt-1",
+                                            children: "ระบุชื่อที่ปรากฏในรายละเอียดธนาคาร ระบบจับคู่รายการถอนอัตโนมัติและรอ Admin เลือกประเภทการจ่าย เว้นว่างเพื่อปิดการจับคู่"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/employee-management.tsx",
+                                            lineNumber: 139,
+                                            columnNumber: 341
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-management.tsx",
+                                    lineNumber: 139,
+                                    columnNumber: 27
+                                }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1701,7 +1743,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "แผนก"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 139,
+                                            lineNumber: 140,
                                             columnNumber: 20
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1716,13 +1758,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: inputClass
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 139,
+                                            lineNumber: 140,
                                             columnNumber: 127
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 140,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1733,7 +1775,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "ตำแหน่ง"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 140,
+                                            lineNumber: 141,
                                             columnNumber: 20
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1748,13 +1790,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: inputClass
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 140,
+                                            lineNumber: 141,
                                             columnNumber: 128
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 140,
+                                    lineNumber: 141,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1765,7 +1807,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "อีเมล"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 141,
+                                            lineNumber: 142,
                                             columnNumber: 20
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1782,13 +1824,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: inputClass
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 141,
+                                            lineNumber: 142,
                                             columnNumber: 123
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 141,
+                                    lineNumber: 142,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1799,7 +1841,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: form.id ? 'รหัสผ่านใหม่ (ไม่บังคับ)' : 'รหัสผ่าน'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 142,
+                                            lineNumber: 143,
                                             columnNumber: 20
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1818,7 +1860,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: inputClass
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 142,
+                                            lineNumber: 143,
                                             columnNumber: 172
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1830,13 +1872,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 142,
+                                            lineNumber: 143,
                                             columnNumber: 456
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 142,
+                                    lineNumber: 143,
                                     columnNumber: 15
                                 }, this),
                                 isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1852,7 +1894,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: "mt-1"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 143,
+                                            lineNumber: 144,
                                             columnNumber: 106
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1863,19 +1905,19 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                     children: "ไม่นำมาคำนวณเงินสมทบประกันสังคมทั้งฝ่ายนายจ้างและลูกจ้าง"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 143,
+                                                    lineNumber: 144,
                                                     columnNumber: 270
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 143,
+                                            lineNumber: 144,
                                             columnNumber: 243
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 143,
+                                    lineNumber: 144,
                                     columnNumber: 27
                                 }, this),
                                 isAdmin && !form.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1886,7 +1928,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "Full incentive (บาท / เดือน)"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 144,
+                                            lineNumber: 145,
                                             columnNumber: 44
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1904,7 +1946,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             className: inputClass
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 144,
+                                            lineNumber: 145,
                                             columnNumber: 179
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1912,13 +1954,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "จำนวนเงินเมื่อได้คะแนน 100 — ใช้คำนวณตอนบันทึก Incentive รายเดือน"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 144,
+                                            lineNumber: 145,
                                             columnNumber: 404
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 144,
+                                    lineNumber: 145,
                                     columnNumber: 39
                                 }, this),
                                 isAdmin && form.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1926,7 +1968,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     children: "เปลี่ยนเงินเดือนและ Full incentive ได้ที่ Finance → Expenses → Salary & Incentive Management เพื่อเก็บประวัติพร้อมวันเริ่มต้น"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 146,
                                     columnNumber: 38
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1938,7 +1980,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: isSaving ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 147,
+                                            lineNumber: 148,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1948,13 +1990,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "ยกเลิก"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 148,
+                                            lineNumber: 149,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 147,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -1986,7 +2028,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     className: "absolute left-3 top-3 w-4 h-4 text-slate-400"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 156,
+                                    lineNumber: 157,
                                     columnNumber: 103
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1998,18 +2040,18 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     className: `${inputClass} pl-10`
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 156,
+                                    lineNumber: 157,
                                     columnNumber: 170
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-management.tsx",
-                            lineNumber: 156,
+                            lineNumber: 157,
                             columnNumber: 68
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-management.tsx",
-                        lineNumber: 156,
+                        lineNumber: 157,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2026,7 +2068,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "พนักงาน"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 64
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2034,7 +2076,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "แผนก / ตำแหน่ง"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 96
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2042,7 +2084,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "อีเมล"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 135
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2050,7 +2092,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "สิทธิ์"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 165
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2058,7 +2100,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "เงินเดือนล่าสุด (บาท)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 196
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2066,7 +2108,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "Full incentive (บาท / เดือน)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 253
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2074,18 +2116,18 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 children: "จัดการ"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                lineNumber: 159,
+                                                lineNumber: 160,
                                                 columnNumber: 317
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/employee-management.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 160,
                                         columnNumber: 60
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 159,
+                                    lineNumber: 160,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2097,12 +2139,12 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "กำลังโหลดข้อมูลพนักงาน..."
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 162,
                                             columnNumber: 32
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/employee-management.tsx",
-                                        lineNumber: 161,
+                                        lineNumber: 162,
                                         columnNumber: 28
                                     }, this) : filteredEmployees.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2111,12 +2153,12 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                             children: "ไม่พบข้อมูลพนักงาน"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 162,
                                             columnNumber: 166
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/employee-management.tsx",
-                                        lineNumber: 161,
+                                        lineNumber: 162,
                                         columnNumber: 162
                                     }, this) : filteredEmployees.map((employee)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                             className: "hover:bg-slate-50",
@@ -2134,13 +2176,13 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                                     children: "Owner"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                                    lineNumber: 163,
+                                                                    lineNumber: 164,
                                                                     columnNumber: 120
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/employee-management.tsx",
-                                                            lineNumber: 163,
+                                                            lineNumber: 164,
                                                             columnNumber: 39
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2148,32 +2190,8 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                             children: employee.id
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/employee-management.tsx",
-                                                            lineNumber: 163,
+                                                            lineNumber: 164,
                                                             columnNumber: 215
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 163,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "p-4",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            children: employee.department
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/employee-management.tsx",
-                                                            lineNumber: 164,
-                                                            columnNumber: 39
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-xs text-slate-500 mt-1",
-                                                            children: employee.position
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/employee-management.tsx",
-                                                            lineNumber: 164,
-                                                            columnNumber: 67
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
@@ -2183,10 +2201,34 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                     className: "p-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            children: employee.department
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/employee-management.tsx",
+                                                            lineNumber: 165,
+                                                            columnNumber: 39
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-xs text-slate-500 mt-1",
+                                                            children: employee.position
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/employee-management.tsx",
+                                                            lineNumber: 165,
+                                                            columnNumber: 67
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/employee-management.tsx",
+                                                    lineNumber: 165,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "p-4",
                                                     children: employee.email
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 165,
+                                                    lineNumber: 166,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2197,7 +2239,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                     ].includes(employee.role.trim().toUpperCase()) ? 'Admin' : 'User'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 166,
+                                                    lineNumber: 167,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2208,7 +2250,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 167,
+                                                    lineNumber: 168,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2219,7 +2261,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 168,
+                                                    lineNumber: 169,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2238,14 +2280,14 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/employee-management.tsx",
-                                                                        lineNumber: 170,
+                                                                        lineNumber: 171,
                                                                         columnNumber: 275
                                                                     }, this),
                                                                     "แก้ไข"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                                lineNumber: 170,
+                                                                lineNumber: 171,
                                                                 columnNumber: 21
                                                             }, this),
                                                             isAdmin && employee.id !== currentUser.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2259,53 +2301,53 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/employee-management.tsx",
-                                                                        lineNumber: 171,
+                                                                        lineNumber: 172,
                                                                         columnNumber: 315
                                                                     }, this),
                                                                     "ลบ"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/employee-management.tsx",
-                                                                lineNumber: 171,
+                                                                lineNumber: 172,
                                                                 columnNumber: 67
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/employee-management.tsx",
-                                                        lineNumber: 169,
+                                                        lineNumber: 170,
                                                         columnNumber: 39
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/employee-management.tsx",
-                                                    lineNumber: 169,
+                                                    lineNumber: 170,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, employee.id, true, {
                                             fileName: "[project]/src/components/employee-management.tsx",
-                                            lineNumber: 162,
+                                            lineNumber: 163,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 160,
+                                    lineNumber: 161,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-management.tsx",
-                            lineNumber: 158,
+                            lineNumber: 159,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-management.tsx",
-                        lineNumber: 157,
+                        lineNumber: 158,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-management.tsx",
-                lineNumber: 155,
+                lineNumber: 156,
                 columnNumber: 7
             }, this),
             deleteTarget && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2327,7 +2369,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-management.tsx",
-                            lineNumber: 182,
+                            lineNumber: 183,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2336,7 +2378,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                             children: "บัญชีและประวัติการลงเวลา วันลา Onsite การเปลี่ยนวันทำงาน และ OT ของพนักงานนี้จะถูกลบถาวร กรุณาตรวจสอบก่อนยืนยัน"
                         }, void 0, false, {
                             fileName: "[project]/src/components/employee-management.tsx",
-                            lineNumber: 183,
+                            lineNumber: 184,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2351,7 +2393,7 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     children: "ยกเลิก"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 185,
+                                    lineNumber: 186,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2362,24 +2404,24 @@ function EmployeeManagement({ currentUser, onEmployeesChange }) {
                                     children: isSaving ? 'กำลังลบ...' : 'ยืนยันการลบ'
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-management.tsx",
-                                    lineNumber: 186,
+                                    lineNumber: 187,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-management.tsx",
-                            lineNumber: 184,
+                            lineNumber: 185,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/employee-management.tsx",
-                    lineNumber: 181,
+                    lineNumber: 182,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/employee-management.tsx",
-                lineNumber: 180,
+                lineNumber: 181,
                 columnNumber: 24
             }, this)
         ]
@@ -2406,9 +2448,11 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/kbiz.ts [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 const money = (cents)=>new Intl.NumberFormat('th-TH', {
         style: 'currency',
@@ -2432,6 +2476,7 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const total = drafts.reduce((sum, item)=>sum + Math.round(Number(item.amount) * 100), 0);
     const remaining = row.withdrawalCents - total;
+    const pending = drafts.some((item)=>item.paymentType === 'PENDING');
     const duplicate = drafts.some((item)=>item.employeeId === employeeId && item.paymentType === paymentType && item.paymentMonth === paymentMonth);
     const available = employees.filter((employee)=>`${employee.name} ${employee.department}`.toLowerCase().includes(search.toLowerCase()));
     function update(index, amount) {
@@ -2441,6 +2486,10 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                 } : item));
     }
     async function save() {
+        if (pending) {
+            setError('Select Salary, Incentive, Onsite or Others for each matched employee.');
+            return;
+        }
         setSaving(true);
         setError('');
         try {
@@ -2473,10 +2522,10 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                 className: "font-bold",
-                                children: "จับคู่เงินเดือน / Incentive พนักงาน"
+                                children: "จับคู่การจ่ายเงินพนักงาน / Employee payments"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 36,
+                                lineNumber: 39,
                                 columnNumber: 54
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2492,13 +2541,13 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 36,
-                                columnNumber: 120
+                                lineNumber: 39,
+                                columnNumber: 129
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 36,
+                        lineNumber: 39,
                         columnNumber: 49
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2509,13 +2558,13 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: "ปิด"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 37,
+                        lineNumber: 40,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                lineNumber: 36,
+                lineNumber: 39,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2527,7 +2576,7 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                lineNumber: 38,
+                lineNumber: 41,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("fieldset", {
@@ -2539,8 +2588,17 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: "เลือกพนักงาน ประเภทการจ่าย และเดือนที่จ่ายให้ จับคู่ยอดถอนครบแล้วจะเป็น COMPLETED ไม่ต้องสร้างใบจ่าย Vendor"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 40,
+                        lineNumber: 43,
                         columnNumber: 7
+                    }, this),
+                    pending && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        role: "status",
+                        className: "text-sm text-amber-700",
+                        children: "จับคู่ชื่อจากธนาคารอัตโนมัติแล้ว รอ Admin เลือก Salary / Incentive / Onsite / Others"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                        lineNumber: 44,
+                        columnNumber: 19
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                         className: "block text-sm",
@@ -2556,13 +2614,13 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                 placeholder: "ชื่อ / แผนก"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 41,
+                                lineNumber: 45,
                                 columnNumber: 52
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 41,
+                        lineNumber: 45,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2583,7 +2641,7 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                                 children: "เลือกพนักงาน"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                                lineNumber: 43,
+                                                lineNumber: 47,
                                                 columnNumber: 192
                                             }, this),
                                             available.map((employee)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2595,19 +2653,19 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                                     ]
                                                 }, employee.id, true, {
                                                     fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                                    lineNumber: 43,
+                                                    lineNumber: 47,
                                                     columnNumber: 257
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                        lineNumber: 43,
+                                        lineNumber: 47,
                                         columnNumber: 43
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 43,
+                                lineNumber: 47,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2619,33 +2677,23 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                         className: `${inputClass} block mt-1 w-full`,
                                         value: paymentType,
                                         onChange: (event)=>setPaymentType(event.target.value),
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                value: "PAYROLL",
-                                                children: "เงินเดือน / Payroll"
-                                            }, void 0, false, {
+                                        children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["employeePaymentTypes"].map((type)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                value: type.value,
+                                                children: type.label
+                                            }, type.value, false, {
                                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                                lineNumber: 44,
-                                                columnNumber: 206
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                value: "INCENTIVE",
-                                                children: "Incentive"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                                lineNumber: 44,
-                                                columnNumber: 258
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                                lineNumber: 48,
+                                                columnNumber: 240
+                                            }, this))
+                                    }, void 0, false, {
                                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                        lineNumber: 44,
+                                        lineNumber: 48,
                                         columnNumber: 42
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 44,
+                                lineNumber: 48,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2660,19 +2708,19 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                         onChange: (event)=>setPaymentMonth(event.target.value)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                        lineNumber: 45,
+                                        lineNumber: 49,
                                         columnNumber: 51
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 45,
+                                lineNumber: 49,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 42,
+                        lineNumber: 46,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2696,7 +2744,7 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: "เพิ่มพนักงาน / Add employee"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 47,
+                        lineNumber: 51,
                         columnNumber: 7
                     }, this),
                     duplicate && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2704,7 +2752,7 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: "รายการนี้มีอยู่แล้ว กรุณาแก้ไขยอดเงินในรายการเดิม"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 51,
+                        lineNumber: 55,
                         columnNumber: 21
                     }, this),
                     drafts.map((draft, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2717,25 +2765,87 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                             children: draft.employeeName
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                            lineNumber: 53,
+                                            lineNumber: 57,
                                             columnNumber: 41
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             className: "text-xs text-slate-500",
-                                            children: [
-                                                draft.paymentType === 'PAYROLL' ? 'Payroll / เงินเดือน' : 'Incentive',
-                                                " · ",
-                                                draft.paymentMonth
-                                            ]
-                                        }, void 0, true, {
+                                            children: draft.paymentMonth
+                                        }, void 0, false, {
                                             fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                            lineNumber: 53,
+                                            lineNumber: 57,
                                             columnNumber: 78
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                    lineNumber: 53,
+                                    lineNumber: 57,
+                                    columnNumber: 9
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "text-xs",
+                                    children: [
+                                        "ประเภท",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                            "aria-label": `Payment type for ${draft.employeeName}`,
+                                            className: `${inputClass} block mt-1`,
+                                            value: draft.paymentType,
+                                            onChange: (event)=>setDrafts((items)=>items.map((item, i)=>i === index ? {
+                                                            ...item,
+                                                            paymentType: event.target.value
+                                                        } : item)),
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                    value: "PENDING",
+                                                    disabled: true,
+                                                    children: "Pending / รอเลือกประเภท"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                                    lineNumber: 58,
+                                                    columnNumber: 299
+                                                }, this),
+                                                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["employeePaymentTypes"].map((type)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                        value: type.value,
+                                                        children: type.label
+                                                    }, type.value, false, {
+                                                        fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                                        lineNumber: 58,
+                                                        columnNumber: 398
+                                                    }, this))
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                            lineNumber: 58,
+                                            columnNumber: 42
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                    lineNumber: 58,
+                                    columnNumber: 9
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "text-xs",
+                                    children: [
+                                        "เดือนที่จ่ายให้",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            "aria-label": `Payment month for ${draft.employeeName}`,
+                                            type: "month",
+                                            className: `${inputClass} block mt-1`,
+                                            value: draft.paymentMonth,
+                                            onChange: (event)=>setDrafts((items)=>items.map((item, i)=>i === index ? {
+                                                            ...item,
+                                                            paymentMonth: event.target.value
+                                                        } : item))
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                            lineNumber: 59,
+                                            columnNumber: 51
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
+                                    lineNumber: 59,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2752,13 +2862,13 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                             onChange: (event)=>update(index, event.target.value)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                            lineNumber: 54,
+                                            lineNumber: 60,
                                             columnNumber: 52
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                    lineNumber: 54,
+                                    lineNumber: 60,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2768,13 +2878,13 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                     children: "นำออก"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                    lineNumber: 55,
+                                    lineNumber: 61,
                                     columnNumber: 9
                                 }, this)
                             ]
-                        }, `${draft.employeeId}:${draft.paymentType}:${draft.paymentMonth}`, true, {
+                        }, index, true, {
                             fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                            lineNumber: 52,
+                            lineNumber: 56,
                             columnNumber: 37
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2788,28 +2898,28 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                                 onChange: (event)=>setDescription(event.target.value)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                                lineNumber: 57,
+                                lineNumber: 63,
                                 columnNumber: 60
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 57,
+                        lineNumber: 63,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: `text-sm font-semibold ${remaining < 0 ? 'text-rose-700' : remaining === 0 ? 'text-emerald-700' : 'text-amber-700'}`,
+                        className: `text-sm font-semibold ${remaining < 0 ? 'text-rose-700' : remaining === 0 && !pending ? 'text-emerald-700' : 'text-amber-700'}`,
                         children: [
                             "จับคู่แล้ว ",
                             money(total),
                             " · คงเหลือ ",
                             money(remaining),
                             " · ",
-                            drafts.length && remaining === 0 ? 'COMPLETED เมื่อบันทึก' : drafts.length ? 'PARTIAL' : 'INITIAL'
+                            pending ? 'PENDING / รอเลือกประเภท' : drafts.length && remaining === 0 ? 'COMPLETED เมื่อบันทึก' : drafts.length ? 'PARTIAL' : 'INITIAL'
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 58,
+                        lineNumber: 64,
                         columnNumber: 7
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2818,30 +2928,30 @@ function EmployeeWithdrawalEditor({ row, employees, onSave, onClose }) {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 59,
+                        lineNumber: 65,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         type: "button",
                         onClick: ()=>void save(),
-                        disabled: remaining < 0 || drafts.some((item)=>!/^\d+(\.\d{1,2})?$/.test(item.amount) || Number(item.amount) <= 0),
+                        disabled: pending || remaining < 0 || drafts.some((item)=>!/^\d+(\.\d{1,2})?$/.test(item.amount) || Number(item.amount) <= 0),
                         className: "rounded-lg bg-indigo-600 text-white px-4 py-2 text-sm disabled:opacity-50",
-                        children: saving ? 'กำลังบันทึก…' : remaining === 0 && drafts.length ? 'บันทึกและปิดรายการ / Complete' : 'บันทึก / Save'
+                        children: saving ? 'กำลังบันทึก…' : !pending && remaining === 0 && drafts.length ? 'บันทึกและปิดรายการ / Complete' : 'บันทึก / Save'
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                        lineNumber: 60,
+                        lineNumber: 66,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-                lineNumber: 39,
+                lineNumber: 42,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/employee-withdrawal-editor.tsx",
-        lineNumber: 35,
+        lineNumber: 38,
         columnNumber: 10
     }, this);
 }
@@ -3523,6 +3633,8 @@ function TransactionEditor({ row, invoices, invoiceMonth, setInvoiceMonth, onSav
                                     " ",
                                     row.transactionTime,
                                     " · ",
+                                    row.withdrawalCents ? 'ยอดถอน' : 'ยอดฝาก',
+                                    " ",
                                     money(row.depositCents || row.withdrawalCents),
                                     " · ",
                                     row.accountNumber
@@ -3888,7 +4000,9 @@ function TransactionEditor({ row, invoices, invoiceMonth, setInvoiceMonth, onSav
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: `text-sm font-semibold ${remaining < 0 ? 'text-rose-700' : 'text-indigo-700'}`,
                         children: [
-                            "จับคู่แล้ว ",
+                            "ยอดฝาก ",
+                            money(row.depositCents),
+                            " · จับคู่แล้ว ",
                             money(total),
                             " · คงเหลือรอจับคู่ ",
                             money(remaining)
@@ -3952,6 +4066,7 @@ function KbizReconciliation() {
     const [editing, setEditing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [preview, setPreview] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [busy, setBusy] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [matching, setMatching] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
@@ -4022,6 +4137,42 @@ function KbizReconciliation() {
             setBusy(false);
         }
     }
+    async function matchEmployees() {
+        if (busy || matching) return;
+        const transactionIds = filtered.filter((row)=>row.withdrawalCents > 0 && !completed(row)).map((row)=>row.id);
+        if (!transactionIds.length) return;
+        setBusy(true);
+        setMatching(true);
+        setError('');
+        setMessage('');
+        let matched = 0, unmatched = 0;
+        try {
+            for(let offset = 0; offset < transactionIds.length; offset += 25){
+                const response = await fetch('/api/kbiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'MATCH_EMPLOYEES',
+                        transactionIds: transactionIds.slice(offset, offset + 25)
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Unable to match employee names');
+                matched += result.matched;
+                unmatched += result.unmatched;
+                setMessage(`จับคู่พนักงาน ${matched} รายการ (รอเลือกประเภทการจ่าย) · ยังจับคู่ไม่ได้ ${unmatched} รายการ`);
+            }
+            await load();
+        } catch (err) {
+            await load();
+            setError(err instanceof Error ? err.message : 'Unable to match employee names');
+        } finally{
+            setBusy(false);
+            setMatching(false);
+        }
+    }
     const filtered = rows.filter((row)=>(!month || row.transactionDate.startsWith(month)) && (kind === 'ALL' || (kind === 'DEPOSIT' ? row.depositCents > 0 : row.withdrawalCents > 0)) && (status === 'ALL' || (status === 'DONE' ? completed(row) : !completed(row))) && `${row.details} ${row.bankDescription} ${row.expenseDescription} ${row.accountNumber} ${row.allocations.map((item)=>`${item.invoiceNumber} ${item.customer}`).join(' ')} ${row.vendorAllocations.map((item)=>`${item.vendorPayment.paymentNumber} ${item.vendorPayment.vendorName}`).join(' ')} ${row.employeeAllocations.map((item)=>`${item.employeeName} ${item.paymentType} ${item.paymentMonth}`).join(' ')} ${row.taxAllocations.map((item)=>`กรมสรรพากร Revenue Department ${item.taxPayment.paymentNumber} ${item.taxPayment.paymentMonth}`).join(' ')}`.toLowerCase().includes(search.toLowerCase()));
     const deposits = filtered.reduce((sum, row)=>sum + row.depositCents, 0), expenses = filtered.reduce((sum, row)=>sum + row.withdrawalCents, 0);
     async function saveTransaction(data) {
@@ -4049,7 +4200,7 @@ function KbizReconciliation() {
                         children: "Kbiz Transaction Reconciliation"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 144,
+                        lineNumber: 163,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4057,7 +4208,7 @@ function KbizReconciliation() {
                         children: "นำเข้า CSV รายการเดินบัญชีแบบมีรายละเอียด เพื่อจับคู่เงินฝากกับ Invoice และระบุรายจ่ายโดย Admin"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 145,
+                        lineNumber: 164,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4065,7 +4216,35 @@ function KbizReconciliation() {
                         children: "รายการนี้ใช้ตรวจสอบเงินเข้า–ออกธนาคาร แยกจากยอดรายรับ–รายจ่ายและ VAT ในรายงานบริษัท"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 146,
+                        lineNumber: 165,
+                        columnNumber: 7
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "space-y-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: buttonClass,
+                                disabled: busy || loading || !!editing || !filtered.some((row)=>row.withdrawalCents > 0 && !completed(row)),
+                                onClick: ()=>void matchEmployees(),
+                                children: matching ? 'กำลังจับคู่…' : 'จับคู่ชื่อพนักงาน / Match employee names'
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                lineNumber: 167,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-xs text-slate-500",
+                                children: "ตรวจเฉพาะรายการถอนที่แสดงตามตัวกรองปัจจุบันและยังไม่มีการจับคู่ โดยใช้ชื่อ Kbiz ของพนักงาน รายการที่ตรงกันจะรอ Admin เลือกประเภทการจ่าย"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                lineNumber: 168,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                        lineNumber: 166,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4098,13 +4277,13 @@ function KbizReconciliation() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 147,
+                                lineNumber: 170,
                                 columnNumber: 59
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 147,
+                        lineNumber: 170,
                         columnNumber: 7
                     }, this),
                     preview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4114,7 +4293,7 @@ function KbizReconciliation() {
                                 children: preview.filename
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 155,
+                                lineNumber: 178,
                                 columnNumber: 82
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4128,7 +4307,7 @@ function KbizReconciliation() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 156,
+                                lineNumber: 179,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4141,14 +4320,14 @@ function KbizReconciliation() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 157,
+                                lineNumber: 180,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: "รายการซ้ำจะถูกข้าม โดยเก็บการจับคู่และรายละเอียดที่บันทึกไว้"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 158,
+                                lineNumber: 181,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4159,7 +4338,7 @@ function KbizReconciliation() {
                                 children: busy ? 'กำลังนำเข้า…' : 'ยืนยันนำเข้า / Import'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 159,
+                                lineNumber: 182,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4170,19 +4349,19 @@ function KbizReconciliation() {
                                 children: "ยกเลิก"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 160,
+                                lineNumber: 183,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 155,
+                        lineNumber: 178,
                         columnNumber: 19
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 143,
+                lineNumber: 162,
                 columnNumber: 5
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4191,7 +4370,7 @@ function KbizReconciliation() {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 163,
+                lineNumber: 186,
                 columnNumber: 15
             }, this),
             message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4200,7 +4379,7 @@ function KbizReconciliation() {
                 children: message
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 164,
+                lineNumber: 187,
                 columnNumber: 17
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4221,26 +4400,26 @@ function KbizReconciliation() {
                                         children: "ทุกเดือน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 189,
                                         columnNumber: 187
                                     }, this),
                                     Array.from(new Set(rows.map((row)=>row.transactionDate.slice(0, 7)))).sort().reverse().map((value)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                             children: value
                                         }, value, false, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 166,
+                                            lineNumber: 189,
                                             columnNumber: 322
                                         }, this))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 166,
+                                lineNumber: 189,
                                 columnNumber: 46
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 166,
+                        lineNumber: 189,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4257,7 +4436,7 @@ function KbizReconciliation() {
                                         children: "ทั้งหมด"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 190,
                                         columnNumber: 148
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4265,7 +4444,7 @@ function KbizReconciliation() {
                                         children: "เงินฝาก"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 190,
                                         columnNumber: 184
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4273,19 +4452,19 @@ function KbizReconciliation() {
                                         children: "รายจ่าย"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 190,
                                         columnNumber: 224
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 167,
+                                lineNumber: 190,
                                 columnNumber: 40
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 167,
+                        lineNumber: 190,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4302,7 +4481,7 @@ function KbizReconciliation() {
                                         children: "ทั้งหมด"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 191,
                                         columnNumber: 151
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4310,7 +4489,7 @@ function KbizReconciliation() {
                                         children: "รอดำเนินการ"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 191,
                                         columnNumber: 187
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4318,19 +4497,19 @@ function KbizReconciliation() {
                                         children: "ดำเนินการแล้ว"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 191,
                                         columnNumber: 231
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 168,
+                                lineNumber: 191,
                                 columnNumber: 39
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 168,
+                        lineNumber: 191,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4344,13 +4523,13 @@ function KbizReconciliation() {
                                 placeholder: "รายละเอียด / รายจ่าย / Invoice"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 169,
+                                lineNumber: 192,
                                 columnNumber: 46
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 169,
+                        lineNumber: 192,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4361,13 +4540,13 @@ function KbizReconciliation() {
                         children: "รีเฟรช"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 170,
+                        lineNumber: 193,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 165,
+                lineNumber: 188,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4393,7 +4572,7 @@ function KbizReconciliation() {
                                 children: label
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 172,
+                                lineNumber: 195,
                                 columnNumber: 309
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4401,18 +4580,18 @@ function KbizReconciliation() {
                                 children: value
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 172,
+                                lineNumber: 195,
                                 columnNumber: 358
                             }, this)
                         ]
                     }, label, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 172,
+                        lineNumber: 195,
                         columnNumber: 232
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 172,
+                lineNumber: 195,
                 columnNumber: 5
             }, this),
             editing && (editing.withdrawalCents ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$withdrawal$2d$reconciliation$2d$editor$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4424,7 +4603,7 @@ function KbizReconciliation() {
                 onSave: saveTransaction
             }, editing.id, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 173,
+                lineNumber: 196,
                 columnNumber: 44
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TransactionEditor, {
                 row: editing,
@@ -4435,7 +4614,7 @@ function KbizReconciliation() {
                 onSave: saveTransaction
             }, editing.id, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 174,
+                lineNumber: 197,
                 columnNumber: 7
             }, this)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4446,7 +4625,7 @@ function KbizReconciliation() {
                         children: "Document status · INITIAL → ISSUED → COMPLETED"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 176,
+                        lineNumber: 199,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4454,7 +4633,7 @@ function KbizReconciliation() {
                         children: "INITIAL: ยังไม่พิมพ์ · ISSUED: พิมพ์แล้ว / รับเงินบางส่วน · COMPLETED: จับคู่รับเงินครบแล้ว"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 177,
+                        lineNumber: 200,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4470,23 +4649,24 @@ function KbizReconciliation() {
                                             'เดือน',
                                             'ลูกค้า',
                                             'Status',
+                                            'ยอด Invoice (รวม VAT)',
                                             'จับคู่แล้ว'
                                         ].map((title)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 className: "p-3",
                                                 children: title
                                             }, title, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 178,
-                                                columnNumber: 199
+                                                lineNumber: 201,
+                                                columnNumber: 224
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 178,
+                                        lineNumber: 201,
                                         columnNumber: 116
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 178,
+                                    lineNumber: 201,
                                     columnNumber: 84
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -4498,7 +4678,7 @@ function KbizReconciliation() {
                                                     children: invoice.invoiceNumber
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 179,
+                                                    lineNumber: 202,
                                                     columnNumber: 110
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4506,7 +4686,7 @@ function KbizReconciliation() {
                                                     children: invoice.month
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 179,
+                                                    lineNumber: 202,
                                                     columnNumber: 158
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4514,7 +4694,7 @@ function KbizReconciliation() {
                                                     children: invoice.customer
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 179,
+                                                    lineNumber: 202,
                                                     columnNumber: 198
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4522,43 +4702,51 @@ function KbizReconciliation() {
                                                     children: invoice.status
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 179,
+                                                    lineNumber: 202,
                                                     columnNumber: 241
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "p-3",
+                                                    className: "p-3 whitespace-nowrap",
+                                                    children: money(invoice.grossCents)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                    lineNumber: 202,
+                                                    columnNumber: 420
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "p-3 whitespace-nowrap",
                                                     children: money(invoice.allocatedCents)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 179,
-                                                    columnNumber: 420
+                                                    lineNumber: 202,
+                                                    columnNumber: 490
                                                 }, this)
                                             ]
                                         }, invoice.referenceKey, true, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 202,
                                             columnNumber: 41
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 179,
+                                    lineNumber: 202,
                                     columnNumber: 9
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                            lineNumber: 178,
+                            lineNumber: 201,
                             columnNumber: 40
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 178,
+                        lineNumber: 201,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 175,
+                lineNumber: 198,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4585,17 +4773,17 @@ function KbizReconciliation() {
                                             children: title
                                         }, index, false, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 183,
+                                            lineNumber: 206,
                                             columnNumber: 184
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 183,
+                                    lineNumber: 206,
                                     columnNumber: 54
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 183,
+                                lineNumber: 206,
                                 columnNumber: 7
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -4606,12 +4794,12 @@ function KbizReconciliation() {
                                         children: "กำลังโหลด…"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 184,
+                                        lineNumber: 207,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 184,
+                                    lineNumber: 207,
                                     columnNumber: 25
                                 }, this) : !filtered.length ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4620,12 +4808,12 @@ function KbizReconciliation() {
                                         children: rows.length ? 'ไม่มีรายการตามเงื่อนไข' : 'ยังไม่มีรายการ กรุณานำเข้าไฟล์ CSV'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 184,
+                                        lineNumber: 207,
                                         columnNumber: 134
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 184,
+                                    lineNumber: 207,
                                     columnNumber: 130
                                 }, this) : filtered.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                         className: `border-t border-slate-100 ${editing?.id === row.id ? 'bg-indigo-50' : ''}`,
@@ -4640,20 +4828,20 @@ function KbizReconciliation() {
                                                             row.transactionTime,
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 185,
+                                                                lineNumber: 208,
                                                                 columnNumber: 129
                                                             }, this),
                                                             row.accountNumber
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 185,
+                                                        lineNumber: 208,
                                                         columnNumber: 68
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 185,
+                                                lineNumber: 208,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4663,7 +4851,7 @@ function KbizReconciliation() {
                                                         children: row.bankDescription
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 186,
+                                                        lineNumber: 209,
                                                         columnNumber: 38
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4672,20 +4860,20 @@ function KbizReconciliation() {
                                                             row.details,
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 186,
+                                                                lineNumber: 209,
                                                                 columnNumber: 126
                                                             }, this),
                                                             row.channel
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 186,
+                                                        lineNumber: 209,
                                                         columnNumber: 70
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 186,
+                                                lineNumber: 209,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4693,7 +4881,7 @@ function KbizReconciliation() {
                                                 children: row.withdrawalCents ? money(row.withdrawalCents) : '—'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 187,
+                                                lineNumber: 210,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4701,7 +4889,7 @@ function KbizReconciliation() {
                                                 children: row.depositCents ? money(row.depositCents) : '—'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 188,
+                                                lineNumber: 211,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4709,7 +4897,7 @@ function KbizReconciliation() {
                                                 children: money(row.balanceCents)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 189,
+                                                lineNumber: 212,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4721,7 +4909,7 @@ function KbizReconciliation() {
                                                             children: "ยังไม่ระบุรายการ"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 191,
+                                                            lineNumber: 214,
                                                             columnNumber: 137
                                                         }, this),
                                                         row.vendorAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4731,7 +4919,7 @@ function KbizReconciliation() {
                                                                         children: item.vendorPayment.paymentNumber
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 192,
+                                                                        lineNumber: 215,
                                                                         columnNumber: 95
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4743,13 +4931,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 192,
+                                                                        lineNumber: 215,
                                                                         columnNumber: 146
                                                                     }, this)
                                                                 ]
                                                             }, item.vendorPaymentId, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 192,
+                                                                lineNumber: 215,
                                                                 columnNumber: 46
                                                             }, this)),
                                                         !!row.vendorAllocations.length && vendorAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4760,7 +4948,7 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 193,
+                                                            lineNumber: 216,
                                                             columnNumber: 92
                                                         }, this),
                                                         row.employeeAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4770,13 +4958,13 @@ function KbizReconciliation() {
                                                                         children: item.employeeName
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 194,
+                                                                        lineNumber: 217,
                                                                         columnNumber: 138
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                         className: "text-xs text-slate-500",
                                                                         children: [
-                                                                            item.paymentType === 'PAYROLL' ? 'Payroll / เงินเดือน' : 'Incentive',
+                                                                            (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["employeePaymentTypeLabel"])(item.paymentType),
                                                                             " · ",
                                                                             item.paymentMonth,
                                                                             " · ",
@@ -4784,13 +4972,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 194,
+                                                                        lineNumber: 217,
                                                                         columnNumber: 174
                                                                     }, this)
                                                                 ]
                                                             }, `${item.employeeId}:${item.paymentType}:${item.paymentMonth}`, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 194,
+                                                                lineNumber: 217,
                                                                 columnNumber: 48
                                                             }, this)),
                                                         !!row.employeeAllocations.length && employeeAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4801,7 +4989,7 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 195,
+                                                            lineNumber: 218,
                                                             columnNumber: 96
                                                         }, this),
                                                         row.taxAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4814,7 +5002,7 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 196,
+                                                                        lineNumber: 219,
                                                                         columnNumber: 89
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4826,13 +5014,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 196,
+                                                                        lineNumber: 219,
                                                                         columnNumber: 149
                                                                     }, this)
                                                                 ]
                                                             }, item.taxPaymentId, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 196,
+                                                                lineNumber: 219,
                                                                 columnNumber: 43
                                                             }, this)),
                                                         !!row.taxAllocations.length && taxAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4843,13 +5031,13 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 197,
+                                                            lineNumber: 220,
                                                             columnNumber: 86
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 190,
+                                                    lineNumber: 213,
                                                     columnNumber: 61
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
@@ -4860,7 +5048,7 @@ function KbizReconciliation() {
                                                                         children: item.invoiceNumber
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 198,
+                                                                        lineNumber: 221,
                                                                         columnNumber: 92
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4872,13 +5060,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 198,
+                                                                        lineNumber: 221,
                                                                         columnNumber: 129
                                                                     }, this)
                                                                 ]
                                                             }, item.referenceKey, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 198,
+                                                                lineNumber: 221,
                                                                 columnNumber: 46
                                                             }, this)),
                                                         allocated(row) < row.depositCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4889,26 +5077,26 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 198,
+                                                            lineNumber: 221,
                                                             columnNumber: 260
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 198,
+                                                    lineNumber: 221,
                                                     columnNumber: 15
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 190,
+                                                lineNumber: 213,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 className: `p-3 whitespace-nowrap text-xs ${completed(row) ? 'text-emerald-700' : 'text-amber-700'}`,
-                                                children: completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'
+                                                children: completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PENDING' ? 'PENDING / รอเลือกประเภท' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 199,
+                                                lineNumber: 222,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4923,49 +5111,49 @@ function KbizReconciliation() {
                                                     children: row.withdrawalCents ? 'จับคู่รายจ่าย' : 'จับคู่ Invoice'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 200,
+                                                    lineNumber: 223,
                                                     columnNumber: 29
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 200,
+                                                lineNumber: 223,
                                                 columnNumber: 9
                                             }, this)
                                         ]
                                     }, row.id, true, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 184,
+                                        lineNumber: 207,
                                         columnNumber: 305
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 184,
+                                lineNumber: 207,
                                 columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 182,
+                        lineNumber: 205,
                         columnNumber: 119
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                    lineNumber: 182,
+                    lineNumber: 205,
                     columnNumber: 86
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 182,
+                lineNumber: 205,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-        lineNumber: 142,
+        lineNumber: 161,
         columnNumber: 10
     }, this);
 }
-_s1(KbizReconciliation, "7l2vgyzYJxxjupRPnGwpQVHt9u8=");
+_s1(KbizReconciliation, "Td8egkBgR8Gn3TBeNBEKviNWfLA=");
 _c1 = KbizReconciliation;
 var _c, _c1;
 __turbopack_context__.k.register(_c, "TransactionEditor");
@@ -10231,7 +10419,7 @@ function WithdrawalReconciliationEditor({ row, payments, employees, taxPayments,
                                 lineNumber: 26,
                                 columnNumber: 14
                             }, this),
-                            " พนักงาน / Payroll / Incentive"
+                            " พนักงาน / Salary / Incentive / Onsite / Others"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/withdrawal-reconciliation-editor.tsx",

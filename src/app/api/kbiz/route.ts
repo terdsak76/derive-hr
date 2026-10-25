@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireFinanceAdmin } from '@/lib/finance-access';
 import { parseFinanceMonth } from '@/lib/finance';
-import { parseKbizCsv, kbizReconciliationStatus } from '@/lib/kbiz';
+import { parseKbizCsv, kbizReconciliationStatus, employeePaymentTypes } from '@/lib/kbiz';
 import { kbizInvoices } from '@/lib/kbiz-invoices';
 import { importKbizCsv } from '@/lib/kbiz-import';
+import { matchExistingKbizEmployees } from '@/lib/kbiz-employees';
 import { syncDocumentStatuses } from '@/lib/document-status';
 import { syncVendorPaymentStatuses } from '@/lib/vendor-payment-status';
 import { syncRevenueTaxStatuses } from '@/lib/revenue-tax-status';
@@ -44,6 +45,16 @@ export async function POST(request: Request) {
     const user = await requireFinanceAdmin(request);
     if (user instanceof NextResponse) return user;
     const body = await request.json().catch(() => null);
+    if (body?.action === 'MATCH_EMPLOYEES') {
+      if (!Array.isArray(body.transactionIds) || body.transactionIds.length > 25 ||
+        body.transactionIds.some((id: unknown) => typeof id !== 'string' || !id.trim() || id.length > 254)) {
+        throw new ValidationError('Provide up to 25 visible transaction IDs to match');
+      }
+      const transactionIds = [...new Set<string>(body.transactionIds)];
+      if (!transactionIds.length) return NextResponse.json({ matched: 0, unmatched: 0 });
+      const result = await prisma.$transaction(tx => matchExistingKbizEmployees(tx, user.id, transactionIds), { timeout: 60000 });
+      return NextResponse.json(result);
+    }
     if (typeof body?.csv !== 'string' || body.csv.length > 2_000_000 || typeof body?.filename !== 'string' || !body.filename.trim() || body.filename.length > 255) {
       throw new ValidationError('Select a CSV file smaller than 2 MB');
     }
@@ -90,8 +101,8 @@ export async function PUT(request: Request) {
           if (!Array.isArray(body.employeeAllocations) || body.employeeAllocations.length > 200) throw new ValidationError('Invalid employee payment allocations');
           const seenEmployees = new Set<string>();
           for (const allocation of body.employeeAllocations) {
-            if (!allocation || typeof allocation.employeeId !== 'string' || !['PAYROLL', 'INCENTIVE'].includes(allocation.paymentType) ||
-              !parseFinanceMonth(allocation.paymentMonth) || !Number.isSafeInteger(allocation.amountCents) || allocation.amountCents <= 0) throw new ValidationError('Select an employee, payroll or incentive, payment month and a positive amount');
+            if (!allocation || typeof allocation.employeeId !== 'string' || !employeePaymentTypes.some(type => type.value === allocation.paymentType) ||
+              !parseFinanceMonth(allocation.paymentMonth) || !Number.isSafeInteger(allocation.amountCents) || allocation.amountCents <= 0) throw new ValidationError('Select an employee, Salary/Incentive/Onsite/Others, payment month and a positive amount');
             const key = `${allocation.employeeId}:${allocation.paymentType}:${allocation.paymentMonth}`;
             if (seenEmployees.has(key)) throw new ValidationError('Combine duplicate employee payments for the same type and month');
             seenEmployees.add(key);

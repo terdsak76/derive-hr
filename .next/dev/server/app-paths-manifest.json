@@ -4,12 +4,12 @@
   "/api/employee-summary/route": "app/api/employee-summary/route.js",
   "/api/employees/route": "app/api/employees/route.js",
   "/api/invoice-schedules/route": "app/api/invoice-schedules/route.js",
+  "/api/kbiz/route": "app/api/kbiz/route.js",
   "/api/leaves/route": "app/api/leaves/route.js",
   "/api/onsite/route": "app/api/onsite/route.js",
   "/api/overtime/route": "app/api/overtime/route.js",
   "/api/project-invoices/route": "app/api/project-invoices/route.js",
   "/api/projects/route": "app/api/projects/route.js",
-  "/api/revenue-tax-payments/route": "app/api/revenue-tax-payments/route.js",
   "/api/travel-config/route": "app/api/travel-config/route.js",
   "/api/workday-changes/route": "app/api/workday-changes/route.js",
   "/page": "app/page.js"

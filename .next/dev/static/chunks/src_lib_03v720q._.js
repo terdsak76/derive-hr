@@ -344,12 +344,36 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "use strict";
 
 __turbopack_context__.s([
+    "employeePaymentTypeLabel",
+    ()=>employeePaymentTypeLabel,
+    "employeePaymentTypes",
+    ()=>employeePaymentTypes,
     "kbizReconciliationStatus",
     ()=>kbizReconciliationStatus,
     "parseKbizCsv",
     ()=>parseKbizCsv
 ]);
+const employeePaymentTypes = [
+    {
+        value: 'PAYROLL',
+        label: 'Salary / เงินเดือน'
+    },
+    {
+        value: 'INCENTIVE',
+        label: 'Incentive'
+    },
+    {
+        value: 'ONSITE',
+        label: 'Onsite'
+    },
+    {
+        value: 'OTHERS',
+        label: 'Others / อื่น ๆ'
+    }
+];
+const employeePaymentTypeLabel = (type)=>employeePaymentTypes.find((item)=>item.value === type)?.label || 'Pending / รอเลือกประเภท';
 function kbizReconciliationStatus(row) {
+    if (row.employeeAllocations.some((item)=>item.paymentType === 'PENDING')) return 'PENDING';
     const total = row.depositCents ? row.allocations.reduce((sum, item)=>sum + item.amountCents, 0) : row.vendorAllocations.reduce((sum, item)=>sum + item.amountCents, 0) + row.employeeAllocations.reduce((sum, item)=>sum + item.amountCents, 0) + row.taxAllocations.reduce((sum, item)=>sum + item.amountCents, 0);
     if (total) return total === (row.depositCents || row.withdrawalCents) ? 'COMPLETED' : 'PARTIAL';
     if (row.withdrawalCents && row.expenseKind === 'OTHER' && row.expenseDescription.trim()) return 'COMPLETED';

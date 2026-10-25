@@ -22,7 +22,18 @@ export type KbizRecord = KbizRow & {
 
 export type KbizEmployee = { id: string; name: string; department: string };
 
+export const employeePaymentTypes = [
+  { value: 'PAYROLL', label: 'Salary / เงินเดือน' },
+  { value: 'INCENTIVE', label: 'Incentive' },
+  { value: 'ONSITE', label: 'Onsite' },
+  { value: 'OTHERS', label: 'Others / อื่น ๆ' },
+] as const;
+
+export const employeePaymentTypeLabel = (type: string) =>
+  employeePaymentTypes.find(item => item.value === type)?.label || 'Pending / รอเลือกประเภท';
+
 export function kbizReconciliationStatus(row: Pick<KbizRecord, 'depositCents' | 'withdrawalCents' | 'allocations' | 'vendorAllocations' | 'employeeAllocations' | 'taxAllocations' | 'expenseDescription' | 'expenseKind'>) {
+  if (row.employeeAllocations.some(item => item.paymentType === 'PENDING')) return 'PENDING';
   const total = row.depositCents ? row.allocations.reduce((sum, item) => sum + item.amountCents, 0) :
     row.vendorAllocations.reduce((sum, item) => sum + item.amountCents, 0) + row.employeeAllocations.reduce((sum, item) => sum + item.amountCents, 0) + row.taxAllocations.reduce((sum, item) => sum + item.amountCents, 0);
   if (total) return total === (row.depositCents || row.withdrawalCents) ? 'COMPLETED' : 'PARTIAL';

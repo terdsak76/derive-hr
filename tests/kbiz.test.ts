@@ -20,6 +20,8 @@ import { applyEmployeeReconciliationMigration } from '../scripts/apply-employee-
 import { applyRevenueTaxPaymentMigration } from '../scripts/apply-revenue-tax-payment-migration.mjs';
 import { revenueTaxMatch } from '../src/lib/revenue-tax-payments';
 import { applyVendorWithholdingMigration } from '../scripts/apply-vendor-withholding-migration.mjs';
+import { applyEmployeeKbizNameMigration } from '../scripts/apply-employee-kbiz-name-migration.mjs';
+import { matchKbizEmployee } from '../src/lib/kbiz-employees';
 
 let directory: string, prisma: PrismaClient, api: typeof import('../src/app/api/kbiz/route');
 let csv: string;
@@ -45,6 +47,7 @@ before(async () => {
   try {
     const { stdout } = await promisify(execFile)(process.execPath, ['node_modules/prisma/build/index.js', 'migrate', 'diff', '--from-empty', '--to-schema', 'prisma/schema.prisma', '--script']);
     await database.executeMultiple(stdout);
+    await database.execute('ALTER TABLE "Employee" DROP COLUMN "kbizName"');
     await database.executeMultiple('DROP TABLE "KbizTaxAllocation"; DROP TABLE "RevenueTaxPayment"; DROP TABLE "KbizEmployeeAllocation"; DROP TABLE "KbizVendorAllocation"; DROP TABLE "VendorPayment"; DROP TABLE "KbizAllocation"; DROP TABLE "KbizTransaction";');
     assert.equal(await applyKbizMigration(database), 'applied');
     assert.equal(await applyKbizMigration(database), 'already-applied');
@@ -52,6 +55,8 @@ before(async () => {
     assert.equal(await applyVendorPaymentMigration(database), 'already-applied');
     assert.equal(await applyEmployeeReconciliationMigration(database), 'applied');
     assert.equal(await applyEmployeeReconciliationMigration(database), 'already-applied');
+    assert.equal(await applyEmployeeKbizNameMigration(database), 'applied');
+    assert.equal(await applyEmployeeKbizNameMigration(database), 'already-applied');
     assert.equal(await applyRevenueTaxPaymentMigration(database), 'applied');
     assert.equal(await applyRevenueTaxPaymentMigration(database), 'already-applied');
     assert.equal(await applyVendorWithholdingMigration(database), 'applied');
@@ -93,12 +98,134 @@ test('quoted commas, escaped quotes, BOM and multiline fields survive import par
   assert.equal(rows[0].details, 'Payroll "July", cost\ncontinued');
   assert.equal(rows[0].depositCents, 10400);
 });
+
+test('employee matching keeps Thai marks, ignores case and spacing, and rejects ambiguity and deposits', () => {
+  const employee = { id: 'match', name: 'Display name', kbizName: 'สมชาย ใจดี' };
+  const row = { ...parseKbizCsv(sample())[0], depositCents: 0, withdrawalCents: 10400, details: 'โอนไป นายสมชาย  ใจดี ธนาคาร' };
+  assert.equal(matchKbizEmployee(row, [employee])?.id, 'match');
+  assert.equal(matchKbizEmployee({ ...row, bankDescription: 'Transfer to SOMCHAI', details: '' }, [{ ...employee, kbizName: 'Somchai' }])?.id, 'match');
+  assert.equal(matchKbizEmployee({ ...row, details: 'สมชาย ใจด' }, [employee]), null);
+  assert.equal(matchKbizEmployee(row, [{ ...employee, kbizName: '   ' }]), null);
+  assert.equal(matchKbizEmployee(row, [employee, { ...employee, id: 'duplicate' }]), null);
+  assert.equal(matchKbizEmployee(row, [employee, { ...employee, id: 'overlap', kbizName: 'สมชาย' }]), null);
+  assert.equal(matchKbizEmployee({ ...row, depositCents: 10400, withdrawalCents: 0 }, [employee]), null);
+});
+
+test('bank name migration preserves payment history and extends database payment-type constraints', async () => {
+  const database = createClient({ url: `file:${join(directory, 'migration-history.db')}` });
+  try {
+    await database.executeMultiple('CREATE TABLE "Employee" ("id" TEXT PRIMARY KEY); CREATE TABLE "KbizTransaction" ("id" TEXT PRIMARY KEY);');
+    const original = await readFile('prisma/migrations/20261024140000_add_employee_reconciliation/migration.sql', 'utf8');
+    for (const statement of original.split(';').map(part => part.trim()).filter(part => part.startsWith('CREATE'))) await database.execute(statement);
+    await database.execute("INSERT INTO Employee (id) VALUES ('employee')");
+    await database.execute("INSERT INTO KbizTransaction (id) VALUES ('transaction')");
+    await database.execute("INSERT INTO KbizEmployeeAllocation VALUES ('historical', 'transaction', 'employee', 'Historical name', 'PAYROLL', '2026-09', 12345)");
+    const before = await database.execute('SELECT * FROM KbizEmployeeAllocation');
+    assert.equal(await applyEmployeeKbizNameMigration(database), 'applied');
+    assert.deepEqual((await database.execute('SELECT * FROM KbizEmployeeAllocation')).rows, before.rows);
+    assert.equal((await database.execute('SELECT kbizName FROM Employee')).rows[0].kbizName, '');
+    assert.equal(await applyEmployeeKbizNameMigration(database), 'already-applied');
+    for (const type of ['PENDING', 'ONSITE', 'OTHERS']) {
+      await database.execute({ sql: 'INSERT INTO KbizEmployeeAllocation VALUES (?, ?, ?, ?, ?, ?, ?)', args: [type, 'transaction', 'employee', 'Name', type, '2026-10', 100] });
+    }
+    await assert.rejects(database.execute("UPDATE KbizEmployeeAllocation SET paymentType = 'INVALID' WHERE id = 'historical'"));
+    await assert.rejects(database.execute("UPDATE KbizEmployeeAllocation SET amountCents = 0 WHERE id = 'historical'"));
+    await assert.rejects(database.execute("INSERT INTO KbizEmployeeAllocation VALUES ('duplicate', 'transaction', 'employee', 'Name', 'PAYROLL', '2026-09', 100)"));
+  } finally { database.close(); }
+});
+
+test('imports allocate employee names as pending until admin chooses Salary, Incentive, Onsite or Others', async () => {
+  const employee = await prisma.employee.create({ data: { email: 'auto-match@test.local', name: 'Matched employee', kbizName: 'สมชาย ใจดี', department: 'Test', position: 'Test', passwordHash: 'unused' } });
+  const fixture = sample('105.00').replace('20-10-26', '25-10-26').replace(',,,105.00,,105.00', ',105.00,,,,105.00').replace(',,Test', ',,โอนไป สมชาย ใจดี');
+  const imported = await api.POST(request('POST', { csv: fixture, filename: 'employee.csv' }));
+  assert.equal(imported.status, 200);
+  assert.deepEqual(await imported.json(), { imported: 1, skipped: 0 });
+  const row = await prisma.kbizTransaction.findFirstOrThrow({ where: { sourceFile: 'employee.csv' }, include: { employeeAllocations: true } });
+  assert.equal(row.expenseKind, 'EMPLOYEE');
+  assert.equal(row.employeeAllocations.length, 1);
+  const allocation = row.employeeAllocations[0];
+  assert.equal(allocation.employeeId, employee.id);
+  assert.equal(allocation.employeeName, employee.name);
+  assert.equal(allocation.amountCents, 10500);
+  assert.equal(allocation.paymentMonth, '2026-10');
+  assert.equal(allocation.paymentType, 'PENDING');
+  const status = async () => (await (await api.GET(request())).json()).transactions.find(item => item.id === row.id).reconciliationStatus;
+  assert.equal(await status(), 'PENDING');
+  assert.equal((await api.PUT(request('PUT', { id: row.id, expenseDescription: 'Review pending' }))).status, 200);
+  assert.equal(await status(), 'PENDING', 'notes cannot complete an unclassified allocation');
+  const save = (paymentType: string, user = 'admin') => api.PUT(request('PUT', { id: row.id, expenseDescription: '', employeeAllocations: [{ employeeId: employee.id, paymentType, paymentMonth: '2026-10', amountCents: 10500 }] }, user));
+  assert.equal((await save('PENDING')).status, 400);
+  assert.equal((await save('ONSITE', 'employee')).status, 403);
+  for (const type of ['PAYROLL', 'INCENTIVE', 'ONSITE', 'OTHERS']) {
+    assert.equal((await save(type)).status, 200);
+    assert.equal(await status(), 'COMPLETED');
+  }
+  const saved = await prisma.kbizEmployeeAllocation.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.deepEqual(await (await api.POST(request('POST', { csv: fixture, filename: 'renamed-employee.csv' }))).json(), { imported: 0, skipped: 1 });
+  assert.deepEqual(await prisma.kbizEmployeeAllocation.findMany({ where: { transactionId: row.id } }), [saved]);
+});
+
+test('setting a bank matching name allocates existing unclassified withdrawals and preserves reviewed transactions', async () => {
+  const employee = await prisma.employee.create({ data: { email: 'backfill@test.local', name: 'Backfill employee', department: 'Test', position: 'Test', passwordHash: 'unused' } });
+  const common = { ...parseKbizCsv(sample())[0], details: 'Transfer to BANK MATCH NAME', sourceFile: 'backfill.csv', depositCents: 0, withdrawalCents: 10400 };
+  const untouched = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'backfill-untouched' } });
+  const reviewed = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'backfill-reviewed', expenseDescription: 'Office expense' } });
+  const deposit = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'backfill-deposit', depositCents: 10400, withdrawalCents: 0 } });
+  const employeeApi = await import('../src/app/api/employees/route');
+  const response = await employeeApi.PATCH(request('PATCH', { id: employee.id, kbizName: '  Bank Match Name  ' }));
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).kbizName, 'Bank Match Name');
+  const allocation = await prisma.kbizEmployeeAllocation.findFirstOrThrow({ where: { transactionId: untouched.id } });
+  assert.equal(allocation.employeeId, employee.id);
+  assert.equal(allocation.paymentType, 'PENDING');
+  for (const row of [reviewed, deposit]) assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: row.id } }), 0);
+  // Subsequent profile edits do not recreate allocations an admin has removed.
+  await prisma.kbizEmployeeAllocation.delete({ where: { id: allocation.id } });
+  await prisma.kbizTransaction.update({ where: { id: untouched.id }, data: { expenseKind: 'OTHER' } });
+  assert.equal((await employeeApi.PATCH(request('PATCH', { id: employee.id, kbizName: 'Bank Match Name', name: 'Updated display' }))).status, 200);
+  assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: untouched.id } }), 0);
+});
 test('all endpoints enforce current database admin role, not cookie claims', async () => {
-  for (const id of ['', 'missing', 'employee']) for (const [method, body] of [['GET', undefined], ['POST', {}], ['PUT', {}]] as const) {
+  for (const id of ['', 'missing', 'employee']) for (const [method, body] of [['GET', undefined], ['POST', {}], ['POST', { action: 'MATCH_EMPLOYEES' }], ['PUT', {}]] as const) {
     const result = await api[method](request(method, body, id));
     assert.equal(result.status, id === 'employee' ? 403 : 401);
   }
   assert.equal((await api.GET(request('GET', undefined, 'legacy'))).status, 200);
+});
+test('manual matching handles pending withdrawals, preserves existing allocations and is safe to rerun', async () => {
+  const employee = await prisma.employee.create({ data: { email: 'manual-match@test.local', name: 'Manual employee', kbizName: 'MANUAL RECIPIENT', department: 'Test', position: 'Test', passwordHash: 'unused' } });
+  const common = { ...parseKbizCsv(sample())[0], details: 'Transfer to Manual Recipient', depositCents: 0, withdrawalCents: 10400, sourceFile: 'manual-match.csv' };
+  const unclassified = await prisma.kbizTransaction.create({ data: { ...common, transactionDate: '2026-09-20', fingerprint: 'manual-unclassified' } });
+  const hidden = await prisma.kbizTransaction.create({ data: { ...common, transactionDate: '2026-08-20', fingerprint: 'manual-hidden' } });
+  const note = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'manual-note', expenseDescription: 'Reviewed expense' } });
+  const deposit = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'manual-deposit', depositCents: 10400, withdrawalCents: 0 } });
+  const existing = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'manual-existing', expenseKind: 'EMPLOYEE', employeeAllocations: { create: { employeeId: employee.id, employeeName: employee.name, paymentType: 'INCENTIVE', paymentMonth: '2026-10', amountCents: 5000 } } } });
+  const pending = await prisma.kbizTransaction.create({ data: { ...common, fingerprint: 'manual-pending', expenseKind: 'EMPLOYEE', employeeAllocations: { create: { employeeId: employee.id, employeeName: employee.name, paymentType: 'PENDING', paymentMonth: '2026-10', amountCents: 10400 } } } });
+  const previous = await prisma.kbizEmployeeAllocation.findMany({ where: { transactionId: { in: [existing.id, pending.id] } }, orderBy: { id: 'asc' } });
+  const transactionIds = [unclassified.id, unclassified.id, note.id, deposit.id, existing.id, pending.id];
+  const response = await api.POST(request('POST', { action: 'MATCH_EMPLOYEES', transactionIds }));
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  assert.deepEqual(result, { matched: 1, unmatched: 0 });
+  const matched = await prisma.kbizEmployeeAllocation.findFirstOrThrow({ where: { transactionId: unclassified.id } });
+  assert.equal(matched.employeeId, employee.id);
+  assert.equal(matched.paymentType, 'PENDING');
+  assert.equal(matched.paymentMonth, '2026-09');
+  assert.equal((await prisma.kbizTransaction.findUniqueOrThrow({ where: { id: unclassified.id } })).updatedById, 'admin');
+  for (const row of [note, deposit, hidden]) assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: row.id } }), 0);
+  assert.equal((await prisma.kbizTransaction.findUniqueOrThrow({ where: { id: hidden.id } })).expenseKind, 'OTHER');
+  assert.deepEqual(await prisma.kbizEmployeeAllocation.findMany({ where: { transactionId: { in: [existing.id, pending.id] } }, orderBy: { id: 'asc' } }), previous);
+  const repeated = await api.POST(request('POST', { action: 'MATCH_EMPLOYEES', transactionIds }));
+  assert.equal(repeated.status, 200);
+  assert.equal((await repeated.json()).matched, 0);
+  assert.deepEqual(await prisma.kbizEmployeeAllocation.findMany({ where: { transactionId: unclassified.id } }), [matched]);
+  for (const transactionIds of [undefined, null, 'all', [null], [''], Array(26).fill(hidden.id)]) {
+    assert.equal((await api.POST(request('POST', { action: 'MATCH_EMPLOYEES', transactionIds }))).status, 400);
+  }
+  const empty = await api.POST(request('POST', { action: 'MATCH_EMPLOYEES', transactionIds: [] }));
+  assert.equal(empty.status, 200);
+  assert.deepEqual(await empty.json(), { matched: 0, unmatched: 0 });
+  assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: hidden.id } }), 0);
 });
 test('reimport skips duplicates and preserves admin expense descriptions', async () => {
   const fixture = sample().replace(',,,104.00,,104.00', ',104.00,,,,104.00');

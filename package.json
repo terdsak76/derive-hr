@@ -14,6 +14,7 @@
     "db:kbiz": "node scripts/apply-kbiz-migration.mjs",
     "db:vendor-payments": "node scripts/apply-vendor-payment-migration.mjs",
     "db:employee-reconciliation": "node scripts/apply-employee-reconciliation-migration.mjs",
+    "db:employee-kbiz-name": "node scripts/apply-employee-kbiz-name-migration.mjs",
     "db:revenue-tax-payments": "node scripts/apply-revenue-tax-payment-migration.mjs",
     "db:vendor-withholding": "node scripts/apply-vendor-withholding-migration.mjs",
     "db:document-status": "node scripts/apply-document-status-migration.mjs && node --import tsx scripts/backfill-document-status.ts",

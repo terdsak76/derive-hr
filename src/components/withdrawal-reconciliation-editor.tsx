@@ -23,7 +23,7 @@ export default function WithdrawalReconciliationEditor({ row, payments, employee
     <fieldset disabled={saving} className="flex flex-wrap gap-4 text-sm">
       <legend className="font-semibold mb-2">ประเภทการจับคู่รายจ่าย</legend>
       <label><input type="radio" name="withdrawal-match-type" checked={mode === 'VENDOR'} onChange={() => setMode('VENDOR')} /> Vendor / รายจ่ายอื่น</label>
-      <label><input type="radio" name="withdrawal-match-type" checked={mode === 'EMPLOYEE'} onChange={() => setMode('EMPLOYEE')} /> พนักงาน / Payroll / Incentive</label>
+      <label><input type="radio" name="withdrawal-match-type" checked={mode === 'EMPLOYEE'} onChange={() => setMode('EMPLOYEE')} /> พนักงาน / Salary / Incentive / Onsite / Others</label>
       <label><input type="radio" name="withdrawal-match-type" checked={mode === 'TAX'} onChange={() => setMode('TAX')} /> กรมสรรพากร / Revenue Department</label>
     </fieldset>
     {((mode !== 'VENDOR' && row.vendorAllocations.length > 0) || (mode !== 'EMPLOYEE' && row.employeeAllocations.length > 0) || (mode !== 'TAX' && row.taxAllocations.length > 0)) &&

@@ -128,6 +128,19 @@ test('admins can edit another employee and reset their password', async () => {
   assert.ok(!verifyPassword('original123', saved.passwordHash));
 });
 
+test('bank matching names are admin-only, optional, trimmed and validated', async () => {
+  assert.equal((await employees.PATCH(request('PATCH', 'user', { id: 'user', kbizName: 'Bank name' }))).status, 403);
+  for (const kbizName of [null, 123, 'x'.repeat(255)]) {
+    assert.equal((await employees.PATCH(request('PATCH', 'admin', { id: 'other', kbizName }))).status, 400);
+  }
+  const created = await employees.POST(request('POST', 'admin', { ...newEmployee, kbizName: '  Thai Bank Name  ' }));
+  assert.equal(created.status, 201);
+  assert.equal((await created.json()).kbizName, 'Thai Bank Name');
+  const updated = await employees.PATCH(request('PATCH', 'admin', { id: 'other', kbizName: '   ' }));
+  assert.equal(updated.status, 200);
+  assert.equal((await updated.json()).kbizName, '');
+});
+
 test('validation, duplicates, malformed JSON, and missing records return actionable errors', async () => {
   assert.equal((await employees.POST(request('POST', 'admin', { ...newEmployee, password: 'short' }))).status, 400);
   assert.equal((await employees.PATCH(request('PATCH', 'user', { id: 'user', email: 'invalid' }))).status, 400);

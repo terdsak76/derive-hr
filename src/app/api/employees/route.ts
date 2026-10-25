@@ -3,9 +3,10 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/auth';
 import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
+import { matchExistingKbizEmployees } from '@/lib/kbiz-employees';
 
 const employeeSelect = {
-  id: true, name: true, department: true, position: true, email: true, role: true, isOwner: true,
+  id: true, name: true, kbizName: true, department: true, position: true, email: true, role: true, isOwner: true,
   fullIncentiveCents: true, monthlySalaryCents: true,
 } as const;
 
@@ -45,7 +46,11 @@ async function readBody(request: Request): Promise<Record<string, unknown> | nul
 }
 
 function parseEmployee(body: Record<string, unknown>, creating: boolean) {
-  const data: { name?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean; fullIncentiveCents?: number } = {};
+  const data: { name?: string; kbizName?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean; fullIncentiveCents?: number } = {};
+  if (body.kbizName !== undefined) {
+    if (typeof body.kbizName !== 'string' || body.kbizName.trim().length > 254) return { error: 'Kbiz name must be at most 254 characters.' } as const;
+    data.kbizName = body.kbizName.trim();
+  }
   if (body.fullIncentive !== undefined) {
     const amount = body.fullIncentive;
     if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0 || amount > 21474836.47 ||
@@ -105,13 +110,17 @@ export async function POST(request: Request): Promise<NextResponse> {
     if (!body) return NextResponse.json({ error: 'Request body must be valid JSON.' }, { status: 400 });
     const parsed = parseEmployee(body, true);
     if ('error' in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
-    const employee = await prisma.employee.create({
-      data: {
-        name: parsed.data.name!, department: parsed.data.department!, position: parsed.data.position!,
-        email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER', isOwner: parsed.data.isOwner ?? false,
-        fullIncentiveCents: parsed.data.fullIncentiveCents ?? 0,
-      },
-      select: employeeSelect,
+    const employee = await prisma.$transaction(async tx => {
+      const created = await tx.employee.create({
+        data: {
+          name: parsed.data.name!, kbizName: parsed.data.kbizName ?? '', department: parsed.data.department!, position: parsed.data.position!,
+          email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER', isOwner: parsed.data.isOwner ?? false,
+          fullIncentiveCents: parsed.data.fullIncentiveCents ?? 0,
+        },
+        select: employeeSelect,
+      });
+      if (parsed.data.kbizName) await matchExistingKbizEmployees(tx);
+      return created;
     });
     return NextResponse.json(serializeEmployee(employee), { status: 201 });
   } catch (error) {
@@ -131,6 +140,9 @@ export async function PATCH(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: 'You can only edit your own employee profile.' }, { status: 403 });
     }
     // Roles, salaries, and relation IDs are never accepted from this form.
+    if (body.kbizName !== undefined && !isEmployeeAdmin(user.role)) {
+      return NextResponse.json({ error: 'Only admins can change the Kbiz matching name.' }, { status: 403 });
+    }
     if (body.isOwner !== undefined && !isEmployeeAdmin(user.role)) {
       return NextResponse.json({ error: 'Only admins can change owner status.' }, { status: 403 });
     }
@@ -140,6 +152,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
     const parsed = parseEmployee(body, false);
     if ('error' in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
     return await prisma.$transaction(async tx => {
+      const previous = parsed.data.kbizName ? await tx.employee.findUniqueOrThrow({ where: { id }, select: { kbizName: true } }) : null;
       if (parsed.data.fullIncentiveCents !== undefined) {
         const latest = await tx.salaryIncentiveHistory.findFirst({ where: { employeeId: id }, orderBy: { startDate: 'desc' } });
         if (latest && latest.fullIncentiveCents !== parsed.data.fullIncentiveCents) {
@@ -147,6 +160,7 @@ export async function PATCH(request: Request): Promise<NextResponse> {
         }
       }
       const employee = await tx.employee.update({ where: { id }, data: parsed.data, select: employeeSelect });
+      if (parsed.data.kbizName && previous?.kbizName !== parsed.data.kbizName) await matchExistingKbizEmployees(tx);
       return NextResponse.json(serializeEmployee(employee));
     });
   } catch (error) {

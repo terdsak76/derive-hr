@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { parseKbizCsv, kbizReconciliationStatus, type KbizEmployee, type KbizInvoice, type KbizRecord, type KbizRow } from '@/lib/kbiz';
+import { parseKbizCsv, kbizReconciliationStatus, employeePaymentTypeLabel, type KbizEmployee, type KbizInvoice, type KbizRecord, type KbizRow } from '@/lib/kbiz';
 import { kbizMatch } from '@/lib/kbiz-matching';
 import type { VendorPaymentRecord } from '@/lib/vendor-payments';
 import WithdrawalReconciliationEditor from '@/components/withdrawal-reconciliation-editor';
@@ -52,7 +52,7 @@ function TransactionEditor({ row, invoices, invoiceMonth, setInvoiceMonth, onSav
   }
   return <section className="bg-white rounded-xl border-2 border-indigo-200 p-5 space-y-4" aria-label="Transaction editor">
     <div className="flex justify-between gap-3"><div><h3 className="font-bold">{row.withdrawalCents ? 'รายละเอียดรายจ่าย / Expense description' : 'จับคู่เงินฝากกับ Invoice'}</h3>
-      <p className="text-sm text-slate-500">{row.transactionDate} {row.transactionTime} · {money(row.depositCents || row.withdrawalCents)} · {row.accountNumber}</p></div>
+      <p className="text-sm text-slate-500">{row.transactionDate} {row.transactionTime} · {row.withdrawalCents ? 'ยอดถอน' : 'ยอดฝาก'} {money(row.depositCents || row.withdrawalCents)} · {row.accountNumber}</p></div>
       <button type="button" disabled={saving} onClick={onClose} className={inputClass}>ปิด</button></div>
     <p className="text-sm whitespace-pre-line">{row.bankDescription} · {row.details}</p>
     {row.withdrawalCents ? <label className="block text-sm">รายการ / Item description
@@ -81,7 +81,7 @@ function TransactionEditor({ row, invoices, invoiceMonth, setInvoiceMonth, onSav
           <button type="button" disabled={saving} onClick={() => setDrafts(items => items.filter((_, i) => i !== index))} className="text-rose-700 text-sm">นำออก</button>
         </div>;
       })}</div>
-      <p className={`text-sm font-semibold ${remaining < 0 ? 'text-rose-700' : 'text-indigo-700'}`}>จับคู่แล้ว {money(total)} · คงเหลือรอจับคู่ {money(remaining)}</p>
+      <p className={`text-sm font-semibold ${remaining < 0 ? 'text-rose-700' : 'text-indigo-700'}`}>ยอดฝาก {money(row.depositCents)} · จับคู่แล้ว {money(total)} · คงเหลือรอจับคู่ {money(remaining)}</p>
     </>}
     {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
     <button type="button" onClick={save} disabled={saving || (!row.withdrawalCents && (remaining < 0 || drafts.some(item => !/^\d+(\.\d{1,2})?$/.test(item.amount) || Number(item.amount) <= 0)))} className={buttonClass}>{saving ? 'กำลังบันทึก…' : 'บันทึก / Save'}</button>
@@ -102,6 +102,7 @@ export default function KbizReconciliation() {
   const [editing, setEditing] = useState<KbizRecord | null>(null);
   const [preview, setPreview] = useState<{ filename: string; csv: string; rows: KbizRow[] } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [matching, setMatching] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -130,6 +131,24 @@ export default function KbizReconciliation() {
     } catch (err) { setError(err instanceof Error ? err.message : 'Import failed'); }
     finally { setBusy(false); }
   }
+  async function matchEmployees() {
+    if (busy || matching) return;
+    const transactionIds = filtered.filter(row => row.withdrawalCents > 0 && !completed(row)).map(row => row.id);
+    if (!transactionIds.length) return;
+    setBusy(true); setMatching(true); setError(''); setMessage('');
+    let matched = 0, unmatched = 0;
+    try {
+      for (let offset = 0; offset < transactionIds.length; offset += 25) {
+        const response = await fetch('/api/kbiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'MATCH_EMPLOYEES', transactionIds: transactionIds.slice(offset, offset + 25) }) });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Unable to match employee names');
+        matched += result.matched; unmatched += result.unmatched;
+        setMessage(`จับคู่พนักงาน ${matched} รายการ (รอเลือกประเภทการจ่าย) · ยังจับคู่ไม่ได้ ${unmatched} รายการ`);
+      }
+      await load();
+    } catch (err) { await load(); setError(err instanceof Error ? err.message : 'Unable to match employee names'); }
+    finally { setBusy(false); setMatching(false); }
+  }
   const filtered = rows.filter(row => (!month || row.transactionDate.startsWith(month)) && (kind === 'ALL' || (kind === 'DEPOSIT' ? row.depositCents > 0 : row.withdrawalCents > 0)) &&
     (status === 'ALL' || (status === 'DONE' ? completed(row) : !completed(row))) &&
     `${row.details} ${row.bankDescription} ${row.expenseDescription} ${row.accountNumber} ${row.allocations.map(item => `${item.invoiceNumber} ${item.customer}`).join(' ')} ${row.vendorAllocations.map(item => `${item.vendorPayment.paymentNumber} ${item.vendorPayment.vendorName}`).join(' ')} ${row.employeeAllocations.map(item => `${item.employeeName} ${item.paymentType} ${item.paymentMonth}`).join(' ')} ${row.taxAllocations.map(item => `กรมสรรพากร Revenue Department ${item.taxPayment.paymentNumber} ${item.taxPayment.paymentMonth}`).join(' ')}`.toLowerCase().includes(search.toLowerCase()));
@@ -144,6 +163,10 @@ export default function KbizReconciliation() {
       <h3 className="font-bold">Kbiz Transaction Reconciliation</h3>
       <p className="text-sm text-slate-500">นำเข้า CSV รายการเดินบัญชีแบบมีรายละเอียด เพื่อจับคู่เงินฝากกับ Invoice และระบุรายจ่ายโดย Admin</p>
       <p className="text-xs text-slate-500">รายการนี้ใช้ตรวจสอบเงินเข้า–ออกธนาคาร แยกจากยอดรายรับ–รายจ่ายและ VAT ในรายงานบริษัท</p>
+      <div className="space-y-2">
+        <button type="button" className={buttonClass} disabled={busy || loading || !!editing || !filtered.some(row => row.withdrawalCents > 0 && !completed(row))} onClick={() => void matchEmployees()}>{matching ? 'กำลังจับคู่…' : 'จับคู่ชื่อพนักงาน / Match employee names'}</button>
+        <p className="text-xs text-slate-500">ตรวจเฉพาะรายการถอนที่แสดงตามตัวกรองปัจจุบันและยังไม่มีการจับคู่ โดยใช้ชื่อ Kbiz ของพนักงาน รายการที่ตรงกันจะรอ Admin เลือกประเภทการจ่าย</p>
+      </div>
       <label className="block text-sm">เลือกไฟล์ K BIZ CSV<input type="file" accept=".csv,text/csv" disabled={busy} className="block mt-2 text-sm" onChange={async event => {
         const file = event.target.files?.[0]; event.target.value = ''; if (!file) return;
         setError(''); setMessage(''); setPreview(null);
@@ -175,8 +198,8 @@ export default function KbizReconciliation() {
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       <h3 className="font-bold p-4">Document status · INITIAL → ISSUED → COMPLETED</h3>
       <p className="px-4 pb-3 text-xs text-slate-500">INITIAL: ยังไม่พิมพ์ · ISSUED: พิมพ์แล้ว / รับเงินบางส่วน · COMPLETED: จับคู่รับเงินครบแล้ว</p>
-      <div className="overflow-x-auto"><table className="w-full text-sm text-left"><thead className="bg-slate-100"><tr>{['Invoice / Receipt', 'เดือน', 'ลูกค้า', 'Status', 'จับคู่แล้ว'].map(title => <th key={title} className="p-3">{title}</th>)}</tr></thead>
-        <tbody>{invoices.map(invoice => <tr key={invoice.referenceKey} className="border-t border-slate-100"><td className="p-3">{invoice.invoiceNumber}</td><td className="p-3">{invoice.month}</td><td className="p-3">{invoice.customer}</td><td className={`p-3 font-medium ${invoice.status === 'COMPLETED' ? 'text-emerald-700' : invoice.status === 'ISSUED' ? 'text-indigo-700' : 'text-slate-500'}`}>{invoice.status}</td><td className="p-3">{money(invoice.allocatedCents)}</td></tr>)}</tbody>
+      <div className="overflow-x-auto"><table className="w-full text-sm text-left"><thead className="bg-slate-100"><tr>{['Invoice / Receipt', 'เดือน', 'ลูกค้า', 'Status', 'ยอด Invoice (รวม VAT)', 'จับคู่แล้ว'].map(title => <th key={title} className="p-3">{title}</th>)}</tr></thead>
+        <tbody>{invoices.map(invoice => <tr key={invoice.referenceKey} className="border-t border-slate-100"><td className="p-3">{invoice.invoiceNumber}</td><td className="p-3">{invoice.month}</td><td className="p-3">{invoice.customer}</td><td className={`p-3 font-medium ${invoice.status === 'COMPLETED' ? 'text-emerald-700' : invoice.status === 'ISSUED' ? 'text-indigo-700' : 'text-slate-500'}`}>{invoice.status}</td><td className="p-3 whitespace-nowrap">{money(invoice.grossCents)}</td><td className="p-3 whitespace-nowrap">{money(invoice.allocatedCents)}</td></tr>)}</tbody>
       </table></div>
     </section>
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden"><div className="overflow-x-auto"><table className="w-full text-sm text-left">
@@ -191,12 +214,12 @@ export default function KbizReconciliation() {
           {row.expenseDescription || (!row.vendorAllocations.length && !row.employeeAllocations.length && !row.taxAllocations.length && <span className="text-slate-400">ยังไม่ระบุรายการ</span>)}
           {row.vendorAllocations.map(item => <div key={item.vendorPaymentId} className="my-2"><strong>{item.vendorPayment.paymentNumber}</strong><p className="text-xs text-slate-500">{item.vendorPayment.vendorName} · {money(item.amountCents)}</p></div>)}
           {!!row.vendorAllocations.length && vendorAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - vendorAllocated(row))}</p>}
-          {row.employeeAllocations.map(item => <div key={`${item.employeeId}:${item.paymentType}:${item.paymentMonth}`} className="my-2"><strong>{item.employeeName}</strong><p className="text-xs text-slate-500">{item.paymentType === 'PAYROLL' ? 'Payroll / เงินเดือน' : 'Incentive'} · {item.paymentMonth} · {money(item.amountCents)}</p></div>)}
+          {row.employeeAllocations.map(item => <div key={`${item.employeeId}:${item.paymentType}:${item.paymentMonth}`} className="my-2"><strong>{item.employeeName}</strong><p className="text-xs text-slate-500">{employeePaymentTypeLabel(item.paymentType)} · {item.paymentMonth} · {money(item.amountCents)}</p></div>)}
           {!!row.employeeAllocations.length && employeeAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - employeeAllocated(row))}</p>}
           {row.taxAllocations.map(item => <div key={item.taxPaymentId} className="my-2"><strong>กรมสรรพากร · {item.taxPayment.paymentMonth}</strong><p className="text-xs text-slate-500">{item.taxPayment.paymentNumber} · {money(item.amountCents)}</p></div>)}
           {!!row.taxAllocations.length && taxAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - taxAllocated(row))}</p>}
         </> : <>{row.allocations.map(item => <div key={item.referenceKey} className="mb-2"><strong>{item.invoiceNumber}</strong><p className="text-xs text-slate-500">{item.customer} · {money(item.amountCents)}</p></div>)}{allocated(row) < row.depositCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.depositCents - allocated(row))}</p>}</>}</td>
-        <td className={`p-3 whitespace-nowrap text-xs ${completed(row) ? 'text-emerald-700' : 'text-amber-700'}`}>{completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : kbizReconciliationStatus(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'}</td>
+        <td className={`p-3 whitespace-nowrap text-xs ${completed(row) ? 'text-emerald-700' : 'text-amber-700'}`}>{completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : kbizReconciliationStatus(row) === 'PENDING' ? 'PENDING / รอเลือกประเภท' : kbizReconciliationStatus(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'}</td>
         <td className="p-3"><button type="button" className={inputClass} onClick={() => { setEditing(row); setMessage(''); }}>{row.withdrawalCents ? 'จับคู่รายจ่าย' : 'จับคู่ Invoice'}</button></td>
       </tr>)}</tbody>
     </table></div></section>

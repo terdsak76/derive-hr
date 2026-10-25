@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Pencil, Plus, RefreshCw, Search, Trash2, X } from 'lucide-react';
 import type { AuthUser } from '@/lib/auth';
 
-type Employee = AuthUser & { department: string; position: string; isOwner: boolean; fullIncentive: number; monthlySalary: number | null };
-type EmployeeForm = { id: string; name: string; department: string; position: string; email: string; password: string; isOwner: boolean; fullIncentive: string };
-const emptyForm: EmployeeForm = { id: '', name: '', department: '', position: '', email: '', password: '', isOwner: false, fullIncentive: '0' };
+type Employee = AuthUser & { kbizName: string; department: string; position: string; isOwner: boolean; fullIncentive: number; monthlySalary: number | null };
+type EmployeeForm = { id: string; name: string; kbizName: string; department: string; position: string; email: string; password: string; isOwner: boolean; fullIncentive: string };
+const emptyForm: EmployeeForm = { id: '', name: '', kbizName: '', department: '', position: '', email: '', password: '', isOwner: false, fullIncentive: '0' };
 const inputClass = 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500';
 
 export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
@@ -26,7 +26,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
   function editEmployee(employee: Employee) {
     setError('');
     setSuccess('');
-    setForm({ id: employee.id, name: employee.name, department: employee.department, position: employee.position, email: employee.email, password: '', isOwner: employee.isOwner, fullIncentive: String(employee.fullIncentive) });
+    setForm({ id: employee.id, name: employee.name, kbizName: employee.kbizName, department: employee.department, position: employee.position, email: employee.email, password: '', isOwner: employee.isOwner, fullIncentive: String(employee.fullIncentive) });
   }
 
   async function loadEmployees(signal?: AbortSignal) {
@@ -60,11 +60,11 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
     setError('');
     setSuccess('');
     try {
-      const { isOwner, fullIncentive, ...profile } = form;
+      const { isOwner, fullIncentive, kbizName, ...profile } = form;
       const response = await fetch('/api/employees', {
         method: form.id ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(isAdmin ? { ...profile, isOwner, ...(!form.id ? { fullIncentive: Number(fullIncentive) } : {}) } : profile),
+        body: JSON.stringify(isAdmin ? { ...profile, isOwner, kbizName, ...(!form.id ? { fullIncentive: Number(fullIncentive) } : {}) } : profile),
       });
       const saved = await response.json();
       if (!response.ok) throw new Error(saved.error || 'ไม่สามารถบันทึกข้อมูลพนักงานได้');
@@ -136,6 +136,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
           <form onSubmit={saveEmployee}>
             <fieldset disabled={isSaving} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label htmlFor="employee-name" className="block text-sm font-medium text-slate-700 mb-1">ชื่อพนักงาน</label><input id="employee-name" required maxLength={254} value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} className={inputClass} /></div>
+              {isAdmin && <div><label htmlFor="employee-kbiz-name" className="block text-sm font-medium text-slate-700 mb-1">ชื่อสำหรับจับคู่ Kbiz / Bank matching name</label><input id="employee-kbiz-name" maxLength={254} value={form.kbizName} onChange={event => setForm({ ...form, kbizName: event.target.value })} className={inputClass} /><p className="text-xs text-slate-500 mt-1">ระบุชื่อที่ปรากฏในรายละเอียดธนาคาร ระบบจับคู่รายการถอนอัตโนมัติและรอ Admin เลือกประเภทการจ่าย เว้นว่างเพื่อปิดการจับคู่</p></div>}
               <div><label htmlFor="employee-department" className="block text-sm font-medium text-slate-700 mb-1">แผนก</label><input id="employee-department" required maxLength={254} value={form.department} onChange={event => setForm({ ...form, department: event.target.value })} className={inputClass} /></div>
               <div><label htmlFor="employee-position" className="block text-sm font-medium text-slate-700 mb-1">ตำแหน่ง</label><input id="employee-position" required maxLength={254} value={form.position} onChange={event => setForm({ ...form, position: event.target.value })} className={inputClass} /></div>
               <div><label htmlFor="employee-email" className="block text-sm font-medium text-slate-700 mb-1">อีเมล</label><input id="employee-email" type="email" autoComplete="email" required maxLength={254} value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} className={inputClass} /></div>

@@ -10,6 +10,7 @@ import type { RevenueTaxPaymentRecord } from '@/lib/revenue-tax-payments';
 const money = (cents: number) => new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(cents / 100);
 const inputClass = 'border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white';
 const buttonClass = 'rounded-lg px-4 py-2 text-sm font-medium bg-indigo-600 text-white disabled:opacity-50';
+const currentBangkokMonth = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Bangkok' }).slice(0, 7);
 const allocated = (row: KbizRecord) => row.allocations.reduce((sum, item) => sum + item.amountCents, 0);
 const vendorAllocated = (row: KbizRecord) => row.vendorAllocations.reduce((sum, item) => sum + item.amountCents, 0);
 const employeeAllocated = (row: KbizRecord) => row.employeeAllocations.reduce((sum, item) => sum + item.amountCents, 0);
@@ -94,8 +95,8 @@ export default function KbizReconciliation() {
   const [vendorPayments, setVendorPayments] = useState<VendorPaymentRecord[]>([]);
   const [employees, setEmployees] = useState<KbizEmployee[]>([]);
   const [taxPayments, setTaxPayments] = useState<RevenueTaxPaymentRecord[]>([]);
-  const [invoiceMonth, setInvoiceMonth] = useState(() => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Bangkok' }).slice(0, 7));
-  const [month, setMonth] = useState('');
+  const [invoiceMonth, setInvoiceMonth] = useState(currentBangkokMonth);
+  const [month, setMonth] = useState(currentBangkokMonth);
   const [kind, setKind] = useState('ALL');
   const [status, setStatus] = useState('ALL');
   const [search, setSearch] = useState('');
@@ -219,7 +220,7 @@ export default function KbizReconciliation() {
     {error && <p role="alert" className="rounded-lg bg-rose-50 p-3 text-rose-700 text-sm">{error}</p>}
     {message && <p role="status" className="rounded-lg bg-emerald-50 p-3 text-emerald-700 text-sm">{message}</p>}
     <div className="flex flex-wrap gap-3 items-end">
-      <label className="text-sm">เดือนธุรกรรม<select aria-label="Transaction month" className={`${inputClass} block mt-1`} value={month} onChange={event => setMonth(event.target.value)}><option value="">ทุกเดือน</option>{Array.from(new Set(rows.map(row => row.transactionDate.slice(0, 7)))).sort().reverse().map(value => <option key={value}>{value}</option>)}</select></label>
+      <label className="text-sm">เดือนธุรกรรม<select aria-label="Transaction month" className={`${inputClass} block mt-1`} value={month} onChange={event => setMonth(event.target.value)}><option value="">ทุกเดือน</option>{Array.from(new Set([currentBangkokMonth(), ...rows.map(row => row.transactionDate.slice(0, 7))])).sort().reverse().map(value => <option key={value}>{value}</option>)}</select></label>
       <label className="text-sm">ประเภท<select className={`${inputClass} block mt-1`} value={kind} onChange={event => setKind(event.target.value)}><option value="ALL">ทั้งหมด</option><option value="DEPOSIT">เงินฝาก</option><option value="EXPENSE">รายจ่าย</option></select></label>
       <label className="text-sm">สถานะ<select className={`${inputClass} block mt-1`} value={status} onChange={event => setStatus(event.target.value)}><option value="ALL">ทั้งหมด</option><option value="PENDING">รอดำเนินการ</option><option value="REVIEW">รอยืนยันคู่ลูกค้า</option><option value="DONE">ดำเนินการแล้ว</option></select></label>
       <label className="text-sm flex-1">ค้นหา<input className={`${inputClass} block mt-1 w-full`} value={search} onChange={event => setSearch(event.target.value)} placeholder="รายละเอียด / รายจ่าย / Invoice" /></label>

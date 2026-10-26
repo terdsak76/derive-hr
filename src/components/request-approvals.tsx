@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { approvalLabels, type ApprovalDecision, type ApprovalRequest, type ApprovalType } from '@/lib/request-approvals';
+import { workdayTimeRange } from '@/lib/workday-changes';
 
 function displayDate(value: string, includeTime = false) {
   return new Intl.DateTimeFormat('th-TH', {
@@ -81,7 +82,11 @@ export default function RequestApprovals({ onDecision }: { onDecision: (decision
           </tr></thead>
           <tbody>{visible.map(row => <tr key={`${row.type}:${row.id}`} className="border-t border-slate-100">
             <td className="p-4 align-top"><p className="font-semibold">{row.employeeName}</p><p className="text-slate-500">{row.department}</p><p className="text-xs text-slate-500 mt-1">{displayDate(row.submittedAt, true)}</p></td>
-            <td className="p-4 align-top"><p className="font-semibold text-indigo-700">{approvalLabels[row.type]}</p><p className="mt-1">{displayDate(row.start, row.type === 'OVERTIME')}</p><p>{row.type === 'WORKDAY_CHANGE' ? 'ย้ายไป' : 'ถึง'} {displayDate(row.end, row.type === 'OVERTIME')}</p></td>
+            <td className="p-4 align-top"><p className="font-semibold text-indigo-700">{approvalLabels[row.type]}</p><p className="mt-1">{displayDate(row.start, row.type === 'OVERTIME')}</p>
+              {row.type === 'WORKDAY_CHANGE' && <p className="text-xs text-slate-500">{workdayTimeRange(row.fromDateStart, row.fromDateEnd)}</p>}
+              <p>{row.type === 'WORKDAY_CHANGE' ? 'ย้ายไป' : 'ถึง'} {displayDate(row.end, row.type === 'OVERTIME')}</p>
+              {row.type === 'WORKDAY_CHANGE' && <p className="text-xs text-slate-500">{workdayTimeRange(row.toDateStart, row.toDateEnd)}</p>}
+            </td>
             <td className="p-4 align-top whitespace-pre-wrap break-words">{row.description}
               {row.type === 'OVERTIME' && <p className="mt-1 font-medium">{row.hours?.toFixed(2)} ชั่วโมง · {row.amount?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}</p>}
             </td>

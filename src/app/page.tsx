@@ -7,6 +7,8 @@ import {
   Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer, Menu
 } from 'lucide-react';
 import { parseBangkokDateTime } from '@/lib/overtime';
+import { leavePeriodLabels } from '@/lib/leaves';
+import { isWorkdayTimeRange, workdayTimeRange } from '@/lib/workday-changes';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
 import IncentiveManagement from '@/components/incentive-management';
@@ -293,6 +295,10 @@ export default function App() {
   const [workdayForm, setWorkdayForm] = useState({
     from_date: getDateInputValue(new Date()),
     to_date: getDateAfter(2),
+    from_date_start: '',
+    from_date_end: '',
+    to_date_start: '',
+    to_date_end: '',
     job_detail: '',
     project: '',
   });
@@ -301,6 +307,7 @@ export default function App() {
   const [leaveForm, setLeaveForm] = useState({
     employee_id: 'EMP001',
     type: 'Sick Leave (ลาป่วย)',
+    period: 'FULL_DAY',
     start_date: new Date().toISOString().split('T')[0],
     end_date: new Date().toISOString().split('T')[0],
     reason: ''
@@ -1383,6 +1390,7 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: leaveForm.type,
+          period: leaveForm.period,
           startDate: leaveForm.start_date,
           endDate: leaveForm.end_date,
           reason: leaveForm.reason,
@@ -1396,6 +1404,7 @@ export default function App() {
       setLeaveForm({
         employee_id: currentUser.id,
         type: 'Sick Leave (ลาป่วย)',
+        period: 'FULL_DAY',
         start_date: new Date().toISOString().split('T')[0],
         end_date: new Date().toISOString().split('T')[0],
         reason: '',
@@ -1407,6 +1416,10 @@ export default function App() {
 
   const handleCreateWorkdayChange = async (event) => {
     event.preventDefault();
+    if (!isWorkdayTimeRange(workdayForm.from_date_start, workdayForm.from_date_end) || !isWorkdayTimeRange(workdayForm.to_date_start, workdayForm.to_date_end)) {
+      alert('กรุณาระบุช่วงเวลาของทั้งสองวัน โดยเวลาสิ้นสุดต้องอยู่หลังเวลาเริ่ม');
+      return;
+    }
     const response = await fetch('/api/workday-changes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1419,7 +1432,7 @@ export default function App() {
     }
 
     setWorkdayChanges([request, ...workdayChanges]);
-    setWorkdayForm({ from_date: getDateInputValue(new Date()), to_date: getDateAfter(2), job_detail: '', project: '' });
+    setWorkdayForm({ from_date: getDateInputValue(new Date()), to_date: getDateAfter(2), from_date_start: '', from_date_end: '', to_date_start: '', to_date_end: '', job_detail: '', project: '' });
   };
 
   const handleUpdateWorkdayStatus = async (id, status) => {
@@ -1796,7 +1809,7 @@ export default function App() {
                           <div key={item.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
                             <div>
                               <p className="font-semibold text-slate-800 text-sm">{emp.name} <span className="text-xs text-slate-500 font-normal">({emp.department})</span></p>
-                              <p className="text-xs text-slate-600 mt-1">{item.type} • {item.start_date} ถึง {item.end_date} ({item.days} วัน)</p>
+                              <p className="text-xs text-slate-600 mt-1">{item.type} • {leavePeriodLabels[item.period] || 'ทั้งวัน'} • {item.start_date} ถึง {item.end_date} ({item.days} วัน)</p>
                               <p className="text-xs text-slate-400 italic mt-0.5">"{item.reason}"</p>
                             </div>
                             {currentUser.role === 'ADMIN' && (
@@ -2032,7 +2045,7 @@ export default function App() {
                               {emp.name}
                               <p className="text-xs font-normal text-slate-400">{emp.department}</p>
                             </td>
-                            <td className="p-3.5 font-medium text-slate-700">{item.type}</td>
+                            <td className="p-3.5 font-medium text-slate-700">{item.type}<p className="text-xs font-normal text-slate-500">{leavePeriodLabels[item.period] || 'ทั้งวัน'}</p></td>
                             <td className="p-3.5 text-xs font-mono text-slate-600">{item.start_date} ~ {item.end_date}</td>
                             <td className="p-3.5 text-xs font-semibold text-slate-700">{item.days} วัน</td>
                             <td className="p-3.5 text-xs text-slate-500 max-w-xs truncate">{item.reason}</td>
@@ -2152,15 +2165,27 @@ export default function App() {
                   <p className="text-xs text-slate-500 mt-1">คำขอจะมีสถานะรออนุมัติจนกว่า Admin จะตรวจสอบ</p>
                 </div>
                 <form onSubmit={handleCreateWorkdayChange} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่ทำงานเดิม</label>
-                      <input type="date" required value={workdayForm.from_date} onChange={event => setWorkdayForm({ ...workdayForm, from_date: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่ทำงานชดเชย</label>
-                      <input type="date" required value={workdayForm.to_date} onChange={event => setWorkdayForm({ ...workdayForm, to_date: event.target.value })} className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-4">
+                    {[
+                      { date: 'from_date', start: 'from_date_start', end: 'from_date_end', label: 'วันที่ทำงานเดิม' },
+                      { date: 'to_date', start: 'to_date_start', end: 'to_date_end', label: 'วันที่ทำงานชดเชย' },
+                    ].map(section => <fieldset key={section.date} className="min-w-0 rounded-lg border border-slate-200 p-3 space-y-3">
+                      <legend className="px-1 text-xs font-semibold text-slate-700">{section.label}</legend>
+                      <div>
+                        <label htmlFor={`workday-${section.date}`} className="block text-xs font-semibold text-slate-600 mb-1">วันที่</label>
+                        <input id={`workday-${section.date}`} type="date" required value={workdayForm[section.date]} onChange={event => setWorkdayForm({ ...workdayForm, [section.date]: event.target.value })} className="w-full min-w-0 p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label htmlFor={`workday-${section.start}`} className="block text-xs font-semibold text-slate-600 mb-1">เวลาเริ่ม (ไทย)</label>
+                          <input id={`workday-${section.start}`} type="time" step={60} required value={workdayForm[section.start]} onChange={event => setWorkdayForm({ ...workdayForm, [section.start]: event.target.value })} className="w-full min-w-0 p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                        </div>
+                        <div>
+                          <label htmlFor={`workday-${section.end}`} className="block text-xs font-semibold text-slate-600 mb-1">เวลาสิ้นสุด (ไทย)</label>
+                          <input id={`workday-${section.end}`} type="time" step={60} min={workdayForm[section.start] || undefined} required value={workdayForm[section.end]} onChange={event => setWorkdayForm({ ...workdayForm, [section.end]: event.target.value })} className="w-full min-w-0 p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm" />
+                        </div>
+                      </div>
+                    </fieldset>)}
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-600 mb-1">โครงการ / Project</label>
@@ -2181,14 +2206,15 @@ export default function App() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm text-slate-600">
                     <thead className="bg-slate-100 text-slate-700 font-semibold">
-                      <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5">เปลี่ยนวัน</th><th className="p-3.5">Project / รายละเอียดงาน</th><th className="p-3.5">สถานะ</th><th className="p-3.5 text-right">จัดการ</th></tr>
+                      <tr><th className="p-3.5">พนักงาน</th><th className="p-3.5 whitespace-nowrap">วันที่ทำงานเดิม</th><th className="p-3.5 whitespace-nowrap">วันที่ทำงานชดเชย</th><th className="p-3.5">Project / รายละเอียดงาน</th><th className="p-3.5">สถานะ</th><th className="p-3.5 text-right">จัดการ</th></tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                      {workdayChanges.length === 0 ? <tr><td colSpan={5} className="p-8 text-center text-slate-400">ยังไม่มีคำขอเปลี่ยนวันทำงาน</td></tr> : workdayChanges.map(item => {
+                      {workdayChanges.length === 0 ? <tr><td colSpan={6} className="p-8 text-center text-slate-400">ยังไม่มีคำขอเปลี่ยนวันทำงาน</td></tr> : workdayChanges.map(item => {
                         const employee = getEmp(item.employee_id);
                         return <tr key={item.id} className="hover:bg-slate-50">
                           <td className="p-3.5 font-medium text-slate-800">{employee.name}<p className="text-xs font-normal text-slate-400">{item.created_at}</p></td>
-                          <td className="p-3.5 font-medium">{item.from_date} <span className="text-indigo-500">→</span> {item.to_date}</td>
+                          <td className="p-3.5 font-medium whitespace-nowrap"><p>{item.from_date}</p><p className="mt-1 text-xs font-normal text-slate-500">{workdayTimeRange(item.from_date_start, item.from_date_end)}</p></td>
+                          <td className="p-3.5 font-medium whitespace-nowrap"><p>{item.to_date}</p><p className="mt-1 text-xs font-normal text-slate-500">{workdayTimeRange(item.to_date_start, item.to_date_end)}</p></td>
                           <td className="p-3.5"><p className="font-medium text-slate-800">{item.project}</p><p className="text-xs text-slate-500 max-w-xs">{item.job_detail}</p></td>
                           <td className="p-3.5">{item.status === 'APPROVED' ? <span className="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">อนุมัติแล้ว</span> : item.status === 'REJECTED' ? <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full">ไม่อนุมัติ</span> : <span className="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full">รอ Admin อนุมัติ</span>}</td>
                           <td className="p-3.5 text-right">{currentUser.role === 'ADMIN' && item.status === 'WAITING_FOR_APPROVAL' && <div className="flex justify-end gap-1"><button onClick={() => handleUpdateWorkdayStatus(item.id, 'APPROVED')} className="px-2 py-1 bg-emerald-600 text-white text-xs rounded">อนุมัติ</button><button onClick={() => handleUpdateWorkdayStatus(item.id, 'REJECTED')} className="px-2 py-1 bg-rose-600 text-white text-xs rounded">ปฏิเสธ</button></div>}</td>
@@ -2628,13 +2654,26 @@ export default function App() {
                 </select>
               </div>
 
+              <div>
+                <label htmlFor="leave-period" className="block text-xs font-semibold text-slate-600 mb-1">ช่วงเวลาการลา</label>
+                <select
+                  id="leave-period"
+                  value={leaveForm.period}
+                  onChange={e => setLeaveForm({ ...leaveForm, period: e.target.value, end_date: e.target.value === 'FULL_DAY' ? leaveForm.end_date : leaveForm.start_date })}
+                  className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
+                >
+                  {Object.entries(leavePeriodLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select>
+                <p className="text-xs text-slate-500 mt-1">ครึ่งเช้าและครึ่งบ่ายนับ 0.5 วัน โดยเลือกลาได้ครั้งละหนึ่งวัน</p>
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">วันที่เริ่มต้น</label>
                   <input
                     type="date"
                     value={leaveForm.start_date}
-                    onChange={e => setLeaveForm({ ...leaveForm, start_date: e.target.value })}
+                    onChange={e => setLeaveForm({ ...leaveForm, start_date: e.target.value, end_date: leaveForm.period !== 'FULL_DAY' || leaveForm.end_date < e.target.value ? e.target.value : leaveForm.end_date })}
                     className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                     required
                   />
@@ -2644,6 +2683,8 @@ export default function App() {
                   <input
                     type="date"
                     value={leaveForm.end_date}
+                    min={leaveForm.start_date}
+                    disabled={leaveForm.period !== 'FULL_DAY'}
                     onChange={e => setLeaveForm({ ...leaveForm, end_date: e.target.value })}
                     className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm"
                     required

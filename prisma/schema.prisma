@@ -64,6 +64,7 @@ model Leave {
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id])
   type       String // "SICK", "PERSONAL", "VACATION"
+  period     String   @default("FULL_DAY") // "FULL_DAY", "MORNING", "AFTERNOON"
   startDate  DateTime
   endDate    DateTime
   reason     String
@@ -77,6 +78,10 @@ model WorkdayChangeRequest {
   employee     Employee  @relation(fields: [employeeId], references: [id])
   fromDate     DateTime
   toDate       DateTime
+  fromDateStart String?  // Thai local time, HH:mm
+  fromDateEnd   String?
+  toDateStart   String?
+  toDateEnd     String?
   project      String
   jobDetail    String
   status       String    @default("WAITING_FOR_APPROVAL")
@@ -139,6 +144,10 @@ model Incentive {
   month       String   // YYYY-MM, Bangkok calendar month
   score       Float
   amountCents Int
+  status      String   @default("INITIAL") // "INITIAL", "PAYMENT_PENDING", "COMPLETED"
+  paymentDate String?  // Latest matched bank transaction date, YYYY-MM-DD
+  approvedById String?
+  approvedAt  DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -278,6 +287,7 @@ model KbizTransaction {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   allocations        KbizAllocation[]
+  depositSuggestions KbizDepositSuggestion[]
   vendorAllocations  KbizVendorAllocation[]
   employeeAllocations KbizEmployeeAllocation[]
   taxAllocations      KbizTaxAllocation[]
@@ -298,6 +308,28 @@ model KbizAllocation {
 
   @@unique([transactionId, referenceKey])
   @@index([referenceKey])
+}
+
+model KbizDepositSuggestion {
+  id             String   @id @default(cuid())
+  transactionId  String
+  transaction    KbizTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  referenceKey   String
+  invoiceNumber  String
+  invoiceMonth   String
+  customer       String
+  amountCents    Int
+  expectedCents  Int
+  basis          String
+  reason         String
+  status         String   @default("PENDING")
+  createdById    String
+  reviewedById   String?
+  reviewedAt     DateTime?
+  createdAt      DateTime @default(now())
+
+  @@unique([transactionId, referenceKey])
+  @@index([status])
 }
 
 model VendorPayment {

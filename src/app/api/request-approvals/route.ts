@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 import type { ApprovalRequest } from '@/lib/request-approvals';
+import { countLeaveDays, leavePeriodLabels } from '@/lib/leaves';
 
 async function requireAdmin(request: Request) {
   const user = await requireEmployeeUser(request);
@@ -24,11 +25,13 @@ export async function GET(request: Request) {
       ...leaves.map(row => ({
         id: row.id, type: 'LEAVE' as const, employeeName: row.employee.name, department: row.employee.department,
         submittedAt: row.createdAt.toISOString(), start: row.startDate.toISOString(), end: row.endDate.toISOString(),
-        description: `${leaveLabels[row.type] || row.type}: ${row.reason}`,
+        description: `${leaveLabels[row.type] || row.type} (${leavePeriodLabels[row.period] || 'ทั้งวัน'}, ${countLeaveDays(row.startDate, row.endDate, row.period)} วัน): ${row.reason}`,
       })),
       ...changes.map(row => ({
         id: row.id, type: 'WORKDAY_CHANGE' as const, employeeName: row.employee.name, department: row.employee.department,
         submittedAt: row.createdAt.toISOString(), start: row.fromDate.toISOString(), end: row.toDate.toISOString(),
+        fromDateStart: row.fromDateStart, fromDateEnd: row.fromDateEnd,
+        toDateStart: row.toDateStart, toDateEnd: row.toDateEnd,
         description: `${row.project}: ${row.jobDetail}`,
       })),
       ...overtime.map(row => ({

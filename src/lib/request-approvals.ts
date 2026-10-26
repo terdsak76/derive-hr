@@ -9,6 +9,10 @@ export type ApprovalRequest = {
   start: string;
   end: string;
   description: string;
+  fromDateStart?: string | null;
+  fromDateEnd?: string | null;
+  toDateStart?: string | null;
+  toDateEnd?: string | null;
   hours?: number;
   amount?: number;
 };

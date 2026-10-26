@@ -16,6 +16,7 @@ import { applyOwnerMigration } from '../scripts/apply-owner-migration.mjs';
 import { applyFullIncentiveMigration } from '../scripts/apply-full-incentive-migration.mjs';
 import { calculateIncentiveCents } from '../src/lib/incentives';
 import { applySalaryHistoryMigration } from '../scripts/apply-salary-history-migration.mjs';
+import { applyIncentivePaymentStatusMigration } from '../scripts/apply-incentive-payment-status-migration.mjs';
 
 let directory: string;
 let prisma: PrismaClient;
@@ -29,6 +30,7 @@ let overtime: typeof import('../src/app/api/overtime/route');
 let overtimeQuote: typeof import('../src/app/api/overtime/quote/route');
 let approvals: typeof import('../src/app/api/request-approvals/route');
 let salaryHistory: typeof import('../src/app/api/salary-incentive-history/route');
+let kbiz: typeof import('../src/app/api/kbiz/route');
 
 function request(path: string, method = 'GET', userId: string | undefined = 'admin', body?: unknown) {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -61,6 +63,8 @@ before(async () => {
     await database.execute('DROP TABLE "Incentive"');
     assert.equal(await applyIncentiveMigration(database), 'applied');
     assert.equal(await applyIncentiveMigration(database), 'already-applied');
+    assert.equal(await applyIncentivePaymentStatusMigration(database), 'applied');
+    assert.equal(await applyIncentivePaymentStatusMigration(database), 'already-applied');
     await database.executeMultiple('DROP TABLE "VatSale"; DROP TABLE "VatPurchase"; DROP TABLE "VatMonth";');
     assert.equal(await applyTaxMigration(database), 'applied');
     assert.equal(await applyTaxMigration(database), 'already-applied');
@@ -83,10 +87,12 @@ before(async () => {
   overtimeQuote = await import('../src/app/api/overtime/quote/route');
   approvals = await import('../src/app/api/request-approvals/route');
   salaryHistory = await import('../src/app/api/salary-incentive-history/route');
+  kbiz = await import('../src/app/api/kbiz/route');
 });
 
 beforeEach(async () => {
   await prisma.$transaction([
+    prisma.kbizEmployeeAllocation.deleteMany(), prisma.kbizTransaction.deleteMany(),
     prisma.vatSale.deleteMany(), prisma.vatPurchase.deleteMany(), prisma.vatMonth.deleteMany(),
     prisma.incentive.deleteMany(), prisma.overtime.deleteMany(), prisma.onsite.deleteMany(),
     prisma.salaryIncentiveHistory.deleteMany(),
@@ -196,11 +202,178 @@ test('incentives persist, update instead of duplicate, and stay separate by mont
   assert.equal(employee.score, 92);
   assert.equal(employee.amount, 1840);
   assert.equal(employee.fullIncentive, 2000);
+  assert.equal(employee.status, 'INITIAL');
+  assert.equal(employee.paymentDate, null);
   assert.ok(!('monthlySalaryCents' in employee));
   assert.equal((await report()).expenses.incentive, 1840);
   assert.equal((await report('2026-11')).expenses.incentive, 500);
   assert.equal((await save({ ...incentiveBody, amount: 0, score: 0 })).status, 200);
   assert.equal((await report()).expenses.incentive, 0);
+});
+
+async function approveIncentive(employee_id = 'employee', month = '2026-10', user = 'admin') {
+  const saved = await prisma.incentive.findUnique({ where: { employeeId_month: { employeeId: employee_id, month } } });
+  return incentives.PATCH(request('/api/incentives', 'PATCH', user, { employee_id, month, action: 'APPROVE', score: saved?.score ?? 0, amountCents: saved?.amountCents ?? 0 }));
+}
+let incentiveBankId = 0;
+async function incentiveWithdrawal(date = '2026-11-05', amountCents = 200000) {
+  return prisma.kbizTransaction.create({ data: {
+    fingerprint: `incentive-payment-${++incentiveBankId}`, accountNumber: '016-8-53748-4', transactionDate: date,
+    transactionTime: '12:00', bankDescription: 'Employee payment', details: 'Incentive', channel: 'K BIZ',
+    depositCents: 0, withdrawalCents: amountCents, balanceCents: 1000000, sourceFile: 'incentive-test.csv',
+  } });
+}
+const incentiveAllocation = (amountCents: number, paymentMonth = '2026-10', employeeId = 'employee', paymentType = 'INCENTIVE') => ({ employeeId, paymentMonth, paymentType, amountCents });
+const matchIncentive = (id: string, employeeAllocations: unknown[]) => kbiz.PUT(request('/api/kbiz', 'PUT', 'admin', { id, expenseDescription: '', expenseKind: 'EMPLOYEE', vendorAllocations: [], taxAllocations: [], employeeAllocations }));
+const storedIncentive = (month = '2026-10') => prisma.incentive.findUniqueOrThrow({ where: { employeeId_month: { employeeId: 'employee', month } } });
+
+test('new incentives start initial and admin approval records the approver and opens payment pending', async () => {
+  const created = await (await save({ ...incentiveBody, score: 100, status: 'COMPLETED', paymentDate: '2026-01-01' })).json();
+  assert.equal(created.status, 'INITIAL'); assert.equal(created.paymentDate, null); assert.equal(created.approvedAt, null);
+  const approvedResponse = await approveIncentive();
+  assert.equal(approvedResponse.status, 200);
+  const approved = await approvedResponse.json();
+  assert.equal(approved.status, 'PAYMENT_PENDING'); assert.equal(approved.paymentDate, null); assert.ok(approved.approvedAt);
+  const stored = await storedIncentive();
+  assert.equal(stored.approvedById, 'admin'); assert.ok(stored.approvedAt);
+  assert.equal((await approveIncentive()).status, 409);
+  assert.equal((await approveIncentive('unset')).status, 409);
+  await save({ ...incentiveBody, month: '2026-11', score: 100 });
+  assert.equal((await approveIncentive('employee', '2026-11', 'legacy')).status, 200);
+});
+
+test('approval rejects unauthorized users, malformed bodies and attempts to set completed directly', async () => {
+  await save();
+  for (const id of ['', 'missing', 'employee']) {
+    assert.equal((await approveIncentive('employee', '2026-10', id)).status, id === 'employee' ? 403 : 401);
+  }
+  for (const body of [null, [], {}, { employee_id: '', month: '2026-10', action: 'APPROVE' },
+    { employee_id: 'employee', month: '2026-13', action: 'APPROVE' },
+    { employee_id: 'employee', month: '2026-10', action: 'COMPLETED' },
+    { employee_id: 'employee', month: '2026-10', status: 'COMPLETED' }]) {
+    assert.equal((await incentives.PATCH(request('/api/incentives', 'PATCH', 'admin', body))).status, 400);
+  }
+  const valid = request('/api/incentives', 'PATCH', 'admin', {});
+  assert.equal((await incentives.PATCH(new Request(valid.url, { method: 'PATCH', headers: valid.headers, body: '{' }))).status, 400);
+  assert.equal((await storedIncentive()).status, 'INITIAL');
+});
+
+test('editing an unpaid approved incentive resets approval, while unchanged saves preserve it', async () => {
+  await save(); await approveIncentive();
+  const approved = await storedIncentive();
+  assert.equal((await save()).status, 200);
+  assert.equal((await storedIncentive()).approvedAt?.getTime(), approved.approvedAt?.getTime());
+  assert.equal((await storedIncentive()).status, 'PAYMENT_PENDING');
+  assert.equal((await save({ ...incentiveBody, score: 90 })).status, 200);
+  const edited = await storedIncentive();
+  assert.equal(edited.status, 'INITIAL'); assert.equal(edited.approvedAt, null); assert.equal(edited.approvedById, null);
+});
+
+test('an admin cannot approve a stale incentive amount after another admin edits it', async () => {
+  await save();
+  const previous = await storedIncentive();
+  await save({ ...incentiveBody, score: 95 });
+  const response = await incentives.PATCH(request('/api/incentives', 'PATCH', 'admin', {
+    employee_id: 'employee', month: '2026-10', action: 'APPROVE', score: previous.score, amountCents: previous.amountCents,
+  }));
+  assert.equal(response.status, 409);
+  assert.equal((await storedIncentive()).status, 'INITIAL');
+});
+
+test('Kbiz incentive matching requires approval, completes the incentive and records the bank payment date', async () => {
+  await save({ ...incentiveBody, score: 100 });
+  const bank = await incentiveWithdrawal();
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(200000)])).status, 400);
+  assert.equal(await prisma.kbizEmployeeAllocation.count(), 0);
+  await approveIncentive();
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(200000)])).status, 200);
+  const paid = await storedIncentive();
+  assert.equal(paid.status, 'COMPLETED'); assert.equal(paid.paymentDate, '2026-11-05');
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(200000)])).status, 200);
+  assert.equal(await prisma.kbizEmployeeAllocation.count(), 1);
+  const rows = await (await incentives.GET(request('/api/incentives?month=2026-10'))).json();
+  const employee = rows.find((row: { id: string }) => row.id === 'employee');
+  assert.equal(employee.status, 'COMPLETED'); assert.equal(employee.paymentDate, '2026-11-05');
+  assert.equal((await save({ ...incentiveBody, score: 90 })).status, 409);
+  assert.equal((await storedIncentive()).amountCents, 200000);
+});
+
+test('partial incentive transfers stay pending, use the latest bank date and reopen correctly on unmatch', async () => {
+  await save({ ...incentiveBody, score: 100 }); await approveIncentive();
+  const earlier = await incentiveWithdrawal('2026-11-02', 80000);
+  const later = await incentiveWithdrawal('2026-11-10', 120000);
+  assert.equal((await matchIncentive(later.id, [incentiveAllocation(120000)])).status, 200);
+  let stored = await storedIncentive();
+  assert.equal(stored.status, 'PAYMENT_PENDING'); assert.equal(stored.paymentDate, '2026-11-10');
+  assert.equal((await save({ ...incentiveBody, score: 95 })).status, 409);
+  assert.equal((await matchIncentive(earlier.id, [incentiveAllocation(80000)])).status, 200);
+  stored = await storedIncentive();
+  assert.equal(stored.status, 'COMPLETED'); assert.equal(stored.paymentDate, '2026-11-10');
+  assert.equal((await matchIncentive(later.id, [])).status, 200);
+  stored = await storedIncentive();
+  assert.equal(stored.status, 'PAYMENT_PENDING'); assert.equal(stored.paymentDate, '2026-11-02');
+  assert.equal((await matchIncentive(earlier.id, [])).status, 200);
+  stored = await storedIncentive();
+  assert.equal(stored.status, 'PAYMENT_PENDING'); assert.equal(stored.paymentDate, null); assert.equal(stored.approvedById, 'admin');
+  assert.equal((await save({ ...incentiveBody, score: 95 })).status, 200);
+  assert.equal((await storedIncentive()).status, 'INITIAL');
+});
+
+test('Kbiz prevents incentive overpayment across withdrawals and changes to month or type refresh both old and new records', async () => {
+  for (const month of ['2026-10', '2026-11']) {
+    await save({ ...incentiveBody, month, score: 100 }); await approveIncentive('employee', month);
+  }
+  const first = await incentiveWithdrawal('2026-11-01', 150000);
+  const second = await incentiveWithdrawal('2026-11-03', 100000);
+  assert.equal((await matchIncentive(first.id, [incentiveAllocation(150000)])).status, 200);
+  assert.equal((await matchIncentive(second.id, [incentiveAllocation(50001)])).status, 400);
+  assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: second.id } }), 0);
+  assert.equal((await matchIncentive(second.id, [incentiveAllocation(50000)])).status, 200);
+  assert.equal((await storedIncentive()).status, 'COMPLETED');
+  assert.equal((await matchIncentive(first.id, [incentiveAllocation(150000, '2026-11')])).status, 200);
+  assert.equal((await storedIncentive()).status, 'PAYMENT_PENDING');
+  assert.equal((await storedIncentive()).paymentDate, '2026-11-03');
+  assert.equal((await storedIncentive('2026-11')).paymentDate, '2026-11-01');
+  assert.equal((await matchIncentive(first.id, [incentiveAllocation(150000, '2026-11', 'employee', 'PAYROLL')])).status, 200);
+  assert.equal((await storedIncentive('2026-11')).paymentDate, null);
+  assert.equal((await storedIncentive('2026-11')).status, 'PAYMENT_PENDING');
+});
+
+test('zero incentives remain payment pending after approval and cannot accept positive bank allocations', async () => {
+  await save({ ...incentiveBody, score: 0 }); await approveIncentive();
+  const bank = await incentiveWithdrawal();
+  assert.equal((await storedIncentive()).status, 'PAYMENT_PENDING');
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(1)])).status, 400);
+  assert.equal((await storedIncentive()).paymentDate, null);
+});
+
+test('incentive status migration preserves amounts and derives historical payment dates only from incentive withdrawals', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple(`
+      CREATE TABLE Employee (id TEXT PRIMARY KEY);
+      INSERT INTO Employee VALUES ('historical');
+      CREATE TABLE KbizTransaction (id TEXT PRIMARY KEY, transactionDate TEXT, withdrawalCents INTEGER, depositCents INTEGER);
+      CREATE TABLE KbizEmployeeAllocation (transactionId TEXT, employeeId TEXT, paymentMonth TEXT, paymentType TEXT, amountCents INTEGER);
+      INSERT INTO KbizTransaction VALUES ('early', '2026-11-02', 4000, 0), ('late', '2026-11-12', 6000, 0), ('partial', '2026-12-01', 5000, 0), ('deposit', '2026-12-31', 0, 10000);
+      INSERT INTO KbizEmployeeAllocation VALUES ('early', 'historical', '2026-10', 'INCENTIVE', 4000), ('late', 'historical', '2026-10', 'INCENTIVE', 6000), ('partial', 'historical', '2026-11', 'INCENTIVE', 5000), ('deposit', 'historical', '2026-12', 'INCENTIVE', 10000), ('late', 'historical', '2026-12', 'PAYROLL', 6000);
+    `);
+    await applyIncentiveMigration(database);
+    for (const month of ['2026-10', '2026-11', '2026-12']) await database.execute({
+      sql: 'INSERT INTO Incentive (id, employeeId, month, score, amountCents, updatedAt) VALUES (?, ?, ?, 100, 10000, CURRENT_TIMESTAMP)',
+      args: [month, 'historical', month],
+    });
+    assert.equal(await applyIncentivePaymentStatusMigration(database), 'applied');
+    assert.equal(await applyIncentivePaymentStatusMigration(database), 'already-applied');
+    const result = await database.execute('SELECT month, status, paymentDate, amountCents, approvedById, approvedAt FROM Incentive ORDER BY month');
+    assert.deepEqual(result.rows.map(row => [row.month, row.status, row.paymentDate]), [
+      ['2026-10', 'COMPLETED', '2026-11-12'], ['2026-11', 'PAYMENT_PENDING', '2026-12-01'], ['2026-12', 'INITIAL', null],
+    ]);
+    assert.ok(result.rows.every(row => row.amountCents === 10000 && row.approvedAt === null && row.approvedById === null));
+    await assert.rejects(database.execute("UPDATE Incentive SET status = 'OTHER'"));
+    await database.execute("INSERT INTO Incentive (id, employeeId, month, score, amountCents, updatedAt) VALUES ('new', 'historical', '2027-01', 50, 5000, CURRENT_TIMESTAMP)");
+    assert.equal((await database.execute("SELECT status FROM Incentive WHERE id = 'new'")).rows[0].status, 'INITIAL');
+  } finally { database.close(); }
 });
 
 test('rejects invalid scores, malformed JSON and invalid months', async () => {

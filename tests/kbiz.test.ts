@@ -22,12 +22,15 @@ import { revenueTaxMatch } from '../src/lib/revenue-tax-payments';
 import { applyVendorWithholdingMigration } from '../scripts/apply-vendor-withholding-migration.mjs';
 import { applyEmployeeKbizNameMigration } from '../scripts/apply-employee-kbiz-name-migration.mjs';
 import { matchKbizEmployee } from '../src/lib/kbiz-employees';
+import { depositCustomerEvidence, followingInvoiceMonth, selectDepositMatch } from '../src/lib/kbiz-deposit-matches';
+import { applyKbizDepositSuggestionsMigration } from '../scripts/apply-kbiz-deposit-suggestions-migration.mjs';
 
 let directory: string, prisma: PrismaClient, api: typeof import('../src/app/api/kbiz/route');
 let csv: string;
 let documents: typeof import('../src/app/api/issued-documents/route');
 let vendorApi: typeof import('../src/app/api/vendor-payments/route');
 let taxApi: typeof import('../src/app/api/revenue-tax-payments/route');
+let depositMatches: typeof import('../src/app/api/kbiz/deposit-matches/route');
 function request(method = 'GET', body?: unknown, id = 'admin') {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (id) headers.cookie = `${getSessionCookieName()}=${createSessionToken(id, 'ADMIN')}`;
@@ -48,7 +51,7 @@ before(async () => {
     const { stdout } = await promisify(execFile)(process.execPath, ['node_modules/prisma/build/index.js', 'migrate', 'diff', '--from-empty', '--to-schema', 'prisma/schema.prisma', '--script']);
     await database.executeMultiple(stdout);
     await database.execute('ALTER TABLE "Employee" DROP COLUMN "kbizName"');
-    await database.executeMultiple('DROP TABLE "KbizTaxAllocation"; DROP TABLE "RevenueTaxPayment"; DROP TABLE "KbizEmployeeAllocation"; DROP TABLE "KbizVendorAllocation"; DROP TABLE "VendorPayment"; DROP TABLE "KbizAllocation"; DROP TABLE "KbizTransaction";');
+    await database.executeMultiple('DROP TABLE "KbizDepositSuggestion"; DROP TABLE "KbizTaxAllocation"; DROP TABLE "RevenueTaxPayment"; DROP TABLE "KbizEmployeeAllocation"; DROP TABLE "KbizVendorAllocation"; DROP TABLE "VendorPayment"; DROP TABLE "KbizAllocation"; DROP TABLE "KbizTransaction";');
     assert.equal(await applyKbizMigration(database), 'applied');
     assert.equal(await applyKbizMigration(database), 'already-applied');
     assert.equal(await applyVendorPaymentMigration(database), 'applied');
@@ -61,17 +64,231 @@ before(async () => {
     assert.equal(await applyRevenueTaxPaymentMigration(database), 'already-applied');
     assert.equal(await applyVendorWithholdingMigration(database), 'applied');
     assert.equal(await applyVendorWithholdingMigration(database), 'already-applied');
+    assert.equal(await applyKbizDepositSuggestionsMigration(database), 'applied');
+    assert.equal(await applyKbizDepositSuggestionsMigration(database), 'already-applied');
   } finally { database.close(); }
   ({ prisma } = await import('../src/lib/prisma'));
   api = await import('../src/app/api/kbiz/route');
   documents = await import('../src/app/api/issued-documents/route');
   vendorApi = await import('../src/app/api/vendor-payments/route');
   taxApi = await import('../src/app/api/revenue-tax-payments/route');
+  depositMatches = await import('../src/app/api/kbiz/deposit-matches/route');
   for (const [id, role] of [['admin', 'ADMIN'], ['employee', 'USER'], ['legacy', 'ROLE_ADMIN']]) {
     await prisma.employee.create({ data: { id, role, email: `${id}@test.local`, name: id, department: 'Test', position: 'Test', passwordHash: 'unused' } });
   }
 });
 after(async () => { if (prisma) await prisma.$disconnect(); if (directory) await rm(directory, { recursive: true }); });
+
+let depositFixtureId = 0;
+async function depositInvoice(customer: string, month = '2026-10', client = customer, status = 'ISSUED') {
+  const sequence = ++depositFixtureId;
+  const schedule = await prisma.invoiceSchedule.create({ data: {
+    client, name: customer, product: '', service: '', description: 'Deposit matching fixture',
+    period: 'month', issueDay: 1, amount: 100, address: '', taxId: '',
+  } });
+  return prisma.issuedDocument.create({ data: {
+    documentType: 'INVOICE', sourceType: 'RECURRING', referenceKey: `recurring:${schedule.id}:${month}`,
+    documentNumber: `INV-DEPOSIT-${sequence}`, invoiceMonth: month, customer, description: 'Deposit matching fixture',
+    netCents: 10400, grossCents: 10700, status,
+  } });
+}
+async function depositRow(details: string, transactionDate = '2026-11-10', depositCents = 10400, withdrawalCents = 0) {
+  return prisma.kbizTransaction.create({ data: {
+    ...parseKbizCsv(sample())[0], fingerprint: `deposit-match-${++depositFixtureId}`, sourceFile: 'deposit-matches.csv',
+    details, transactionDate, depositCents, withdrawalCents,
+  } });
+}
+const suggestDeposits = (transactionIds: unknown, user = 'admin') => depositMatches.POST(request('POST', { transactionIds }, user));
+const reviewDeposit = (id: string, status: string, user = 'admin') => depositMatches.PATCH(request('PATCH', { id, status }, user));
+
+test('deposit matching requires a customer or client identity and the following month, including year rollover', () => {
+  const row = { ...parseKbizCsv(sample())[0], transactionDate: '2027-01-01', details: 'จาก ACME Industrial Co., Ltd.' };
+  const invoice: KbizInvoice = { referenceKey: 'fixture', invoiceNumber: 'INV-DEPOSIT', customer: 'ACME Industrial Company Limited', customerCode: 'ACM',
+    description: '', month: '2026-12', netCents: 10400, grossCents: 10700, allocatedCents: 0, status: 'ISSUED' };
+  assert.equal(followingInvoiceMonth('2026-12'), '2027-01');
+  assert.equal(followingInvoiceMonth('2026-13'), null);
+  assert.ok(depositCustomerEvidence(row, invoice));
+  assert.ok(depositCustomerEvidence({ ...row, details: 'รับเงินจาก ACM SCB' }, invoice));
+  assert.equal(depositCustomerEvidence({ ...row, details: 'รับเงินจาก XACME' }, { ...invoice, customer: 'Unrelated customer' }), null);
+  assert.equal(depositCustomerEvidence({ ...row, details: 'Unknown payer' }, invoice), null);
+  assert.equal(depositCustomerEvidence({ ...row, transactionDate: '2026-12-31' }, invoice), null);
+  assert.equal(depositCustomerEvidence({ ...row, transactionDate: '2027-02-01' }, invoice), null);
+  assert.equal(depositCustomerEvidence(row, { ...invoice, status: 'INITIAL' }), null);
+  assert.equal(depositCustomerEvidence({ ...row, depositCents: 0, withdrawalCents: 10400 }, invoice), null);
+  const thai = { ...invoice, customer: 'บริษัท สมชาย ใจดี จำกัด', customerCode: undefined };
+  assert.ok(depositCustomerEvidence({ ...row, details: 'รับเงินจาก สมชาย  ใจดี' }, thai));
+  assert.equal(depositCustomerEvidence({ ...row, details: 'สมชาย ใจด' }, thai), null);
+  assert.equal(selectDepositMatch(row, [invoice, { ...invoice, referenceKey: 'duplicate' }], []), null);
+  assert.equal(selectDepositMatch(row, [invoice], [])?.basis, 'NET');
+  assert.equal(selectDepositMatch({ ...row, depositCents: 10700 }, [invoice], [])?.basis, 'GROSS');
+});
+
+test('deposit suggestion and approval endpoints enforce the current admin role and validate inputs', async () => {
+  for (const id of ['', 'missing', 'employee']) {
+    assert.equal((await suggestDeposits([], id)).status, id === 'employee' ? 403 : 401);
+    assert.equal((await reviewDeposit('missing', 'CONFIRMED', id)).status, id === 'employee' ? 403 : 401);
+  }
+  assert.equal((await suggestDeposits([], 'legacy')).status, 200);
+  for (const ids of [undefined, null, 'all', [null], [''], Array(26).fill('test')]) {
+    assert.equal((await suggestDeposits(ids)).status, 400);
+  }
+  assert.equal((await reviewDeposit('', 'CONFIRMED')).status, 400);
+  assert.equal((await reviewDeposit('missing', 'APPROVED')).status, 400);
+  assert.equal((await reviewDeposit('missing', 'CONFIRMED')).status, 409);
+});
+
+test('customer suggestions persist pending without posting allocations; confirmation posts exactly once', async () => {
+  const invoice = await depositInvoice('Customer Alpha Unique', '2026-10', 'ALPHACODE');
+  const row = await depositRow('Transfer ALPHACODE via SCB');
+  const hidden = await depositRow('Transfer ALPHACODE via SCB');
+  const response = await suggestDeposits([row.id, row.id]);
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { matched: 1, unmatched: 0 });
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal(suggestion.status, 'PENDING');
+  assert.equal(suggestion.createdById, 'admin');
+  assert.equal(suggestion.referenceKey, invoice.referenceKey);
+  assert.equal(suggestion.invoiceMonth, '2026-10');
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 0);
+  assert.equal(await prisma.kbizDepositSuggestion.count({ where: { transactionId: hidden.id } }), 0);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'ISSUED');
+  let listing = await (await api.GET(request())).json();
+  assert.equal(listing.transactions.find(item => item.id === row.id).reconciliationStatus, 'PENDING');
+  assert.equal(listing.invoices.find(item => item.referenceKey === invoice.referenceKey).allocatedCents, 0);
+  assert.deepEqual(await (await suggestDeposits([row.id])).json(), { matched: 0, unmatched: 0 });
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 200);
+  const saved = await prisma.kbizAllocation.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal(saved.referenceKey, invoice.referenceKey); assert.equal(saved.amountCents, 10400);
+  const reviewed = await prisma.kbizDepositSuggestion.findUniqueOrThrow({ where: { id: suggestion.id } });
+  assert.equal(reviewed.status, 'CONFIRMED'); assert.equal(reviewed.reviewedById, 'admin'); assert.ok(reviewed.reviewedAt);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'COMPLETED');
+  listing = await (await api.GET(request())).json();
+  assert.equal(listing.transactions.find(item => item.id === row.id).reconciliationStatus, 'COMPLETED');
+  assert.equal(listing.transactions.find(item => item.id === row.id).depositSuggestions.length, 0);
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 409);
+  assert.equal((await reviewDeposit(suggestion.id, 'REJECTED')).status, 409);
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 1);
+});
+
+test('rejection leaves money and invoice unchanged and does not recreate the rejected proposal', async () => {
+  const invoice = await depositInvoice('Reject Customer Unique');
+  const row = await depositRow('Reject Customer Unique');
+  assert.equal((await suggestDeposits([row.id])).status, 200);
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal((await reviewDeposit(suggestion.id, 'REJECTED')).status, 200);
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 0);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'ISSUED');
+  assert.deepEqual(await (await suggestDeposits([row.id])).json(), { matched: 0, unmatched: 1 });
+  assert.equal((await (await api.GET(request())).json()).transactions.find(item => item.id === row.id).reconciliationStatus, 'INITIAL');
+});
+
+test('deposit suggestions skip other months, unprinted invoices, withdrawals, and ambiguous equal invoices', async () => {
+  await depositInvoice('Wrong Month Customer Unique');
+  await depositInvoice('Draft Customer Unique', '2026-10', 'DRAFTCODE', 'INITIAL');
+  await depositInvoice('Ambiguous Customer Unique');
+  await depositInvoice('Ambiguous Customer Unique');
+  const rows = await Promise.all([
+    depositRow('Wrong Month Customer Unique', '2026-10-31'),
+    depositRow('Wrong Month Customer Unique', '2026-12-01'),
+    depositRow('Draft Customer Unique'),
+    depositRow('Ambiguous Customer Unique'),
+    depositRow('No matching customer'),
+    depositRow('Wrong Month Customer Unique', '2026-11-10', 0, 10400),
+  ]);
+  assert.deepEqual(await (await suggestDeposits(rows.map(row => row.id))).json(), { matched: 0, unmatched: 5 });
+  assert.equal(await prisma.kbizDepositSuggestion.count({ where: { transactionId: { in: rows.map(row => row.id) } } }), 0);
+});
+
+test('December invoices match January deposits and gross receipts use the full VAT basis', async () => {
+  const invoice = await depositInvoice('Rollover Customer Unique', '2026-12');
+  const row = await depositRow('Rollover Customer Unique', '2027-01-31', 10700);
+  assert.deepEqual(await (await suggestDeposits([row.id])).json(), { matched: 1, unmatched: 0 });
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal(suggestion.basis, 'GROSS'); assert.equal(suggestion.amountCents, 10700);
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 200);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'COMPLETED');
+});
+
+test('partial receipts preserve the existing withholding basis and pending proposals do not reserve posted money', async () => {
+  const invoice = await depositInvoice('Partial Customer Unique');
+  const first = await depositRow('Partial Customer Unique', '2026-11-01', 4000);
+  const second = await depositRow('Partial Customer Unique', '2026-11-02', 6400);
+  assert.deepEqual(await (await suggestDeposits([first.id, second.id])).json(), { matched: 1, unmatched: 1 });
+  let suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: first.id } });
+  assert.equal(suggestion.amountCents, 4000);
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 200);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'ISSUED');
+  assert.deepEqual(await (await suggestDeposits([second.id])).json(), { matched: 1, unmatched: 0 });
+  suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: second.id } });
+  assert.equal(suggestion.basis, 'NET'); assert.equal(suggestion.amountCents, 6400);
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 200);
+  assert.equal((await prisma.issuedDocument.findUniqueOrThrow({ where: { id: invoice.id } })).status, 'COMPLETED');
+});
+
+test('confirmation revalidates remaining invoice balance and rolls back stale approvals', async () => {
+  const invoice = await depositInvoice('Stale Customer Unique');
+  const row = await depositRow('Stale Customer Unique');
+  const other = await depositRow('Other payer for same invoice');
+  await suggestDeposits([row.id]);
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal((await api.PUT(request('PUT', { id: other.id, allocations: [{ referenceKey: invoice.referenceKey, amountCents: 10400, basis: 'NET' }] }))).status, 200);
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 409);
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 0);
+  assert.equal((await prisma.kbizDepositSuggestion.findUniqueOrThrow({ where: { id: suggestion.id } })).status, 'PENDING');
+  assert.equal((await reviewDeposit(suggestion.id, 'REJECTED')).status, 200);
+});
+
+test('manual reconciliation supersedes pending proposals atomically and preserves posted allocations', async () => {
+  const invoice = await depositInvoice('Manual Customer Unique');
+  const row = await depositRow('Manual Customer Unique');
+  await suggestDeposits([row.id]);
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  assert.equal((await api.PUT(request('PUT', { id: row.id, allocations: [{ referenceKey: invoice.referenceKey, amountCents: 999999, basis: 'NET' }] }))).status, 400);
+  assert.equal((await prisma.kbizDepositSuggestion.findUniqueOrThrow({ where: { id: suggestion.id } })).status, 'PENDING');
+  assert.equal((await api.PUT(request('PUT', { id: row.id, allocations: [{ referenceKey: invoice.referenceKey, amountCents: 10400, basis: 'NET' }] }))).status, 200);
+  assert.equal((await prisma.kbizDepositSuggestion.findUniqueOrThrow({ where: { id: suggestion.id } })).status, 'REJECTED');
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 409);
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 1);
+  assert.deepEqual(await (await suggestDeposits([row.id])).json(), { matched: 0, unmatched: 0 });
+});
+
+test('changed invoice snapshots cannot be confirmed using stale customer or amount details', async () => {
+  const invoice = await depositInvoice('Edited Snapshot Customer Unique');
+  const row = await depositRow('Edited Snapshot Customer Unique');
+  await suggestDeposits([row.id]);
+  const suggestion = await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } });
+  await prisma.issuedDocument.update({ where: { id: invoice.id }, data: { customer: 'Different Customer', netCents: 20000 } });
+  assert.equal((await reviewDeposit(suggestion.id, 'CONFIRMED')).status, 409);
+  assert.equal(await prisma.kbizAllocation.count({ where: { transactionId: row.id } }), 0);
+  assert.equal((await prisma.kbizDepositSuggestion.findUniqueOrThrow({ where: { id: suggestion.id } })).status, 'PENDING');
+});
+
+test('project invoice customer names also create pending suggestions for next-month deposits', async () => {
+  const project = await prisma.project.create({ data: { name: 'Deposit Project', clientName: 'Project Payer Unique', address: '', taxId: '' } });
+  const invoice = await prisma.projectInvoice.create({ data: { projectId: project.id, installment: '1', invoiceDate: new Date('2026-10-15T00:00:00Z'), billingDescription: 'Project deposit matching', amount: 100, invoiceNumber: 'INV-DEPOSIT-PROJECT' } });
+  const referenceKey = `project:${invoice.id}`;
+  assert.equal((await documents.POST(request('POST', { document_type: 'INVOICE', source_type: 'PROJECT', reference_key: referenceKey, source_id: invoice.id, document_number: invoice.invoiceNumber }))).status, 201);
+  const row = await depositRow('From Project Payer Unique');
+  assert.deepEqual(await (await suggestDeposits([row.id])).json(), { matched: 1, unmatched: 0 });
+  assert.equal((await prisma.kbizDepositSuggestion.findFirstOrThrow({ where: { transactionId: row.id } })).referenceKey, referenceKey);
+});
+
+test('deposit suggestions migration is additive, repeatable and validates stored proposals', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple('CREATE TABLE "KbizTransaction" ("id" TEXT PRIMARY KEY); CREATE TABLE "KbizAllocation" ("id" TEXT PRIMARY KEY, "amountCents" INTEGER);');
+    await database.execute("INSERT INTO KbizTransaction VALUES ('historical')");
+    await database.execute("INSERT INTO KbizAllocation VALUES ('posted', 12345)");
+    const previous = await database.execute('SELECT * FROM KbizAllocation');
+    assert.equal(await applyKbizDepositSuggestionsMigration(database), 'applied');
+    assert.equal(await applyKbizDepositSuggestionsMigration(database), 'already-applied');
+    assert.deepEqual((await database.execute('SELECT * FROM KbizAllocation')).rows, previous.rows);
+    const sql = 'INSERT INTO KbizDepositSuggestion (id, transactionId, referenceKey, invoiceNumber, invoiceMonth, customer, amountCents, expectedCents, basis, reason, status, createdById) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    for (const [amount, expected, basis, status] of [[0, 100, 'NET', 'PENDING'], [101, 100, 'NET', 'PENDING'], [50, 100, 'OTHER', 'PENDING'], [50, 100, 'NET', 'APPROVED']]) {
+      await assert.rejects(database.execute({ sql, args: ['invalid', 'historical', 'invoice', 'INV', '2026-10', 'Customer', amount, expected, basis, 'Reason', status, 'admin'] }));
+    }
+  } finally { database.close(); }
+});
 
 test('supplied multiline Thai statement parses exactly 5 deposits and 51 withdrawals', context => {
   if (!csv) { context.skip('User-supplied bank statement is not in this checkout'); return; }

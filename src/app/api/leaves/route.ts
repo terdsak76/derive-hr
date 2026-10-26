@@ -1,22 +1,25 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
+import { countLeaveDays, leavePeriodLabels, parseLeaveDate } from '@/lib/leaves';
 
 function serializeLeave(item: {
   id: string;
   employeeId: string;
   type: string;
+  period: string;
   startDate: Date;
   endDate: Date;
   reason: string;
   status: string;
   createdAt: Date;
 }) {
-  const days = Math.max(1, Math.ceil((item.endDate.getTime() - item.startDate.getTime()) / 86_400_000) + 1);
+  const days = countLeaveDays(item.startDate, item.endDate, item.period);
   return {
     id: item.id,
     employee_id: item.employeeId,
     type: item.type,
+    period: item.period,
     start_date: item.startDate.toISOString().split('T')[0],
     end_date: item.endDate.toISOString().split('T')[0],
     days,
@@ -44,15 +47,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'กรุณาเข้าสู่ระบบก่อนยื่นใบลา' }, { status: 401 });
   }
 
-  const body = await req.json();
-  const { type, startDate, endDate, reason } = body;
+  const body = await req.json().catch(() => null);
+  if (!body) return NextResponse.json({ error: 'ข้อมูลใบลาไม่ถูกต้อง' }, { status: 400 });
+  const { type, reason, period = 'FULL_DAY' } = body;
+  const startDate = parseLeaveDate(body.startDate);
+  const endDate = parseLeaveDate(body.endDate);
+  if (typeof period !== 'string' || !Object.hasOwn(leavePeriodLabels, period) ||
+      !startDate || !endDate || endDate < startDate ||
+      typeof type !== 'string' || !type.trim() || typeof reason !== 'string' || !reason.trim()) {
+    return NextResponse.json({ error: 'กรุณาระบุประเภท ช่วงเวลา วันที่ และเหตุผลการลาให้ถูกต้อง' }, { status: 400 });
+  }
+  if (period !== 'FULL_DAY' && body.startDate !== body.endDate) {
+    return NextResponse.json({ error: 'การลาครึ่งวันต้องเลือกวันที่เริ่มต้นและสิ้นสุดเป็นวันเดียวกัน' }, { status: 400 });
+  }
 
   const newLeave = await prisma.leave.create({
     data: {
       employeeId: session.employeeId,
       type,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
+      period,
+      startDate,
+      endDate,
       reason,
     },
   });

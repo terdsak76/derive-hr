@@ -32,6 +32,131 @@ function request(method = 'GET', userId?: string, body?: unknown, sessionRole = 
 
 const newEmployee = { name: 'New employee', department: 'Engineering', position: 'Developer', email: 'new@example.com', password: 'password123' };
 
+const workdayRequest = {
+  from_date: '2026-10-26', to_date: '2026-10-28',
+  from_date_start: '08:30', from_date_end: '12:00',
+  to_date_start: '13:15', to_date_end: '16:45',
+  project: 'Time picker project', job_detail: 'Move the working hours',
+};
+
+test('workday change time ranges persist unchanged through listing and approval', async () => {
+  const response = await workdays.POST(request('POST', 'user', { ...workdayRequest, employeeId: 'other', status: 'APPROVED' }));
+  assert.equal(response.status, 201);
+  const saved = await response.json();
+  assert.equal(saved.employee_id, 'user');
+  assert.equal(saved.status, 'WAITING_FOR_APPROVAL');
+  for (const key of ['from_date', 'to_date', 'from_date_start', 'from_date_end', 'to_date_start', 'to_date_end']) assert.equal(saved[key], workdayRequest[key]);
+  const stored = await prisma.workdayChangeRequest.findUniqueOrThrow({ where: { id: saved.id } });
+  assert.equal(stored.fromDateStart, '08:30'); assert.equal(stored.fromDateEnd, '12:00');
+  assert.equal(stored.toDateStart, '13:15'); assert.equal(stored.toDateEnd, '16:45');
+  const listing = await (await workdays.GET(request('GET', 'user'))).json();
+  assert.equal(listing[0].to_date_start, '13:15');
+  assert.equal((await (await workdays.GET(request('GET', 'other'))).json()).length, 0);
+  const approvals = await import('../src/app/api/request-approvals/route');
+  const pending = await (await approvals.GET(request('GET', 'admin'))).json();
+  const inbox = pending.find((row: { id: string }) => row.id === saved.id);
+  assert.equal(inbox.fromDateStart, '08:30'); assert.equal(inbox.fromDateEnd, '12:00');
+  assert.equal(inbox.toDateStart, '13:15'); assert.equal(inbox.toDateEnd, '16:45');
+  assert.equal((await workdays.PATCH(request('PATCH', 'other', { id: saved.id, status: 'APPROVED' }))).status, 403);
+  const approved = await workdays.PATCH(request('PATCH', 'admin', { id: saved.id, status: 'APPROVED' }));
+  assert.equal(approved.status, 200);
+  assert.equal((await approved.json()).from_date_start, '08:30');
+});
+
+test('new workday requests require valid dates and four ordered HH:mm times', async () => {
+  for (const changes of [
+    { from_date_start: undefined }, { from_date_end: '' }, { to_date_start: null }, { to_date_end: '' },
+    { from_date_start: '24:00' }, { to_date_start: '9:00' }, { to_date_end: '17:60' },
+    { from_date_start: '08:30:00' }, { from_date_start: 830 },
+    { from_date_end: '08:30' }, { from_date_end: '07:00' }, { to_date_end: '13:15' }, { to_date_end: '12:00' },
+    { from_date: '2026-02-30' }, { to_date: 'not-a-date' }, { to_date: '2026-10-28T00:00:00Z' },
+    { project: '  ' }, { job_detail: '  ' },
+  ]) {
+    assert.equal((await workdays.POST(request('POST', 'user', { ...workdayRequest, ...changes }))).status, 400);
+  }
+  assert.equal(await prisma.workdayChangeRequest.count(), 0);
+  const valid = request('POST', 'user', {});
+  assert.equal((await workdays.POST(new Request(valid.url, { method: 'POST', headers: valid.headers, body: '{' }))).status, 400);
+  assert.equal((await workdays.POST(request('POST', undefined, workdayRequest))).status, 401);
+});
+
+test('historical workday requests keep unspecified times instead of inventing a schedule', async () => {
+  await prisma.workdayChangeRequest.create({ data: {
+    employeeId: 'user', fromDate: new Date('2026-10-01'), toDate: new Date('2026-10-03'), project: 'Historical', jobDetail: 'Legacy request',
+  } });
+  const listing = await (await workdays.GET(request('GET', 'user'))).json();
+  assert.equal(listing[0].from_date_start, null); assert.equal(listing[0].from_date_end, null);
+  assert.equal(listing[0].to_date_start, null); assert.equal(listing[0].to_date_end, null);
+});
+
+test('workday time migration preserves existing dates and time values and supports partial installation', async () => {
+  const { applyWorkdayChangeTimesMigration } = await import('../scripts/apply-workday-change-times-migration.mjs');
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple(`CREATE TABLE WorkdayChangeRequest (id TEXT PRIMARY KEY, fromDate TEXT, toDate TEXT, fromDateStart TEXT);
+      INSERT INTO WorkdayChangeRequest VALUES ('old', '2026-10-01', '2026-10-03', NULL), ('partial', '2026-10-02', '2026-10-04', '08:00');`);
+    assert.equal(await applyWorkdayChangeTimesMigration(database), 'applied');
+    assert.equal(await applyWorkdayChangeTimesMigration(database), 'already-applied');
+    const result = await database.execute('SELECT * FROM WorkdayChangeRequest ORDER BY id');
+    assert.equal(result.rows[0].fromDate, '2026-10-01'); assert.equal(result.rows[0].toDate, '2026-10-03');
+    assert.equal(result.rows[0].fromDateStart, null); assert.equal(result.rows[0].fromDateEnd, null);
+    assert.equal(result.rows[0].toDateStart, null); assert.equal(result.rows[0].toDateEnd, null);
+    assert.equal(result.rows[1].fromDateStart, '08:00');
+  } finally { database.close(); }
+});
+
+test('leave periods persist and half days add up correctly across month boundaries', async () => {
+  for (const [period, startDate, endDate, days] of [
+    ['MORNING', '2026-10-01', '2026-10-01', 0.5],
+    ['AFTERNOON', '2026-10-31', '2026-10-31', 0.5],
+    ['FULL_DAY', '2026-09-30', '2026-10-02', 3],
+    ['FULL_DAY', '2026-10-31', '2026-11-02', 3],
+  ] as const) {
+    const response = await leaves.POST(request('POST', 'user', { type: 'SICK', period, startDate, endDate, reason: 'Test leave' }));
+    assert.equal(response.status, 201);
+    const saved = await response.json();
+    assert.equal(saved.period, period);
+    assert.equal(saved.days, days);
+    await leaves.PATCH(request('PATCH', 'admin', { id: saved.id, status: 'Approved' }));
+  }
+  const rows = await (await summary.GET(request('GET', 'user'))).json();
+  assert.equal(rows[0].leaveDays, 4);
+  const savedLeaves = await (await leaves.GET(request('GET', 'user'))).json();
+  assert.equal(savedLeaves.filter((row: { days: number }) => row.days === 0.5).length, 2);
+});
+
+test('legacy leave requests default to full days; invalid periods and dates are rejected', async () => {
+  const valid = { type: 'SICK', startDate: '2026-10-01', endDate: '2026-10-01', reason: 'Test leave' };
+  const legacy = await leaves.POST(request('POST', 'user', valid));
+  assert.equal(legacy.status, 201);
+  const saved = await legacy.json();
+  assert.equal(saved.period, 'FULL_DAY');
+  assert.equal(saved.days, 1);
+  for (const changes of [
+    { period: 'INVALID' }, { period: 'toString' },
+    { period: 'MORNING', endDate: '2026-10-02' },
+    { period: 'AFTERNOON', endDate: '2026-10-02' },
+    { startDate: '2026-10-02' }, { startDate: '2026-02-30' },
+    { startDate: 'invalid' },
+  ]) {
+    assert.equal((await leaves.POST(request('POST', 'user', { ...valid, ...changes }))).status, 400);
+  }
+  assert.equal(await prisma.leave.count(), 1);
+});
+
+test('leave migration preserves old requests and can run twice', async () => {
+  const { applyLeavePeriodMigration } = await import('../scripts/apply-leave-period-migration.mjs');
+  const database = createClient({ url: `file:${join(temporaryDirectory, 'leave-migration.db')}` });
+  try {
+    await database.execute('CREATE TABLE "Leave" ("id" TEXT PRIMARY KEY)');
+    await database.execute("INSERT INTO \"Leave\" (\"id\") VALUES ('old')");
+    assert.equal(await applyLeavePeriodMigration(database), 'applied');
+    assert.equal(await applyLeavePeriodMigration(database), 'already-applied');
+    const result = await database.execute('SELECT "period" FROM "Leave" WHERE "id" = \'old\'');
+    assert.equal(result.rows[0].period, 'FULL_DAY');
+  } finally { database.close(); }
+});
+
 before(async () => {
   // Build an isolated local SQLite fixture from the actual Prisma schema.
   // No project environment or remote database is loaded by this test command.

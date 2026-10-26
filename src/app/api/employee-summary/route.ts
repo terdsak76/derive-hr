@@ -1,14 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
-
-function daysInRange(start: Date, end: Date, monthStart: Date, monthEnd: Date): number {
-  const effectiveStart = Math.max(start.getTime(), monthStart.getTime());
-  const effectiveEnd = Math.min(end.getTime(), monthEnd.getTime());
-  if (effectiveEnd < effectiveStart) return 0;
-
-  return Math.floor((effectiveEnd - effectiveStart) / 86_400_000) + 1;
-}
+import { countLeaveDays } from '@/lib/leaves';
 
 export async function GET(request: Request): Promise<NextResponse> {
   const session = await getSession(request);
@@ -25,6 +18,9 @@ export async function GET(request: Request): Promise<NextResponse> {
   const monthStart = new Date(Date.UTC(year, month - 1, 1, -7));
   const nextMonthStart = new Date(Date.UTC(year, month, 1, -7));
   const monthEnd = new Date(nextMonthStart.getTime() - 1);
+  // Leave dates are stored as date-only values at UTC midnight.
+  const leaveMonthStart = new Date(Date.UTC(year, month - 1, 1));
+  const leaveMonthEnd = new Date(Date.UTC(year, month, 0));
   const employeeWhere = session.role.toUpperCase() === 'ADMIN'
     ? undefined
     : { id: session.employeeId };
@@ -49,10 +45,10 @@ export async function GET(request: Request): Promise<NextResponse> {
       prisma.leave.findMany({
         where: {
           ...activityWhere,
-          startDate: { lte: monthEnd },
-          endDate: { gte: monthStart },
+          startDate: { lte: leaveMonthEnd },
+          endDate: { gte: leaveMonthStart },
         },
-        select: { employeeId: true, startDate: true, endDate: true },
+        select: { employeeId: true, startDate: true, endDate: true, period: true },
       }),
       prisma.workdayChangeRequest.findMany({
         where: {
@@ -83,7 +79,10 @@ export async function GET(request: Request): Promise<NextResponse> {
       ...employee,
       leaveDays: leaves
         .filter(item => item.employeeId === employee.id)
-        .reduce((total, item) => total + daysInRange(item.startDate, item.endDate, monthStart, monthEnd), 0),
+        .reduce((total, item) => total + countLeaveDays(
+          new Date(Math.max(item.startDate.getTime(), leaveMonthStart.getTime())),
+          new Date(Math.min(item.endDate.getTime(), leaveMonthEnd.getTime())), item.period,
+        ), 0),
       lateCount: attendances.filter(item =>
         item.employeeId === employee.id && item.status.toUpperCase() === 'LATE',
       ).length,

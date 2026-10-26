@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
+import { isWorkdayTimeRange, parseWorkdayDate } from '@/lib/workday-changes';
 
 function serializeRequest(item) {
   return {
@@ -9,6 +10,10 @@ function serializeRequest(item) {
     employee_name: item.employee?.name || '',
     from_date: item.fromDate.toISOString().split('T')[0],
     to_date: item.toDate.toISOString().split('T')[0],
+    from_date_start: item.fromDateStart ?? null,
+    from_date_end: item.fromDateEnd ?? null,
+    to_date_start: item.toDateStart ?? null,
+    to_date_end: item.toDateEnd ?? null,
     project: item.project,
     job_detail: item.jobDetail,
     status: item.status,
@@ -33,17 +38,28 @@ export async function POST(request: Request): Promise<NextResponse> {
   const session = await getSession(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const body = await request.json();
-  if (!body.from_date || !body.to_date || !body.project || !body.job_detail) {
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body.project !== 'string' || !body.project.trim() ||
+      typeof body.job_detail !== 'string' || !body.job_detail.trim()) {
     return NextResponse.json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' }, { status: 400 });
+  }
+  const fromDate = parseWorkdayDate(body.from_date);
+  const toDate = parseWorkdayDate(body.to_date);
+  if (!fromDate || !toDate) return NextResponse.json({ error: 'กรุณาระบุวันที่ทำงานเดิมและวันที่ทำงานชดเชยให้ถูกต้อง' }, { status: 400 });
+  if (!isWorkdayTimeRange(body.from_date_start, body.from_date_end) || !isWorkdayTimeRange(body.to_date_start, body.to_date_end)) {
+    return NextResponse.json({ error: 'กรุณาระบุเวลาเริ่มและสิ้นสุดของทั้งสองวัน โดยเวลาสิ้นสุดต้องอยู่หลังเวลาเริ่ม (เวลาไทย)' }, { status: 400 });
   }
 
   try {
     const created = await prisma.workdayChangeRequest.create({
       data: {
         employeeId: session.employeeId,
-        fromDate: new Date(body.from_date),
-        toDate: new Date(body.to_date),
+        fromDate,
+        toDate,
+        fromDateStart: body.from_date_start,
+        fromDateEnd: body.from_date_end,
+        toDateStart: body.to_date_start,
+        toDateEnd: body.to_date_end,
         project: String(body.project).trim(),
         jobDetail: String(body.job_detail).trim(),
       },

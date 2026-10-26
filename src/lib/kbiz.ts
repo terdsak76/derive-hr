@@ -12,9 +12,13 @@ export type KbizInvoice = {
 export type KbizAllocation = {
   referenceKey: string; invoiceNumber: string; customer: string; amountCents: number; expectedCents: number; basis: string;
 };
+export type KbizDepositSuggestion = KbizAllocation & {
+  id: string; invoiceMonth: string; reason: string; status: string;
+};
 export type KbizRecord = KbizRow & {
   id: string; sourceFile: string; expenseDescription: string; allocations: KbizAllocation[];
   expenseKind: string;
+  depositSuggestions?: KbizDepositSuggestion[];
   vendorAllocations: { vendorPaymentId: string; amountCents: number; vendorPayment: { paymentNumber: string; vendorName: string } }[];
   employeeAllocations: { employeeId: string; employeeName: string; paymentType: string; paymentMonth: string; amountCents: number }[];
   taxAllocations: { taxPaymentId: string; amountCents: number; taxPayment: { paymentNumber: string; paymentMonth: string } }[];
@@ -32,7 +36,8 @@ export const employeePaymentTypes = [
 export const employeePaymentTypeLabel = (type: string) =>
   employeePaymentTypes.find(item => item.value === type)?.label || 'Pending / รอเลือกประเภท';
 
-export function kbizReconciliationStatus(row: Pick<KbizRecord, 'depositCents' | 'withdrawalCents' | 'allocations' | 'vendorAllocations' | 'employeeAllocations' | 'taxAllocations' | 'expenseDescription' | 'expenseKind'>) {
+export function kbizReconciliationStatus(row: Pick<KbizRecord, 'depositCents' | 'withdrawalCents' | 'allocations' | 'vendorAllocations' | 'employeeAllocations' | 'taxAllocations' | 'expenseDescription' | 'expenseKind' | 'depositSuggestions'>) {
+  if (row.depositSuggestions?.some(item => item.status === 'PENDING')) return 'PENDING';
   if (row.employeeAllocations.some(item => item.paymentType === 'PENDING')) return 'PENDING';
   const total = row.depositCents ? row.allocations.reduce((sum, item) => sum + item.amountCents, 0) :
     row.vendorAllocations.reduce((sum, item) => sum + item.amountCents, 0) + row.employeeAllocations.reduce((sum, item) => sum + item.amountCents, 0) + row.taxAllocations.reduce((sum, item) => sum + item.amountCents, 0);

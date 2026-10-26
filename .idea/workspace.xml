@@ -6,31 +6,57 @@
   <component name="ChangeListManager">
     <list default="true" id="debf0edc-d4be-418f-a857-9378a68bfb7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/build-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/build-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.3.5-ca2c75eb/CURRENT" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.3.5-ca2c75eb/CURRENT" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.3.5-ca2c75eb/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.3.5-ca2c75eb/LOG" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/logs/next-development.log" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/logs/next-development.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/employees/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/employees/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/employee-summary/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/employee-summary/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/incentives/route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/kbiz/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/kbiz/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/leaves/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/leaves/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/api/workday-changes/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/api/workday-changes/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__1qy3n-l._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__1qy3n-l._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__1qy3n-l._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__1qy3n-l._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1c61g3u._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1c61g3u._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1c61g3u._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1c61g3u._.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_lib_0kxks2w._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_lib_0kxks2w._.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_lib_0kxks2w._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_lib_0kxks2w._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/[root-of-the-server]__1dbn71o._.css" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/[root-of-the-server]__1dbn71o._.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/[root-of-the-server]__1dbn71o._.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/[root-of-the-server]__1dbn71o._.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_globals_css_1igg3k2._.single.css" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_globals_css_1igg3k2._.single.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_globals_css_1igg3k2._.single.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_globals_css_1igg3k2._.single.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_1e2bp3j._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_1e2bp3j._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_1e2bp3j._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_1e2bp3j._.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_lib_03v720q._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_lib_03v720q._.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_lib_03v720q._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_lib_03v720q._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/trace" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/validator.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/employees/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/employees/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/employee-summary/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/employee-summary/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/incentives/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/incentives/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/api/kbiz/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/kbiz/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/employee-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-management.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/employee-withdrawal-editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-withdrawal-editor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/leaves/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/leaves/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/request-approvals/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/request-approvals/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/workday-changes/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/workday-changes/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/app-navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app-navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/incentive-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/incentive-management.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/kbiz-reconciliation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/kbiz-reconciliation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/withdrawal-reconciliation-editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/withdrawal-reconciliation-editor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/kbiz-import.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/kbiz-import.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/request-approvals.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/request-approvals.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/kbiz.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/kbiz.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/request-approvals.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/request-approvals.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/employees.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/employees.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/finance.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/finance.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/kbiz.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/kbiz.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,23 +85,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0364512465526106" />
-      <entry key="MS500" value="1.9923666530029032" />
-      <entry key="S2" value="3.932031233523378" />
-      <entry key="S5" value="7.0327711873012095" />
-      <entry key="S10" value="13.917527060312057" />
-      <entry key="S30" value="44.67395920478877" />
-      <entry key="S60" value="80.11052108776589" />
-      <entry key="M2" value="120.63205703624237" />
-      <entry key="M5" value="183.2066384816049" />
-      <entry key="M10" value="285.2079463231904" />
-      <entry key="M15" value="420.7719830330641" />
-      <entry key="M30" value="910.28757569446" />
-      <entry key="H1" value="1909.9636429433303" />
-      <entry key="H2" value="3468.7453089903643" />
-      <entry key="H4" value="5319.273692220479" />
-      <entry key="D1" value="8687.488736905565" />
-      <entry key="W1" value="9622.598368165201" />
+      <entry key="MS100" value="1.04543664118798" />
+      <entry key="MS500" value="1.5689226237256109" />
+      <entry key="S2" value="4.879685869385888" />
+      <entry key="S5" value="13.304910052440267" />
+      <entry key="S10" value="26.578825175618583" />
+      <entry key="S30" value="64.68409807380823" />
+      <entry key="S60" value="92.89550719317029" />
+      <entry key="M2" value="123.5220693784337" />
+      <entry key="M5" value="214.28526906000107" />
+      <entry key="M10" value="358.72591523546663" />
+      <entry key="M15" value="493.31744700767445" />
+      <entry key="M30" value="918.9155215886709" />
+      <entry key="H1" value="1850.5681533651389" />
+      <entry key="H2" value="3461.239198028688" />
+      <entry key="H4" value="5494.082816744143" />
+      <entry key="D1" value="9349.333781119229" />
+      <entry key="W1" value="10443.510215310784" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -83,37 +109,37 @@
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
       <entry key="S10" value="0.0" />
-      <entry key="S30" value="3.928822758126501E-166" />
-      <entry key="S60" value="1.9821258179352372E-83" />
-      <entry key="M2" value="4.4521071617102564E-42" />
-      <entry key="M5" value="2.8802238592530345E-17" />
-      <entry key="M10" value="5.366771710490939E-9" />
-      <entry key="M15" value="3.0653171467099816E-6" />
-      <entry key="M30" value="0.0017508047140413323" />
-      <entry key="H1" value="0.04184261839370633" />
-      <entry key="H2" value="0.20455468313803796" />
-      <entry key="H4" value="0.4522772193445812" />
-      <entry key="D1" value="0.8761277824243561" />
-      <entry key="W1" value="0.9812854294927439" />
+      <entry key="S30" value="1.2989634931972781E-192" />
+      <entry key="S60" value="1.1397207961588088E-96" />
+      <entry key="M2" value="1.0675770680184051E-48" />
+      <entry key="M5" value="6.476788189672289E-20" />
+      <entry key="M10" value="2.544953474952171E-10" />
+      <entry key="M15" value="4.015933982286219E-7" />
+      <entry key="M30" value="6.337139719372849E-4" />
+      <entry key="H1" value="0.025173676170501712" />
+      <entry key="H2" value="0.15866214473055384" />
+      <entry key="H4" value="0.39832417040719414" />
+      <entry key="D1" value="0.8577737995689242" />
+      <entry key="W1" value="0.9783220122091962" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.0151582918636421" />
-      <entry key="MS500" value="1.9847383445515536" />
-      <entry key="S2" value="3.928028477136464" />
-      <entry key="S5" value="7.029610152668101" />
-      <entry key="S10" value="13.914303262539136" />
-      <entry key="S30" value="44.67048961374401" />
-      <entry key="S60" value="80.1074039560559" />
-      <entry key="M2" value="120.62970232925335" />
-      <entry key="M5" value="183.20517049287903" />
-      <entry key="M10" value="285.2066938319217" />
-      <entry key="M15" value="420.77068827406436" />
-      <entry key="M30" value="910.2878830913941" />
-      <entry key="H1" value="1910.0039408197485" />
-      <entry key="H2" value="3468.948380835041" />
-      <entry key="H4" value="5319.724780845807" />
-      <entry key="D1" value="8688.364531430156" />
-      <entry key="W1" value="9623.579600722649" />
+      <entry key="MS100" value="1.0307342731271105" />
+      <entry key="MS500" value="1.563794094218689" />
+      <entry key="S2" value="4.8748898998616985" />
+      <entry key="S5" value="13.299340261925263" />
+      <entry key="S10" value="26.57319756984819" />
+      <entry key="S30" value="64.67949561842649" />
+      <entry key="S60" value="92.89218341653053" />
+      <entry key="M2" value="123.51984391905677" />
+      <entry key="M5" value="214.28367775167413" />
+      <entry key="M10" value="358.72442826232583" />
+      <entry key="M15" value="493.31594990799823" />
+      <entry key="M30" value="918.9146068400474" />
+      <entry key="H1" value="1850.5917326394917" />
+      <entry key="H2" value="3461.3963274720168" />
+      <entry key="H4" value="5494.479888438985" />
+      <entry key="D1" value="9350.191192180664" />
+      <entry key="W1" value="10444.488479345788" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{

@@ -175,7 +175,7 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
             type: "button",
             onClick: ()=>onSelect(tab),
             "aria-current": activeTab === tab ? 'page' : undefined,
-            className: `w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-sm text-left font-medium transition ${activeTab === tab ? 'bg-indigo-600 text-white shadow-sm' : 'hover:bg-slate-100 text-slate-600'}`,
+            className: "app-tab-button w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-sm text-left font-semibold transition",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                     className: "w-4 h-4 mt-0.5 shrink-0"
@@ -2972,6 +2972,7 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/check.js [app-client] (ecmascript) <export default as Check>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$refresh$2d$cw$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__RefreshCw$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/refresh-cw.js [app-client] (ecmascript) <export default as RefreshCw>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/save.js [app-client] (ecmascript) <export default as Save>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$incentives$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/incentives.ts [app-client] (ecmascript)");
@@ -2981,6 +2982,16 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 ;
+const statusLabels = {
+    INITIAL: 'Initial / รออนุมัติ',
+    PAYMENT_PENDING: 'Payment pending / รอจ่ายเงิน',
+    COMPLETED: 'Completed / จ่ายแล้ว'
+};
+const statusColors = {
+    INITIAL: 'bg-slate-100 text-slate-700',
+    PAYMENT_PENDING: 'bg-amber-100 text-amber-800',
+    COMPLETED: 'bg-emerald-100 text-emerald-800'
+};
 const money = (value)=>new Intl.NumberFormat('th-TH', {
         style: 'currency',
         currency: 'THB'
@@ -2989,19 +3000,20 @@ const inputClass = 'w-full min-w-24 p-2 border border-slate-300 rounded-lg bg-wh
 function IncentiveRow({ row, onSaved, onBusy }) {
     _s();
     const [score, setScore] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(row.score === null ? '' : String(row.score));
-    const amount = score === '' ? null : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$incentives$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["calculateIncentiveCents"])(Math.round(row.fullIncentive * 100), Number(score)) / 100;
+    const locked = row.status === 'COMPLETED' || !!row.paymentDate;
+    const amount = locked ? row.amount : score === '' ? null : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$incentives$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["calculateIncentiveCents"])(Math.round(row.fullIncentive * 100), Number(score)) / 100;
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
-    const [success, setSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [success, setSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const dirty = score !== '' && Number(score) !== row.score || amount !== row.amount || row.score !== null && score === '';
     const formId = `incentive-${row.id}`;
     async function save(event) {
         event.preventDefault();
-        if (saving || !dirty) return;
+        if (saving || !dirty || locked) return;
         setSaving(true);
         onBusy(1);
         setError('');
-        setSuccess(false);
+        setSuccess('');
         try {
             const response = await fetch('/api/incentives', {
                 method: 'PUT',
@@ -3020,12 +3032,51 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                 ...row,
                 score: result.score,
                 amount: result.amount,
-                fullIncentive: result.fullIncentive
+                fullIncentive: result.fullIncentive,
+                status: result.status,
+                paymentDate: result.paymentDate,
+                approvedAt: result.approvedAt
             });
             setScore(String(result.score));
-            setSuccess(true);
+            setSuccess('บันทึกแล้ว');
         } catch (cause) {
             setError(cause instanceof Error ? cause.message : 'บันทึกไม่สำเร็จ');
+        } finally{
+            setSaving(false);
+            onBusy(-1);
+        }
+    }
+    async function approve() {
+        if (saving || dirty || row.status !== 'INITIAL') return;
+        setSaving(true);
+        onBusy(1);
+        setError('');
+        setSuccess('');
+        try {
+            const response = await fetch('/api/incentives', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    employee_id: row.id,
+                    month: row.month,
+                    action: 'APPROVE',
+                    score: row.score,
+                    amountCents: Math.round(row.amount * 100)
+                })
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'อนุมัติไม่สำเร็จ');
+            onSaved({
+                ...row,
+                status: result.status,
+                paymentDate: result.paymentDate,
+                approvedAt: result.approvedAt
+            });
+            setSuccess('อนุมัติแล้ว');
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : 'อนุมัติไม่สำเร็จ');
         } finally{
             setSaving(false);
             onBusy(-1);
@@ -3043,13 +3094,13 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                         children: row.department
                     }, void 0, false, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 38,
+                        lineNumber: 55,
                         columnNumber: 62
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 38,
+                lineNumber: 55,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3061,13 +3112,13 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                         children: "ตั้งค่าได้ใน Salary & Incentive Management"
                     }, void 0, false, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 39,
+                        lineNumber: 56,
                         columnNumber: 108
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 39,
+                lineNumber: 56,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3081,21 +3132,21 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                     step: "0.01",
                     required: true,
                     value: score,
-                    disabled: saving,
+                    disabled: saving || locked,
                     onChange: (event)=>{
                         setScore(event.target.value);
-                        setSuccess(false);
+                        setSuccess('');
                     },
                     placeholder: "0–100",
                     className: inputClass
                 }, void 0, false, {
                     fileName: "[project]/src/components/incentive-management.tsx",
-                    lineNumber: 40,
+                    lineNumber: 57,
                     columnNumber: 25
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 40,
+                lineNumber: 57,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3105,12 +3156,12 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                     children: amount === null ? '—' : money(amount)
                 }, void 0, false, {
                     fileName: "[project]/src/components/incentive-management.tsx",
-                    lineNumber: 41,
+                    lineNumber: 58,
                     columnNumber: 54
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 41,
+                lineNumber: 58,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3118,7 +3169,40 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                 children: row.amount === null ? 'ยังไม่บันทึก' : money(row.amount)
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 42,
+                lineNumber: 59,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                className: "p-4 whitespace-nowrap",
+                children: row.status ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                    className: `inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusColors[row.status] || statusColors.INITIAL}`,
+                    children: statusLabels[row.status] || row.status
+                }, void 0, false, {
+                    fileName: "[project]/src/components/incentive-management.tsx",
+                    lineNumber: 60,
+                    columnNumber: 57
+                }, this) : '—'
+            }, void 0, false, {
+                fileName: "[project]/src/components/incentive-management.tsx",
+                lineNumber: 60,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                className: "p-4 whitespace-nowrap",
+                children: [
+                    row.paymentDate || '—',
+                    row.paymentDate && row.status === 'PAYMENT_PENDING' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs text-amber-700 mt-1",
+                        children: "จ่ายบางส่วนแล้ว"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/incentive-management.tsx",
+                        lineNumber: 61,
+                        columnNumber: 123
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/incentive-management.tsx",
+                lineNumber: 61,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3127,22 +3211,51 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                     id: formId,
                     onSubmit: save,
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                            disabled: saving || !dirty || score === '',
-                            className: "inline-flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg disabled:opacity-50",
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex gap-2",
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                    className: "w-4 h-4"
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    disabled: saving || locked || !dirty || score === '',
+                                    className: "inline-flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg disabled:opacity-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                            className: "w-4 h-4"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/incentive-management.tsx",
+                                            lineNumber: 64,
+                                            columnNumber: 200
+                                        }, this),
+                                        saving ? 'กำลังดำเนินการ...' : 'บันทึก'
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/src/components/incentive-management.tsx",
-                                    lineNumber: 44,
-                                    columnNumber: 188
+                                    lineNumber: 64,
+                                    columnNumber: 9
                                 }, this),
-                                saving ? 'กำลังบันทึก...' : 'บันทึก'
+                                row.status === 'INITIAL' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    type: "button",
+                                    onClick: ()=>void approve(),
+                                    disabled: saving || dirty,
+                                    className: "inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                            className: "w-4 h-4"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/incentive-management.tsx",
+                                            lineNumber: 65,
+                                            columnNumber: 243
+                                        }, this),
+                                        "อนุมัติ"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/incentive-management.tsx",
+                                    lineNumber: 65,
+                                    columnNumber: 38
+                                }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/incentive-management.tsx",
-                            lineNumber: 44,
+                            lineNumber: 63,
                             columnNumber: 7
                         }, this),
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3151,16 +3264,16 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/src/components/incentive-management.tsx",
-                            lineNumber: 45,
+                            lineNumber: 67,
                             columnNumber: 17
                         }, this),
                         success && !dirty && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             role: "status",
                             className: "text-xs text-emerald-700 mt-2",
-                            children: "บันทึกแล้ว"
+                            children: success
                         }, void 0, false, {
                             fileName: "[project]/src/components/incentive-management.tsx",
-                            lineNumber: 46,
+                            lineNumber: 68,
                             columnNumber: 29
                         }, this),
                         dirty && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3168,28 +3281,36 @@ function IncentiveRow({ row, onSaved, onBusy }) {
                             children: "ยังไม่บันทึก"
                         }, void 0, false, {
                             fileName: "[project]/src/components/incentive-management.tsx",
-                            lineNumber: 47,
+                            lineNumber: 69,
                             columnNumber: 17
+                        }, this),
+                        locked && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "text-xs text-slate-500 mt-2 max-w-60",
+                            children: "ยกเลิกการจับคู่ Kbiz ก่อนแก้ไข"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/incentive-management.tsx",
+                            lineNumber: 70,
+                            columnNumber: 18
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/incentive-management.tsx",
-                    lineNumber: 43,
+                    lineNumber: 62,
                     columnNumber: 25
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 43,
+                lineNumber: 62,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/incentive-management.tsx",
-        lineNumber: 37,
+        lineNumber: 54,
         columnNumber: 10
     }, this);
 }
-_s(IncentiveRow, "fmKDNzHHN0LjKUKre/fPEbj+jhM=");
+_s(IncentiveRow, "Jqa1kNBxGkkbo7eB5C1GpbG8cac=");
 _c = IncentiveRow;
 function IncentiveManagement() {
     _s1();
@@ -3246,7 +3367,7 @@ function IncentiveManagement() {
                                 children: "Incentive ตามผลงานประจำเดือน"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 79,
+                                lineNumber: 102,
                                 columnNumber: 12
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3254,7 +3375,7 @@ function IncentiveManagement() {
                                 children: "Incentive = Full incentive × คะแนน / 100 (ปัดเป็น 2 ตำแหน่ง) ตั้งค่า Full incentive ใน Salary & Incentive Management แล้วกรอกคะแนนและบันทึกรายเดือน"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 79,
+                                lineNumber: 102,
                                 columnNumber: 86
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3262,13 +3383,13 @@ function IncentiveManagement() {
                                 children: "ยอดที่บันทึกไว้จะไม่เปลี่ยนตาม Full incentive จนกว่าจะบันทึกเดือนนั้นใหม่"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 79,
+                                lineNumber: 102,
                                 columnNumber: 284
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 79,
+                        lineNumber: 102,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3282,7 +3403,7 @@ function IncentiveManagement() {
                                         children: "เดือน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/incentive-management.tsx",
-                                        lineNumber: 80,
+                                        lineNumber: 103,
                                         columnNumber: 50
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3299,13 +3420,13 @@ function IncentiveManagement() {
                                         className: inputClass
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/incentive-management.tsx",
-                                        lineNumber: 80,
+                                        lineNumber: 103,
                                         columnNumber: 141
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 80,
+                                lineNumber: 103,
                                 columnNumber: 45
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3318,24 +3439,32 @@ function IncentiveManagement() {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/incentive-management.tsx",
-                                    lineNumber: 81,
+                                    lineNumber: 104,
                                     columnNumber: 218
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 81,
+                                lineNumber: 104,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 80,
+                        lineNumber: 103,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 78,
+                lineNumber: 101,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "text-sm text-slate-600",
+                children: "Initial → Admin อนุมัติ → Payment pending → จับคู่ Kbiz ครบยอด → Completed วันที่จ่ายเงินอ้างอิงรายการธนาคารล่าสุดที่จับคู่กับ Incentive ของเดือนนี้ หากแก้ไขยอดก่อนจ่ายจะต้องอนุมัติใหม่"
+            }, void 0, false, {
+                fileName: "[project]/src/components/incentive-management.tsx",
+                lineNumber: 106,
                 columnNumber: 5
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3344,7 +3473,7 @@ function IncentiveManagement() {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 83,
+                lineNumber: 107,
                 columnNumber: 15
             }, this),
             !loading && !error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3358,7 +3487,7 @@ function IncentiveManagement() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 84,
+                        lineNumber: 108,
                         columnNumber: 98
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3366,13 +3495,13 @@ function IncentiveManagement() {
                         children: money(rows.reduce((sum, row)=>sum + Math.round((row.amount || 0) * 100), 0) / 100)
                     }, void 0, false, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 84,
+                        lineNumber: 108,
                         columnNumber: 178
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 84,
+                lineNumber: 108,
                 columnNumber: 28
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -3391,7 +3520,7 @@ function IncentiveManagement() {
                                             children: "พนักงาน"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
+                                            lineNumber: 110,
                                             columnNumber: 58
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3399,7 +3528,7 @@ function IncentiveManagement() {
                                             children: "Full incentive (บาท)"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
+                                            lineNumber: 110,
                                             columnNumber: 90
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3407,7 +3536,7 @@ function IncentiveManagement() {
                                             children: "คะแนน (เต็ม 100)"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
+                                            lineNumber: 110,
                                             columnNumber: 146
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3415,7 +3544,7 @@ function IncentiveManagement() {
                                             children: "Incentive ที่คำนวณ (บาท)"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
+                                            lineNumber: 110,
                                             columnNumber: 187
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3423,56 +3552,72 @@ function IncentiveManagement() {
                                             children: "ยอดที่บันทึก"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
+                                            lineNumber: 110,
                                             columnNumber: 247
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                            className: "p-4",
+                                            children: "สถานะ"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/incentive-management.tsx",
+                                            lineNumber: 110,
+                                            columnNumber: 295
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                            className: "p-4",
+                                            children: "วันที่จ่ายเงิน"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/incentive-management.tsx",
+                                            lineNumber: 110,
+                                            columnNumber: 325
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             className: "p-4",
                                             children: "จัดการ"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/incentive-management.tsx",
-                                            lineNumber: 86,
-                                            columnNumber: 295
+                                            lineNumber: 110,
+                                            columnNumber: 364
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/incentive-management.tsx",
-                                    lineNumber: 86,
+                                    lineNumber: 110,
                                     columnNumber: 54
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 86,
+                                lineNumber: 110,
                                 columnNumber: 7
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                 children: loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                        colSpan: 6,
+                                        colSpan: 8,
                                         className: "p-8 text-center text-slate-400",
                                         children: "กำลังโหลด..."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/incentive-management.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 111,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/incentive-management.tsx",
-                                    lineNumber: 87,
+                                    lineNumber: 111,
                                     columnNumber: 25
                                 }, this) : rows.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                        colSpan: 6,
+                                        colSpan: 8,
                                         className: "p-8 text-center text-slate-400",
                                         children: error ? 'โหลดข้อมูลไม่สำเร็จ' : 'ไม่มีพนักงานในเดือนที่เลือก'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/incentive-management.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 111,
                                         columnNumber: 137
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/incentive-management.tsx",
-                                    lineNumber: 87,
+                                    lineNumber: 111,
                                     columnNumber: 133
                                 }, this) : rows.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IncentiveRow, {
                                         row: row,
@@ -3480,34 +3625,34 @@ function IncentiveManagement() {
                                         onBusy: (delta)=>setPending((value)=>value + delta)
                                     }, `${month}:${refresh}:${row.id}`, false, {
                                         fileName: "[project]/src/components/incentive-management.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 111,
                                         columnNumber: 288
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/incentive-management.tsx",
-                                lineNumber: 87,
+                                lineNumber: 111,
                                 columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/incentive-management.tsx",
-                        lineNumber: 85,
+                        lineNumber: 109,
                         columnNumber: 119
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/incentive-management.tsx",
-                    lineNumber: 85,
+                    lineNumber: 109,
                     columnNumber: 86
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/incentive-management.tsx",
-                lineNumber: 85,
+                lineNumber: 109,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/incentive-management.tsx",
-        lineNumber: 77,
+        lineNumber: 100,
         columnNumber: 10
     }, this);
 }
@@ -4067,6 +4212,7 @@ function KbizReconciliation() {
     const [preview, setPreview] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [busy, setBusy] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [matching, setMatching] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [matchingCustomers, setMatchingCustomers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
@@ -4173,7 +4319,69 @@ function KbizReconciliation() {
             setMatching(false);
         }
     }
-    const filtered = rows.filter((row)=>(!month || row.transactionDate.startsWith(month)) && (kind === 'ALL' || (kind === 'DEPOSIT' ? row.depositCents > 0 : row.withdrawalCents > 0)) && (status === 'ALL' || (status === 'DONE' ? completed(row) : !completed(row))) && `${row.details} ${row.bankDescription} ${row.expenseDescription} ${row.accountNumber} ${row.allocations.map((item)=>`${item.invoiceNumber} ${item.customer}`).join(' ')} ${row.vendorAllocations.map((item)=>`${item.vendorPayment.paymentNumber} ${item.vendorPayment.vendorName}`).join(' ')} ${row.employeeAllocations.map((item)=>`${item.employeeName} ${item.paymentType} ${item.paymentMonth}`).join(' ')} ${row.taxAllocations.map((item)=>`กรมสรรพากร Revenue Department ${item.taxPayment.paymentNumber} ${item.taxPayment.paymentMonth}`).join(' ')}`.toLowerCase().includes(search.toLowerCase()));
+    async function matchCustomers() {
+        if (busy) return;
+        const transactionIds = filtered.filter((row)=>row.depositCents > 0 && !row.allocations.length && !row.depositSuggestions?.length).map((row)=>row.id);
+        if (!transactionIds.length) return;
+        setBusy(true);
+        setMatchingCustomers(true);
+        setError('');
+        setMessage('');
+        let matched = 0, unmatched = 0;
+        try {
+            for(let offset = 0; offset < transactionIds.length; offset += 25){
+                const response = await fetch('/api/kbiz/deposit-matches', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        transactionIds: transactionIds.slice(offset, offset + 25)
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Unable to suggest customer matches');
+                matched += result.matched;
+                unmatched += result.unmatched;
+                setMessage(`แนะนำ ${matched} รายการ (รอยืนยัน) · ไม่พบคู่ที่ชัดเจน ${unmatched} รายการ`);
+            }
+            await load();
+        } catch (err) {
+            await load();
+            setError(err instanceof Error ? err.message : 'Unable to suggest customer matches');
+        } finally{
+            setBusy(false);
+            setMatchingCustomers(false);
+        }
+    }
+    async function reviewCustomerMatch(id, decision) {
+        if (busy) return;
+        setBusy(true);
+        setError('');
+        setMessage('');
+        try {
+            const response = await fetch('/api/kbiz/deposit-matches', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id,
+                    status: decision
+                })
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'Unable to review match');
+            setMessage(decision === 'CONFIRMED' ? 'ยืนยันการจับคู่และบันทึกรับชำระแล้ว' : 'ปฏิเสธคำแนะนำแล้ว สามารถจับคู่ Invoice ด้วยตนเองได้');
+            await load();
+        } catch (err) {
+            await load();
+            setError(err instanceof Error ? err.message : 'Unable to review match');
+        } finally{
+            setBusy(false);
+        }
+    }
+    const filtered = rows.filter((row)=>(!month || row.transactionDate.startsWith(month)) && (kind === 'ALL' || (kind === 'DEPOSIT' ? row.depositCents > 0 : row.withdrawalCents > 0)) && (status === 'ALL' || (status === 'DONE' ? completed(row) : status === 'REVIEW' ? !!row.depositSuggestions?.length : !completed(row))) && `${row.details} ${row.bankDescription} ${row.expenseDescription} ${row.accountNumber} ${row.allocations.map((item)=>`${item.invoiceNumber} ${item.customer}`).join(' ')} ${(row.depositSuggestions || []).map((item)=>`${item.invoiceNumber} ${item.customer} ${item.invoiceMonth}`).join(' ')} ${row.vendorAllocations.map((item)=>`${item.vendorPayment.paymentNumber} ${item.vendorPayment.vendorName}`).join(' ')} ${row.employeeAllocations.map((item)=>`${item.employeeName} ${item.paymentType} ${item.paymentMonth}`).join(' ')} ${row.taxAllocations.map((item)=>`กรมสรรพากร Revenue Department ${item.taxPayment.paymentNumber} ${item.taxPayment.paymentMonth}`).join(' ')}`.toLowerCase().includes(search.toLowerCase()));
     const deposits = filtered.reduce((sum, row)=>sum + row.depositCents, 0), expenses = filtered.reduce((sum, row)=>sum + row.withdrawalCents, 0);
     async function saveTransaction(data) {
         const response = await fetch('/api/kbiz', {
@@ -4200,7 +4408,7 @@ function KbizReconciliation() {
                         children: "Kbiz Transaction Reconciliation"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 163,
+                        lineNumber: 194,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4208,7 +4416,7 @@ function KbizReconciliation() {
                         children: "นำเข้า CSV รายการเดินบัญชีแบบมีรายละเอียด เพื่อจับคู่เงินฝากกับ Invoice และระบุรายจ่ายโดย Admin"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 164,
+                        lineNumber: 195,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4216,7 +4424,7 @@ function KbizReconciliation() {
                         children: "รายการนี้ใช้ตรวจสอบเงินเข้า–ออกธนาคาร แยกจากยอดรายรับ–รายจ่ายและ VAT ในรายงานบริษัท"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 165,
+                        lineNumber: 196,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4225,12 +4433,31 @@ function KbizReconciliation() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 type: "button",
                                 className: buttonClass,
+                                disabled: busy || loading || !!editing || !filtered.some((row)=>row.depositCents > 0 && !row.allocations.length && !row.depositSuggestions?.length),
+                                onClick: ()=>void matchCustomers(),
+                                children: matchingCustomers ? 'กำลังแนะนำคู่ลูกค้า…' : 'จับคู่เงินฝากกับลูกค้า / Match customer deposits'
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                lineNumber: 198,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-xs text-slate-500",
+                                children: "ตรวจเงินฝากที่แสดงและยังไม่จับคู่ โดยเทียบชื่อ Customer หรือรหัส Client กับ Invoice ที่พิมพ์แล้วของเดือนก่อนหน้า เช่น Invoice ต.ค. กับเงินฝาก พ.ย. รายการที่ชัดเจนจะรอยืนยัน ยอดรับชำระจะบันทึกเมื่อกดยืนยันเท่านั้น"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                lineNumber: 199,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: buttonClass,
                                 disabled: busy || loading || !!editing || !filtered.some((row)=>row.withdrawalCents > 0 && !completed(row)),
                                 onClick: ()=>void matchEmployees(),
                                 children: matching ? 'กำลังจับคู่…' : 'จับคู่ชื่อพนักงาน / Match employee names'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 167,
+                                lineNumber: 200,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4238,13 +4465,13 @@ function KbizReconciliation() {
                                 children: "ตรวจเฉพาะรายการถอนที่แสดงตามตัวกรองปัจจุบันและยังไม่มีการจับคู่ โดยใช้ชื่อ Kbiz ของพนักงาน รายการที่ตรงกันจะรอ Admin เลือกประเภทการจ่าย"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 168,
+                                lineNumber: 201,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 166,
+                        lineNumber: 197,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4277,13 +4504,13 @@ function KbizReconciliation() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 170,
+                                lineNumber: 203,
                                 columnNumber: 59
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 170,
+                        lineNumber: 203,
                         columnNumber: 7
                     }, this),
                     preview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4293,7 +4520,7 @@ function KbizReconciliation() {
                                 children: preview.filename
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 178,
+                                lineNumber: 211,
                                 columnNumber: 82
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4307,7 +4534,7 @@ function KbizReconciliation() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 179,
+                                lineNumber: 212,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4320,14 +4547,14 @@ function KbizReconciliation() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 180,
+                                lineNumber: 213,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: "รายการซ้ำจะถูกข้าม โดยเก็บการจับคู่และรายละเอียดที่บันทึกไว้"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 181,
+                                lineNumber: 214,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4338,7 +4565,7 @@ function KbizReconciliation() {
                                 children: busy ? 'กำลังนำเข้า…' : 'ยืนยันนำเข้า / Import'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 182,
+                                lineNumber: 215,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4349,19 +4576,19 @@ function KbizReconciliation() {
                                 children: "ยกเลิก"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 183,
+                                lineNumber: 216,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 178,
+                        lineNumber: 211,
                         columnNumber: 19
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 162,
+                lineNumber: 193,
                 columnNumber: 5
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4370,7 +4597,7 @@ function KbizReconciliation() {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 186,
+                lineNumber: 219,
                 columnNumber: 15
             }, this),
             message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4379,7 +4606,7 @@ function KbizReconciliation() {
                 children: message
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 187,
+                lineNumber: 220,
                 columnNumber: 17
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4400,26 +4627,26 @@ function KbizReconciliation() {
                                         children: "ทุกเดือน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 189,
+                                        lineNumber: 222,
                                         columnNumber: 187
                                     }, this),
                                     Array.from(new Set(rows.map((row)=>row.transactionDate.slice(0, 7)))).sort().reverse().map((value)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                             children: value
                                         }, value, false, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 189,
+                                            lineNumber: 222,
                                             columnNumber: 322
                                         }, this))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 189,
+                                lineNumber: 222,
                                 columnNumber: 46
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 189,
+                        lineNumber: 222,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4436,7 +4663,7 @@ function KbizReconciliation() {
                                         children: "ทั้งหมด"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 223,
                                         columnNumber: 148
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4444,7 +4671,7 @@ function KbizReconciliation() {
                                         children: "เงินฝาก"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 223,
                                         columnNumber: 184
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4452,19 +4679,19 @@ function KbizReconciliation() {
                                         children: "รายจ่าย"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 223,
                                         columnNumber: 224
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 190,
+                                lineNumber: 223,
                                 columnNumber: 40
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 190,
+                        lineNumber: 223,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4481,7 +4708,7 @@ function KbizReconciliation() {
                                         children: "ทั้งหมด"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 191,
+                                        lineNumber: 224,
                                         columnNumber: 151
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4489,27 +4716,35 @@ function KbizReconciliation() {
                                         children: "รอดำเนินการ"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 191,
+                                        lineNumber: 224,
                                         columnNumber: 187
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "REVIEW",
+                                        children: "รอยืนยันคู่ลูกค้า"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                        lineNumber: 224,
+                                        columnNumber: 231
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                         value: "DONE",
                                         children: "ดำเนินการแล้ว"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 191,
-                                        columnNumber: 231
+                                        lineNumber: 224,
+                                        columnNumber: 280
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 191,
+                                lineNumber: 224,
                                 columnNumber: 39
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 191,
+                        lineNumber: 224,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4523,13 +4758,13 @@ function KbizReconciliation() {
                                 placeholder: "รายละเอียด / รายจ่าย / Invoice"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 192,
+                                lineNumber: 225,
                                 columnNumber: 46
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 192,
+                        lineNumber: 225,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4540,13 +4775,13 @@ function KbizReconciliation() {
                         children: "รีเฟรช"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 193,
+                        lineNumber: 226,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 188,
+                lineNumber: 221,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4572,7 +4807,7 @@ function KbizReconciliation() {
                                 children: label
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 195,
+                                lineNumber: 228,
                                 columnNumber: 309
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4580,18 +4815,18 @@ function KbizReconciliation() {
                                 children: value
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 195,
+                                lineNumber: 228,
                                 columnNumber: 358
                             }, this)
                         ]
                     }, label, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 195,
+                        lineNumber: 228,
                         columnNumber: 232
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 195,
+                lineNumber: 228,
                 columnNumber: 5
             }, this),
             editing && (editing.withdrawalCents ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$withdrawal$2d$reconciliation$2d$editor$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4603,7 +4838,7 @@ function KbizReconciliation() {
                 onSave: saveTransaction
             }, editing.id, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 196,
+                lineNumber: 229,
                 columnNumber: 44
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TransactionEditor, {
                 row: editing,
@@ -4614,7 +4849,7 @@ function KbizReconciliation() {
                 onSave: saveTransaction
             }, editing.id, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 197,
+                lineNumber: 230,
                 columnNumber: 7
             }, this)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4625,7 +4860,7 @@ function KbizReconciliation() {
                         children: "Document status · INITIAL → ISSUED → COMPLETED"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 199,
+                        lineNumber: 232,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4633,7 +4868,7 @@ function KbizReconciliation() {
                         children: "INITIAL: ยังไม่พิมพ์ · ISSUED: พิมพ์แล้ว / รับเงินบางส่วน · COMPLETED: จับคู่รับเงินครบแล้ว"
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 200,
+                        lineNumber: 233,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4656,17 +4891,17 @@ function KbizReconciliation() {
                                                 children: title
                                             }, title, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 201,
+                                                lineNumber: 234,
                                                 columnNumber: 224
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 201,
+                                        lineNumber: 234,
                                         columnNumber: 116
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 201,
+                                    lineNumber: 234,
                                     columnNumber: 84
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -4678,7 +4913,7 @@ function KbizReconciliation() {
                                                     children: invoice.invoiceNumber
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 110
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4686,7 +4921,7 @@ function KbizReconciliation() {
                                                     children: invoice.month
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 158
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4694,7 +4929,7 @@ function KbizReconciliation() {
                                                     children: invoice.customer
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 198
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4702,7 +4937,7 @@ function KbizReconciliation() {
                                                     children: invoice.status
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 241
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4710,7 +4945,7 @@ function KbizReconciliation() {
                                                     children: money(invoice.grossCents)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 420
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4718,35 +4953,35 @@ function KbizReconciliation() {
                                                     children: money(invoice.allocatedCents)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 235,
                                                     columnNumber: 490
                                                 }, this)
                                             ]
                                         }, invoice.referenceKey, true, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 202,
+                                            lineNumber: 235,
                                             columnNumber: 41
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 202,
+                                    lineNumber: 235,
                                     columnNumber: 9
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                            lineNumber: 201,
+                            lineNumber: 234,
                             columnNumber: 40
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 201,
+                        lineNumber: 234,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 198,
+                lineNumber: 231,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -4773,17 +5008,17 @@ function KbizReconciliation() {
                                             children: title
                                         }, index, false, {
                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                            lineNumber: 206,
+                                            lineNumber: 239,
                                             columnNumber: 184
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 239,
                                     columnNumber: 54
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 206,
+                                lineNumber: 239,
                                 columnNumber: 7
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -4794,12 +5029,12 @@ function KbizReconciliation() {
                                         children: "กำลังโหลด…"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 240,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 207,
+                                    lineNumber: 240,
                                     columnNumber: 25
                                 }, this) : !filtered.length ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4808,12 +5043,12 @@ function KbizReconciliation() {
                                         children: rows.length ? 'ไม่มีรายการตามเงื่อนไข' : 'ยังไม่มีรายการ กรุณานำเข้าไฟล์ CSV'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 240,
                                         columnNumber: 134
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                    lineNumber: 207,
+                                    lineNumber: 240,
                                     columnNumber: 130
                                 }, this) : filtered.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                         className: `border-t border-slate-100 ${editing?.id === row.id ? 'bg-indigo-50' : ''}`,
@@ -4828,20 +5063,20 @@ function KbizReconciliation() {
                                                             row.transactionTime,
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 208,
+                                                                lineNumber: 241,
                                                                 columnNumber: 129
                                                             }, this),
                                                             row.accountNumber
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 208,
+                                                        lineNumber: 241,
                                                         columnNumber: 68
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 208,
+                                                lineNumber: 241,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4851,7 +5086,7 @@ function KbizReconciliation() {
                                                         children: row.bankDescription
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 209,
+                                                        lineNumber: 242,
                                                         columnNumber: 38
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4860,20 +5095,20 @@ function KbizReconciliation() {
                                                             row.details,
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 209,
+                                                                lineNumber: 242,
                                                                 columnNumber: 126
                                                             }, this),
                                                             row.channel
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                        lineNumber: 209,
+                                                        lineNumber: 242,
                                                         columnNumber: 70
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 209,
+                                                lineNumber: 242,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4881,7 +5116,7 @@ function KbizReconciliation() {
                                                 children: row.withdrawalCents ? money(row.withdrawalCents) : '—'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 210,
+                                                lineNumber: 243,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4889,7 +5124,7 @@ function KbizReconciliation() {
                                                 children: row.depositCents ? money(row.depositCents) : '—'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 244,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4897,7 +5132,7 @@ function KbizReconciliation() {
                                                 children: money(row.balanceCents)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 245,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -4909,7 +5144,7 @@ function KbizReconciliation() {
                                                             children: "ยังไม่ระบุรายการ"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 214,
+                                                            lineNumber: 247,
                                                             columnNumber: 137
                                                         }, this),
                                                         row.vendorAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4919,7 +5154,7 @@ function KbizReconciliation() {
                                                                         children: item.vendorPayment.paymentNumber
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 215,
+                                                                        lineNumber: 248,
                                                                         columnNumber: 95
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4931,13 +5166,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 215,
+                                                                        lineNumber: 248,
                                                                         columnNumber: 146
                                                                     }, this)
                                                                 ]
                                                             }, item.vendorPaymentId, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 215,
+                                                                lineNumber: 248,
                                                                 columnNumber: 46
                                                             }, this)),
                                                         !!row.vendorAllocations.length && vendorAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4948,7 +5183,7 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 216,
+                                                            lineNumber: 249,
                                                             columnNumber: 92
                                                         }, this),
                                                         row.employeeAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4958,7 +5193,7 @@ function KbizReconciliation() {
                                                                         children: item.employeeName
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 217,
+                                                                        lineNumber: 250,
                                                                         columnNumber: 138
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4972,13 +5207,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 217,
+                                                                        lineNumber: 250,
                                                                         columnNumber: 174
                                                                     }, this)
                                                                 ]
                                                             }, `${item.employeeId}:${item.paymentType}:${item.paymentMonth}`, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 217,
+                                                                lineNumber: 250,
                                                                 columnNumber: 48
                                                             }, this)),
                                                         !!row.employeeAllocations.length && employeeAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4989,7 +5224,7 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 218,
+                                                            lineNumber: 251,
                                                             columnNumber: 96
                                                         }, this),
                                                         row.taxAllocations.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5002,7 +5237,7 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 219,
+                                                                        lineNumber: 252,
                                                                         columnNumber: 89
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5014,13 +5249,13 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 219,
+                                                                        lineNumber: 252,
                                                                         columnNumber: 149
                                                                     }, this)
                                                                 ]
                                                             }, item.taxPaymentId, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 219,
+                                                                lineNumber: 252,
                                                                 columnNumber: 43
                                                             }, this)),
                                                         !!row.taxAllocations.length && taxAllocated(row) < row.withdrawalCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5031,13 +5266,13 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 220,
+                                                            lineNumber: 253,
                                                             columnNumber: 86
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 213,
+                                                    lineNumber: 246,
                                                     columnNumber: 61
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
@@ -5048,7 +5283,7 @@ function KbizReconciliation() {
                                                                         children: item.invoiceNumber
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 221,
+                                                                        lineNumber: 254,
                                                                         columnNumber: 92
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5060,14 +5295,104 @@ function KbizReconciliation() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                        lineNumber: 221,
+                                                                        lineNumber: 254,
                                                                         columnNumber: 129
                                                                     }, this)
                                                                 ]
                                                             }, item.referenceKey, true, {
                                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                                lineNumber: 221,
+                                                                lineNumber: 254,
                                                                 columnNumber: 46
+                                                            }, this)),
+                                                        (row.depositSuggestions || []).map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "my-2 min-w-64 rounded-lg border border-amber-300 bg-amber-50 p-3 space-y-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-xs font-bold text-amber-800",
+                                                                        children: "PENDING APPROVAL / รอยืนยัน"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 256,
+                                                                        columnNumber: 13
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                        children: item.invoiceNumber
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 257,
+                                                                        columnNumber: 13
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-sm",
+                                                                        children: [
+                                                                            item.customer,
+                                                                            " · Invoice ",
+                                                                            item.invoiceMonth
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 257,
+                                                                        columnNumber: 50
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-xs",
+                                                                        children: [
+                                                                            "แนะนำ ",
+                                                                            money(item.amountCents),
+                                                                            " จากยอด Invoice ",
+                                                                            money(item.expectedCents),
+                                                                            " · ",
+                                                                            item.basis === 'NET' ? 'หัก ณ ที่จ่าย 3%' : 'เต็มยอดรวม VAT'
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 258,
+                                                                        columnNumber: 13
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-xs text-slate-600",
+                                                                        children: item.reason
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 259,
+                                                                        columnNumber: 13
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex flex-wrap gap-2",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                type: "button",
+                                                                                className: buttonClass,
+                                                                                disabled: busy || loading || !!editing,
+                                                                                onClick: ()=>void reviewCustomerMatch(item.id, 'CONFIRMED'),
+                                                                                children: "ยืนยันจับคู่"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                                lineNumber: 261,
+                                                                                columnNumber: 15
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                type: "button",
+                                                                                className: inputClass,
+                                                                                disabled: busy || loading || !!editing,
+                                                                                onClick: ()=>void reviewCustomerMatch(item.id, 'REJECTED'),
+                                                                                children: "ไม่ใช่คู่นี้"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                                lineNumber: 262,
+                                                                                columnNumber: 15
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                        lineNumber: 260,
+                                                                        columnNumber: 13
+                                                                    }, this)
+                                                                ]
+                                                            }, item.id, true, {
+                                                                fileName: "[project]/src/components/kbiz-reconciliation.tsx",
+                                                                lineNumber: 255,
+                                                                columnNumber: 55
                                                             }, this)),
                                                         allocated(row) < row.depositCents && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                             className: "text-xs text-amber-700",
@@ -5077,26 +5402,26 @@ function KbizReconciliation() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                            lineNumber: 221,
-                                                            columnNumber: 260
+                                                            lineNumber: 265,
+                                                            columnNumber: 49
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 221,
+                                                    lineNumber: 254,
                                                     columnNumber: 15
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 213,
+                                                lineNumber: 246,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 className: `p-3 whitespace-nowrap text-xs ${completed(row) ? 'text-emerald-700' : 'text-amber-700'}`,
-                                                children: completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PENDING' ? 'PENDING / รอเลือกประเภท' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'
+                                                children: completed(row) ? 'COMPLETED / ดำเนินการแล้ว' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PENDING' ? row.depositCents ? 'PENDING APPROVAL / รอยืนยัน' : 'PENDING / รอเลือกประเภท' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$kbiz$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["kbizReconciliationStatus"])(row) === 'PARTIAL' ? 'PARTIAL / จับคู่บางส่วน' : 'INITIAL / รอดำเนินการ'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 222,
+                                                lineNumber: 266,
                                                 columnNumber: 9
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5104,6 +5429,7 @@ function KbizReconciliation() {
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     type: "button",
                                                     className: inputClass,
+                                                    disabled: busy,
                                                     onClick: ()=>{
                                                         setEditing(row);
                                                         setMessage('');
@@ -5111,49 +5437,49 @@ function KbizReconciliation() {
                                                     children: row.withdrawalCents ? 'จับคู่รายจ่าย' : 'จับคู่ Invoice'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                    lineNumber: 223,
+                                                    lineNumber: 267,
                                                     columnNumber: 29
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                                lineNumber: 223,
+                                                lineNumber: 267,
                                                 columnNumber: 9
                                             }, this)
                                         ]
                                     }, row.id, true, {
                                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 240,
                                         columnNumber: 305
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                                lineNumber: 207,
+                                lineNumber: 240,
                                 columnNumber: 7
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                        lineNumber: 205,
+                        lineNumber: 238,
                         columnNumber: 119
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                    lineNumber: 205,
+                    lineNumber: 238,
                     columnNumber: 86
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-                lineNumber: 205,
+                lineNumber: 238,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/kbiz-reconciliation.tsx",
-        lineNumber: 161,
+        lineNumber: 192,
         columnNumber: 10
     }, this);
 }
-_s1(KbizReconciliation, "Td8egkBgR8Gn3TBeNBEKviNWfLA=");
+_s1(KbizReconciliation, "1DA/Di3l0uj/aF6hOIJkllwk++o=");
 _c1 = KbizReconciliation;
 var _c, _c1;
 __turbopack_context__.k.register(_c, "TransactionEditor");
@@ -5172,9 +5498,11 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$request$2d$approvals$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/request-approvals.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$workday$2d$changes$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/workday-changes.ts [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 function displayDate(value, includeTime = false) {
@@ -5267,7 +5595,7 @@ function RequestApprovals({ onDecision }) {
                                 children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$request$2d$approvals$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["approvalLabels"][type]
                             }, void 0, false, {
                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                lineNumber: 62,
+                                lineNumber: 63,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5280,24 +5608,24 @@ function RequestApprovals({ onDecision }) {
                                         children: "รออนุมัติ"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                        lineNumber: 63,
+                                        lineNumber: 64,
                                         columnNumber: 106
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                lineNumber: 63,
+                                lineNumber: 64,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, type, true, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 61,
+                        lineNumber: 62,
                         columnNumber: 68
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/request-approvals.tsx",
-                lineNumber: 60,
+                lineNumber: 61,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5324,7 +5652,7 @@ function RequestApprovals({ onDecision }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 69,
+                                                lineNumber: 70,
                                                 columnNumber: 11
                                             }, this),
                                             Object.keys(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$request$2d$approvals$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["approvalLabels"]).map((type)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -5332,19 +5660,19 @@ function RequestApprovals({ onDecision }) {
                                                     children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$request$2d$approvals$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["approvalLabels"][type]
                                                 }, type, false, {
                                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                                    lineNumber: 70,
+                                                    lineNumber: 71,
                                                     columnNumber: 72
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                        lineNumber: 68,
+                                        lineNumber: 69,
                                         columnNumber: 47
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                lineNumber: 68,
+                                lineNumber: 69,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -5355,7 +5683,7 @@ function RequestApprovals({ onDecision }) {
                                 onChange: (event)=>setSearch(event.target.value)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                lineNumber: 72,
+                                lineNumber: 73,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5366,13 +5694,13 @@ function RequestApprovals({ onDecision }) {
                                 children: "รีเฟรช"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                lineNumber: 73,
+                                lineNumber: 74,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 67,
+                        lineNumber: 68,
                         columnNumber: 7
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5381,7 +5709,7 @@ function RequestApprovals({ onDecision }) {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 75,
+                        lineNumber: 76,
                         columnNumber: 17
                     }, this),
                     message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5390,7 +5718,7 @@ function RequestApprovals({ onDecision }) {
                         children: message
                     }, void 0, false, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 76,
+                        lineNumber: 77,
                         columnNumber: 19
                     }, this),
                     loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5399,7 +5727,7 @@ function RequestApprovals({ onDecision }) {
                         children: "กำลังโหลดคำขอ..."
                     }, void 0, false, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 77,
+                        lineNumber: 78,
                         columnNumber: 18
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "overflow-x-auto",
@@ -5415,7 +5743,7 @@ function RequestApprovals({ onDecision }) {
                                                 children: "พนักงาน / ยื่นเมื่อ"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 81,
                                                 columnNumber: 13
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5423,7 +5751,7 @@ function RequestApprovals({ onDecision }) {
                                                 children: "ประเภท / วันเวลา"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 81,
                                                 columnNumber: 57
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5431,7 +5759,7 @@ function RequestApprovals({ onDecision }) {
                                                 children: "รายละเอียด"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 81,
                                                 columnNumber: 98
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5439,18 +5767,18 @@ function RequestApprovals({ onDecision }) {
                                                 children: "ดำเนินการ"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 81,
                                                 columnNumber: 133
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                        lineNumber: 79,
+                                        lineNumber: 80,
                                         columnNumber: 57
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                    lineNumber: 79,
+                                    lineNumber: 80,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -5466,7 +5794,7 @@ function RequestApprovals({ onDecision }) {
                                                                 children: row.employeeName
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 83,
+                                                                lineNumber: 84,
                                                                 columnNumber: 43
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5474,7 +5802,7 @@ function RequestApprovals({ onDecision }) {
                                                                 children: row.department
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 83,
+                                                                lineNumber: 84,
                                                                 columnNumber: 94
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5482,13 +5810,13 @@ function RequestApprovals({ onDecision }) {
                                                                 children: displayDate(row.submittedAt, true)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 83,
+                                                                lineNumber: 84,
                                                                 columnNumber: 144
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                                        lineNumber: 83,
+                                                        lineNumber: 84,
                                                         columnNumber: 13
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5499,7 +5827,7 @@ function RequestApprovals({ onDecision }) {
                                                                 children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$request$2d$approvals$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["approvalLabels"][row.type]
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 84,
+                                                                lineNumber: 85,
                                                                 columnNumber: 43
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5507,8 +5835,16 @@ function RequestApprovals({ onDecision }) {
                                                                 children: displayDate(row.start, row.type === 'OVERTIME')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 84,
+                                                                lineNumber: 85,
                                                                 columnNumber: 118
+                                                            }, this),
+                                                            row.type === 'WORKDAY_CHANGE' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-slate-500",
+                                                                children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$workday$2d$changes$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["workdayTimeRange"])(row.fromDateStart, row.fromDateEnd)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/request-approvals.tsx",
+                                                                lineNumber: 86,
+                                                                columnNumber: 49
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 children: [
@@ -5518,13 +5854,21 @@ function RequestApprovals({ onDecision }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 84,
-                                                                columnNumber: 191
+                                                                lineNumber: 87,
+                                                                columnNumber: 15
+                                                            }, this),
+                                                            row.type === 'WORKDAY_CHANGE' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-xs text-slate-500",
+                                                                children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$workday$2d$changes$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["workdayTimeRange"])(row.toDateStart, row.toDateEnd)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/request-approvals.tsx",
+                                                                lineNumber: 88,
+                                                                columnNumber: 49
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                                        lineNumber: 84,
+                                                        lineNumber: 85,
                                                         columnNumber: 13
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5543,13 +5887,13 @@ function RequestApprovals({ onDecision }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                                lineNumber: 86,
+                                                                lineNumber: 91,
                                                                 columnNumber: 43
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                                        lineNumber: 85,
+                                                        lineNumber: 90,
                                                         columnNumber: 13
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5565,7 +5909,7 @@ function RequestApprovals({ onDecision }) {
                                                                     children: "อนุมัติ"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                                                    lineNumber: 89,
+                                                                    lineNumber: 94,
                                                                     columnNumber: 15
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5576,7 +5920,7 @@ function RequestApprovals({ onDecision }) {
                                                                     children: "ไม่อนุมัติ"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                                                    lineNumber: 90,
+                                                                    lineNumber: 95,
                                                                     columnNumber: 15
                                                                 }, this),
                                                                 busy === `${row.type}:${row.id}` && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5585,24 +5929,24 @@ function RequestApprovals({ onDecision }) {
                                                                     children: "กำลังบันทึก..."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                                                    lineNumber: 91,
+                                                                    lineNumber: 96,
                                                                     columnNumber: 52
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/request-approvals.tsx",
-                                                            lineNumber: 88,
+                                                            lineNumber: 93,
                                                             columnNumber: 43
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/request-approvals.tsx",
-                                                        lineNumber: 88,
+                                                        lineNumber: 93,
                                                         columnNumber: 13
                                                     }, this)
                                                 ]
                                             }, `${row.type}:${row.id}`, true, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 82,
+                                                lineNumber: 83,
                                                 columnNumber: 38
                                             }, this)),
                                         !visible.length && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -5612,41 +5956,41 @@ function RequestApprovals({ onDecision }) {
                                                 children: rows.length ? 'ไม่พบคำขอที่ตรงกับการค้นหา' : 'ไม่มีคำขอที่รออนุมัติ'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/request-approvals.tsx",
-                                                lineNumber: 93,
+                                                lineNumber: 98,
                                                 columnNumber: 42
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/request-approvals.tsx",
-                                            lineNumber: 93,
+                                            lineNumber: 98,
                                             columnNumber: 38
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/request-approvals.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 83,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/request-approvals.tsx",
-                            lineNumber: 78,
+                            lineNumber: 79,
                             columnNumber: 42
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/request-approvals.tsx",
-                        lineNumber: 78,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/request-approvals.tsx",
-                lineNumber: 66,
+                lineNumber: 67,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/request-approvals.tsx",
-        lineNumber: 59,
+        lineNumber: 60,
         columnNumber: 10
     }, this);
 }

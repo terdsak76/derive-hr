@@ -1,6 +1,6 @@
-{"timestamp":"00:00:00.417","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:02:04.382","source":"Server","level":"ERROR","message":"Kbiz reconciliation failed: PrismaClientKnownRequestError: \nInvalid `tx.kbizTransaction.update()` invocation in\n/Users/terdsak/Documents/projects/derive-hr/.next/dev/server/chunks/[root-of-the-server]__0yerbhs._.js:701:34\n\n  698 for (const row of rows){\n  699     const employee = matchKbizEmployee(row, employees);\n  700     if (!employee) continue;\n→ 701     await tx.kbizTransaction.update(\nTransaction API error: A query cannot be executed on an expired transaction. The timeout for this transaction was 60000 ms, however 60563 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction."}
-{"timestamp":"00:03:46.506","source":"Server","level":"LOG","message":"✓ Compiled in 19ms"}
-{"timestamp":"00:04:01.451","source":"Server","level":"LOG","message":"✓ Compiled in 10ms"}
-{"timestamp":"00:10:32.004","source":"Server","level":"LOG","message":"✓ Compiled in 10ms"}
-{"timestamp":"00:12:53.058","source":"Server","level":"LOG","message":"✓ Compiled in 12ms"}
+{"timestamp":"00:00:00.436","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:02.380","source":"Browser","level":"ERROR","message":"Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. TypeError: Load failed"}
+{"timestamp":"00:00:02.380","source":"Server","level":"ERROR","message":"[browser] \"Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation.\" \"\\u001b[31mTypeError: Load failed\\u001b[39m\""}
+{"timestamp":"00:00:02.381","source":"Browser","level":"ERROR","message":"Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. TypeError: Load failed"}
+{"timestamp":"00:00:02.382","source":"Server","level":"ERROR","message":"[browser] \"Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation.\" \"\\u001b[31mTypeError: Load failed\\u001b[39m\""}
+{"timestamp":"00:01:33.443","source":"Server","level":"LOG","message":"✓ Compiled in 41ms"}

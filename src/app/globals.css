@@ -15,6 +15,54 @@
     background: #dbeafe;
     color: #1e3a8a;
   }
+
+  /* Shared sizing defaults; individual controls keep their layout utilities. */
+  button:not(.app-sidebar-backdrop),
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    font-weight: 600;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+}
+
+/* Apply the action-button theme to every screen, including dialogs and login.
+   Navigation has its own selected state; the mobile backdrop is an overlay. */
+:where(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.app-sidebar-backdrop):not(.app-sidebar nav button) {
+  background-color: #2563eb;
+  background-image: none;
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+  box-shadow: 0 2px 4px rgba(30, 64, 175, 0.18);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+:where(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.app-sidebar-backdrop):not(.app-sidebar nav button):hover:enabled {
+  background-color: #1d4ed8;
+  border-color: #1e40af;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(30, 64, 175, 0.24);
+}
+
+:where(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.app-sidebar-backdrop):not(.app-sidebar nav button):is(:active, [aria-pressed="true"], [aria-selected="true"]):enabled {
+  background-color: #1e40af;
+  border-color: #1e3a8a;
+}
+
+:where(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.app-sidebar-backdrop):not(.app-sidebar nav button):focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+:where(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.app-sidebar-backdrop):not(.app-sidebar nav button):disabled {
+  background-color: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #64748b;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 /* Application shell */
@@ -120,8 +168,11 @@
   box-sizing: border-box;
   gap: 0.625rem;
   text-align: left;
-  color: #334155 !important;
-  border: 1px solid transparent;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(30, 64, 175, 0.08);
 }
 
 .app-sidebar nav button svg {
@@ -134,16 +185,26 @@
   overflow-wrap: anywhere;
 }
 
-.app-sidebar nav button:hover:not(.app-menu-primary):not(.bg-indigo-600):not(.bg-emerald-600) {
-  background: #f1f5f9;
-  color: #0f172a;
+.app-sidebar nav button:hover {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1e40af;
 }
 
-.app-sidebar nav button.bg-indigo-600,
-.app-sidebar nav button.bg-emerald-600 {
-  background: #c7d2fe !important;
-  color: #1e1b4b !important;
+.app-sidebar nav button.app-tab-button[aria-current="page"] {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
   box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+.app-sidebar nav button.app-tab-button[aria-current="page"]:hover {
+  background: #1d4ed8;
+}
+
+.app-sidebar nav button:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 3px;
 }
 
 .app-sidebar nav button.app-menu-primary {

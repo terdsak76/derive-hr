@@ -49,7 +49,7 @@ export default function AppNavigation({ activeTab, onSelect, isAdmin }: {
 }) {
   function item({ tab, label, icon: Icon }: Item) {
     return <button key={tab} type="button" onClick={() => onSelect(tab)} aria-current={activeTab === tab ? 'page' : undefined}
-      className={`w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-sm text-left font-medium transition ${activeTab === tab ? 'bg-indigo-600 text-white shadow-sm' : 'hover:bg-slate-100 text-slate-600'}`}>
+      className="app-tab-button w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-sm text-left font-semibold transition">
       <Icon className="w-4 h-4 mt-0.5 shrink-0" /><span>{label}</span>
     </button>;
   }

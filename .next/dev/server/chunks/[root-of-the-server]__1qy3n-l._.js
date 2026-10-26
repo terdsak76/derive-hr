@@ -140,6 +140,11 @@ async function GET(request) {
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].kbizTransaction.findMany({
                 include: {
                     allocations: true,
+                    depositSuggestions: {
+                        where: {
+                            status: 'PENDING'
+                        }
+                    },
                     employeeAllocations: true,
                     taxAllocations: {
                         include: {
@@ -514,6 +519,18 @@ async function PUT(request) {
                         deleteMany: {},
                         create: data
                     }
+                }
+            });
+            // Saving a manual decision supersedes any unconfirmed automatic proposal.
+            await tx.kbizDepositSuggestion.updateMany({
+                where: {
+                    transactionId: row.id,
+                    status: 'PENDING'
+                },
+                data: {
+                    status: 'REJECTED',
+                    reviewedById: user.id,
+                    reviewedAt: new Date()
                 }
             });
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$document$2d$status$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["syncDocumentStatuses"])(tx, [
@@ -1326,6 +1343,7 @@ const employeePaymentTypes = [
 ];
 const employeePaymentTypeLabel = (type)=>employeePaymentTypes.find((item)=>item.value === type)?.label || 'Pending / รอเลือกประเภท';
 function kbizReconciliationStatus(row) {
+    if (row.depositSuggestions?.some((item)=>item.status === 'PENDING')) return 'PENDING';
     if (row.employeeAllocations.some((item)=>item.paymentType === 'PENDING')) return 'PENDING';
     const total = row.depositCents ? row.allocations.reduce((sum, item)=>sum + item.amountCents, 0) : row.vendorAllocations.reduce((sum, item)=>sum + item.amountCents, 0) + row.employeeAllocations.reduce((sum, item)=>sum + item.amountCents, 0) + row.taxAllocations.reduce((sum, item)=>sum + item.amountCents, 0);
     if (total) return total === (row.depositCents || row.withdrawalCents) ? 'COMPLETED' : 'PARTIAL';

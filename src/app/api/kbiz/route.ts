@@ -11,6 +11,7 @@ import { syncVendorPaymentStatuses } from '@/lib/vendor-payment-status';
 import { syncRevenueTaxStatuses } from '@/lib/revenue-tax-status';
 import { vendorPaymentAmounts } from '@/lib/vendor-payments';
 import { WithholdingConflict } from '@/lib/vendor-withholding';
+import { syncIncentivePaymentStatuses } from '@/lib/incentive-payment-status';
 
 class ValidationError extends Error {}
 function errorResponse(error: unknown) {
@@ -28,7 +29,7 @@ export async function GET(request: Request) {
     const month = params.get('invoice_month') || '';
     if (!parseFinanceMonth(month)) throw new ValidationError('Select a valid invoice month');
     const [transactions, invoices, payments, employees, taxes] = await Promise.all([
-      prisma.kbizTransaction.findMany({ include: { allocations: true, employeeAllocations: true, taxAllocations: { include: { taxPayment: { select: { paymentNumber: true, paymentMonth: true } } } }, vendorAllocations: { include: { vendorPayment: { select: { paymentNumber: true, vendorName: true } } } } }, orderBy: [{ transactionDate: 'desc' }, { transactionTime: 'desc' }, { balanceCents: 'desc' }] }),
+      prisma.kbizTransaction.findMany({ include: { allocations: true, depositSuggestions: { where: { status: 'PENDING' } }, employeeAllocations: true, taxAllocations: { include: { taxPayment: { select: { paymentNumber: true, paymentMonth: true } } } }, vendorAllocations: { include: { vendorPayment: { select: { paymentNumber: true, vendorName: true } } } } }, orderBy: [{ transactionDate: 'desc' }, { transactionTime: 'desc' }, { balanceCents: 'desc' }] }),
       kbizInvoices(prisma, month),
       prisma.vendorPayment.findMany({ include: { allocations: { select: { amountCents: true } } }, orderBy: { paymentDate: 'desc' } }),
       prisma.employee.findMany({ select: { id: true, name: true, department: true }, orderBy: { name: 'asc' } }),
@@ -108,6 +109,17 @@ export async function PUT(request: Request) {
             seenEmployees.add(key);
             const employee = await tx.employee.findUnique({ where: { id: allocation.employeeId }, select: { id: true, name: true } });
             if (!employee) throw new ValidationError('Employee not found');
+            if (allocation.paymentType === 'INCENTIVE') {
+              const incentive = await tx.incentive.findUnique({ where: { employeeId_month: { employeeId: employee.id, month: allocation.paymentMonth } } });
+              // Keep historical employee bank payments usable even when no monthly incentive entry exists.
+              if (incentive) {
+                if (incentive.status === 'INITIAL') throw new ValidationError('กรุณาอนุมัติ Incentive ของพนักงานในเดือนที่เลือกก่อนจับคู่ Kbiz');
+                const elsewhere = await tx.kbizEmployeeAllocation.aggregate({ where: {
+                  employeeId: employee.id, paymentMonth: allocation.paymentMonth, paymentType: 'INCENTIVE', transactionId: { not: row.id },
+                }, _sum: { amountCents: true } });
+                if ((elsewhere._sum.amountCents || 0) + allocation.amountCents > incentive.amountCents) throw new ValidationError('ยอดจับคู่เกินยอด Incentive คงเหลือของพนักงานในเดือนที่เลือก');
+              }
+            }
             employeeData.push({ employeeId: employee.id, employeeName: employee.name, paymentType: allocation.paymentType, paymentMonth: allocation.paymentMonth, amountCents: allocation.amountCents });
           }
           if (employeeData.reduce((sum, item) => sum + item.amountCents, 0) > row.withdrawalCents) throw new ValidationError('Employee allocations exceed the withdrawal amount');
@@ -142,6 +154,9 @@ export async function PUT(request: Request) {
         } });
         if (body.vendorAllocations !== undefined) await syncVendorPaymentStatuses(tx, [...previous.map(item => item.vendorPaymentId), ...body.vendorAllocations.map((item: { vendorPaymentId: string }) => item.vendorPaymentId)]);
         if (body.taxAllocations !== undefined) await syncRevenueTaxStatuses(tx, [...previousTaxes.map(item => item.taxPaymentId), ...taxData.map(item => item.taxPaymentId)]);
+        if (body.employeeAllocations !== undefined) await syncIncentivePaymentStatuses(tx,
+          [...previousEmployees, ...employeeData].filter(item => item.paymentType === 'INCENTIVE').map(item => ({ employeeId: item.employeeId, month: item.paymentMonth })),
+        );
         return;
       }
       if (body.vendorAllocations?.length) throw new ValidationError('Vendor payments must be matched to withdrawals');
@@ -170,6 +185,10 @@ export async function PUT(request: Request) {
       const previous = await tx.kbizAllocation.findMany({ where: { transactionId: row.id }, select: { referenceKey: true } });
       await tx.kbizTransaction.update({ where: { id: row.id }, data: {
         updatedById: user.id, allocations: { deleteMany: {}, create: data },
+      } });
+      // Saving a manual decision supersedes any unconfirmed automatic proposal.
+      await tx.kbizDepositSuggestion.updateMany({ where: { transactionId: row.id, status: 'PENDING' }, data: {
+        status: 'REJECTED', reviewedById: user.id, reviewedAt: new Date(),
       } });
       await syncDocumentStatuses(tx, [...previous.map(item => item.referenceKey), ...data.map(item => item.referenceKey)]);
     }, { timeout: 30000 });

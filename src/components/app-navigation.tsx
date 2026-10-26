@@ -26,6 +26,7 @@ const expenseItems: Item[] = [
   { tab: 'salary-incentive-history', label: 'Salary & Incentive Management', icon: DollarSign },
   { tab: 'incentives', label: 'Incentive พนักงาน', icon: UserCheck },
   { tab: 'bonuses', label: 'Bonus', icon: DollarSign },
+  { tab: 'employee-tax-summary', label: 'สรุปยอดภาษีพนักงาน', icon: FileText },
   { tab: 'social-security', label: 'ประกันสังคม', icon: Shield },
 ];
 

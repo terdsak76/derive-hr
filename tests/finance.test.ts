@@ -20,6 +20,9 @@ import { applyIncentivePaymentStatusMigration } from '../scripts/apply-incentive
 import { applyBonusMigration } from '../scripts/apply-bonus-migration.mjs';
 import { applyBonusPaymentStatusMigration } from '../scripts/apply-bonus-payment-status-migration.mjs';
 import { calculateBonusCents, countBonusLeaveDays } from '../src/lib/bonuses';
+import { annualSalary, parseTaxYear, validCertificateAmounts, type TaxSummaryRow } from '../src/lib/employee-tax-summary';
+import { employeeTaxReport } from '../src/lib/employee-tax-data';
+import { renderWithholdingCertificate } from '../src/lib/withholding-certificate';
 
 let directory: string;
 let prisma: PrismaClient;
@@ -126,6 +129,109 @@ after(async () => {
 });
 
 const bonusBody = { year: 2026, maxLeaveDays: 1, expenseMonth: '2026-12', scores: [{ employeeId: 'employee', score: 100 }] };
+
+test('annual salary uses dated history, prorates calendar days and excludes employer social security', () => {
+  const periods = [
+    { salaryCents: 620000, startDate: new Date('2025-01-16'), endDate: null, isOpening: false },
+    { salaryCents: 310000, startDate: new Date('2025-01-01'), endDate: new Date('2025-01-15'), isOpening: false },
+  ];
+  const result = annualSalary(periods, 2025, 1, false);
+  assert.equal(result.salaryCents, 470000);
+  assert.equal(result.socialSecurityCents, 23500);
+  assert.equal(result.missingDays, 0);
+  assert.equal(annualSalary(periods, 2025, 1, true).socialSecurityCents, 0);
+  assert.equal(annualSalary([], 2025, 12, false).salaryCents, 0);
+  assert.equal(annualSalary([], 2024, 12, false).missingDays, 366);
+  assert.equal(parseTaxYear('2026'), 2026);
+  for (const year of ['1999', '2026junk', '2026.5', '9999', '', null]) assert.equal(parseTaxYear(year), null);
+});
+
+test('tax summary includes approved income once by expense/work month and respects Bangkok year boundaries', async () => {
+  await prisma.employee.update({ where: { id: 'employee' }, data: { taxId: '0123456789012', address: 'Bangkok' } });
+  await prisma.salaryIncentiveHistory.create({ data: { employeeId: 'employee', salaryCents: 3000000, fullIncentiveCents: 0, startDate: new Date('2025-01-01') } });
+  for (const [month, status, amountCents] of [['2025-01', 'PAYMENT_PENDING', 10000], ['2025-02', 'COMPLETED', 20000], ['2025-03', 'INITIAL', 90000], ['2026-01', 'COMPLETED', 99000]] as const) {
+    await prisma.incentive.create({ data: { employeeId: 'employee', month, status, amountCents, score: 100 } });
+  }
+  await prisma.bonusYear.create({ data: { year: 2024, expenseMonth: '2025-01', updatedById: 'admin' } });
+  await prisma.bonus.create({ data: { employeeId: 'employee', year: 2024, score: 100, salaryCents: 3000000, leaveDays: 0, maxLeaveDays: 0, baseCents: 3000000, deductionCents: 0, amountCents: 3000000, status: 'PAYMENT_PENDING' } });
+  for (const [date, status, amount] of [['2024-12-31T17:00:00Z', 'APPROVED', 1000], ['2025-12-31T16:59:00Z', 'APPROVED', 2000], ['2025-12-31T17:00:00Z', 'APPROVED', 99000], ['2025-01-02T00:00:00Z', 'PENDING_APPROVAL', 88000], ['2025-01-03T00:00:00Z', 'REJECTED', 77000]] as const) {
+    await prisma.overtime.create({ data: { employeeId: 'employee', createdById: 'admin', startAt: new Date(date), endAt: new Date(new Date(date).getTime() + 3600000), workedMinutes: 60, hourlyRateCents: amount, otAmountCents: amount, status } });
+  }
+  const result = await employeeTaxReport(prisma, 2025, new Date('2026-10-26'));
+  const row = result.employees.find(row => row.id === 'employee')!;
+  assert.equal(result.throughMonth, '2025-12');
+  assert.equal(row.salaryCents, 36000000); assert.equal(row.incentiveCents, 30000);
+  assert.equal(row.bonusCents, 3000000); assert.equal(row.overtimeCents, 3000);
+  assert.equal(row.totalCents, 39033000); assert.equal(row.withheldCents, 0);
+  assert.equal(row.socialSecurityCents, 1050000);
+  const current = await employeeTaxReport(prisma, 2026, new Date('2026-01-31T17:00:00Z'));
+  assert.equal(current.throughMonth, '2026-02');
+  assert.equal(current.employees.find(row => row.id === 'employee')!.salaryCents, 6000000);
+  const future = await employeeTaxReport(prisma, 2027, new Date('2026-10-26'));
+  assert.equal(future.employees.find(row => row.id === 'employee')!.totalCents, 0);
+});
+
+test('annual tax summary and certificates require a current database admin role', async () => {
+  const summary = await import('../src/app/api/employee-tax-summary/route');
+  const certificate = await import('../src/app/api/employee-tax-summary/certificate/route');
+  for (const [id, status] of [['', 401], ['missing', 401], ['employee', 403], ['admin', 200], ['legacy', 200]] as const) {
+    const response = await summary.GET(request('/api/employee-tax-summary?year=2025', 'GET', id));
+    assert.equal(response.status, status);
+  }
+  assert.equal((await summary.GET(request('/api/employee-tax-summary?year=2025', 'GET', ''))).status, 401);
+  assert.equal((await summary.GET(request('/api/employee-tax-summary?year=2025x'))).status, 400);
+  assert.equal((await certificate.POST(request('/api/employee-tax-summary/certificate', 'POST', 'employee', {}))).status, 403);
+  const valid = { year: '2025', employeeId: 'employee', confirmed: true, amounts: { salaryCents: 100000, incentiveCents: 10000, bonusCents: 20000, overtimeCents: 30000, socialSecurityCents: 5000 } };
+  assert.equal((await certificate.POST(request('/api/employee-tax-summary/certificate', 'POST', 'admin', valid))).status, 400);
+  await prisma.employee.update({ where: { id: 'employee' }, data: { taxId: '0123456789012', address: 'Bangkok' } });
+  assert.equal((await certificate.POST(request('/api/employee-tax-summary/certificate', 'POST', 'admin', { ...valid, confirmed: false }))).status, 400);
+  assert.equal((await certificate.POST(request('/api/employee-tax-summary/certificate', 'POST', 'admin', { ...valid, amounts: { ...valid.amounts, salaryCents: -1 } }))).status, 400);
+  const response = await certificate.POST(request('/api/employee-tax-summary/certificate', 'POST', 'legacy', valid));
+  assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'private, no-store');
+  const html = await response.text();
+  assert.ok(html.includes('บริษัท ดีไรฟ์ อินโนเวชั่น จำกัด')); assert.ok(html.includes('ศูนย์บาทถ้วน'));
+  assert.ok(html.includes('ปี 2568')); assert.ok(html.includes('1,600'));
+  assert.equal((html.match(/class="certificate"/g) || []).length, 2);
+  assert.equal(await prisma.employee.count(), 4, 'Printing does not create ledger records');
+});
+
+test('certificate HTML escapes personal data and never carries sample values or signatures', () => {
+  const amounts = { salaryCents: 10000, incentiveCents: 0, bonusCents: 0, overtimeCents: 0, socialSecurityCents: 100 };
+  assert.equal(validCertificateAmounts(amounts), true);
+  for (const changed of [{ salaryCents: NaN }, { salaryCents: 0.1 }, { salaryCents: '1000' }, { salaryCents: 1e15 }, { socialSecurityCents: 10001 }]) {
+    assert.equal(validCertificateAmounts({ ...amounts, ...changed }), false);
+  }
+  const html = renderWithholdingCertificate({ year: 2025, employee: { name: '<script>alert(1)</script>', taxId: '0123456789012', address: '<img onerror=alert(2)>' }, amounts, issuedAt: new Date('2026-10-26') });
+  assert.ok(html.includes('&lt;script&gt;')); assert.ok(!html.includes('<script>alert(1)'));
+  assert.ok(html.includes('&lt;img onerror=alert(2)&gt;'));
+  assert.ok(!html.includes('ร้านตัวอย่าง')); assert.ok(!html.includes('image2.png'));
+});
+
+test('employee tax fields are optional, validated, private to self/admin and preserve leading zeroes', async () => {
+  const values = { id: 'employee', taxId: ' 0123456789012 ', address: ' Bangkok ' };
+  const saved = await employees.PATCH(request('/api/employees', 'PATCH', 'employee', values));
+  assert.equal(saved.status, 200);
+  const row = await saved.json(); assert.equal(row.taxId, '0123456789012'); assert.equal(row.address, 'Bangkok');
+  const listing = await employees.GET(request('/api/employees', 'GET', 'unset'));
+  assert.ok((await listing.json()).every((row: TaxSummaryRow) => row.id === 'unset'));
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'unset', values))).status, 403);
+  for (const changes of [{ taxId: '123' }, { taxId: 1234567890123 }, { taxId: '123456789012X' }, { address: null }, { address: 'a'.repeat(1001) }]) {
+    assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'admin', { id: 'employee', ...changes }))).status, 400);
+  }
+  assert.equal((await employees.PATCH(request('/api/employees', 'PATCH', 'employee', { id: 'employee', taxId: '', address: '' }))).status, 200);
+});
+
+test('employee tax migration is repeatable and preserves existing data on partial installation', async () => {
+  const { applyEmployeeTaxDetailsMigration } = await import('../scripts/apply-employee-tax-details-migration.mjs');
+  const db = createClient({ url: 'file::memory:' });
+  try {
+    await db.executeMultiple(`CREATE TABLE Employee (id TEXT PRIMARY KEY, name TEXT, taxId TEXT NOT NULL DEFAULT ''); INSERT INTO Employee VALUES ('old', 'Original', '0123456789012');`);
+    assert.equal(await applyEmployeeTaxDetailsMigration(db), 'applied');
+    assert.equal(await applyEmployeeTaxDetailsMigration(db), 'already-applied');
+    const rows = await db.execute('SELECT * FROM Employee');
+    assert.equal(rows.rows[0].taxId, '0123456789012'); assert.equal(rows.rows[0].address, ''); assert.equal(rows.rows[0].name, 'Original');
+  } finally { db.close(); }
+});
 const saveBonuses = (body: unknown = bonusBody, user = 'admin') => bonuses.PUT(request('/api/bonuses', 'PUT', user, body));
 const listBonuses = (year = '2026', user = 'admin') => bonuses.GET(request(`/api/bonuses?year=${year}`, 'GET', user));
 async function approveBonus(user = 'admin') {

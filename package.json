@@ -26,6 +26,7 @@
     "db:incentives": "node scripts/apply-incentive-migration.mjs",
     "db:bonuses": "node scripts/apply-bonus-migration.mjs",
     "db:bonus-payment-status": "node scripts/apply-bonus-payment-status-migration.mjs",
+    "db:employee-tax-details": "node scripts/apply-employee-tax-details-migration.mjs",
     "db:incentive-payment-status": "node scripts/apply-incentive-payment-status-migration.mjs",
     "db:taxes": "node scripts/apply-tax-migration.mjs",
     "db:owners": "node scripts/apply-owner-migration.mjs",

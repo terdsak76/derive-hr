@@ -13,6 +13,7 @@ import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
 import IncentiveManagement from '@/components/incentive-management';
 import BonusManagement from '@/components/bonus-management';
+import EmployeeTaxSummary from '@/components/employee-tax-summary';
 import CompanyFinance from '@/components/company-finance';
 import KbizReconciliation from '@/components/kbiz-reconciliation';
 import VendorPayments from '@/components/vendor-payments';
@@ -23,6 +24,7 @@ import RequestApprovals from '@/components/request-approvals';
 import SalaryIncentiveManagement from '@/components/salary-incentive-management';
 
 const tabDescriptions: Record<string, string> = {
+  'employee-tax-summary': 'สรุปรายได้และประกันสังคมลูกจ้างรายปี พร้อมพิมพ์หนังสือรับรองการหักภาษี ณ ที่จ่าย',
   'revenue-tax-payments': 'บันทึกเดือนและยอดชำระภาษีกรมสรรพากร พร้อมจับคู่รายการถอน Kbiz',
   'vendor-payments': 'บันทึก Vendor, Tax ID และยอดชำระ พิมพ์ใบสำคัญจ่าย และจับคู่รายการถอน Kbiz',
   kbiz: 'จับคู่เงินฝาก Kbiz กับ Invoice และระบุรายละเอียดรายการรายจ่าย',
@@ -1693,6 +1695,7 @@ export default function App() {
               {activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)'}
               {activeTab === 'incentives' && 'Incentive ตามผลงานพนักงาน'}
               {activeTab === 'bonuses' && 'Bonus ตามผลงานพนักงาน'}
+              {activeTab === 'employee-tax-summary' && 'สรุปยอดภาษีพนักงาน'}
               {activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท'}
               {activeTab === 'kbiz' && 'Kbiz Transaction Reconciliation'}
               {activeTab === 'vendor-payments' && 'Vendor Payments / จ่ายผู้ขาย'}
@@ -1735,6 +1738,7 @@ export default function App() {
           }} />}
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
           {activeTab === 'bonuses' && isAdminRole(currentUser.role) && <BonusManagement />}
+          {activeTab === 'employee-tax-summary' && isAdminRole(currentUser.role) && <EmployeeTaxSummary />}
           {activeTab === 'salary-incentive-history' && isAdminRole(currentUser.role) && <SalaryIncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
           {activeTab === 'kbiz' && isAdminRole(currentUser.role) && <KbizReconciliation />}

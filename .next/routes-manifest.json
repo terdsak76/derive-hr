@@ -78,6 +78,12 @@
       "namedRegex": "^/api/auth/update\\-account(?:/)?$"
     },
     {
+      "page": "/api/bonuses",
+      "regex": "^/api/bonuses(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/bonuses(?:/)?$"
+    },
+    {
       "page": "/api/company-finance",
       "regex": "^/api/company\\-finance(?:/)?$",
       "routeKeys": {},
@@ -88,6 +94,18 @@
       "regex": "^/api/employee\\-summary(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/employee\\-summary(?:/)?$"
+    },
+    {
+      "page": "/api/employee-tax-summary",
+      "regex": "^/api/employee\\-tax\\-summary(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/employee\\-tax\\-summary(?:/)?$"
+    },
+    {
+      "page": "/api/employee-tax-summary/certificate",
+      "regex": "^/api/employee\\-tax\\-summary/certificate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/employee\\-tax\\-summary/certificate(?:/)?$"
     },
     {
       "page": "/api/employees",
@@ -118,6 +136,12 @@
       "regex": "^/api/kbiz(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/kbiz(?:/)?$"
+    },
+    {
+      "page": "/api/kbiz/deposit-matches",
+      "regex": "^/api/kbiz/deposit\\-matches(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/kbiz/deposit\\-matches(?:/)?$"
     },
     {
       "page": "/api/leaves",

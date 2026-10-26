@@ -6,7 +6,7 @@ import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 import { matchExistingKbizEmployees } from '@/lib/kbiz-employees';
 
 const employeeSelect = {
-  id: true, name: true, kbizName: true, department: true, position: true, email: true, role: true, isOwner: true,
+  id: true, name: true, kbizName: true, taxId: true, address: true, department: true, position: true, email: true, role: true, isOwner: true,
   fullIncentiveCents: true, monthlySalaryCents: true,
 } as const;
 
@@ -46,7 +46,15 @@ async function readBody(request: Request): Promise<Record<string, unknown> | nul
 }
 
 function parseEmployee(body: Record<string, unknown>, creating: boolean) {
-  const data: { name?: string; kbizName?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean; fullIncentiveCents?: number } = {};
+  const data: { name?: string; kbizName?: string; taxId?: string; address?: string; department?: string; position?: string; email?: string; passwordHash?: string; isOwner?: boolean; fullIncentiveCents?: number } = {};
+  if (body.taxId !== undefined) {
+    if (typeof body.taxId !== 'string' || (body.taxId.trim() && !/^\d{13}$/.test(body.taxId.trim()))) return { error: 'Tax ID must be 13 digits or left blank.' } as const;
+    data.taxId = body.taxId.trim();
+  }
+  if (body.address !== undefined) {
+    if (typeof body.address !== 'string' || body.address.trim().length > 1000) return { error: 'Address must be at most 1,000 characters.' } as const;
+    data.address = body.address.trim();
+  }
   if (body.kbizName !== undefined) {
     if (typeof body.kbizName !== 'string' || body.kbizName.trim().length > 254) return { error: 'Kbiz name must be at most 254 characters.' } as const;
     data.kbizName = body.kbizName.trim();
@@ -95,7 +103,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       orderBy: { name: 'asc' },
       select: employeeSelect,
     });
-    return NextResponse.json(employees.map(serializeEmployee));
+    return NextResponse.json(employees.map(serializeEmployee), { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     return employeeError(error);
   }
@@ -114,6 +122,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       const created = await tx.employee.create({
         data: {
           name: parsed.data.name!, kbizName: parsed.data.kbizName ?? '', department: parsed.data.department!, position: parsed.data.position!,
+          taxId: parsed.data.taxId ?? '', address: parsed.data.address ?? '',
           email: parsed.data.email!, passwordHash: parsed.data.passwordHash!, role: 'USER', isOwner: parsed.data.isOwner ?? false,
           fullIncentiveCents: parsed.data.fullIncentiveCents ?? 0,
         },

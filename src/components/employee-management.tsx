@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Pencil, Plus, RefreshCw, Search, Trash2, X } from 'lucide-react';
 import type { AuthUser } from '@/lib/auth';
 
-type Employee = AuthUser & { kbizName: string; department: string; position: string; isOwner: boolean; fullIncentive: number; monthlySalary: number | null };
-type EmployeeForm = { id: string; name: string; kbizName: string; department: string; position: string; email: string; password: string; isOwner: boolean; fullIncentive: string };
-const emptyForm: EmployeeForm = { id: '', name: '', kbizName: '', department: '', position: '', email: '', password: '', isOwner: false, fullIncentive: '0' };
+type Employee = AuthUser & { kbizName: string; taxId: string; address: string; department: string; position: string; isOwner: boolean; fullIncentive: number; monthlySalary: number | null };
+type EmployeeForm = { id: string; name: string; kbizName: string; taxId: string; address: string; department: string; position: string; email: string; password: string; isOwner: boolean; fullIncentive: string };
+const emptyForm: EmployeeForm = { id: '', name: '', kbizName: '', taxId: '', address: '', department: '', position: '', email: '', password: '', isOwner: false, fullIncentive: '0' };
 const inputClass = 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500';
 
 export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
@@ -26,7 +26,7 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
   function editEmployee(employee: Employee) {
     setError('');
     setSuccess('');
-    setForm({ id: employee.id, name: employee.name, kbizName: employee.kbizName, department: employee.department, position: employee.position, email: employee.email, password: '', isOwner: employee.isOwner, fullIncentive: String(employee.fullIncentive) });
+    setForm({ id: employee.id, name: employee.name, kbizName: employee.kbizName, taxId: employee.taxId, address: employee.address, department: employee.department, position: employee.position, email: employee.email, password: '', isOwner: employee.isOwner, fullIncentive: String(employee.fullIncentive) });
   }
 
   async function loadEmployees(signal?: AbortSignal) {
@@ -136,6 +136,8 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
           <form onSubmit={saveEmployee}>
             <fieldset disabled={isSaving} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label htmlFor="employee-name" className="block text-sm font-medium text-slate-700 mb-1">ชื่อพนักงาน</label><input id="employee-name" required maxLength={254} value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} className={inputClass} /></div>
+              <div><label htmlFor="employee-tax-id" className="block text-sm font-medium text-slate-700 mb-1">เลขประจำตัวผู้เสียภาษี / เลขบัตรประชาชน</label><input id="employee-tax-id" inputMode="numeric" pattern="[0-9]{13}" maxLength={13} value={form.taxId} onChange={event => setForm({ ...form, taxId: event.target.value })} className={inputClass} /><p className="text-xs text-slate-500 mt-1">13 หลัก ใช้ในหนังสือรับรองการหักภาษี ณ ที่จ่าย</p></div>
+              <div className="md:col-span-2"><label htmlFor="employee-address" className="block text-sm font-medium text-slate-700 mb-1">ที่อยู่พนักงานสำหรับเอกสารภาษี</label><textarea id="employee-address" rows={2} maxLength={1000} value={form.address} onChange={event => setForm({ ...form, address: event.target.value })} className={inputClass} /></div>
               {isAdmin && <div><label htmlFor="employee-kbiz-name" className="block text-sm font-medium text-slate-700 mb-1">ชื่อสำหรับจับคู่ Kbiz / Bank matching name</label><input id="employee-kbiz-name" maxLength={254} value={form.kbizName} onChange={event => setForm({ ...form, kbizName: event.target.value })} className={inputClass} /><p className="text-xs text-slate-500 mt-1">ระบุชื่อที่ปรากฏในรายละเอียดธนาคาร ระบบจับคู่รายการถอนอัตโนมัติและรอ Admin เลือกประเภทการจ่าย เว้นว่างเพื่อปิดการจับคู่</p></div>}
               <div><label htmlFor="employee-department" className="block text-sm font-medium text-slate-700 mb-1">แผนก</label><input id="employee-department" required maxLength={254} value={form.department} onChange={event => setForm({ ...form, department: event.target.value })} className={inputClass} /></div>
               <div><label htmlFor="employee-position" className="block text-sm font-medium text-slate-700 mb-1">ตำแหน่ง</label><input id="employee-position" required maxLength={254} value={form.position} onChange={event => setForm({ ...form, position: event.target.value })} className={inputClass} /></div>
@@ -157,13 +159,13 @@ export default function EmployeeManagement({ currentUser, onEmployeesChange }: {
         {isAdmin && <div className="p-4 border-b border-slate-200"><div className="relative max-w-md"><Search className="absolute left-3 top-3 w-4 h-4 text-slate-400" /><input type="search" aria-label="ค้นหาพนักงาน" value={search} onChange={event => setSearch(event.target.value)} placeholder="ค้นหาชื่อ อีเมล แผนก หรือตำแหน่ง" className={`${inputClass} pl-10`} /></div></div>}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-100 text-slate-700"><tr><th className="p-4">พนักงาน</th><th className="p-4">แผนก / ตำแหน่ง</th><th className="p-4">อีเมล</th><th className="p-4">สิทธิ์</th><th className="p-4 text-right">เงินเดือนล่าสุด (บาท)</th><th className="p-4 text-right">Full incentive (บาท / เดือน)</th><th className="p-4 text-right">จัดการ</th></tr></thead>
+            <thead className="bg-slate-100 text-slate-700"><tr><th className="p-4">พนักงาน</th><th className="p-4">แผนก / ตำแหน่ง</th><th className="p-4">อีเมล / ข้อมูลภาษี</th><th className="p-4">สิทธิ์</th><th className="p-4 text-right">เงินเดือนล่าสุด (บาท)</th><th className="p-4 text-right">Full incentive (บาท / เดือน)</th><th className="p-4 text-right">จัดการ</th></tr></thead>
             <tbody className="divide-y divide-slate-200">
               {isLoading ? <tr><td colSpan={7} className="p-8 text-center text-slate-400">กำลังโหลดข้อมูลพนักงาน...</td></tr> : filteredEmployees.length === 0 ? <tr><td colSpan={7} className="p-8 text-center text-slate-400">ไม่พบข้อมูลพนักงาน</td></tr> : filteredEmployees.map(employee => (
                 <tr key={employee.id} className="hover:bg-slate-50">
                   <td className="p-4"><p className="font-semibold text-slate-800">{employee.name} {employee.isOwner && <span className="text-xs px-2 py-0.5 bg-amber-50 text-amber-800 rounded-full">Owner</span>}</p><p className="text-xs text-slate-400 mt-1">{employee.id}</p></td>
                   <td className="p-4"><p>{employee.department}</p><p className="text-xs text-slate-500 mt-1">{employee.position}</p></td>
-                  <td className="p-4">{employee.email}</td>
+                  <td className="p-4"><p>{employee.email}</p><p className="text-xs text-slate-500 mt-1">Tax ID: {employee.taxId || 'ยังไม่ระบุ'}</p><p className="text-xs text-slate-500 mt-1 whitespace-normal max-w-xs">{employee.address || 'ยังไม่ระบุที่อยู่เอกสารภาษี'}</p></td>
                   <td className="p-4">{['ADMIN', 'ROLE_ADMIN'].includes(employee.role.trim().toUpperCase()) ? 'Admin' : 'User'}</td>
                   <td className="p-4 text-right whitespace-nowrap">{employee.monthlySalary === null ? 'ยังไม่กำหนด' : employee.monthlySalary.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}</td>
                   <td className="p-4 text-right whitespace-nowrap">{employee.fullIncentive.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}</td>

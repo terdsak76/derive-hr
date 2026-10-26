@@ -100,6 +100,8 @@ const employeeSelect = {
     id: true,
     name: true,
     kbizName: true,
+    taxId: true,
+    address: true,
     department: true,
     position: true,
     email: true,
@@ -166,6 +168,18 @@ async function readBody(request) {
 }
 function parseEmployee(body, creating) {
     const data = {};
+    if (body.taxId !== undefined) {
+        if (typeof body.taxId !== 'string' || body.taxId.trim() && !/^\d{13}$/.test(body.taxId.trim())) return {
+            error: 'Tax ID must be 13 digits or left blank.'
+        };
+        data.taxId = body.taxId.trim();
+    }
+    if (body.address !== undefined) {
+        if (typeof body.address !== 'string' || body.address.trim().length > 1000) return {
+            error: 'Address must be at most 1,000 characters.'
+        };
+        data.address = body.address.trim();
+    }
     if (body.kbizName !== undefined) {
         if (typeof body.kbizName !== 'string' || body.kbizName.trim().length > 254) return {
             error: 'Kbiz name must be at most 254 characters.'
@@ -237,7 +251,11 @@ async function GET(request) {
             },
             select: employeeSelect
         });
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employees.map(serializeEmployee));
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(employees.map(serializeEmployee), {
+            headers: {
+                'Cache-Control': 'private, no-store'
+            }
+        });
     } catch (error) {
         return employeeError(error);
     }
@@ -270,6 +288,8 @@ async function POST(request) {
                     kbizName: parsed.data.kbizName ?? '',
                     department: parsed.data.department,
                     position: parsed.data.position,
+                    taxId: parsed.data.taxId ?? '',
+                    address: parsed.data.address ?? '',
                     email: parsed.data.email,
                     passwordHash: parsed.data.passwordHash,
                     role: 'USER',

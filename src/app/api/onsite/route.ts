@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { formatBangkokDate } from '@/lib/bangkok-date';
 import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
 
 const employeeSelect = { id: true, name: true, department: true, position: true } as const;
@@ -44,7 +45,9 @@ function serializeOnsite(item: any) {
     employee_id: item.employeeId,
     client_name: meta.client_name || '',
     destination: item.location || '',
-    date: item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : '',
+    // Stored timestamps represent Bangkok day boundaries; UTC midnight slicing
+    // would display the previous calendar day for the start of a trip.
+    date: item.startDate ? formatBangkokDate(new Date(item.startDate)) : '',
     purpose: meta.purpose || '',
     vehicle: meta.vehicle || 'CAR',
     outbound_distance: Number(meta.outbound_distance || 0),

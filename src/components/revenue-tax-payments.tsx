@@ -1,12 +1,14 @@
 'use client';
 
+import { bangkokMonth } from '@/lib/bangkok-date';
+
 import { useEffect, useState, type FormEvent } from 'react';
 import type { RevenueTaxPaymentRecord } from '@/lib/revenue-tax-payments';
 
 const inputClass = 'block w-full mt-1 border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm';
 const buttonClass = 'rounded-lg bg-indigo-600 text-white text-sm font-medium px-4 py-2 disabled:opacity-50';
 const money = (value: number) => new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(value / 100);
-const emptyForm = () => ({ paymentMonth: new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Bangkok' }).slice(0, 7), amount: '' });
+const emptyForm = () => ({ paymentMonth: bangkokMonth(), amount: '' });
 
 export default function RevenueTaxPayments({ onReconcile }: { onReconcile: () => void }) {
   const [payments, setPayments] = useState<RevenueTaxPaymentRecord[]>([]);

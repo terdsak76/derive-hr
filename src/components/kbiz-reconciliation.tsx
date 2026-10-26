@@ -1,5 +1,7 @@
 'use client';
 
+import { bangkokMonth } from '@/lib/bangkok-date';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { parseKbizCsv, kbizReconciliationStatus, employeePaymentTypeLabel, type KbizBonus, type KbizEmployee, type KbizInvoice, type KbizRecord, type KbizRow } from '@/lib/kbiz';
 import { kbizMatch } from '@/lib/kbiz-matching';
@@ -10,7 +12,7 @@ import type { RevenueTaxPaymentRecord } from '@/lib/revenue-tax-payments';
 const money = (cents: number) => new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(cents / 100);
 const inputClass = 'border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white';
 const buttonClass = 'rounded-lg px-4 py-2 text-sm font-medium bg-indigo-600 text-white disabled:opacity-50';
-const currentBangkokMonth = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Bangkok' }).slice(0, 7);
+const currentBangkokMonth = () => bangkokMonth();
 const allocated = (row: KbizRecord) => row.allocations.reduce((sum, item) => sum + item.amountCents, 0);
 const vendorAllocated = (row: KbizRecord) => row.vendorAllocations.reduce((sum, item) => sum + item.amountCents, 0);
 const employeeAllocated = (row: KbizRecord) => row.employeeAllocations.reduce((sum, item) => sum + item.amountCents, 0);

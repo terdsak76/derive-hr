@@ -1,17 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
-
-const BANGKOK_TIME_ZONE = 'Asia/Bangkok';
-
-function formatBangkokDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: BANGKOK_TIME_ZONE,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(date);
-}
+import { BANGKOK_TIME_ZONE, formatBangkokDate } from '@/lib/bangkok-date';
 
 function formatBangkokTime(date: Date | null): string {
   if (!date) return '-';

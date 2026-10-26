@@ -1,12 +1,14 @@
 'use client';
 
+import { bangkokYear } from '@/lib/bangkok-date';
+
 import { useEffect, useState } from 'react';
 import { Printer, RefreshCw, X } from 'lucide-react';
 import { certificateAmountKeys, type CertificateAmounts, type EmployeeTaxReport, type TaxSummaryRow } from '@/lib/employee-tax-summary';
 
 const money = (cents: number) => (cents / 100).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const labels: Record<keyof CertificateAmounts, string> = { salaryCents: 'เงินเดือน', incentiveCents: 'Incentive', bonusCents: 'โบนัส', overtimeCents: 'OT', socialSecurityCents: 'ปกส. ลูกจ้างที่หักจริง' };
-const currentYear = () => Number(new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok', year: 'numeric' }).format(new Date()));
+const currentYear = () => bangkokYear();
 
 export default function EmployeeTaxSummary({ onManageEmployees }: { onManageEmployees?: () => void }) {
   const [year, setYear] = useState(String(currentYear()));

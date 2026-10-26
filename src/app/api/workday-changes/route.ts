@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { formatBangkokDate } from '@/lib/bangkok-date';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
 import { isWorkdayTimeRange, parseWorkdayDate } from '@/lib/workday-changes';
 
@@ -17,7 +18,7 @@ function serializeRequest(item) {
     project: item.project,
     job_detail: item.jobDetail,
     status: item.status,
-    created_at: item.createdAt.toISOString().split('T')[0],
+    created_at: formatBangkokDate(item.createdAt),
   };
 }
 

@@ -7,6 +7,7 @@ import {
   Globe, LogIn, LogOut, FileSpreadsheet, Timer, Printer, Menu
 } from 'lucide-react';
 import { parseBangkokDateTime } from '@/lib/overtime';
+import { formatBangkokDate, bangkokMonth, bangkokYear, bangkokDateAfter } from '@/lib/bangkok-date';
 import { leavePeriodLabels } from '@/lib/leaves';
 import { isWorkdayTimeRange, workdayTimeRange } from '@/lib/workday-changes';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
@@ -47,17 +48,9 @@ const tabDescriptions: Record<string, string> = {
   vat: 'บันทึกภาษีขาย ภาษีซื้อ และตรวจสอบยอดชำระหรือเครดิต VAT',
 };
 
-const getDateInputValue = (date: Date): string => date.toISOString().split('T')[0];
-const getBangkokDateInputValue = (date: Date = new Date()): string => {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Asia/Bangkok',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {} as Record<string, string>);
-  return `${parts.year}-${parts.month}-${parts.day}`;
-};
-const getDateAfter = (days: number): string => getDateInputValue(new Date(Date.now() + days * 86400000));
+const getDateInputValue = formatBangkokDate;
+const getBangkokDateInputValue = formatBangkokDate;
+const getDateAfter = bangkokDateAfter;
 const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 const formatThaiDate = (value: string): string => {
   const [year, month, day] = String(value || '').split('-').map(Number);
@@ -227,22 +220,33 @@ export default function App() {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [todayDate, setTodayDate] = useState(() => formatBangkokDate());
+  useEffect(() => {
+    // Refresh day-dependent counts and the clock toggle across Bangkok midnight.
+    const refreshToday = () => setTodayDate(formatBangkokDate());
+    const timer = window.setInterval(refreshToday, 30_000);
+    window.addEventListener('focus', refreshToday);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refreshToday);
+    };
+  }, []);
   useEffect(() => {
     if (!sidebarOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setSidebarOpen(false); };
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [sidebarOpen]);
-  const [summaryMonth, setSummaryMonth] = useState(new Date().getMonth() + 1);
-  const [summaryYear, setSummaryYear] = useState(new Date().getFullYear());
+  const [summaryMonth, setSummaryMonth] = useState(Number(bangkokMonth().slice(5, 7)));
+  const [summaryYear, setSummaryYear] = useState(bangkokYear());
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [leaves, setLeaves] = useState([]);
   const [onsite, setOnsite] = useState([]);
   const [workdayChanges, setWorkdayChanges] = useState([]);
   const [summaryRows, setSummaryRows] = useState([]);
-  const [invoiceMonth, setInvoiceMonth] = useState(new Date().getMonth() + 1);
-  const [invoiceYear, setInvoiceYear] = useState(new Date().getFullYear());
+  const [invoiceMonth, setInvoiceMonth] = useState(Number(bangkokMonth().slice(5, 7)));
+  const [invoiceYear, setInvoiceYear] = useState(bangkokYear());
   const [invoiceSchedules, setInvoiceSchedules] = useState([]);
   const [isInvoiceLoading, setIsInvoiceLoading] = useState(false);
   const [invoiceError, setInvoiceError] = useState('');
@@ -312,8 +316,8 @@ export default function App() {
     employee_id: 'EMP001',
     type: 'Sick Leave (ลาป่วย)',
     period: 'FULL_DAY',
-    start_date: new Date().toISOString().split('T')[0],
-    end_date: new Date().toISOString().split('T')[0],
+    start_date: formatBangkokDate(),
+    end_date: formatBangkokDate(),
     reason: ''
   });
 
@@ -321,7 +325,7 @@ export default function App() {
     employee_id: 'EMP001',
     client_name: '',
     destination: '',
-    date: new Date().toISOString().split('T')[0],
+    date: formatBangkokDate(),
     purpose: '',
     vehicle: 'CAR',
     outbound_distance: '',
@@ -331,7 +335,7 @@ export default function App() {
   });
 
   const [travelConfig, setTravelConfig] = useState({
-    month: new Date().toISOString().slice(0, 7),
+    month: bangkokMonth(),
     fuel_price: '35.00',
     car_km_per_liter: '12.00',
     motorcycle_km_per_liter: '35.00',
@@ -399,7 +403,6 @@ export default function App() {
     }));
   };
 
-  const todayDate = getDateInputValue(new Date());
   const myTodayAttendance = currentUser
     ? attendance.find(item => item.employee_id === currentUser.id && item.date === todayDate)
     : null;
@@ -1409,8 +1412,8 @@ export default function App() {
         employee_id: currentUser.id,
         type: 'Sick Leave (ลาป่วย)',
         period: 'FULL_DAY',
-        start_date: new Date().toISOString().split('T')[0],
-        end_date: new Date().toISOString().split('T')[0],
+        start_date: formatBangkokDate(),
+        end_date: formatBangkokDate(),
         reason: '',
       });
     } catch (error) {
@@ -1470,7 +1473,7 @@ export default function App() {
   };
 
   const loadTravelConfig = async (month) => {
-    const targetMonth = month || new Date().toISOString().slice(0, 7);
+    const targetMonth = month || bangkokMonth();
     setIsTravelConfigLoading(true);
     try {
       const response = await fetch(`/api/travel-config?month=${encodeURIComponent(targetMonth)}`);
@@ -1503,7 +1506,7 @@ export default function App() {
   };
 
   const openTravelConfig = async (dateText = onsiteForm.date) => {
-    const month = (dateText || new Date().toISOString().split('T')[0]).slice(0, 7);
+    const month = (dateText || formatBangkokDate()).slice(0, 7);
     await loadTravelConfig(month);
     setShowTravelConfigModal(true);
   };
@@ -1604,7 +1607,7 @@ export default function App() {
         employee_id: currentUser.id,
         client_name: '',
         destination: '',
-        date: new Date().toISOString().split('T')[0],
+        date: formatBangkokDate(),
         purpose: '',
         vehicle: 'CAR',
         outbound_distance: '',
@@ -1621,7 +1624,7 @@ export default function App() {
 
 
   const stats = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = todayDate;
     const todayAttendance = attendance.filter(a => a.date === today);
     const onLeaveCount = leaves.filter(l => l.status === 'Approved' && l.start_date <= today && l.end_date >= today).length;
     const onsiteCount = onsite.filter(o => o.date === today).length;
@@ -1634,7 +1637,7 @@ export default function App() {
       onsiteToday: onsiteCount,
       absentToday: absentCount
     };
-  }, [employees, attendance, leaves, onsite]);
+  }, [employees, attendance, leaves, onsite, todayDate]);
 
   // Helper Employee Finder
   const getEmp = (empId) => employees.find(e => e.id === empId) || { name: empId, department: 'N/A' };

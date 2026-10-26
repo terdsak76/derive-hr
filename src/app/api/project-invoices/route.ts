@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { formatBangkokDate } from '@/lib/bangkok-date';
 import { getSessionCookieName, verifySessionToken } from '@/lib/auth';
 
 function getSession(request: Request) {
@@ -40,16 +41,6 @@ function parseDate(value: unknown): Date | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return null;
   const date = new Date(`${text}T00:00:00.000+07:00`);
   return Number.isNaN(date.getTime()) ? null : date;
-}
-
-function formatBangkokDate(date: Date): string {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Bangkok',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(date).reduce((result, part) => ({ ...result, [part.type]: part.value }), {} as Record<string, string>);
-  return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
 function serializeInvoice(invoice: {

@@ -1,5 +1,7 @@
 'use client';
 
+import { bangkokMonth } from '@/lib/bangkok-date';
+
 import { useEffect, useState } from 'react';
 import { Check, RefreshCw, Save } from 'lucide-react';
 import { calculateIncentiveCents } from '@/lib/incentives';
@@ -73,7 +75,7 @@ function IncentiveRow({ row, onSaved, onBusy }: { row: Row; onSaved: (row: Row) 
 }
 
 export default function IncentiveManagement() {
-  const [month, setMonth] = useState(() => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok' }).format(new Date()).slice(0, 7));
+  const [month, setMonth] = useState(() => bangkokMonth());
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

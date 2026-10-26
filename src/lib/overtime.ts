@@ -1,4 +1,5 @@
-export const BANGKOK_TIME_ZONE = 'Asia/Bangkok';
+import { BANGKOK_TIME_ZONE } from './bangkok-date';
+export { BANGKOK_TIME_ZONE } from './bangkok-date';
 export const OT_WORKING_HOURS = 176;
 export const OT_MULTIPLIER_NUMERATOR = 3;
 export const OT_MULTIPLIER_DENOMINATOR = 2;

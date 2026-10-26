@@ -1,5 +1,7 @@
 'use client';
 
+import { formatBangkokDate } from '@/lib/bangkok-date';
+
 import { useEffect, useState } from 'react';
 import { Pencil, RefreshCw, Trash2 } from 'lucide-react';
 import { vatAmounts, type TaxReport, type TaxMonthSummary } from '@/lib/taxes';
@@ -8,7 +10,7 @@ const money = (value: number) => new Intl.NumberFormat('th-TH', { style: 'curren
 const inputClass = 'w-full p-2.5 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500';
 const buttonClass = 'px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm disabled:opacity-50';
 const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-const today = () => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok' }).format(new Date());
+const today = () => formatBangkokDate();
 
 async function saveJson(url: string, body: unknown, method = 'POST') {
   const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });

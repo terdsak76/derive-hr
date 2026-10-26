@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { formatBangkokDate } from '@/lib/bangkok-date';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
 import { countLeaveDays, leavePeriodLabels, parseLeaveDate } from '@/lib/leaves';
 
@@ -25,7 +26,7 @@ function serializeLeave(item: {
     days,
     reason: item.reason,
     status: item.status === 'APPROVED' ? 'Approved' : item.status === 'REJECTED' ? 'Rejected' : 'Pending',
-    created_at: item.createdAt.toISOString().split('T')[0],
+    created_at: formatBangkokDate(item.createdAt),
   };
 }
 

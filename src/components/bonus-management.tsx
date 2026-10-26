@@ -1,5 +1,7 @@
 'use client';
 
+import { bangkokYear } from '@/lib/bangkok-date';
+
 import { useEffect, useState } from 'react';
 import { Check, RefreshCw, Save } from 'lucide-react';
 import { calculateBonusCents } from '@/lib/bonuses';
@@ -12,7 +14,7 @@ const statusLabels: Record<string, string> = { INITIAL: 'Initial / รออน�
 const statusColors: Record<string, string> = { INITIAL: 'bg-slate-100 text-slate-700', PAYMENT_PENDING: 'bg-amber-100 text-amber-800', COMPLETED: 'bg-emerald-100 text-emerald-800' };
 
 export default function BonusManagement() {
-  const [currentYear] = useState(() => Number(new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok' }).format(new Date()).slice(0, 4)));
+  const [currentYear] = useState(() => bangkokYear());
   const [year, setYear] = useState(currentYear);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [scores, setScores] = useState<Record<string, string>>({});

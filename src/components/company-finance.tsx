@@ -1,5 +1,7 @@
 'use client';
 
+import { bangkokMonth } from '@/lib/bangkok-date';
+
 import { useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import type { FinanceReport } from '@/lib/finance';
@@ -9,7 +11,7 @@ const inputClass = 'p-2.5 border border-slate-300 rounded-lg bg-white text-sm';
 const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
 export default function CompanyFinance() {
-  const [currentMonth] = useState(() => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok' }).format(new Date()).slice(0, 7));
+  const [currentMonth] = useState(() => bangkokMonth());
   const [year, setYear] = useState(currentMonth.slice(0, 4));
   const [month, setMonth] = useState(currentMonth.slice(5, 7));
   const [basis, setBasis] = useState('scheduled');

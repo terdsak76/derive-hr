@@ -326,6 +326,57 @@ test('Onsite requires login, restricts ownership, and never returns employee cre
   assert.ok(!('passwordHash' in (await saved.json()).employee));
 });
 
+test('onsite dates keep the selected Bangkok day when saved and reloaded', async () => {
+  // Include month/year boundaries, where UTC slicing also changes the month.
+  for (const date of ['2026-10-26', '2026-11-01', '2027-01-01']) {
+    const response = await onsite.POST(request('POST', 'user', {
+      employee_id: 'user', destination: 'Client office', date,
+      purpose: 'Client visit', vehicle: 'TAXI', taxi_fare: 100,
+    }));
+    assert.equal(response.status, 201);
+    const saved = await response.json();
+    assert.equal(saved.date, date);
+    const listing = await (await onsite.GET(request('GET', 'user'))).json();
+    assert.equal(listing.find((item: { id: string }) => item.id === saved.id).date, date);
+  }
+});
+
+test('HR submission dates and attendance times use Bangkok after UTC date rollover', async () => {
+  const createdAt = new Date('2026-10-25T17:30:00Z'); // 26 October, 00:30 in Bangkok.
+  const date = new Date('2026-10-26T00:00:00Z'); // Date-only calendar field.
+  await prisma.leave.create({ data: {
+    employeeId: 'user', type: 'SICK', startDate: date, endDate: date, reason: 'Rest', createdAt,
+  } });
+  await prisma.workdayChangeRequest.create({ data: {
+    employeeId: 'user', fromDate: date, toDate: date, project: 'Client', jobDetail: 'Visit', createdAt,
+  } });
+  await prisma.attendance.create({ data: {
+    employeeId: 'user', date: createdAt, checkIn: createdAt, status: 'PRESENT',
+  } });
+  const [leave] = await (await leaves.GET(request('GET', 'user'))).json();
+  assert.equal(leave.created_at, '2026-10-26');
+  assert.equal(leave.start_date, '2026-10-26');
+  assert.equal(leave.end_date, '2026-10-26');
+  const [workday] = await (await workdays.GET(request('GET', 'user'))).json();
+  assert.equal(workday.created_at, '2026-10-26');
+  assert.equal(workday.from_date, '2026-10-26');
+  assert.equal(workday.to_date, '2026-10-26');
+  const [clock] = await (await attendance.GET(request('GET', 'user'))).json();
+  assert.equal(clock.date, '2026-10-26');
+  assert.equal(clock.clock_in, '00:30');
+});
+
+test('onsite expenses stay in the selected Bangkok month in employee summaries', async () => {
+  for (const date of ['2026-09-30', '2026-10-01', '2026-10-31', '2026-11-01']) {
+    const response = await onsite.POST(request('POST', 'user', {
+      employee_id: 'user', destination: 'Client', date, purpose: 'Visit', vehicle: 'TAXI', taxi_fare: 100,
+    }));
+    assert.equal(response.status, 201);
+  }
+  const [row] = await (await summary.GET(request('GET', 'user'))).json();
+  assert.equal(row.travelExpenses, 200);
+});
+
 test('deleted admin sessions cannot access HR data', async () => {
   await prisma.employee.delete({ where: { id: 'supervisor' } });
   for (const get of [attendance.GET, leaves.GET, workdays.GET, summary.GET, travel.GET]) {

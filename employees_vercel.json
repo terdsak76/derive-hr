@@ -1,0 +1,392 @@
+[
+  {
+    "employee_code": "0001",
+    "employee_name": "นางเบญจมาศ แก้วภิรมย์",
+    "nickname": "ไวท์",
+    "Annual Leave": [
+      {
+        "date": "12/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "13/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "14/05/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "15/05/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "14/10/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "15/10/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Personal Leave": [],
+    "Sick Leave": [
+      {
+        "date": "09/01/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "12/01/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "15/01/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "21/01/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "06/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "17/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "18/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "23/02/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "26/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "02/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "05/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "09/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "12/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "19/03/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "26/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "01/04/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "06/04/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "08/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "22/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "25/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "26/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "29/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "13/07/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "22/07/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "31/07/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "05/08/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "17/08/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "10/09/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "18/09/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "21/09/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "25/09/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "30/09/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "20/10/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "26/10/2026",
+        "leave_period": "ครึ่งบ่าย"
+      }
+    ]
+  },
+  {
+    "employee_code": "0002",
+    "employee_name": "นายณัฐดนัย ศรีทิพากร",
+    "nickname": "บอล",
+    "Annual Leave": [
+      {
+        "date": "12/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "13/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "17/04/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "16/10/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "19/10/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Personal Leave": [
+      {
+        "date": "13/01/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Sick Leave": [
+      {
+        "date": "22/10/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ]
+  },
+  {
+    "employee_code": "0004",
+    "employee_name": "นายกนกพล อินทร์หอม",
+    "nickname": "วิว",
+    "Annual Leave": [],
+    "Personal Leave": [],
+    "Sick Leave": []
+  },
+  {
+    "employee_code": "0005",
+    "employee_name": "นายกัญจน์พณิช ตันสกุล",
+    "nickname": "กัน",
+    "Annual Leave": [
+      {
+        "date": "04/06/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "05/06/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "08/06/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "29/06/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "30/09/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "08/10/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Personal Leave": [
+      {
+        "date": "05/01/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "13/01/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "23/03/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "20/04/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "21/04/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "15/05/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "18/05/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "02/06/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Sick Leave": []
+  },
+  {
+    "employee_code": "0006",
+    "employee_name": "นางสาวกัลยรัตน์ ฉัตรทันใจ",
+    "nickname": "เปียโน",
+    "Annual Leave": [
+      {
+        "date": "02/01/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "17/04/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "27/11/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "04/12/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "08/12/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "30/12/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Personal Leave": [
+      {
+        "date": "12/05/2026",
+        "leave_period": "ครึ่งบ่าย"
+      }
+    ],
+    "Sick Leave": [
+      {
+        "date": "21/08/2026",
+        "leave_period": "ครึ่งบ่าย"
+      }
+    ]
+  },
+  {
+    "employee_code": "0007",
+    "employee_name": "นางสาวพรทิพา พันธะวงศ์",
+    "nickname": "แข",
+    "Annual Leave": [
+      {
+        "date": "14/01/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "20/04/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "01/07/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "14/09/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ],
+    "Personal Leave": [
+      {
+        "date": "24/08/2026",
+        "leave_period": "ครึ่งบ่าย"
+      }
+    ],
+    "Sick Leave": [
+      {
+        "date": "10/03/2026",
+        "leave_period": "ครึ่งบ่าย"
+      },
+      {
+        "date": "17/08/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "19/10/2026",
+        "leave_period": "ครึ่งบ่าย"
+      }
+    ]
+  },
+  {
+    "employee_code": "0008",
+    "employee_name": "นายธีรภัทร เกิดไพบูลย์",
+    "nickname": "ก็อต",
+    "Annual Leave": [],
+    "Personal Leave": [],
+    "Sick Leave": [
+      {
+        "date": "23/02/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "09/03/2026",
+        "leave_period": "ทั้งวัน"
+      },
+      {
+        "date": "23/03/2026",
+        "leave_period": "ทั้งวัน"
+      }
+    ]
+  }
+]

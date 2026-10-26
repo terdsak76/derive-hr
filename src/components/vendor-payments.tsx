@@ -1,12 +1,14 @@
 'use client';
 
+import { formatBangkokDate } from '@/lib/bangkok-date';
+
 import { useEffect, useState, type FormEvent } from 'react';
 import { renderVendorPaymentHtml, vendorPaymentAmounts, type VendorPaymentRecord } from '@/lib/vendor-payments';
 
 const inputClass = 'block w-full mt-1 border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm';
 const buttonClass = 'rounded-lg bg-indigo-600 text-white text-sm font-medium px-4 py-2 disabled:opacity-50';
 const money = (value: number) => new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(value / 100);
-const emptyForm = () => ({ vendorName: '', taxId: '', amount: '', paymentDate: new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Bangkok' }), description: '', withholdingEnabled: false, withholdingBase: '' });
+const emptyForm = () => ({ vendorName: '', taxId: '', amount: '', paymentDate: formatBangkokDate(), description: '', withholdingEnabled: false, withholdingBase: '' });
 
 export default function VendorPayments() {
   const [payments, setPayments] = useState<VendorPaymentRecord[]>([]);

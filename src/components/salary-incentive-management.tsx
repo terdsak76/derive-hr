@@ -1,13 +1,15 @@
 'use client';
 
+import { formatBangkokDate } from '@/lib/bangkok-date';
+
 import { useCallback, useEffect, useState } from 'react';
 import { Plus, RefreshCw, Save } from 'lucide-react';
 import type { SalaryHistoryEmployee } from '@/lib/salary-history';
 
 const inputClass = 'w-full rounded-lg border border-slate-300 bg-white p-2.5 text-sm disabled:opacity-50';
 const money = (value: number | null) => value === null ? 'ยังไม่กำหนด' : value.toLocaleString('th-TH', { style: 'currency', currency: 'THB' });
-const dateLabel = (value: string) => new Intl.DateTimeFormat('th-TH', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
-const today = () => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Bangkok' }).format(new Date());
+const dateLabel = (value: string) => new Intl.DateTimeFormat('th-TH', { dateStyle: 'medium', timeZone: 'Asia/Bangkok' }).format(new Date(`${value}T00:00:00+07:00`));
+const today = () => formatBangkokDate();
 
 export default function SalaryIncentiveManagement() {
   const [employees, setEmployees] = useState<SalaryHistoryEmployee[]>([]);

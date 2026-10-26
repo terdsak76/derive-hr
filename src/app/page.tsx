@@ -1738,7 +1738,7 @@ export default function App() {
           }} />}
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
           {activeTab === 'bonuses' && isAdminRole(currentUser.role) && <BonusManagement />}
-          {activeTab === 'employee-tax-summary' && isAdminRole(currentUser.role) && <EmployeeTaxSummary />}
+          {activeTab === 'employee-tax-summary' && isAdminRole(currentUser.role) && <EmployeeTaxSummary onManageEmployees={() => setActiveTab('employees')} />}
           {activeTab === 'salary-incentive-history' && isAdminRole(currentUser.role) && <SalaryIncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
           {activeTab === 'kbiz' && isAdminRole(currentUser.role) && <KbizReconciliation />}

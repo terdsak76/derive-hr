@@ -1,8 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/api/attendance/route": "app/api/attendance/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
   "/api/employee-summary/route": "app/api/employee-summary/route.js",
+  "/api/employee-tax-summary/certificate/route": "app/api/employee-tax-summary/certificate/route.js",
   "/api/employee-tax-summary/route": "app/api/employee-tax-summary/route.js",
   "/api/employees/route": "app/api/employees/route.js",
   "/api/invoice-schedules/route": "app/api/invoice-schedules/route.js",

@@ -3422,7 +3422,7 @@ const currentYear = ()=>Number(new Intl.DateTimeFormat('sv-SE', {
         timeZone: 'Asia/Bangkok',
         year: 'numeric'
     }).format(new Date()));
-function EmployeeTaxSummary() {
+function EmployeeTaxSummary({ onManageEmployees }) {
     _s();
     const [year, setYear] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(String(currentYear()));
     const [report, setReport] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -3433,6 +3433,7 @@ function EmployeeTaxSummary() {
     const [amounts, setAmounts] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [confirmed, setConfirmed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [printing, setPrinting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const hasTaxDetails = !!review && /^\d{13}$/.test(review.taxId) && !!review.address.trim();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "EmployeeTaxSummary.useEffect": ()=>{
             const controller = new AbortController();
@@ -3481,7 +3482,7 @@ function EmployeeTaxSummary() {
     }
     async function print(event) {
         event.preventDefault();
-        if (!review || !report || !confirmed || printing) return;
+        if (!review || !report || !hasTaxDetails || !confirmed || printing) return;
         const values = Object.fromEntries(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$employee$2d$tax$2d$summary$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["certificateAmountKeys"].map((key)=>[
                 key,
                 Math.round(Number(amounts[key]) * 100)
@@ -3550,13 +3551,13 @@ function EmployeeTaxSummary() {
                                 className: "block border rounded-lg p-2 mt-1 w-32"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 64,
+                                lineNumber: 65,
                                 columnNumber: 53
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 64,
+                        lineNumber: 65,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3567,7 +3568,7 @@ function EmployeeTaxSummary() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 65,
+                        lineNumber: 66,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3580,20 +3581,20 @@ function EmployeeTaxSummary() {
                                 size: 16
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 66,
+                                lineNumber: 67,
                                 columnNumber: 176
                             }, this),
                             " รีเฟรช"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 66,
+                        lineNumber: 67,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 63,
+                lineNumber: 64,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3603,21 +3604,21 @@ function EmployeeTaxSummary() {
                         children: "เงินเดือนตามประวัติ (เปลี่ยนระหว่างเดือนเฉลี่ยตามวันปฏิทิน) + Incentive/โบนัสที่อนุมัติตามเดือนรายจ่าย + OT ที่อนุมัติตามเดือนทำงาน ไม่ใช่ยอดจ่ายจริงจาก Kbiz"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 69,
+                        lineNumber: 70,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: "ปกส. แสดงประมาณการเฉพาะส่วนลูกจ้าง ตามกฎเดิมของระบบ 5% สูงสุด 875 บาท/เดือน ไม่รวมส่วนบริษัท โปรดตรวจสอบอัตราและยอดหักจริงของปีที่เลือก"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 70,
+                        lineNumber: 71,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: "ไม่มีการหักภาษีจากเงินเดือน: ภาษีหัก ณ ที่จ่าย 0.00 บาท · ต้องตรวจสอบยอดจ่ายจริงและ ปกส. ก่อนพิมพ์หนังสือรับรองฯ"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 71,
+                        lineNumber: 72,
                         columnNumber: 7
                     }, this),
                     report && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3628,13 +3629,13 @@ function EmployeeTaxSummary() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 72,
+                        lineNumber: 73,
                         columnNumber: 18
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 68,
+                lineNumber: 69,
                 columnNumber: 5
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3643,7 +3644,7 @@ function EmployeeTaxSummary() {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 74,
+                lineNumber: 75,
                 columnNumber: 15
             }, this),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3651,7 +3652,7 @@ function EmployeeTaxSummary() {
                 children: "กำลังโหลด..."
             }, void 0, false, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 75,
+                lineNumber: 76,
                 columnNumber: 16
             }, this) : report && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "overflow-x-auto rounded-xl border border-slate-200 bg-white",
@@ -3677,17 +3678,17 @@ function EmployeeTaxSummary() {
                                             children: label
                                         }, label, false, {
                                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                            lineNumber: 76,
+                                            lineNumber: 77,
                                             columnNumber: 255
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                    lineNumber: 76,
+                                    lineNumber: 77,
                                     columnNumber: 91
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 76,
+                                lineNumber: 77,
                                 columnNumber: 59
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3702,7 +3703,7 @@ function EmployeeTaxSummary() {
                                                         children: employee.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                        lineNumber: 78,
+                                                        lineNumber: 79,
                                                         columnNumber: 31
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3710,7 +3711,7 @@ function EmployeeTaxSummary() {
                                                         children: employee.taxId || 'ยังไม่มีเลขผู้เสียภาษี'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                        lineNumber: 78,
+                                                        lineNumber: 79,
                                                         columnNumber: 79
                                                     }, this),
                                                     employee.warnings.map((text)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3718,13 +3719,13 @@ function EmployeeTaxSummary() {
                                                             children: text
                                                         }, text, false, {
                                                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                            lineNumber: 78,
+                                                            lineNumber: 79,
                                                             columnNumber: 196
                                                         }, this))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                lineNumber: 78,
+                                                lineNumber: 79,
                                                 columnNumber: 11
                                             }, this),
                                             columns.map((key)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3732,14 +3733,14 @@ function EmployeeTaxSummary() {
                                                     children: money(employee[key])
                                                 }, key, false, {
                                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                    lineNumber: 79,
+                                                    lineNumber: 80,
                                                     columnNumber: 31
                                                 }, this)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 className: "p-3",
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                     type: "button",
-                                                    disabled: !employee.taxId || !employee.address || printing,
+                                                    disabled: printing,
                                                     onClick: ()=>openReview(employee),
                                                     className: "flex gap-2 items-center rounded-lg px-3 py-2 bg-blue-600 text-white disabled:opacity-40",
                                                     children: [
@@ -3747,30 +3748,30 @@ function EmployeeTaxSummary() {
                                                             size: 16
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                            lineNumber: 80,
-                                                            columnNumber: 250
+                                                            lineNumber: 81,
+                                                            columnNumber: 210
                                                         }, this),
                                                         " ตรวจสอบ / พิมพ์"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                    lineNumber: 80,
+                                                    lineNumber: 81,
                                                     columnNumber: 31
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 81,
                                                 columnNumber: 11
                                             }, this)
                                         ]
                                     }, employee.id, true, {
                                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                        lineNumber: 77,
+                                        lineNumber: 78,
                                         columnNumber: 50
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 77,
+                                lineNumber: 78,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tfoot", {
@@ -3782,7 +3783,7 @@ function EmployeeTaxSummary() {
                                             children: "รวมทั้งปี"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                            lineNumber: 82,
+                                            lineNumber: 83,
                                             columnNumber: 57
                                         }, this),
                                         columns.map((key)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3790,29 +3791,29 @@ function EmployeeTaxSummary() {
                                                 children: money(report.employees.reduce((sum, employee)=>sum + employee[key], 0))
                                             }, key, false, {
                                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                                lineNumber: 82,
+                                                lineNumber: 83,
                                                 columnNumber: 111
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {}, void 0, false, {
                                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                            lineNumber: 82,
+                                            lineNumber: 83,
                                             columnNumber: 234
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 83,
                                     columnNumber: 53
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 82,
+                                lineNumber: 83,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 76,
+                        lineNumber: 77,
                         columnNumber: 7
                     }, this),
                     !report.employees.length && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3820,13 +3821,13 @@ function EmployeeTaxSummary() {
                         children: "ไม่พบพนักงาน"
                     }, void 0, false, {
                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                        lineNumber: 83,
+                        lineNumber: 84,
                         columnNumber: 44
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 75,
+                lineNumber: 76,
                 columnNumber: 62
             }, this),
             review && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3850,7 +3851,7 @@ function EmployeeTaxSummary() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                    lineNumber: 86,
+                                    lineNumber: 87,
                                     columnNumber: 58
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3862,18 +3863,18 @@ function EmployeeTaxSummary() {
                                         size: 18
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                        lineNumber: 86,
+                                        lineNumber: 87,
                                         columnNumber: 237
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                    lineNumber: 86,
+                                    lineNumber: 87,
                                     columnNumber: 146
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 86,
+                            lineNumber: 87,
                             columnNumber: 7
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3885,8 +3886,78 @@ function EmployeeTaxSummary() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 87,
+                            lineNumber: 88,
                             columnNumber: 7
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "rounded-lg border border-slate-200 p-3 text-sm space-y-1",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    children: [
+                                        "เลขผู้เสียภาษี: ",
+                                        review.taxId || 'ยังไม่ระบุ'
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-tax-summary.tsx",
+                                    lineNumber: 90,
+                                    columnNumber: 9
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "whitespace-pre-wrap",
+                                    children: [
+                                        "ที่อยู่: ",
+                                        review.address || 'ยังไม่ระบุ'
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-tax-summary.tsx",
+                                    lineNumber: 91,
+                                    columnNumber: 9
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/employee-tax-summary.tsx",
+                            lineNumber: 89,
+                            columnNumber: 7
+                        }, this),
+                        !hasTaxDetails && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            role: "alert",
+                            className: "rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950 space-y-2",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    children: [
+                                        "ยังพิมพ์ไม่ได้: ",
+                                        [
+                                            /^\d{13}$/.test(review.taxId) ? '' : 'กรุณาระบุเลขผู้เสียภาษี 13 หลัก',
+                                            review.address.trim() ? '' : 'กรุณาระบุที่อยู่พนักงาน'
+                                        ].filter(Boolean).join(' และ ')
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/employee-tax-summary.tsx",
+                                    lineNumber: 94,
+                                    columnNumber: 9
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    children: "แก้ไขข้อมูลในเมนูจัดการพนักงาน แล้วกลับมาเปิดตรวจสอบ / พิมพ์อีกครั้ง"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/employee-tax-summary.tsx",
+                                    lineNumber: 95,
+                                    columnNumber: 9
+                                }, this),
+                                onManageEmployees && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    type: "button",
+                                    onClick: onManageEmployees,
+                                    className: "text-blue-700 underline",
+                                    children: "ไปจัดการพนักงาน"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/employee-tax-summary.tsx",
+                                    lineNumber: 96,
+                                    columnNumber: 31
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/employee-tax-summary.tsx",
+                            lineNumber: 93,
+                            columnNumber: 26
                         }, this),
                         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$employee$2d$tax$2d$summary$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["certificateAmountKeys"].map((key)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                 className: "block text-sm",
@@ -3910,13 +3981,13 @@ function EmployeeTaxSummary() {
                                         className: "block w-full border rounded-lg p-2 mt-1"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                        lineNumber: 88,
+                                        lineNumber: 98,
                                         columnNumber: 103
                                     }, this)
                                 ]
                             }, key, true, {
                                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                lineNumber: 88,
+                                lineNumber: 98,
                                 columnNumber: 41
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3924,7 +3995,7 @@ function EmployeeTaxSummary() {
                             children: "ภาษีหัก ณ ที่จ่าย: 0.00 บาท"
                         }, void 0, false, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 89,
+                            lineNumber: 99,
                             columnNumber: 7
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -3937,14 +4008,14 @@ function EmployeeTaxSummary() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                                    lineNumber: 90,
+                                    lineNumber: 100,
                                     columnNumber: 45
                                 }, this),
                                 " ยืนยันว่าได้ตรวจสอบยอดจ่ายจริง เลขผู้เสียภาษี ที่อยู่ และ ปกส. ที่หักจริงแล้ว"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 90,
+                            lineNumber: 100,
                             columnNumber: 7
                         }, this),
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3953,34 +4024,34 @@ function EmployeeTaxSummary() {
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 91,
+                            lineNumber: 101,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                            disabled: !confirmed || printing,
+                            disabled: !hasTaxDetails || !confirmed || printing,
                             type: "submit",
                             className: "w-full p-3 rounded-lg bg-blue-600 text-white disabled:opacity-40",
                             children: printing ? 'กำลังสร้างเอกสาร...' : 'เปิดเอกสารเพื่อพิมพ์'
                         }, void 0, false, {
                             fileName: "[project]/src/components/employee-tax-summary.tsx",
-                            lineNumber: 92,
+                            lineNumber: 102,
                             columnNumber: 7
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/employee-tax-summary.tsx",
-                    lineNumber: 85,
+                    lineNumber: 86,
                     columnNumber: 101
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/employee-tax-summary.tsx",
-                lineNumber: 85,
+                lineNumber: 86,
                 columnNumber: 16
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/employee-tax-summary.tsx",
-        lineNumber: 62,
+        lineNumber: 63,
         columnNumber: 10
     }, this);
 }

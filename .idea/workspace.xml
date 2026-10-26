@@ -6,152 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="debf0edc-d4be-418f-a857-9378a68bfb7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/BUILD_ID" beforeDir="false" afterPath="$PROJECT_DIR$/.next/BUILD_ID" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/_events_6604.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/app-path-routes-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/app-path-routes-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/build-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/build-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/.tsbuildinfo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/0.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/11.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/6.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/6.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/7.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/7.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/9.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/9.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/client-production/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/client-production/index.pack.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/0.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/11.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/12.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/12.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/2.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/2.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/4.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/4.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/7.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/7.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/9.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/9.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/.next/cache/webpack/server-production/index.pack.old" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/build-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/build-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/logs/next-development.log" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/logs/next-development.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/prerender-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app/page_client-reference-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__0yerbhs._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__0yerbhs._.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__0yerbhs._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/[root-of-the-server]__0yerbhs._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_app_page_tsx_1chiuah._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1u1_8g4._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1u1_8g4._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1u1_8g4._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/chunks/ssr/src_components_1u1_8g4._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/middleware-build-manifest.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/_219uq1s._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_app_page_tsx_1gecvfk._.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_09qsm4k._.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_09qsm4k._.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_09qsm4k._.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/static/chunks/src_components_09qsm4k._.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.next/dev/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/trace" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/routes.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/types/validator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/routes-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/routes-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app-paths-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error.html" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_full.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_full.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_global-error/__PAGE__.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_global-error/__PAGE__.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_tree.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error.segments/_tree.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_global-error/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_global-error/page_client-reference-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found.html" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_full.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_full.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_not-found/__PAGE__.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_not-found/__PAGE__.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_tree.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found.segments/_tree.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/_not-found/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/_not-found/page_client-reference-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/account/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/account/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/account/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/account/route.js.nft.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/attendance/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/login/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/logout/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/me/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/auth/update-account/route.js.nft.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/company-finance/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/company-finance/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employee-summary/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employees/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employees/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/employees/route.js.nft.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/employees/route.js.nft.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/incentives/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/incentives/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/invoice-schedules/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/invoice-schedules/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/issued-documents/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/issued-documents/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/kbiz/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/kbiz/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/leaves/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/onsite/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/quote/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/overtime/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/project-invoices/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/project-invoices/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/projects/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/projects/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/request-approvals/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/request-approvals/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/revenue-tax-payments/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/revenue-tax-payments/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/salary-incentive-history/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/salary-incentive-history/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/taxes/purchases/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/taxes/purchases/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/taxes/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/taxes/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/taxes/sales/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/taxes/sales/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/travel-config/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/vendor-payments/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/vendor-payments/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/api/workday-changes/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/index.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/index.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/index.segments/__PAGE__.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/index.segments/__PAGE__.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/index.segments/_full.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/index.segments/_full.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/index.segments/_tree.segment.rsc" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/index.segments/_tree.segment.rsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/app/page_client-reference-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/app/page_client-reference-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/chunks/448.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/chunks/448.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/middleware-build-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/middleware-build-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/pages/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/pages/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/server/pages/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/.next/server/pages/500.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/MZ1Os6FE1dC-fZ1Wsg6X6/_buildManifest.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/MZ1Os6FE1dC-fZ1Wsg6X6/_ssgManifest.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/_global-error/page-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/account/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/attendance/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/auth/login/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/auth/logout/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/auth/me/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/auth/update-account/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/company-finance/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/employee-summary/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/employees/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/incentives/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/invoice-schedules/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/issued-documents/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/kbiz/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/leaves/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/onsite/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/overtime/quote/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/overtime/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/project-invoices/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/projects/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/request-approvals/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/revenue-tax-payments/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/salary-incentive-history/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/taxes/purchases/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/taxes/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/taxes/sales/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/travel-config/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/vendor-payments/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/api/workday-changes/route-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/app/page-4319977585070518.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/next/dist/client/components/builtin/app-error-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/next/dist/client/components/builtin/forbidden-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/next/dist/client/components/builtin/not-found-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/chunks/next/dist/client/components/builtin/unauthorized-163277b891d77447.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/static/css/0f534b316a8d85b3.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/trace" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/trace-build" beforeDir="false" afterPath="$PROJECT_DIR$/.next/trace-build" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/types/app/api/employees/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/types/routes.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/types/routes.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/types/validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/.next/types/validator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/employees/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/employees/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/app-navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app-navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/employee-management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-management.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/finance.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/finance.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/employee-tax-summary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/employee-tax-summary.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,23 +51,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.001525011053858" />
-      <entry key="MS500" value="1.6710911016880776" />
-      <entry key="S2" value="4.114981738357082" />
-      <entry key="S5" value="5.555727928297753" />
-      <entry key="S10" value="6.215714038103808" />
-      <entry key="S30" value="6.723157556761961" />
-      <entry key="S60" value="6.92614198651063" />
-      <entry key="M2" value="10.037169939359474" />
-      <entry key="M5" value="49.36489044811891" />
-      <entry key="M10" value="147.71994914337546" />
-      <entry key="M15" value="257.5634233423008" />
-      <entry key="M30" value="616.7165893624895" />
-      <entry key="H1" value="1419.717731278" />
-      <entry key="H2" value="3032.2421819184647" />
-      <entry key="H4" value="5382.232807104774" />
-      <entry key="D1" value="10392.95666361321" />
-      <entry key="W1" value="11906.635494556665" />
+      <entry key="MS100" value="1.4929315329770156" />
+      <entry key="MS500" value="3.5786169147560325" />
+      <entry key="S2" value="6.780214500171249" />
+      <entry key="S5" value="11.347964822335804" />
+      <entry key="S10" value="17.867174865415983" />
+      <entry key="S30" value="28.35356179297954" />
+      <entry key="S60" value="37.511462565963356" />
+      <entry key="M2" value="65.37109778191027" />
+      <entry key="M5" value="139.75005116864568" />
+      <entry key="M10" value="238.23616371142495" />
+      <entry key="M15" value="339.85895309207496" />
+      <entry key="M30" value="678.7791726859238" />
+      <entry key="H1" value="1456.9083295476005" />
+      <entry key="H2" value="3054.9709843287387" />
+      <entry key="H4" value="5429.3740130367205" />
+      <entry key="D1" value="10575.866509293612" />
+      <entry key="W1" value="12143.966675235628" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -203,37 +75,37 @@
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
       <entry key="S10" value="0.0" />
-      <entry key="S30" value="6.958094588711141E-256" />
-      <entry key="S60" value="2.637820044792384E-128" />
-      <entry key="M2" value="1.6241367075441216E-64" />
-      <entry key="M5" value="3.0496432125515E-26" />
-      <entry key="M10" value="1.746322768720278E-13" />
-      <entry key="M15" value="3.1242780497762804E-9" />
-      <entry key="M30" value="5.589524174538844E-5" />
-      <entry key="H1" value="0.007476312041734745" />
-      <entry key="H2" value="0.08646566972928652" />
-      <entry key="H4" value="0.2940504543939751" />
-      <entry key="D1" value="0.8154618393996326" />
-      <entry key="W1" value="0.9712776101123967" />
+      <entry key="S30" value="1.1384379198630165E-263" />
+      <entry key="S60" value="3.3740745692153435E-132" />
+      <entry key="M2" value="1.8368654194619713E-66" />
+      <entry key="M5" value="5.0772779065092796E-27" />
+      <entry key="M10" value="7.125502021968814E-14" />
+      <entry key="M15" value="1.7187405042194478E-9" />
+      <entry key="M30" value="4.145769535585599E-5" />
+      <entry key="H1" value="0.006438765048971388" />
+      <entry key="H2" value="0.08024191578577085" />
+      <entry key="H4" value="0.2832700403957093" />
+      <entry key="D1" value="0.8104012596768339" />
+      <entry key="W1" value="0.9704142341821532" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.15117087099593682" />
-      <entry key="MS500" value="1.3479435180156714" />
-      <entry key="S2" value="4.015072823489627" />
-      <entry key="S5" value="5.512773820491778" />
-      <entry key="S10" value="6.193591470165773" />
-      <entry key="S30" value="6.71562085536204" />
-      <entry key="S60" value="6.922349056500548" />
-      <entry key="M2" value="10.035206158547135" />
-      <entry key="M5" value="49.363707115160665" />
-      <entry key="M10" value="147.7187452104072" />
-      <entry key="M15" value="257.56216452874855" />
-      <entry key="M30" value="616.7152962940734" />
-      <entry key="H1" value="1419.7237710808647" />
-      <entry key="H2" value="3032.327180691459" />
-      <entry key="H4" value="5382.52556747182" />
-      <entry key="D1" value="10393.771711443927" />
-      <entry key="W1" value="11907.60670450424" />
+      <entry key="MS100" value="1.4497889176001288" />
+      <entry key="MS500" value="3.5584918019444247" />
+      <entry key="S2" value="6.7711663848274934" />
+      <entry key="S5" value="11.341941138589759" />
+      <entry key="S10" value="17.862379650341396" />
+      <entry key="S30" value="28.35093460725173" />
+      <entry key="S60" value="37.50895105109951" />
+      <entry key="M2" value="65.36732021330319" />
+      <entry key="M5" value="139.74608296730983" />
+      <entry key="M10" value="238.2330405892888" />
+      <entry key="M15" value="339.85629543523186" />
+      <entry key="M30" value="678.7771120414022" />
+      <entry key="H1" value="1456.9129477720428" />
+      <entry key="H2" value="3055.0495647067205" />
+      <entry key="H4" value="5429.65588798968" />
+      <entry key="D1" value="10576.676473423493" />
+      <entry key="W1" value="12144.9370181898" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{

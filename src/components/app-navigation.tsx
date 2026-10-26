@@ -21,11 +21,12 @@ const incomeItems: Item[] = [
 ];
 const expenseItems: Item[] = [
   { tab: 'revenue-tax-payments', label: 'Revenue Department Tax Payments / ภาษีกรมสรรพากร', icon: FileSpreadsheet },
+  { tab: 'vat', label: 'VAT ชำระ / ขอคืน', icon: FileSpreadsheet },
   { tab: 'vendor-payments', label: 'Vendor Payments / จ่ายผู้ขาย', icon: FileText },
   { tab: 'salary-incentive-history', label: 'Salary & Incentive Management', icon: DollarSign },
   { tab: 'incentives', label: 'Incentive พนักงาน', icon: UserCheck },
+  { tab: 'bonuses', label: 'Bonus', icon: DollarSign },
   { tab: 'social-security', label: 'ประกันสังคม', icon: Shield },
-  { tab: 'vat', label: 'VAT ชำระ / ขอคืน', icon: FileSpreadsheet },
 ];
 
 function MenuGroup({ id, label, icon: Icon, active, nested = false, children }: {

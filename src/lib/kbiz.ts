@@ -20,15 +20,17 @@ export type KbizRecord = KbizRow & {
   expenseKind: string;
   depositSuggestions?: KbizDepositSuggestion[];
   vendorAllocations: { vendorPaymentId: string; amountCents: number; vendorPayment: { paymentNumber: string; vendorName: string } }[];
-  employeeAllocations: { employeeId: string; employeeName: string; paymentType: string; paymentMonth: string; amountCents: number }[];
+  employeeAllocations: { employeeId: string; employeeName: string; paymentType: string; paymentMonth: string; amountCents: number; bonusId?: string | null; bonus?: { year: number } | null }[];
   taxAllocations: { taxPaymentId: string; amountCents: number; taxPayment: { paymentNumber: string; paymentMonth: string } }[];
 };
 
 export type KbizEmployee = { id: string; name: string; department: string };
+export type KbizBonus = { id: string; year: number; employeeId: string; employeeName: string; expenseMonth: string; amountCents: number; allocatedCents: number; status: string };
 
 export const employeePaymentTypes = [
   { value: 'PAYROLL', label: 'Salary / เงินเดือน' },
   { value: 'INCENTIVE', label: 'Incentive' },
+  { value: 'BONUS', label: 'Bonus' },
   { value: 'ONSITE', label: 'Onsite' },
   { value: 'OTHERS', label: 'Others / อื่น ๆ' },
 ] as const;

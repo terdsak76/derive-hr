@@ -12,6 +12,7 @@ import { isWorkdayTimeRange, workdayTimeRange } from '@/lib/workday-changes';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
 import IncentiveManagement from '@/components/incentive-management';
+import BonusManagement from '@/components/bonus-management';
 import CompanyFinance from '@/components/company-finance';
 import KbizReconciliation from '@/components/kbiz-reconciliation';
 import VendorPayments from '@/components/vendor-payments';
@@ -38,6 +39,7 @@ const tabDescriptions: Record<string, string> = {
   'project-invoices': 'จัดการโครงการ งวดงาน และเอกสารเรียกเก็บเงิน',
   employees: 'ดูและจัดการข้อมูลพนักงาน',
   incentives: 'บันทึกคะแนนผลงานและ Incentive รายพนักงานประจำเดือน',
+  bonuses: 'คำนวณ Bonus ตามคะแนนผลงานและวันลาของพนักงาน ไม่รวมเจ้าของกิจการ',
   'company-finance': 'ดูรายรับ รายจ่าย และส่วนต่างแยกตามเดือนหรือปี',
   'social-security': 'ตรวจสอบเงินสมทบนายจ้าง ลูกจ้าง และยอดนำส่งรายเดือน',
   vat: 'บันทึกภาษีขาย ภาษีซื้อ และตรวจสอบยอดชำระหรือเครดิต VAT',
@@ -534,7 +536,7 @@ export default function App() {
   }, [currentUser?.id, summaryMonth, summaryYear]);
 
   useEffect(() => {
-    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'company-finance', 'kbiz', 'vendor-payments', 'revenue-tax-payments', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
+    if (currentUser && ['invoices', 'project-invoices', 'incentives', 'bonuses', 'company-finance', 'kbiz', 'vendor-payments', 'revenue-tax-payments', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
       setActiveTab('dashboard');
     }
   }, [currentUser?.id, currentUser?.role, activeTab]);
@@ -1690,6 +1692,7 @@ export default function App() {
               {activeTab === 'project-invoices' && 'Invoice / Receipt สำหรับโครงการ'}
               {activeTab === 'employees' && 'จัดการพนักงาน (Employee Management)'}
               {activeTab === 'incentives' && 'Incentive ตามผลงานพนักงาน'}
+              {activeTab === 'bonuses' && 'Bonus ตามผลงานพนักงาน'}
               {activeTab === 'company-finance' && 'รายรับ–รายจ่ายบริษัท'}
               {activeTab === 'kbiz' && 'Kbiz Transaction Reconciliation'}
               {activeTab === 'vendor-payments' && 'Vendor Payments / จ่ายผู้ขาย'}
@@ -1731,6 +1734,7 @@ export default function App() {
             if (decision.type === 'OVERTIME') void loadOvertimeRecords();
           }} />}
           {activeTab === 'incentives' && isAdminRole(currentUser.role) && <IncentiveManagement />}
+          {activeTab === 'bonuses' && isAdminRole(currentUser.role) && <BonusManagement />}
           {activeTab === 'salary-incentive-history' && isAdminRole(currentUser.role) && <SalaryIncentiveManagement />}
           {activeTab === 'company-finance' && isAdminRole(currentUser.role) && <CompanyFinance />}
           {activeTab === 'kbiz' && isAdminRole(currentUser.role) && <KbizReconciliation />}

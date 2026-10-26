@@ -24,12 +24,12 @@ export function amountToCents(value: number) {
 export type FinanceReport = {
   month: string;
   incomeBasis: 'scheduled' | 'issued';
-  expenses: { salary: number; onsite: number; overtime: number; incentive: number; socialSecurity: number; purchases: number; total: number };
+  expenses: { salary: number; onsite: number; overtime: number; incentive: number; bonus: number; socialSecurity: number; purchases: number; total: number };
   income: { recurring: number; project: number; total: number };
   profit: number;
   employees: {
     id: string; name: string; department: string; isOwner: boolean; salary: number | null;
-    onsite: number; overtime: number; incentive: number; socialSecurity: number; total: number;
+    onsite: number; overtime: number; incentive: number; bonus: number; socialSecurity: number; total: number;
   }[];
   incomeItems: { id: string; month: string; source: 'recurring' | 'project'; customer: string; description: string; amount: number }[];
   monthly: { month: string; expenses: FinanceReport['expenses']; income: FinanceReport['income']; profit: number }[];
@@ -45,6 +45,7 @@ export function combineFinanceReports(reports: Omit<FinanceReport, 'monthly'>[],
       salary: previous.salary === null || employee.salary === null ? null : sum([previous.salary, employee.salary]),
       onsite: sum([previous.onsite, employee.onsite]), overtime: sum([previous.overtime, employee.overtime]),
       incentive: sum([previous.incentive, employee.incentive]), total: sum([previous.total, employee.total]),
+      bonus: sum([previous.bonus, employee.bonus]),
       socialSecurity: sum([previous.socialSecurity, employee.socialSecurity]),
     } : { ...employee });
   }
@@ -53,6 +54,7 @@ export function combineFinanceReports(reports: Omit<FinanceReport, 'monthly'>[],
     expenses: {
       salary: sum(reports.map(report => report.expenses.salary)), onsite: sum(reports.map(report => report.expenses.onsite)),
       overtime: sum(reports.map(report => report.expenses.overtime)), incentive: sum(reports.map(report => report.expenses.incentive)),
+      bonus: sum(reports.map(report => report.expenses.bonus)),
       socialSecurity: sum(reports.map(report => report.expenses.socialSecurity)), purchases: sum(reports.map(report => report.expenses.purchases)),
       total: sum(reports.map(report => report.expenses.total)),
     },

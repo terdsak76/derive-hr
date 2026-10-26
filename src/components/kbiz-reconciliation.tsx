@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { parseKbizCsv, kbizReconciliationStatus, employeePaymentTypeLabel, type KbizEmployee, type KbizInvoice, type KbizRecord, type KbizRow } from '@/lib/kbiz';
+import { parseKbizCsv, kbizReconciliationStatus, employeePaymentTypeLabel, type KbizBonus, type KbizEmployee, type KbizInvoice, type KbizRecord, type KbizRow } from '@/lib/kbiz';
 import { kbizMatch } from '@/lib/kbiz-matching';
 import type { VendorPaymentRecord } from '@/lib/vendor-payments';
 import WithdrawalReconciliationEditor from '@/components/withdrawal-reconciliation-editor';
@@ -94,6 +94,7 @@ export default function KbizReconciliation() {
   const [invoices, setInvoices] = useState<KbizInvoice[]>([]);
   const [vendorPayments, setVendorPayments] = useState<VendorPaymentRecord[]>([]);
   const [employees, setEmployees] = useState<KbizEmployee[]>([]);
+  const [bonusPayments, setBonusPayments] = useState<KbizBonus[]>([]);
   const [taxPayments, setTaxPayments] = useState<RevenueTaxPaymentRecord[]>([]);
   const [invoiceMonth, setInvoiceMonth] = useState(currentBangkokMonth);
   const [month, setMonth] = useState(currentBangkokMonth);
@@ -116,7 +117,7 @@ export default function KbizReconciliation() {
       const response = await fetch(`/api/kbiz?invoice_month=${invoiceMonth}`, { cache: 'no-store' });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error);
-      if (version === generation.current) { setRows(result.transactions); setInvoices(result.invoices); setVendorPayments(result.vendorPayments); setEmployees(result.employees); setTaxPayments(result.taxPayments); setError(''); }
+      if (version === generation.current) { setRows(result.transactions); setInvoices(result.invoices); setVendorPayments(result.vendorPayments); setEmployees(result.employees); setTaxPayments(result.taxPayments); setBonusPayments(result.bonusPayments); setError(''); }
     } catch (err) { if (version === generation.current) setError(err instanceof Error ? err.message : 'Unable to load'); }
     finally { if (version === generation.current) setLoading(false); }
   }, [invoiceMonth]);
@@ -227,7 +228,7 @@ export default function KbizReconciliation() {
       <button type="button" className={inputClass} disabled={loading || busy} onClick={() => void load()}>รีเฟรช</button>
     </div>
     <div className="grid sm:grid-cols-3 gap-3">{[['เงินฝาก', money(deposits)], ['รายจ่าย', money(expenses)], ['รอดำเนินการ', `${filtered.filter(row => !completed(row)).length} / ${filtered.length} รายการ`]].map(([label, value]) => <div key={label} className="bg-white rounded-xl border border-slate-200 p-4"><p className="text-sm text-slate-500">{label}</p><p className="text-xl font-bold mt-1">{value}</p></div>)}</div>
-    {editing && (editing.withdrawalCents ? <WithdrawalReconciliationEditor key={editing.id} row={editing} payments={loading ? [] : vendorPayments} employees={loading ? [] : employees} taxPayments={loading ? [] : taxPayments} onClose={() => setEditing(null)} onSave={saveTransaction} /> :
+    {editing && (editing.withdrawalCents ? <WithdrawalReconciliationEditor key={editing.id} row={editing} payments={loading ? [] : vendorPayments} employees={loading ? [] : employees} taxPayments={loading ? [] : taxPayments} bonusPayments={loading ? [] : bonusPayments} onClose={() => setEditing(null)} onSave={saveTransaction} /> :
       <TransactionEditor key={editing.id} row={editing} invoices={loading ? [] : invoices} invoiceMonth={invoiceMonth} setInvoiceMonth={setInvoiceMonth} onClose={() => setEditing(null)} onSave={saveTransaction} />)}
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       <h3 className="font-bold p-4">Document status · INITIAL → ISSUED → COMPLETED</h3>
@@ -248,7 +249,7 @@ export default function KbizReconciliation() {
           {row.expenseDescription || (!row.vendorAllocations.length && !row.employeeAllocations.length && !row.taxAllocations.length && <span className="text-slate-400">ยังไม่ระบุรายการ</span>)}
           {row.vendorAllocations.map(item => <div key={item.vendorPaymentId} className="my-2"><strong>{item.vendorPayment.paymentNumber}</strong><p className="text-xs text-slate-500">{item.vendorPayment.vendorName} · {money(item.amountCents)}</p></div>)}
           {!!row.vendorAllocations.length && vendorAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - vendorAllocated(row))}</p>}
-          {row.employeeAllocations.map(item => <div key={`${item.employeeId}:${item.paymentType}:${item.paymentMonth}`} className="my-2"><strong>{item.employeeName}</strong><p className="text-xs text-slate-500">{employeePaymentTypeLabel(item.paymentType)} · {item.paymentMonth} · {money(item.amountCents)}</p></div>)}
+          {row.employeeAllocations.map(item => <div key={`${item.employeeId}:${item.paymentType}:${item.paymentMonth}`} className="my-2"><strong>{item.employeeName}</strong><p className="text-xs text-slate-500">{employeePaymentTypeLabel(item.paymentType)}{item.bonus ? ` ปี ${item.bonus.year}` : ''} · {item.paymentMonth} · {money(item.amountCents)}</p></div>)}
           {!!row.employeeAllocations.length && employeeAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - employeeAllocated(row))}</p>}
           {row.taxAllocations.map(item => <div key={item.taxPaymentId} className="my-2"><strong>กรมสรรพากร · {item.taxPayment.paymentMonth}</strong><p className="text-xs text-slate-500">{item.taxPayment.paymentNumber} · {money(item.amountCents)}</p></div>)}
           {!!row.taxAllocations.length && taxAllocated(row) < row.withdrawalCents && <p className="text-xs text-amber-700">รอจับคู่ {money(row.withdrawalCents - taxAllocated(row))}</p>}

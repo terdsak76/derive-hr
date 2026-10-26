@@ -434,6 +434,13 @@ async function DELETE(request) {
             })) {
                 throw new EmployeeConflict('This employee has incentive history and cannot be deleted.');
             }
+            if (await tx.bonus.count({
+                where: {
+                    employeeId: id
+                }
+            })) {
+                throw new EmployeeConflict('This employee has bonus history and cannot be deleted.');
+            }
             if (await tx.salaryIncentiveHistory.count({
                 where: {
                     employeeId: id

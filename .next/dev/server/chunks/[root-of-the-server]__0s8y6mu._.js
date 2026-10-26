@@ -549,6 +549,10 @@ function combineFinanceReports(reports, period) {
                 previous.total,
                 employee.total
             ]),
+            bonus: sum([
+                previous.bonus,
+                employee.bonus
+            ]),
             socialSecurity: sum([
                 previous.socialSecurity,
                 employee.socialSecurity
@@ -565,6 +569,7 @@ function combineFinanceReports(reports, period) {
             onsite: sum(reports.map((report)=>report.expenses.onsite)),
             overtime: sum(reports.map((report)=>report.expenses.overtime)),
             incentive: sum(reports.map((report)=>report.expenses.incentive)),
+            bonus: sum(reports.map((report)=>report.expenses.bonus)),
             socialSecurity: sum(reports.map((report)=>report.expenses.socialSecurity)),
             purchases: sum(reports.map((report)=>report.expenses.purchases)),
             total: sum(reports.map((report)=>report.expenses.total))

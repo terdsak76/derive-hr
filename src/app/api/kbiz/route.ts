@@ -12,6 +12,7 @@ import { syncRevenueTaxStatuses } from '@/lib/revenue-tax-status';
 import { vendorPaymentAmounts } from '@/lib/vendor-payments';
 import { WithholdingConflict } from '@/lib/vendor-withholding';
 import { syncIncentivePaymentStatuses } from '@/lib/incentive-payment-status';
+import { syncBonusPaymentStatuses } from '@/lib/bonus-payment-status';
 
 class ValidationError extends Error {}
 function errorResponse(error: unknown) {
@@ -28,16 +29,21 @@ export async function GET(request: Request) {
     const params = new URL(request.url).searchParams;
     const month = params.get('invoice_month') || '';
     if (!parseFinanceMonth(month)) throw new ValidationError('Select a valid invoice month');
-    const [transactions, invoices, payments, employees, taxes] = await Promise.all([
-      prisma.kbizTransaction.findMany({ include: { allocations: true, depositSuggestions: { where: { status: 'PENDING' } }, employeeAllocations: true, taxAllocations: { include: { taxPayment: { select: { paymentNumber: true, paymentMonth: true } } } }, vendorAllocations: { include: { vendorPayment: { select: { paymentNumber: true, vendorName: true } } } } }, orderBy: [{ transactionDate: 'desc' }, { transactionTime: 'desc' }, { balanceCents: 'desc' }] }),
+    const [transactions, invoices, payments, employees, taxes, bonuses] = await Promise.all([
+      prisma.kbizTransaction.findMany({ include: { allocations: true, depositSuggestions: { where: { status: 'PENDING' } }, employeeAllocations: { include: { bonus: { select: { year: true } } } }, taxAllocations: { include: { taxPayment: { select: { paymentNumber: true, paymentMonth: true } } } }, vendorAllocations: { include: { vendorPayment: { select: { paymentNumber: true, vendorName: true } } } } }, orderBy: [{ transactionDate: 'desc' }, { transactionTime: 'desc' }, { balanceCents: 'desc' }] }),
       kbizInvoices(prisma, month),
       prisma.vendorPayment.findMany({ include: { allocations: { select: { amountCents: true } } }, orderBy: { paymentDate: 'desc' } }),
       prisma.employee.findMany({ select: { id: true, name: true, department: true }, orderBy: { name: 'asc' } }),
       prisma.revenueTaxPayment.findMany({ include: { vendorPayment: { select: { vendorName: true, taxId: true, paymentNumber: true } }, allocations: { select: { amountCents: true } } }, orderBy: { paymentMonth: 'desc' } }),
+      prisma.bonus.findMany({ where: { status: { not: 'INITIAL' } }, orderBy: [{ year: 'desc' }, { employeeId: 'asc' }],
+        select: { id: true, year: true, employeeId: true, amountCents: true, status: true, employee: { select: { name: true } },
+          bonusYear: { select: { expenseMonth: true } }, allocations: { select: { amountCents: true } } } }),
     ]);
     const vendorPayments = payments.map(({ allocations, ...payment }) => ({ ...payment, ...vendorPaymentAmounts(payment), allocatedCents: allocations.reduce((sum, item) => sum + item.amountCents, 0) }));
     const taxPayments = taxes.map(({ allocations, ...payment }) => ({ ...payment, allocatedCents: allocations.reduce((sum, item) => sum + item.amountCents, 0) }));
-    return NextResponse.json({ transactions: transactions.map(row => ({ ...row, reconciliationStatus: kbizReconciliationStatus(row) })), invoices, vendorPayments, employees, taxPayments }, { headers: { 'Cache-Control': 'no-store' } });
+    const bonusPayments = bonuses.map(({ allocations, employee, bonusYear, ...bonus }) => ({ ...bonus, employeeName: employee.name, expenseMonth: bonusYear.expenseMonth,
+      allocatedCents: allocations.reduce((sum, item) => sum + item.amountCents, 0) }));
+    return NextResponse.json({ transactions: transactions.map(row => ({ ...row, reconciliationStatus: kbizReconciliationStatus(row) })), invoices, vendorPayments, employees, taxPayments, bonusPayments }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) { return errorResponse(error); }
 }
 
@@ -97,18 +103,25 @@ export async function PUT(request: Request) {
           }
           if (taxData.reduce((sum, item) => sum + item.amountCents, 0) > row.withdrawalCents) throw new ValidationError('Tax allocations exceed the withdrawal amount');
         }
-        const employeeData: { employeeId: string; employeeName: string; paymentType: string; paymentMonth: string; amountCents: number }[] = [];
+        const employeeData: { employeeId: string; employeeName: string; paymentType: string; paymentMonth: string; amountCents: number; bonusId: string | null }[] = [];
         if (body.employeeAllocations !== undefined) {
           if (!Array.isArray(body.employeeAllocations) || body.employeeAllocations.length > 200) throw new ValidationError('Invalid employee payment allocations');
           const seenEmployees = new Set<string>();
           for (const allocation of body.employeeAllocations) {
             if (!allocation || typeof allocation.employeeId !== 'string' || !employeePaymentTypes.some(type => type.value === allocation.paymentType) ||
-              !parseFinanceMonth(allocation.paymentMonth) || !Number.isSafeInteger(allocation.amountCents) || allocation.amountCents <= 0) throw new ValidationError('Select an employee, Salary/Incentive/Onsite/Others, payment month and a positive amount');
+              !parseFinanceMonth(allocation.paymentMonth) || !Number.isSafeInteger(allocation.amountCents) || allocation.amountCents <= 0) throw new ValidationError('Select an employee, payment type, payment month and a positive amount');
             const key = `${allocation.employeeId}:${allocation.paymentType}:${allocation.paymentMonth}`;
             if (seenEmployees.has(key)) throw new ValidationError('Combine duplicate employee payments for the same type and month');
             seenEmployees.add(key);
             const employee = await tx.employee.findUnique({ where: { id: allocation.employeeId }, select: { id: true, name: true } });
             if (!employee) throw new ValidationError('Employee not found');
+            if (allocation.paymentType === 'BONUS') {
+              if (typeof allocation.bonusId !== 'string' || !allocation.bonusId.trim()) throw new ValidationError('กรุณาเลือก Bonus ที่อนุมัติแล้ว');
+              const bonus = await tx.bonus.findUnique({ where: { id: allocation.bonusId }, include: { bonusYear: { select: { expenseMonth: true } } } });
+              if (!bonus || bonus.status === 'INITIAL' || bonus.employeeId !== employee.id || bonus.bonusYear.expenseMonth !== allocation.paymentMonth) throw new ValidationError('เลือก Bonus ที่อนุมัติแล้วของพนักงานและเดือนรายจ่ายที่ตรงกัน');
+              const paid = await tx.kbizEmployeeAllocation.aggregate({ where: { bonusId: bonus.id, transactionId: { not: row.id } }, _sum: { amountCents: true } });
+              if ((paid._sum.amountCents || 0) + allocation.amountCents > bonus.amountCents) throw new ValidationError('ยอดจับคู่เกินยอด Bonus คงเหลือ');
+            } else if (allocation.bonusId != null) throw new ValidationError('Bonus ID ใช้ได้เฉพาะการจ่าย Bonus');
             if (allocation.paymentType === 'INCENTIVE') {
               const incentive = await tx.incentive.findUnique({ where: { employeeId_month: { employeeId: employee.id, month: allocation.paymentMonth } } });
               // Keep historical employee bank payments usable even when no monthly incentive entry exists.
@@ -120,7 +133,8 @@ export async function PUT(request: Request) {
                 if ((elsewhere._sum.amountCents || 0) + allocation.amountCents > incentive.amountCents) throw new ValidationError('ยอดจับคู่เกินยอด Incentive คงเหลือของพนักงานในเดือนที่เลือก');
               }
             }
-            employeeData.push({ employeeId: employee.id, employeeName: employee.name, paymentType: allocation.paymentType, paymentMonth: allocation.paymentMonth, amountCents: allocation.amountCents });
+            employeeData.push({ employeeId: employee.id, employeeName: employee.name, paymentType: allocation.paymentType, paymentMonth: allocation.paymentMonth, amountCents: allocation.amountCents,
+              bonusId: allocation.paymentType === 'BONUS' ? allocation.bonusId : null });
           }
           if (employeeData.reduce((sum, item) => sum + item.amountCents, 0) > row.withdrawalCents) throw new ValidationError('Employee allocations exceed the withdrawal amount');
         }
@@ -157,6 +171,8 @@ export async function PUT(request: Request) {
         if (body.employeeAllocations !== undefined) await syncIncentivePaymentStatuses(tx,
           [...previousEmployees, ...employeeData].filter(item => item.paymentType === 'INCENTIVE').map(item => ({ employeeId: item.employeeId, month: item.paymentMonth })),
         );
+        if (body.employeeAllocations !== undefined) await syncBonusPaymentStatuses(tx,
+          [...previousEmployees, ...employeeData].flatMap(item => item.bonusId ? [item.bonusId] : []));
         return;
       }
       if (body.vendorAllocations?.length) throw new ValidationError('Vendor payments must be matched to withdrawals');

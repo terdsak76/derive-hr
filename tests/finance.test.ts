@@ -17,6 +17,9 @@ import { applyFullIncentiveMigration } from '../scripts/apply-full-incentive-mig
 import { calculateIncentiveCents } from '../src/lib/incentives';
 import { applySalaryHistoryMigration } from '../scripts/apply-salary-history-migration.mjs';
 import { applyIncentivePaymentStatusMigration } from '../scripts/apply-incentive-payment-status-migration.mjs';
+import { applyBonusMigration } from '../scripts/apply-bonus-migration.mjs';
+import { applyBonusPaymentStatusMigration } from '../scripts/apply-bonus-payment-status-migration.mjs';
+import { calculateBonusCents, countBonusLeaveDays } from '../src/lib/bonuses';
 
 let directory: string;
 let prisma: PrismaClient;
@@ -31,6 +34,7 @@ let overtimeQuote: typeof import('../src/app/api/overtime/quote/route');
 let approvals: typeof import('../src/app/api/request-approvals/route');
 let salaryHistory: typeof import('../src/app/api/salary-incentive-history/route');
 let kbiz: typeof import('../src/app/api/kbiz/route');
+let bonuses: typeof import('../src/app/api/bonuses/route');
 
 function request(path: string, method = 'GET', userId: string | undefined = 'admin', body?: unknown) {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -65,6 +69,11 @@ before(async () => {
     assert.equal(await applyIncentiveMigration(database), 'already-applied');
     assert.equal(await applyIncentivePaymentStatusMigration(database), 'applied');
     assert.equal(await applyIncentivePaymentStatusMigration(database), 'already-applied');
+    await database.executeMultiple('DROP TABLE "Bonus"; DROP TABLE "BonusYear";');
+    assert.equal(await applyBonusMigration(database), 'applied');
+    assert.equal(await applyBonusMigration(database), 'already-applied');
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'applied');
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'already-applied');
     await database.executeMultiple('DROP TABLE "VatSale"; DROP TABLE "VatPurchase"; DROP TABLE "VatMonth";');
     assert.equal(await applyTaxMigration(database), 'applied');
     assert.equal(await applyTaxMigration(database), 'already-applied');
@@ -88,11 +97,13 @@ before(async () => {
   approvals = await import('../src/app/api/request-approvals/route');
   salaryHistory = await import('../src/app/api/salary-incentive-history/route');
   kbiz = await import('../src/app/api/kbiz/route');
+  bonuses = await import('../src/app/api/bonuses/route');
 });
 
 beforeEach(async () => {
   await prisma.$transaction([
     prisma.kbizEmployeeAllocation.deleteMany(), prisma.kbizTransaction.deleteMany(),
+    prisma.bonus.deleteMany(), prisma.bonusYear.deleteMany(),
     prisma.vatSale.deleteMany(), prisma.vatPurchase.deleteMany(), prisma.vatMonth.deleteMany(),
     prisma.incentive.deleteMany(), prisma.overtime.deleteMany(), prisma.onsite.deleteMany(),
     prisma.salaryIncentiveHistory.deleteMany(),
@@ -112,6 +123,250 @@ beforeEach(async () => {
 after(async () => {
   if (prisma) await prisma.$disconnect();
   if (directory) await rm(directory, { recursive: true });
+});
+
+const bonusBody = { year: 2026, maxLeaveDays: 1, expenseMonth: '2026-12', scores: [{ employeeId: 'employee', score: 100 }] };
+const saveBonuses = (body: unknown = bonusBody, user = 'admin') => bonuses.PUT(request('/api/bonuses', 'PUT', user, body));
+const listBonuses = (year = '2026', user = 'admin') => bonuses.GET(request(`/api/bonuses?year=${year}`, 'GET', user));
+async function approveBonus(user = 'admin') {
+  const bonus = await prisma.bonus.findFirstOrThrow({ where: { employeeId: 'employee' } });
+  return bonuses.PATCH(request('/api/bonuses', 'PATCH', user, { id: bonus.id, action: 'APPROVE', updatedAt: bonus.updatedAt.toISOString() }));
+}
+const bonusAllocation = (bonusId: string, amountCents: number, paymentMonth = '2026-12', employeeId = 'employee') => ({ bonusId, amountCents, paymentMonth, employeeId, paymentType: 'BONUS' });
+
+test('bonus approvals are admin-only, start payment pending and record the reviewed version and approver', async () => {
+  await saveBonuses();
+  let saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.status, 'INITIAL'); assert.equal(saved.paymentDate, null);
+  for (const user of ['', 'missing', 'employee']) assert.equal((await approveBonus(user)).status, user === 'employee' ? 403 : 401);
+  assert.equal((await (await kbiz.GET(request('/api/kbiz?invoice_month=2026-12'))).json()).bonusPayments.length, 0);
+  assert.equal((await approveBonus('legacy')).status, 200);
+  saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.status, 'PAYMENT_PENDING'); assert.equal(saved.paymentDate, null);
+  assert.equal(saved.approvedById, 'legacy'); assert.ok(saved.approvedAt);
+  assert.equal((await approveBonus()).status, 409);
+  const available = await (await kbiz.GET(request('/api/kbiz?invoice_month=2026-12'))).json();
+  assert.equal(available.bonusPayments[0].id, saved.id);
+  assert.equal(available.bonusPayments[0].year, 2026); assert.equal(available.bonusPayments[0].expenseMonth, '2026-12');
+});
+
+test('approval rejects stale versions, owner awards, missing records and malformed requests', async () => {
+  await saveBonuses();
+  const old = await prisma.bonus.findFirstOrThrow();
+  await saveBonuses({ ...bonusBody, scores: [{ employeeId: 'employee', score: 110 }] });
+  assert.equal((await bonuses.PATCH(request('/api/bonuses', 'PATCH', 'admin', { id: old.id, action: 'APPROVE', updatedAt: old.updatedAt.toISOString() }))).status, 409);
+  for (const body of [null, {}, { id: old.id, action: 'COMPLETED', updatedAt: old.updatedAt.toISOString() }, { id: old.id, action: 'APPROVE', updatedAt: 'invalid' }]) assert.equal((await bonuses.PATCH(request('/api/bonuses', 'PATCH', 'admin', body))).status, 400);
+  await prisma.employee.update({ where: { id: 'employee' }, data: { isOwner: true } });
+  assert.equal((await approveBonus()).status, 409);
+  assert.equal((await prisma.bonus.findFirstOrThrow()).status, 'INITIAL');
+});
+
+test('approved bonuses freeze their amount while unapproved awards can still be recalculated', async () => {
+  await saveBonuses(); await approveBonus();
+  const original = await prisma.bonus.findFirstOrThrow();
+  await prisma.employee.update({ where: { id: 'employee' }, data: { monthlySalaryCents: 4000000 } });
+  assert.equal((await saveBonuses({ ...bonusBody, maxLeaveDays: 8 })).status, 200);
+  const saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.amountCents, original.amountCents); assert.equal(saved.maxLeaveDays, original.maxLeaveDays);
+  assert.equal(saved.salaryCents, original.salaryCents); assert.equal(saved.approvedAt?.getTime(), original.approvedAt?.getTime());
+  assert.equal((await saveBonuses({ ...bonusBody, scores: [{ employeeId: 'employee', score: 150 }] })).status, 409);
+  assert.equal((await saveBonuses({ ...bonusBody, expenseMonth: '2027-01' })).status, 409);
+  assert.equal((await prisma.bonusYear.findUniqueOrThrow({ where: { year: 2026 } })).expenseMonth, '2026-12');
+});
+
+test('only approved bonuses can be matched and full Kbiz matching completes the award with its payment date', async () => {
+  await saveBonuses();
+  const bonus = await prisma.bonus.findFirstOrThrow();
+  const bank = await incentiveWithdrawal('2027-01-08', 3000000);
+  assert.equal((await matchIncentive(bank.id, [bonusAllocation(bonus.id, 3000000)])).status, 400);
+  assert.equal(await prisma.kbizEmployeeAllocation.count(), 0);
+  await approveBonus();
+  for (const allocation of [
+    bonusAllocation('missing', 3000000), bonusAllocation(bonus.id, 3000000, '2026-11'), bonusAllocation(bonus.id, 3000000, '2026-12', 'unset'),
+    { ...bonusAllocation(bonus.id, 3000000), bonusId: null }, { ...bonusAllocation(bonus.id, 3000000), paymentType: 'PAYROLL' },
+  ]) assert.equal((await matchIncentive(bank.id, [allocation])).status, 400);
+  assert.equal((await matchIncentive(bank.id, [bonusAllocation(bonus.id, 3000000)])).status, 200);
+  let saved = await prisma.bonus.findUniqueOrThrow({ where: { id: bonus.id } });
+  assert.equal(saved.status, 'COMPLETED'); assert.equal(saved.paymentDate, '2027-01-08');
+  assert.equal((await matchIncentive(bank.id, [bonusAllocation(bonus.id, 3000000)])).status, 200);
+  assert.equal(await prisma.kbizEmployeeAllocation.count(), 1);
+  const table = await (await listBonuses()).json();
+  saved = table.employees.find((row: { id: string }) => row.id === 'employee').saved;
+  assert.equal(saved.status, 'COMPLETED'); assert.equal(saved.paymentDate, '2027-01-08');
+  const listing = await (await kbiz.GET(request('/api/kbiz?invoice_month=2026-12'))).json();
+  assert.equal(listing.bonusPayments[0].allocatedCents, 3000000);
+  assert.equal(listing.transactions.find((row: { id: string }) => row.id === bank.id).employeeAllocations[0].bonus.year, 2026);
+});
+
+test('partial bonus payments cap allocations and recompute status and latest payment date when reversed', async () => {
+  await saveBonuses(); await approveBonus();
+  const bonus = await prisma.bonus.findFirstOrThrow();
+  const first = await incentiveWithdrawal('2027-01-02', 1000000);
+  const second = await incentiveWithdrawal('2027-01-10', 2000001);
+  assert.equal((await matchIncentive(first.id, [bonusAllocation(bonus.id, 1000000)])).status, 200);
+  let saved = await prisma.bonus.findUniqueOrThrow({ where: { id: bonus.id } });
+  assert.equal(saved.status, 'PAYMENT_PENDING'); assert.equal(saved.paymentDate, '2027-01-02');
+  assert.equal((await matchIncentive(second.id, [bonusAllocation(bonus.id, 2000001)])).status, 400);
+  assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { transactionId: second.id } }), 0);
+  assert.equal((await matchIncentive(second.id, [bonusAllocation(bonus.id, 2000000)])).status, 200);
+  saved = await prisma.bonus.findUniqueOrThrow({ where: { id: bonus.id } });
+  assert.equal(saved.status, 'COMPLETED'); assert.equal(saved.paymentDate, '2027-01-10');
+  assert.equal((await matchIncentive(second.id, [])).status, 200);
+  saved = await prisma.bonus.findUniqueOrThrow({ where: { id: bonus.id } });
+  assert.equal(saved.status, 'PAYMENT_PENDING'); assert.equal(saved.paymentDate, '2027-01-02');
+  assert.equal((await matchIncentive(first.id, [])).status, 200);
+  saved = await prisma.bonus.findUniqueOrThrow({ where: { id: bonus.id } });
+  assert.equal(saved.status, 'PAYMENT_PENDING'); assert.equal(saved.paymentDate, null); assert.equal(saved.approvedById, 'admin');
+});
+
+test('one withdrawal can pay salary and bonus together; reclassification releases only the bonus link', async () => {
+  await saveBonuses(); await approveBonus();
+  const bonus = await prisma.bonus.findFirstOrThrow();
+  const bank = await incentiveWithdrawal('2027-01-08', 4000000);
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(1000000, '2026-12', 'employee', 'PAYROLL'), bonusAllocation(bonus.id, 3000000)])).status, 200);
+  assert.equal((await prisma.bonus.findFirstOrThrow()).status, 'COMPLETED');
+  assert.equal((await matchIncentive(bank.id, [incentiveAllocation(4000000, '2026-12', 'employee', 'PAYROLL')])).status, 200);
+  const saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.status, 'PAYMENT_PENDING'); assert.equal(saved.paymentDate, null);
+  assert.equal(await prisma.kbizEmployeeAllocation.count({ where: { bonusId: bonus.id } }), 0);
+});
+
+test('bonus payment migration preserves legacy allocations and amounts and adds validated bonus links', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple(`CREATE TABLE Employee (id TEXT PRIMARY KEY); CREATE TABLE KbizTransaction (id TEXT PRIMARY KEY);
+      CREATE TABLE Bonus (id TEXT PRIMARY KEY, amountCents INTEGER);
+      CREATE TABLE KbizEmployeeAllocation (id TEXT PRIMARY KEY, transactionId TEXT, employeeId TEXT, employeeName TEXT, paymentType TEXT, paymentMonth TEXT, amountCents INTEGER);
+      INSERT INTO Employee VALUES ('employee'); INSERT INTO KbizTransaction VALUES ('bank'); INSERT INTO Bonus VALUES ('award', 10000);
+      INSERT INTO KbizEmployeeAllocation VALUES ('legacy', 'bank', 'employee', 'Historical Name', 'INCENTIVE', '2026-10', 12345);`);
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'applied');
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'already-applied');
+    const old = (await database.execute("SELECT * FROM KbizEmployeeAllocation WHERE id = 'legacy'")).rows[0];
+    assert.equal(old.amountCents, 12345); assert.equal(old.employeeName, 'Historical Name'); assert.equal(old.bonusId, null);
+    const award = (await database.execute('SELECT * FROM Bonus')).rows[0];
+    assert.equal(award.status, 'INITIAL'); assert.equal(award.paymentDate, null); assert.equal(award.amountCents, 10000);
+    await assert.rejects(database.execute("INSERT INTO KbizEmployeeAllocation VALUES ('bad', 'bank', 'employee', 'Name', 'BONUS', '2026-12', 10000, NULL)"));
+    await database.execute("INSERT INTO KbizEmployeeAllocation VALUES ('valid', 'bank', 'employee', 'Name', 'BONUS', '2026-12', 10000, 'award')");
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'already-applied');
+    assert.equal((await database.execute("SELECT bonusId FROM KbizEmployeeAllocation WHERE id = 'valid'")).rows[0].bonusId, 'award');
+  } finally { database.close(); }
+});
+
+test('bonus math supports 0–200% and deducts excess leave at salary divided by 22 without negative payouts', () => {
+  assert.equal(calculateBonusCents(2200000, 100, 3, 3).amountCents, 2200000);
+  assert.equal(calculateBonusCents(2200000, 200, 0, 0).amountCents, 4400000);
+  assert.equal(calculateBonusCents(2200000, 0, 0, 0).amountCents, 0);
+  assert.deepEqual(calculateBonusCents(2200000, 150, 5.5, 3), { baseCents: 3300000, deductionCents: 250000, amountCents: 3050000, excessLeaveDays: 2.5 });
+  assert.equal(calculateBonusCents(2200000, 100, 30, 0).amountCents, 0);
+  assert.equal(calculateBonusCents(10001, 33.33, 1, 0).amountCents, 2878);
+  assert.throws(() => calculateBonusCents(100, 201, 0, 0));
+  assert.throws(() => calculateBonusCents(100, -1, 0, 0));
+});
+
+test('annual bonus leave counts clip to the year, preserve half days and never double-count overlapping requests', () => {
+  const leave = (start: string, end: string, period = 'FULL_DAY') => ({ startDate: new Date(start), endDate: new Date(end), period });
+  assert.equal(countBonusLeaveDays([
+    leave('2025-12-31', '2026-01-02'), leave('2026-01-01', '2026-01-01'),
+    leave('2026-03-01', '2026-03-01', 'MORNING'), leave('2026-03-01', '2026-03-01', 'MORNING'),
+    leave('2026-03-02', '2026-03-02', 'MORNING'), leave('2026-03-02', '2026-03-02', 'AFTERNOON'),
+    leave('2026-12-31', '2027-01-02'), leave('2027-02-01', '2027-02-03'),
+  ], 2026), 4.5);
+});
+
+test('bonus endpoints require a current finance admin and exclude owners from both listing and saving', async () => {
+  for (const user of ['', 'missing', 'employee']) {
+    assert.equal((await listBonuses('2026', user)).status, user === 'employee' ? 403 : 401);
+    assert.equal((await saveBonuses(bonusBody, user)).status, user === 'employee' ? 403 : 401);
+  }
+  await prisma.employee.update({ where: { id: 'legacy' }, data: { isOwner: true } });
+  const listing = await (await listBonuses('2026', 'legacy')).json();
+  assert.ok(!listing.employees.some((employee: { id: string }) => employee.id === 'legacy'));
+  assert.ok(listing.employees.every((employee: object) => !('passwordHash' in employee) && !('email' in employee)));
+  assert.equal((await saveBonuses({ ...bonusBody, scores: [{ employeeId: 'legacy', score: 100 }] })).status, 400);
+  assert.equal(await prisma.bonusYear.count(), 0);
+  assert.equal((await saveBonuses(bonusBody, 'legacy')).status, 200);
+});
+
+test('bonus saves calculate from approved leave and salary on the server and update a single yearly snapshot', async () => {
+  await prisma.employee.update({ where: { id: 'employee' }, data: { monthlySalaryCents: 2200000 } });
+  for (const [start, end, period, status] of [
+    ['2026-10-01', '2026-10-03', 'FULL_DAY', 'APPROVED'],
+    ['2026-10-04', '2026-10-04', 'MORNING', 'APPROVED'],
+    ['2026-10-04', '2026-10-04', 'MORNING', 'APPROVED'],
+    ['2026-10-05', '2026-10-05', 'FULL_DAY', 'PENDING'],
+    ['2026-10-06', '2026-10-06', 'FULL_DAY', 'REJECTED'],
+  ]) await prisma.leave.create({ data: { employeeId: 'employee', startDate: new Date(start), endDate: new Date(end), period, status, type: 'SICK', reason: 'Bonus test' } });
+  assert.equal((await saveBonuses({ ...bonusBody, amountCents: 99999999, salaryCents: 1, leaveDays: 0 })).status, 200);
+  let saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.salaryCents, 2200000); assert.equal(saved.leaveDays, 3.5); assert.equal(saved.maxLeaveDays, 1);
+  assert.equal(saved.baseCents, 2200000); assert.equal(saved.deductionCents, 250000); assert.equal(saved.amountCents, 1950000);
+  assert.equal((await saveBonuses({ ...bonusBody, scores: [{ employeeId: 'employee', score: 200 }] })).status, 200);
+  assert.equal(await prisma.bonus.count(), 1);
+  saved = await prisma.bonus.findFirstOrThrow(); assert.equal(saved.amountCents, 4150000);
+  const listing = await (await listBonuses()).json();
+  assert.equal(listing.employees.find((employee: { id: string }) => employee.id === 'employee').saved.amountCents, 4150000);
+  assert.equal(listing.maxLeaveDays, 1); assert.equal(listing.expenseMonth, '2026-12');
+});
+
+test('saved bonuses remain unchanged after salary or leave edits until explicitly recalculated', async () => {
+  await saveBonuses();
+  await prisma.employee.update({ where: { id: 'employee' }, data: { monthlySalaryCents: 3300000 } });
+  await prisma.leave.create({ data: { employeeId: 'employee', startDate: new Date('2026-10-01'), endDate: new Date('2026-10-02'), type: 'PERSONAL', status: 'APPROVED', reason: 'Bonus test' } });
+  const listing = await (await listBonuses()).json();
+  const employee = listing.employees.find((row: { id: string }) => row.id === 'employee');
+  assert.equal(employee.salaryCents, 3300000); assert.equal(employee.saved.salaryCents, 3000000);
+  assert.equal((await report('2026-12')).expenses.bonus, 30000);
+  await saveBonuses({ ...bonusBody, scores: [] });
+  const saved = await prisma.bonus.findFirstOrThrow();
+  assert.equal(saved.salaryCents, 3300000); assert.equal(saved.leaveDays, 2);
+  assert.equal(saved.deductionCents, 150000); assert.equal(saved.amountCents, 3150000);
+});
+
+test('bonus expenses are counted once in their selected month, move across years, and preserve employee history', async () => {
+  await saveBonuses();
+  assert.equal((await report('2026-11')).expenses.bonus, 0);
+  const december = await report('2026-12');
+  assert.equal(december.expenses.bonus, 30000);
+  assert.equal(december.employees.find(employee => employee.id === 'employee')!.bonus, 30000);
+  assert.equal((await selectedReport('2026', 'all')).expenses.bonus, 30000);
+  assert.equal((await saveBonuses({ ...bonusBody, expenseMonth: '2027-01' })).status, 200);
+  assert.equal((await selectedReport('2026', 'all')).expenses.bonus, 0);
+  assert.equal((await selectedReport('2027', 'all')).expenses.bonus, 30000);
+  assert.equal((await employees.DELETE(request('/api/employees', 'DELETE', 'admin', { id: 'employee' }))).status, 409);
+  assert.equal(await prisma.bonus.count(), 1);
+});
+
+test('bonus validation rejects invalid scores, duplicate or unknown employees, missing salaries and malformed dates atomically', async () => {
+  for (const body of [null, {}, { ...bonusBody, year: '2026x' }, { ...bonusBody, year: 1999 },
+    { ...bonusBody, maxLeaveDays: -1 }, { ...bonusBody, maxLeaveDays: '2' }, { ...bonusBody, maxLeaveDays: 367 },
+    { ...bonusBody, expenseMonth: '2026-13' }, { ...bonusBody, scores: null },
+    ...[-1, 201, '100', 100.001].map(score => ({ ...bonusBody, scores: [{ employeeId: 'employee', score }] })),
+    { ...bonusBody, scores: [{ employeeId: 'employee', score: 10 }, { employeeId: 'employee', score: 20 }] },
+    { ...bonusBody, scores: [{ employeeId: 'missing', score: 100 }] },
+    { ...bonusBody, scores: [{ employeeId: 'unset', score: 100 }] },
+  ]) assert.equal((await saveBonuses(body)).status, 400);
+  assert.equal(await prisma.bonusYear.count(), 0); assert.equal(await prisma.bonus.count(), 0);
+  const valid = request('/api/bonuses', 'PUT', 'admin', {});
+  assert.equal((await bonuses.PUT(new Request(valid.url, { method: 'PUT', headers: valid.headers, body: '{' }))).status, 400);
+  assert.equal((await listBonuses('2026x')).status, 400);
+  assert.equal((await listBonuses('1999')).status, 400);
+});
+
+test('bonus migration is additive and repeatable and enforces performance and amount constraints', async () => {
+  const database = createClient({ url: 'file::memory:' });
+  try {
+    await database.executeMultiple("CREATE TABLE Employee (id TEXT PRIMARY KEY); INSERT INTO Employee VALUES ('old');");
+    assert.equal(await applyBonusMigration(database), 'applied');
+    assert.equal(await applyBonusMigration(database), 'already-applied');
+    assert.equal((await database.execute('SELECT id FROM Employee')).rows[0].id, 'old');
+    await database.execute("INSERT INTO BonusYear (year, maxLeaveDays, expenseMonth, updatedById, updatedAt) VALUES (2026, 3, '2026-12', 'admin', CURRENT_TIMESTAMP)");
+    const sql = 'INSERT INTO Bonus (id, employeeId, year, score, salaryCents, leaveDays, maxLeaveDays, baseCents, deductionCents, amountCents, updatedAt) VALUES (?, ?, 2026, ?, 2200000, 5, 3, 2200000, 200000, ?, CURRENT_TIMESTAMP)';
+    await assert.rejects(database.execute({ sql, args: ['bad-score', 'old', 201, 2000000] }));
+    await assert.rejects(database.execute({ sql, args: ['bad-amount', 'old', 100, -1] }));
+    await database.execute({ sql, args: ['valid', 'old', 100, 2000000] });
+    assert.equal(await applyBonusMigration(database), 'already-applied');
+    assert.equal((await database.execute('SELECT amountCents FROM Bonus')).rows[0].amountCents, 2000000);
+  } finally { database.close(); }
 });
 
 test('approval inbox is admin-only regardless of token role claims', async () => {
@@ -605,7 +860,7 @@ test('monthly finance includes all expense sources and both invoice sources with
     await prisma.overtime.create({ data: { id, employeeId: 'employee', createdById: 'admin', startAt: new Date(date), endAt: new Date(new Date(date).getTime() + 3600000), workedMinutes: 60, hourlyRateCents: 10000, otAmountCents: 10000, status } });
   }
   const result = await report();
-  assert.deepEqual(result.expenses, { salary: 30000, onsite: 200, overtime: 200, incentive: 1710, socialSecurity: 875, purchases: 0, total: 32985 });
+  assert.deepEqual(result.expenses, { salary: 30000, onsite: 200, overtime: 200, incentive: 1710, bonus: 0, socialSecurity: 875, purchases: 0, total: 32985 });
   assert.deepEqual(result.income, { recurring: 160000, project: 20000, total: 180000 });
   assert.equal(result.profit, 147015);
   assert.equal(result.incomeItems.length, 4);
@@ -672,7 +927,7 @@ test('all months totals reconcile to twelve monthly rows and include each cost i
   assert.equal(annual.month, '2026');
   assert.equal(annual.monthly.length, 12);
   assert.deepEqual(annual.income, { recurring: 360999, project: 29000, total: 389999 });
-  assert.deepEqual(annual.expenses, { salary: 366000, onsite: 31, overtime: 10, incentive: 2210, socialSecurity: 10800, purchases: 0, total: 379051 });
+  assert.deepEqual(annual.expenses, { salary: 366000, onsite: 31, overtime: 10, incentive: 2210, bonus: 0, socialSecurity: 10800, purchases: 0, total: 379051 });
   assert.equal(annual.profit, 10948);
   assert.equal(annual.monthly[0].expenses.salary, 30000);
   assert.equal(annual.monthly[6].expenses.salary, 31000);

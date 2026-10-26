@@ -90,6 +90,11 @@ const expenseItems = [
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__["UserCheck"]
     },
     {
+        tab: 'bonuses',
+        label: 'Bonus',
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__["DollarSign"]
+    },
+    {
         tab: 'social-security',
         label: 'ประกันสังคม',
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__["Shield"]
@@ -121,7 +126,7 @@ function MenuGroup({ id, label, icon: Icon, active, nested = false, children }) 
                         className: nested ? 'w-4 h-4 shrink-0' : 'w-5 h-5 shrink-0'
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 39,
+                        lineNumber: 40,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -129,7 +134,7 @@ function MenuGroup({ id, label, icon: Icon, active, nested = false, children }) 
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 40,
+                        lineNumber: 41,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
@@ -137,13 +142,13 @@ function MenuGroup({ id, label, icon: Icon, active, nested = false, children }) 
                         className: `w-4 h-4 shrink-0 transition-transform ${open ? '' : '-rotate-90'}`
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 41,
+                        lineNumber: 42,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/app-navigation.tsx",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -153,13 +158,13 @@ function MenuGroup({ id, label, icon: Icon, active, nested = false, children }) 
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/components/app-navigation.tsx",
-                lineNumber: 43,
+                lineNumber: 44,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/app-navigation.tsx",
-        lineNumber: 36,
+        lineNumber: 37,
         columnNumber: 10
     }, this);
 }
@@ -175,20 +180,20 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
                     className: "w-4 h-4 mt-0.5 shrink-0"
                 }, void 0, false, {
                     fileName: "[project]/src/components/app-navigation.tsx",
-                    lineNumber: 53,
+                    lineNumber: 54,
                     columnNumber: 7
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                     children: label
                 }, void 0, false, {
                     fileName: "[project]/src/components/app-navigation.tsx",
-                    lineNumber: 53,
+                    lineNumber: 54,
                     columnNumber: 51
                 }, this)
             ]
         }, tab, true, {
             fileName: "[project]/src/components/app-navigation.tsx",
-            lineNumber: 51,
+            lineNumber: 52,
             columnNumber: 12
         }, this);
     }
@@ -225,13 +230,13 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
                         })
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 64,
+                        lineNumber: 65,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/app-navigation.tsx",
-                lineNumber: 61,
+                lineNumber: 62,
                 columnNumber: 5
             }, this),
             isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(MenuGroup, {
@@ -254,7 +259,7 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
                         children: incomeItems.map(item)
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 70,
+                        lineNumber: 71,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(MenuGroup, {
@@ -266,7 +271,7 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
                         children: expenseItems.map(item)
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 73,
+                        lineNumber: 74,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -278,19 +283,19 @@ function AppNavigation({ activeTab, onSelect, isAdmin }) {
                         })
                     }, void 0, false, {
                         fileName: "[project]/src/components/app-navigation.tsx",
-                        lineNumber: 76,
+                        lineNumber: 77,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/app-navigation.tsx",
-                lineNumber: 68,
+                lineNumber: 69,
                 columnNumber: 17
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/app-navigation.tsx",
-        lineNumber: 59,
+        lineNumber: 60,
         columnNumber: 10
     }, this);
 }

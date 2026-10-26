@@ -24,6 +24,7 @@ import { applyEmployeeKbizNameMigration } from '../scripts/apply-employee-kbiz-n
 import { matchKbizEmployee } from '../src/lib/kbiz-employees';
 import { depositCustomerEvidence, followingInvoiceMonth, selectDepositMatch } from '../src/lib/kbiz-deposit-matches';
 import { applyKbizDepositSuggestionsMigration } from '../scripts/apply-kbiz-deposit-suggestions-migration.mjs';
+import { applyBonusPaymentStatusMigration } from '../scripts/apply-bonus-payment-status-migration.mjs';
 
 let directory: string, prisma: PrismaClient, api: typeof import('../src/app/api/kbiz/route');
 let csv: string;
@@ -66,6 +67,8 @@ before(async () => {
     assert.equal(await applyVendorWithholdingMigration(database), 'already-applied');
     assert.equal(await applyKbizDepositSuggestionsMigration(database), 'applied');
     assert.equal(await applyKbizDepositSuggestionsMigration(database), 'already-applied');
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'applied');
+    assert.equal(await applyBonusPaymentStatusMigration(database), 'already-applied');
   } finally { database.close(); }
   ({ prisma } = await import('../src/lib/prisma'));
   api = await import('../src/app/api/kbiz/route');

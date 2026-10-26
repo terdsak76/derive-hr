@@ -27,6 +27,7 @@ model Employee {
   createdOvertimes       Overtime[]             @relation("OvertimeCreator")
   approvedOvertimes      Overtime[]             @relation("OvertimeApprover")
   incentives             Incentive[]
+  bonuses                Bonus[]
   salaryIncentiveHistory SalaryIncentiveHistory[]
   kbizPayments           KbizEmployeeAllocation[]
   createdAt              DateTime               @default(now())
@@ -153,6 +154,41 @@ model Incentive {
 
   @@unique([employeeId, month])
   @@index([month])
+}
+
+model BonusYear {
+  year         Int      @id
+  maxLeaveDays Float    @default(0)
+  expenseMonth String   // YYYY-MM; record the annual bonus once in this month
+  bonuses      Bonus[]
+  updatedById  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Bonus {
+  id             String    @id @default(cuid())
+  employeeId     String
+  employee       Employee  @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  year           Int
+  bonusYear      BonusYear @relation(fields: [year], references: [year], onDelete: Restrict)
+  score          Float
+  salaryCents    Int
+  leaveDays      Float
+  maxLeaveDays   Float
+  baseCents      Int
+  deductionCents Int
+  amountCents    Int
+  status         String    @default("INITIAL") // INITIAL, PAYMENT_PENDING, COMPLETED
+  paymentDate    String?   // Latest matched bank date, YYYY-MM-DD
+  approvedById   String?
+  approvedAt     DateTime?
+  allocations    KbizEmployeeAllocation[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([employeeId, year])
+  @@index([year])
 }
 
 model InvoiceSchedule {
@@ -375,9 +411,12 @@ model KbizEmployeeAllocation {
   paymentType    String
   paymentMonth   String
   amountCents    Int
+  bonusId        String?
+  bonus          Bonus? @relation(fields: [bonusId], references: [id], onDelete: Restrict)
 
   @@unique([transactionId, employeeId, paymentType, paymentMonth])
   @@index([employeeId, paymentMonth])
+  @@index([bonusId])
 }
 
 model RevenueTaxPayment {

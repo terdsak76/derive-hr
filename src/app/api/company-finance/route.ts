@@ -25,7 +25,7 @@ export async function GET(request: Request) {
       ? Array.from({ length: 12 }, (_, index) => parseFinanceMonth(`${year}-${String(index + 1).padStart(2, '0')}`)!)
       : [firstMonth];
     const dates = { gte: firstMonth.start, lt: months[months.length - 1].end };
-    const [employees, onsites, overtimes, incentives, schedules, projects, documents, purchases] = await Promise.all([
+    const [employees, onsites, overtimes, incentives, schedules, projects, documents, purchases, bonuses] = await Promise.all([
       prisma.employee.findMany({
         orderBy: { name: 'asc' },
         select: { id: true, name: true, department: true, isOwner: true, monthlySalaryCents: true, createdAt: true },
@@ -44,6 +44,8 @@ export async function GET(request: Request) {
         where: { documentType: 'INVOICE', status: { not: 'INITIAL' } }, select: { sourceType: true, referenceKey: true },
       }) : Promise.resolve([]),
       prisma.vatPurchase.findMany({ where: { month: { in: months.map(month => month.key) }, expense: true }, select: { month: true, amountCents: true, vatCents: true, creditable: true } }),
+      prisma.bonus.findMany({ where: { bonusYear: { expenseMonth: { in: months.map(month => month.key) } } },
+        select: { employeeId: true, amountCents: true, bonusYear: { select: { expenseMonth: true } } } }),
     ]);
     const issued = new Set(documents.map(item => `${item.sourceType}:${item.referenceKey}`));
     const reports = months.map((month): Omit<FinanceReport, 'monthly'> => {
@@ -58,22 +60,24 @@ export async function GET(request: Request) {
       const employeeCosts = employees.filter(employee => employee.createdAt < month.end ||
         onsites.some(item => item.employeeId === employee.id && inMonth(item.startDate)) ||
         overtimes.some(item => item.employeeId === employee.id && inMonth(item.startAt)) ||
-        incentives.some(item => item.employeeId === employee.id && item.month === month.key)).map(employee => {
+        incentives.some(item => item.employeeId === employee.id && item.month === month.key) ||
+        bonuses.some(item => item.employeeId === employee.id && item.bonusYear.expenseMonth === month.key)).map(employee => {
         const salary = employee.createdAt < month.end ? employee.monthlySalaryCents : 0;
         const socialSecurity = socialSecurityCents(salary, employee.isOwner);
         const onsite = onsites.filter(item => item.employeeId === employee.id && inMonth(item.startDate)).reduce((sum, item) => sum + amountToCents(item.allowance || 0), 0);
         const overtime = overtimes.filter(item => item.employeeId === employee.id && inMonth(item.startAt)).reduce((sum, item) => sum + item.otAmountCents, 0);
         const incentive = incentives.filter(item => item.employeeId === employee.id && item.month === month.key).reduce((sum, item) => sum + item.amountCents, 0);
+        const bonus = bonuses.filter(item => item.employeeId === employee.id && item.bonusYear.expenseMonth === month.key).reduce((sum, item) => sum + item.amountCents, 0);
         return { id: employee.id, name: employee.name, department: employee.department, isOwner: employee.isOwner,
-          salary: salary === null ? null : salary / 100, onsite: onsite / 100, overtime: overtime / 100, incentive: incentive / 100,
-          socialSecurity: socialSecurity / 100, total: ((salary || 0) + onsite + overtime + incentive + socialSecurity) / 100 };
+          salary: salary === null ? null : salary / 100, onsite: onsite / 100, overtime: overtime / 100, incentive: incentive / 100, bonus: bonus / 100,
+          socialSecurity: socialSecurity / 100, total: ((salary || 0) + onsite + overtime + incentive + bonus + socialSecurity) / 100 };
       });
-      const sumCosts = (key: 'salary' | 'onsite' | 'overtime' | 'incentive' | 'socialSecurity' | 'total') =>
+      const sumCosts = (key: 'salary' | 'onsite' | 'overtime' | 'incentive' | 'bonus' | 'socialSecurity' | 'total') =>
         employeeCosts.reduce((sum, item) => sum + amountToCents(item[key] || 0), 0) / 100;
       const recurring = incomeItems.filter(item => item.source === 'recurring').reduce((sum, item) => sum + amountToCents(item.amount), 0);
       const project = incomeItems.filter(item => item.source === 'project').reduce((sum, item) => sum + amountToCents(item.amount), 0);
       const purchaseExpense = purchases.filter(item => item.month === month.key).reduce((sum, item) => sum + item.amountCents + (item.creditable ? 0 : item.vatCents), 0) / 100;
-      const expenses = { salary: sumCosts('salary'), onsite: sumCosts('onsite'), overtime: sumCosts('overtime'), incentive: sumCosts('incentive'), socialSecurity: sumCosts('socialSecurity'), purchases: purchaseExpense, total: (amountToCents(sumCosts('total')) + amountToCents(purchaseExpense)) / 100 };
+      const expenses = { salary: sumCosts('salary'), onsite: sumCosts('onsite'), overtime: sumCosts('overtime'), incentive: sumCosts('incentive'), bonus: sumCosts('bonus'), socialSecurity: sumCosts('socialSecurity'), purchases: purchaseExpense, total: (amountToCents(sumCosts('total')) + amountToCents(purchaseExpense)) / 100 };
       return {
         month: month.key, incomeBasis: basis as FinanceReport['incomeBasis'], expenses,
         income: { recurring: recurring / 100, project: project / 100, total: (recurring + project) / 100 },

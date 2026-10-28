@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { approvalLabels, type ApprovalDecision, type ApprovalRequest, type ApprovalType } from '@/lib/request-approvals';
 import { workdayTimeRange } from '@/lib/workday-changes';
+import DeleteRecordButton from '@/components/delete-record-button';
 
 function displayDate(value: string, includeTime = false) {
   return new Intl.DateTimeFormat('th-TH', {
@@ -10,7 +11,10 @@ function displayDate(value: string, includeTime = false) {
   }).format(new Date(value));
 }
 
-export default function RequestApprovals({ onDecision }: { onDecision: (decision: ApprovalDecision) => void }) {
+export default function RequestApprovals({ onDecision, onDelete }: {
+  onDecision: (decision: ApprovalDecision) => void;
+  onDelete: (row: ApprovalRequest) => void;
+}) {
   const [rows, setRows] = useState<ApprovalRequest[]>([]);
   const [filter, setFilter] = useState<ApprovalType | ''>('');
   const [search, setSearch] = useState('');
@@ -93,6 +97,21 @@ export default function RequestApprovals({ onDecision }: { onDecision: (decision
             <td className="p-4 align-top"><div className="flex flex-col gap-2">
               <button type="button" disabled={!!busy} onClick={() => void decide(row, 'APPROVED')} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-3 py-2 disabled:opacity-50">อนุมัติ</button>
               <button type="button" disabled={!!busy} onClick={() => void decide(row, 'REJECTED')} className="border border-red-200 text-red-700 hover:bg-red-50 rounded-lg px-3 py-2 disabled:opacity-50">ไม่อนุมัติ</button>
+              <DeleteRecordButton label={`${approvalLabels[row.type]}ของ ${row.employeeName}`} disabled={!!busy} onDelete={async () => {
+                setBusy(`${row.type}:${row.id}`);
+                setMessage('');
+                try {
+                  const endpoints = { LEAVE: 'leaves', WORKDAY_CHANGE: 'workday-changes', OVERTIME: 'overtime' };
+                  const response = await fetch(`/api/${endpoints[row.type]}`, {
+                    method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: row.id }),
+                  });
+                  const result = await response.json();
+                  if (!response.ok) throw new Error(result.error || 'ไม่สามารถลบคำขอได้');
+                  setRows(current => current.filter(item => item.id !== row.id || item.type !== row.type));
+                  setMessage('ลบคำขอเรียบร้อยแล้ว');
+                  onDelete(row);
+                } finally { setBusy(''); }
+              }} />
               {busy === `${row.type}:${row.id}` && <span role="status" className="text-xs text-slate-500">กำลังบันทึก...</span>}
             </div></td>
           </tr>)}{!visible.length && <tr><td colSpan={4} className="p-8 text-center text-slate-500">{rows.length ? 'ไม่พบคำขอที่ตรงกับการค้นหา' : 'ไม่มีคำขอที่รออนุมัติ'}</td></tr>}</tbody>

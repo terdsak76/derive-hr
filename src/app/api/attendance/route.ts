@@ -1,3 +1,4 @@
+import { employeeRecordDeleteHandler } from '@/lib/employee-record-deletion';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
@@ -111,3 +112,5 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Unable to save attendance' }, { status: 500 });
   }
 }
+
+export const DELETE = employeeRecordDeleteHandler(id => prisma.attendance.deleteMany({ where: { id } }));

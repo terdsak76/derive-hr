@@ -1,3 +1,4 @@
+import { employeeRecordDeleteHandler } from '@/lib/employee-record-deletion';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { formatBangkokDate } from '@/lib/bangkok-date';
@@ -100,3 +101,5 @@ export async function PATCH(request: Request): Promise<NextResponse> {
 
   return NextResponse.json(serializeRequest(updated));
 }
+
+export const DELETE = employeeRecordDeleteHandler(id => prisma.workdayChangeRequest.deleteMany({ where: { id } }));

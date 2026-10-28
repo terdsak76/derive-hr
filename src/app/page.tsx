@@ -12,6 +12,7 @@ import { leavePeriodLabels } from '@/lib/leaves';
 import { isWorkdayTimeRange, workdayTimeRange } from '@/lib/workday-changes';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
+import DeleteRecordButton from '@/components/delete-record-button';
 import IncentiveManagement from '@/components/incentive-management';
 import BonusManagement from '@/components/bonus-management';
 import EmployeeTaxSummary from '@/components/employee-tax-summary';
@@ -219,6 +220,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [recordRevision, setRecordRevision] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [todayDate, setTodayDate] = useState(() => formatBangkokDate());
   useEffect(() => {
@@ -538,7 +540,7 @@ export default function App() {
     };
 
     loadSummary();
-  }, [currentUser?.id, summaryMonth, summaryYear]);
+  }, [currentUser?.id, summaryMonth, summaryYear, recordRevision]);
 
   useEffect(() => {
     if (currentUser && ['invoices', 'project-invoices', 'incentives', 'bonuses', 'company-finance', 'kbiz', 'vendor-payments', 'revenue-tax-payments', 'vat', 'social-security', 'request-approvals', 'salary-incentive-history'].includes(activeTab) && !isAdminRole(currentUser.role)) {
@@ -1388,6 +1390,25 @@ export default function App() {
     }
   };
 
+  const removeEmployeeRecordFromState = (endpoint, id) => {
+    const setters = { attendance: setAttendance, leaves: setLeaves, onsite: setOnsite, 'workday-changes': setWorkdayChanges, overtime: setOvertimeRecords };
+    setters[endpoint](current => current.filter(row => row.id !== id));
+    setRecordRevision(current => current + 1);
+  };
+
+  const deleteEmployeeRecord = async (endpoint, id) => {
+    const response = await fetch('/api/' + endpoint, {
+      method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'ไม่สามารถลบรายการได้');
+    removeEmployeeRecordFromState(endpoint, id);
+  };
+
+  const recordDeleteButton = (endpoint, item, label) => isAdminRole(currentUser.role) && (
+    <DeleteRecordButton label={label} onDelete={() => deleteEmployeeRecord(endpoint, item.id)} />
+  );
+
   // Create Leave Request in Turso through the API.
   const handleCreateLeave = async (e) => {
     e.preventDefault();
@@ -1734,7 +1755,10 @@ export default function App() {
         {/* Dynamic Main Body */}
         <div className="app-content p-6 space-y-6 flex-1">
           {['invoices', 'project-invoices'].includes(activeTab) && documentStatusError && <p role="alert" className="text-rose-700">{documentStatusError}</p>}
-          {activeTab === 'request-approvals' && isAdminRole(currentUser.role) && <RequestApprovals onDecision={decision => {
+          {activeTab === 'request-approvals' && isAdminRole(currentUser.role) && <RequestApprovals onDelete={row => {
+            const endpoints = { LEAVE: 'leaves', WORKDAY_CHANGE: 'workday-changes', OVERTIME: 'overtime' };
+            removeEmployeeRecordFromState(endpoints[row.type], row.id);
+          }} onDecision={decision => {
             if (decision.type === 'LEAVE') setLeaves(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status === 'APPROVED' ? 'Approved' : 'Rejected' } : row));
             if (decision.type === 'WORKDAY_CHANGE') setWorkdayChanges(current => current.map(row => row.id === decision.id ? { ...row, status: decision.status } : row));
             if (decision.type === 'OVERTIME') void loadOvertimeRecords();
@@ -1971,6 +1995,7 @@ export default function App() {
                       <th className="p-3.5">เวลาออก</th>
                       <th className="p-3.5">สถานะ</th>
                       <th className="p-3.5">หมายเหตุ</th>
+                      {isAdminRole(currentUser.role) && <th className="p-3.5 text-right">จัดการ</th>}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -1998,6 +2023,7 @@ export default function App() {
                               {row.status === 'Absent' && <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-medium">ขาดงาน</span>}
                             </td>
                             <td className="p-3.5 text-xs text-slate-500">{row.note || '-'}</td>
+                            {isAdminRole(currentUser.role) && <td className="p-3.5 text-right">{recordDeleteButton('attendance', row, 'บันทึกเวลาของ ' + emp.name + ' วันที่ ' + row.date)}</td>}
                           </tr>
                         );
                       })}
@@ -2066,6 +2092,7 @@ export default function App() {
                               {item.status === 'Rejected' && <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-medium">ปฏิเสธ</span>}
                             </td>
                             <td className="p-3.5 text-right">
+                              {recordDeleteButton('leaves', item, 'ใบลาของ ' + emp.name + ' วันที่ ' + item.start_date)}
                               {currentUser.role === 'ADMIN' && item.status === 'Pending' && (
                                 <div className="flex justify-end gap-1">
                                   <button onClick={() => handleUpdateLeaveStatus(item.id, 'Approved')} className="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded transition">อนุมัติ</button>
@@ -2127,6 +2154,7 @@ export default function App() {
                       <th className="p-3.5 text-right">ค่าทางด่วน</th>
                       <th className="p-3.5 text-right">ค่าเดินทาง</th>
                       <th className="p-3.5">สถานะงาน</th>
+                      {isAdminRole(currentUser.role) && <th className="p-3.5 text-right">จัดการ</th>}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -2158,6 +2186,7 @@ export default function App() {
                                 <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-medium">กำลังดำเนินการ</span>
                               )}
                             </td>
+                            {isAdminRole(currentUser.role) && <td className="p-3.5 text-right">{recordDeleteButton('onsite', item, 'Onsite ของ ' + emp.name + ' วันที่ ' + item.date)}</td>}
                           </tr>
                         );
                       })}
@@ -2228,7 +2257,7 @@ export default function App() {
                           <td className="p-3.5 font-medium whitespace-nowrap"><p>{item.to_date}</p><p className="mt-1 text-xs font-normal text-slate-500">{workdayTimeRange(item.to_date_start, item.to_date_end)}</p></td>
                           <td className="p-3.5"><p className="font-medium text-slate-800">{item.project}</p><p className="text-xs text-slate-500 max-w-xs">{item.job_detail}</p></td>
                           <td className="p-3.5">{item.status === 'APPROVED' ? <span className="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full">อนุมัติแล้ว</span> : item.status === 'REJECTED' ? <span className="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full">ไม่อนุมัติ</span> : <span className="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full">รอ Admin อนุมัติ</span>}</td>
-                          <td className="p-3.5 text-right">{currentUser.role === 'ADMIN' && item.status === 'WAITING_FOR_APPROVAL' && <div className="flex justify-end gap-1"><button onClick={() => handleUpdateWorkdayStatus(item.id, 'APPROVED')} className="px-2 py-1 bg-emerald-600 text-white text-xs rounded">อนุมัติ</button><button onClick={() => handleUpdateWorkdayStatus(item.id, 'REJECTED')} className="px-2 py-1 bg-rose-600 text-white text-xs rounded">ปฏิเสธ</button></div>}</td>
+                          <td className="p-3.5 text-right">{recordDeleteButton('workday-changes', item, 'คำขอเปลี่ยนวันทำงานของ ' + employee.name + ' วันที่ ' + item.from_date)}{currentUser.role === 'ADMIN' && item.status === 'WAITING_FOR_APPROVAL' && <div className="flex justify-end gap-1"><button onClick={() => handleUpdateWorkdayStatus(item.id, 'APPROVED')} className="px-2 py-1 bg-emerald-600 text-white text-xs rounded">อนุมัติ</button><button onClick={() => handleUpdateWorkdayStatus(item.id, 'REJECTED')} className="px-2 py-1 bg-rose-600 text-white text-xs rounded">ปฏิเสธ</button></div>}</td>
                         </tr>;
                       })}
                     </tbody>
@@ -2578,13 +2607,14 @@ export default function App() {
                           <th className="p-3.5">สถานะ</th>
                           <th className="p-3.5">การอนุมัติ</th>
                           <th className="p-3.5">บันทึกเมื่อ</th>
+                          {isAdminRole(currentUser.role) && <th className="p-3.5 text-right">จัดการ</th>}
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200">
                         {isOvertimeLoading ? (
-                          <tr><td colSpan={8} className="p-8 text-center text-slate-400">กำลังโหลดรายการ OT...</td></tr>
+                          <tr><td colSpan={isAdminRole(currentUser.role) ? 9 : 8} className="p-8 text-center text-slate-400">กำลังโหลดรายการ OT...</td></tr>
                         ) : overtimeRecords.length === 0 ? (
-                          <tr><td colSpan={8} className="p-8 text-center text-slate-400">ยังไม่มีรายการ OT</td></tr>
+                          <tr><td colSpan={isAdminRole(currentUser.role) ? 9 : 8} className="p-8 text-center text-slate-400">ยังไม่มีรายการ OT</td></tr>
                         ) : overtimeRecords.map(item => (
                           <tr key={item.id} className="hover:bg-slate-50">
                             <td className="p-3.5 font-medium text-slate-800">{item.employee_name}</td>
@@ -2616,6 +2646,7 @@ export default function App() {
                               )}
                             </td>
                             <td className="p-3.5 text-xs whitespace-nowrap">{item.created_at_display}</td>
+                            {isAdminRole(currentUser.role) && <td className="p-3.5 text-right">{recordDeleteButton('overtime', item, 'OT ของ ' + item.employee_name + ' ' + item.start_at_display)}</td>}
                           </tr>
                         ))}
                       </tbody>

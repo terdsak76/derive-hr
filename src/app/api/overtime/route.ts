@@ -1,3 +1,4 @@
+import { employeeRecordDeleteHandler } from '@/lib/employee-record-deletion';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isEmployeeAdmin, requireEmployeeUser } from '@/lib/employee-access';
@@ -240,3 +241,5 @@ export async function PATCH(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Unable to update overtime approval status.' }, { status: 500 });
   }
 }
+
+export const DELETE = employeeRecordDeleteHandler(id => prisma.overtime.deleteMany({ where: { id } }));

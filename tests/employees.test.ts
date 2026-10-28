@@ -383,3 +383,39 @@ test('deleted admin sessions cannot access HR data', async () => {
     assert.equal((await get(request('GET', 'supervisor', undefined, 'ADMIN'))).status, 401);
   }
 });
+
+test('record deletion is admin-only, validates IDs, and deletes only the selected record', async () => {
+  const overtime = await import('../src/app/api/overtime/route');
+  const date = new Date('2026-10-07T00:00:00Z');
+  const fixtures = [
+    { route: attendance, create: () => prisma.attendance.create({ data: { employeeId: 'user', date, status: 'PRESENT' } }) },
+    { route: leaves, create: () => prisma.leave.create({ data: { employeeId: 'user', type: 'SICK', startDate: date, endDate: date, reason: 'Sick', status: 'APPROVED' } }) },
+    { route: onsite, create: () => prisma.onsite.create({ data: { employeeId: 'user', location: 'Office', purpose: 'Visit', startDate: date, endDate: date } }) },
+    { route: workdays, create: () => prisma.workdayChangeRequest.create({ data: { employeeId: 'user', fromDate: date, toDate: date, project: 'Project', jobDetail: 'Work', status: 'APPROVED' } }) },
+    { route: overtime, create: () => createOvertime('user', 'admin') },
+  ];
+  for (const { route, create } of fixtures) {
+    const target = await create();
+    const preserved = await create();
+    assert.equal((await route.DELETE(request('DELETE', undefined, { id: target.id }))).status, 401);
+    assert.equal((await route.DELETE(request('DELETE', 'missing', { id: target.id }, 'ADMIN'))).status, 401);
+    assert.equal((await route.DELETE(request('DELETE', 'user', { id: target.id }, 'ADMIN'))).status, 403);
+    for (const id of ['', ' ', null, 7, {}]) {
+      assert.equal((await route.DELETE(request('DELETE', 'admin', { id }))).status, 400);
+    }
+    assert.equal((await route.DELETE(request('DELETE', 'admin'))).status, 400);
+    const malformed = request('DELETE', 'admin');
+    assert.equal((await route.DELETE(new Request(malformed.url, { method: 'DELETE', headers: malformed.headers, body: '{' }))).status, 400);
+    assert.equal((await route.DELETE(request('DELETE', 'admin', { id: 'missing' }))).status, 404);
+    // The persisted role controls access even when the cookie carries an old role.
+    await prisma.employee.update({ where: { id: 'admin' }, data: { role: 'ROLE_ADMIN' } });
+    const deleted = await route.DELETE(request('DELETE', 'admin', { id: target.id }, 'USER'));
+    assert.equal(deleted.status, 200);
+    assert.deepEqual(await deleted.json(), { id: target.id });
+    assert.equal((await route.DELETE(request('DELETE', 'admin', { id: target.id }))).status, 404);
+    const remaining = await (await route.GET(request('GET', 'user'))).json();
+    assert.equal(remaining.some((row: { id: string }) => row.id === target.id), false);
+    assert.equal(remaining.some((row: { id: string }) => row.id === preserved.id), true);
+  }
+  assert.equal(await prisma.employee.count(), 4);
+});

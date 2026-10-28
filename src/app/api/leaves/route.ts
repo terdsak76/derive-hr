@@ -1,3 +1,4 @@
+import { employeeRecordDeleteHandler } from '@/lib/employee-record-deletion';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { formatBangkokDate } from '@/lib/bangkok-date';
@@ -112,3 +113,5 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: 'ไม่พบคำขอลาที่ต้องการอัปเดต' }, { status: 404 });
   }
 }
+
+export const DELETE = employeeRecordDeleteHandler(id => prisma.leave.deleteMany({ where: { id } }));

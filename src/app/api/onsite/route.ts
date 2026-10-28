@@ -1,3 +1,4 @@
+import { employeeRecordDeleteHandler } from '@/lib/employee-record-deletion';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { formatBangkokDate } from '@/lib/bangkok-date';
@@ -204,3 +205,5 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export const DELETE = employeeRecordDeleteHandler(id => prisma.onsite.deleteMany({ where: { id } }));

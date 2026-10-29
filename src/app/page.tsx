@@ -12,6 +12,7 @@ import { leavePeriodLabels } from '@/lib/leaves';
 import { isWorkdayTimeRange, workdayTimeRange } from '@/lib/workday-changes';
 import { getInvoiceAmounts, renderInvoiceHtml } from '@/lib/invoice-template';
 import EmployeeManagement from '@/components/employee-management';
+import EmployeeSummaryDownload from '@/components/employee-summary-download';
 import DeleteRecordButton from '@/components/delete-record-button';
 import IncentiveManagement from '@/components/incentive-management';
 import BonusManagement from '@/components/bonus-management';
@@ -2274,7 +2275,7 @@ export default function App() {
                   <h3 className="font-bold text-slate-800">สรุปข้อมูลรายเดือนของพนักงาน</h3>
                   <p className="text-xs text-slate-500 mt-1">ตรวจสอบวันลา มาสาย แลกวันทำงาน และ OT ที่อนุมัติแล้ว</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap items-end gap-3">
                   <div>
                     <label className="block text-xs font-semibold text-slate-600 mb-1">เดือน</label>
                     <select value={summaryMonth} onChange={event => setSummaryMonth(Number(event.target.value))} className="p-2.5 bg-white border border-slate-300 rounded-lg text-sm">
@@ -2287,6 +2288,7 @@ export default function App() {
                       {[summaryYear - 2, summaryYear - 1, summaryYear, summaryYear + 1, summaryYear + 2].map(year => <option key={year} value={year}>{year}</option>)}
                     </select>
                   </div>
+                  <div className="self-end"><EmployeeSummaryDownload month={summaryMonth} year={summaryYear} /></div>
                 </div>
               </div>
               <div className="overflow-x-auto">

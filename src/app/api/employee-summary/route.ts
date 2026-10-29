@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getEmployeeSession as getSession } from '@/lib/employee-access';
 import { countLeaveDays } from '@/lib/leaves';
+import { createEmployeeSummaryXls } from '@/lib/employee-summary-export';
 
 export async function GET(request: Request): Promise<NextResponse> {
   const session = await getSession(request);
@@ -10,7 +11,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   const url = new URL(request.url);
   const month = Number(url.searchParams.get('month'));
   const year = Number(url.searchParams.get('year'));
-  if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year)) {
+  if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year) || year < 1900 || year > 9999) {
     return NextResponse.json({ error: 'Invalid month or year' }, { status: 400 });
   }
 
@@ -98,6 +99,16 @@ export async function GET(request: Request): Promise<NextResponse> {
         .reduce((total, item) => total + item.otAmountCents, 0) / 100,
     }));
 
+    if (url.searchParams.get('format') === 'xls') {
+      const period = `${year}-${String(month).padStart(2, '0')}`;
+      return new NextResponse(createEmployeeSummaryXls(rows, year, month), {
+        headers: {
+          'Content-Type': 'application/vnd.ms-excel',
+          'Content-Disposition': `attachment; filename="employee-summary-${period}.xls"`,
+          'Cache-Control': 'private, no-store',
+        },
+      });
+    }
     return NextResponse.json(rows);
   } catch (error) {
     console.error('Failed to load employee summary:', error);

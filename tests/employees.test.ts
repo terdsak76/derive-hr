@@ -377,6 +377,27 @@ test('onsite expenses stay in the selected Bangkok month in employee summaries',
   assert.equal(row.travelExpenses, 200);
 });
 
+test('summary XLS download uses the selected period and enforces employee access', async () => {
+  const { read, utils } = await import('xlsx');
+  for (const [userId, expectedIds] of [['user', ['user']], ['admin', ['admin', 'other', 'supervisor', 'user']]] as const) {
+    const base = request('GET', userId);
+    const response = await summary.GET(new Request(`${base.url}&format=xls`, { headers: base.headers }));
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('content-type'), 'application/vnd.ms-excel');
+    assert.equal(response.headers.get('content-disposition'), 'attachment; filename="employee-summary-2026-10.xls"');
+    assert.equal(response.headers.get('cache-control'), 'private, no-store');
+    const workbook = read(await response.arrayBuffer(), { type: 'array' });
+    const rows = utils.sheet_to_json<unknown[]>(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+    assert.equal(rows[0][1], '2026-10');
+    assert.deepEqual(rows.slice(3).map(row => row[0]), expectedIds);
+  }
+  assert.equal((await summary.GET(new Request('http://localhost/api/employee-summary?month=10&year=2026&format=xls'))).status, 401);
+  const base = request('GET', 'user');
+  for (const query of ['month=13&year=2026', 'month=2&year=invalid', 'month=2', 'month=1&year=0']) {
+    assert.equal((await summary.GET(new Request(`http://localhost/api/employee-summary?${query}&format=xls`, { headers: base.headers }))).status, 400);
+  }
+});
+
 test('deleted admin sessions cannot access HR data', async () => {
   await prisma.employee.delete({ where: { id: 'supervisor' } });
   for (const get of [attendance.GET, leaves.GET, workdays.GET, summary.GET, travel.GET]) {
